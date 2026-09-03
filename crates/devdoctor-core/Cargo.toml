@@ -1,0 +1,28 @@
+[package]
+name = "devdoctor-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "DevDoctor diagnostic engine: models, detector/fixer interfaces, transactions, backups, snapshots and persistence"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tracing-appender.workspace = true
+uuid.workspace = true
+regex.workspace = true
+sha2.workspace = true
+hex.workspace = true
+rusqlite.workspace = true
+jwalk.workspace = true
+similar.workspace = true
+dirs.workspace = true
+libc.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

@@ -1,0 +1,27 @@
+# Rust
+/target
+**/target
+Cargo.lock.bak
+
+# Node
+node_modules
+dist
+.vite
+*.tsbuildinfo
+
+# Tauri
+apps/desktop/src-tauri/gen
+apps/desktop/src-tauri/target
+
+# OS / editors
+.DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
+
+# Local data (never commit scan results, backups or databases)
+*.db
+*.db-journal
+*.sqlite
+/backups
+/.devdoctor

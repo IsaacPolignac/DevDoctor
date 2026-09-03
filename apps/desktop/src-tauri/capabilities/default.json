@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Default capability for the main window: only the built-in core permissions are needed because every operation goes through DevDoctor's own commands.",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}
