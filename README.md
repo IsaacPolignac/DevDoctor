@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/images/icon.png" width="96" alt="DevDoctor icon"></p>
+
 # DevDoctor
 
 Find what broke your development environment.
@@ -8,6 +10,14 @@ environment, explains configuration problems, tracks changes and fixes common is
 It answers the question every developer eventually asks:
 
 > "I installed something yesterday and now my terminal is broken. What changed?"
+
+![DevDoctor overview](docs/images/overview-light.jpg)
+
+<details><summary>Dark appearance</summary>
+
+![DevDoctor overview, dark](docs/images/overview-dark.jpg)
+
+</details>
 
 ## Highlights
 
@@ -23,8 +33,9 @@ It answers the question every developer eventually asks:
 - Environment snapshots and "What changed" diffs
 - Safe fixes: exact preview, backups, post-fix validation, automatic rollback, manual rollback
 - Desktop app (Tauri + React) and CLI sharing one Rust engine
-- macOS 26 style interface: transparent window with native vibrancy, Liquid Glass surfaces,
-  plain-language explanations for beginners with a "Technical details" switch for experts
+- Native macOS 26 interface: translucent sidebar with colored section tiles, results table with
+  a details inspector, "Preview Repair" sheet, appearance and Liquid Glass options; plain-language
+  explanations for beginners with a "Technical details" switch for experts
 - Fully local: no account, no telemetry, no network access
 
 ## Status
@@ -57,6 +68,10 @@ cargo build --release -p devdoctor-cli
 
 # Desktop app (development)
 cd apps/desktop && npm install && npm run tauri dev
+
+# Desktop UI in a plain browser with sanitized demo data (design work, no Rust needed)
+cd apps/desktop && npm run dev        # then open http://localhost:1420
+# refresh the demo fixtures from your own machine: devdoctor demo-export
 
 # Desktop app (bundle)
 cd apps/desktop && npm run tauri build

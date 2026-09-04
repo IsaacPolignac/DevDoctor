@@ -1,0 +1,61 @@
+{
+  "duration_ms": 9,
+  "ollama": {
+    "app_bundle_present": false,
+    "blob_bytes": 0,
+    "installed": false,
+    "models": [],
+    "models_dir": "~/.ollama/models",
+    "orphan_blob_bytes": 0,
+    "orphan_blobs": 0,
+    "running": false,
+    "total_bytes": 0
+  },
+  "sources": [
+    {
+      "bytes": 1458176,
+      "description": "Repositories downloaded by transformers, diffusers, sentence-transformers and the huggingface_hub CLI.",
+      "id": "huggingface",
+      "label": "Hugging Face cache",
+      "models": [],
+      "present": true,
+      "root": "~/.cache/huggingface/hub"
+    },
+    {
+      "bytes": 4096,
+      "description": "MLX-community models (stored inside the Hugging Face cache) and MLX caches.",
+      "id": "mlx",
+      "label": "MLX models",
+      "models": [
+        {
+          "bytes": 4096,
+          "kind": "models",
+          "last_used_secs_ago": 1180309,
+          "name": "orcarouter/Qwen3.8-27B-Uncensored-MLX",
+          "path": "~/.cache/huggingface/hub/models--orcarouter--Qwen3.8-27B-Uncensored-MLX"
+        }
+      ],
+      "present": true,
+      "root": "~/.cache/huggingface/hub"
+    },
+    {
+      "bytes": 0,
+      "description": "Models downloaded through LM Studio.",
+      "id": "lmstudio",
+      "label": "LM Studio",
+      "models": [],
+      "present": false,
+      "root": "~/.lmstudio/models"
+    },
+    {
+      "bytes": 0,
+      "description": "Models downloaded by llama.cpp's `-hf` option.",
+      "id": "llamacpp",
+      "label": "llama.cpp",
+      "models": [],
+      "present": false,
+      "root": "~/.cache/llama.cpp"
+    }
+  ],
+  "total_bytes": 1462272
+}

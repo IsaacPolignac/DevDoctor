@@ -1,0 +1,70 @@
+[
+  {
+    "keep_alive": false,
+    "kind": "user_agent",
+    "label": "com.finetuneapp.autostart",
+    "last_exit_status": 0,
+    "loaded": true,
+    "origin": "third_party",
+    "plist_path": "~/Library/LaunchAgents/com.finetuneapp.autostart.plist",
+    "program": "/usr/bin/open",
+    "program_arguments": [
+      "/usr/bin/open",
+      "-gj",
+      "/Applications/FineTune.app"
+    ],
+    "run_at_load": true,
+    "target_exists": true
+  },
+  {
+    "keep_alive": false,
+    "kind": "user_agent",
+    "label": "com.google.GoogleUpdater.wake",
+    "last_exit_status": 0,
+    "loaded": true,
+    "origin": "third_party",
+    "plist_path": "~/Library/LaunchAgents/com.google.GoogleUpdater.wake.plist",
+    "program": "~/Library/Application Support/Google/GoogleUpdater/Current/GoogleUpdater.app/Contents/MacOS/GoogleUpdater",
+    "program_arguments": [
+      "~/Library/Application Support/Google/GoogleUpdater/Current/GoogleUpdater.app/Contents/MacOS/GoogleUpdater",
+      "--wake-all",
+      "--enable-logging",
+      "--vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2"
+    ],
+    "run_at_load": false,
+    "target_exists": true
+  },
+  {
+    "keep_alive": false,
+    "kind": "user_agent",
+    "label": "com.google.keystone.agent",
+    "loaded": false,
+    "origin": "third_party",
+    "plist_path": "~/Library/LaunchAgents/com.google.keystone.agent.plist",
+    "program_arguments": [],
+    "run_at_load": false
+  },
+  {
+    "keep_alive": false,
+    "kind": "user_agent",
+    "label": "com.google.keystone.xpcservice",
+    "loaded": false,
+    "origin": "third_party",
+    "plist_path": "~/Library/LaunchAgents/com.google.keystone.xpcservice.plist",
+    "program_arguments": [],
+    "run_at_load": false
+  },
+  {
+    "keep_alive": false,
+    "kind": "daemon",
+    "label": "de.appsolute.mampprohelper",
+    "origin": "third_party",
+    "plist_path": "/Library/LaunchDaemons/de.appsolute.mampprohelper.plist",
+    "program": "/Library/PrivilegedHelperTools/de.appsolute.mampprohelper",
+    "program_arguments": [
+      "/Library/PrivilegedHelperTools/de.appsolute.mampprohelper"
+    ],
+    "run_at_load": false,
+    "target_exists": true
+  }
+]

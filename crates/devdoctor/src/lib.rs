@@ -788,6 +788,62 @@ impl DevDoctor {
 
     // ----- export -----
 
+    /// Writes sanitized JSON fixtures of every view the desktop app renders, so the frontend
+    /// can run in a plain browser (design work, screenshots) without the Rust backend.
+    pub fn export_demo(&self, dir: &Path) -> Result<Vec<PathBuf>> {
+        std::fs::create_dir_all(dir).map_err(|e| Error::io(dir, e))?;
+        let home = self.ctx.home.clone();
+        let user = self.ctx.user.clone();
+        let mut written = Vec::new();
+        let mut write = |name: &str, value: Value| -> Result<()> {
+            let mut v = value;
+            sanitize_value(&mut v, &home, &user);
+            let path = dir.join(format!("{name}.json"));
+            std::fs::write(&path, serde_json::to_string_pretty(&v)?).map_err(|e| Error::io(&path, e))?;
+            written.push(path);
+            Ok(())
+        };
+        write("system", serde_json::to_value(self.system())?)?;
+        write("overview", serde_json::to_value(self.overview()?)?)?;
+        write("last_report", serde_json::to_value(self.last_report()?)?)?;
+        write("issues", serde_json::to_value(self.issues(true)?)?)?;
+        write("path", serde_json::to_value(self.path_report())?)?;
+        write("shell", serde_json::to_value(self.shell_report())?)?;
+        write("processes", serde_json::to_value(self.processes()?)?)?;
+        write("ports", serde_json::to_value(self.ports()?)?)?;
+        write("storage", serde_json::to_value(self.last_storage_report()?)?)?;
+        write("localai", serde_json::to_value(self.local_ai())?)?;
+        write("runtimes", serde_json::to_value(self.runtimes())?)?;
+        write("packages", serde_json::to_value(self.packages(false))?)?;
+        write("tools", serde_json::to_value(self.tools(false))?)?;
+        write("services", serde_json::to_value(self.services()?)?)?;
+        write("git", serde_json::to_value(self.git())?)?;
+        write("ssh", serde_json::to_value(self.ssh())?)?;
+        write("snapshots", serde_json::to_value(self.snapshots(50)?)?)?;
+        write("changes", serde_json::to_value(self.changes(None, None)?)?)?;
+        write("transactions", serde_json::to_value(self.transactions(100)?)?)?;
+        write("scans", serde_json::to_value(self.scans(30)?)?)?;
+        write("detectors", serde_json::to_value(self.detectors())?)?;
+        write("settings", Value::Object(self.settings()?))?;
+        let mut resolutions = serde_json::Map::new();
+        for cmd in ["python", "python3", "pip3", "node", "npm", "git", "cargo", "claude", "brew", "docker"] {
+            if let Ok(r) = self.resolve(cmd) {
+                resolutions.insert(cmd.to_string(), serde_json::to_value(r)?);
+            }
+        }
+        write("resolve", Value::Object(resolutions))?;
+        let mut previews = serde_json::Map::new();
+        for record in self.issues(false)? {
+            if record.issue.fixer_available {
+                if let Ok(p) = self.preview_fix(&record.issue.id) {
+                    previews.insert(record.issue.id.clone(), serde_json::to_value(p)?);
+                }
+            }
+        }
+        write("previews", Value::Object(previews))?;
+        Ok(written)
+    }
+
     /// A sanitized diagnostic report: home paths become `~`, the username is replaced, likely
     /// secrets are redacted.
     pub fn diagnostic_report(&self) -> Result<DiagnosticReport> {
@@ -832,7 +888,9 @@ impl DevDoctor {
     }
 }
 
-fn sanitize_value(v: &mut Value, home: &Path, user: &str) {
+/// Sanitizes free text inside a JSON value: home paths become `~`, the username is replaced,
+/// likely secrets are redacted.
+pub fn sanitize_value(v: &mut Value, home: &Path, user: &str) {
     match v {
         Value::String(s) => {
             let mut out = devdoctor_core::redact::shorten_home(s, home);

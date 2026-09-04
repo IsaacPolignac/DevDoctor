@@ -1,0 +1,15 @@
+{
+  "data_dir": "~/Library/Application Support/DevDoctor",
+  "devdoctor_version": "0.1.0",
+  "home": "~",
+  "os": {
+    "arch": "arm64",
+    "build": "25G83",
+    "name": "macOS",
+    "rosetta": false,
+    "version": "26.6.2"
+  },
+  "shell": "zsh",
+  "shell_path": "/bin/zsh",
+  "user": "demo"
+}

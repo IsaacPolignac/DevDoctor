@@ -1,0 +1,44 @@
+{
+  "686b7e02abc8": {
+    "backup_created": true,
+    "batch_safe": false,
+    "commands_executed": [],
+    "directories_deleted": [],
+    "estimated_disk_space_recovered": 0,
+    "files_deleted": [],
+    "files_modified": [
+      {
+        "after": "export PATH=\"$HOME/.local/bin:$PATH\"\nexport PATH=\"$HOME/.npm-global/bin:$PATH\"\n\nalias pp='cd ~/Downloads/purepeptide-site && claude --model claude-fable-5-1 --effort ultracode'\n\ncx() {\n  osascript -e 'tell application \"Terminal\" to do script \"codex\"' \\\n            -e 'tell application \"Terminal\" to activate'\n}\n\n# Rust toolchain (rustup) (added by DevDoctor)\n. \"$HOME/.cargo/env\"\n",
+        "before": "export PATH=\"$HOME/.local/bin:$PATH\"\nexport PATH=\"$HOME/.npm-global/bin:$PATH\"\n\nalias pp='cd ~/Downloads/purepeptide-site && claude --model claude-fable-5-1 --effort ultracode'\n\ncx() {\n  osascript -e 'tell application \"Terminal\" to do script \"codex\"' \\\n            -e 'tell application \"Terminal\" to activate'\n}\n",
+        "diff": "--- ~/.zshrc (before)\n+++ ~/.zshrc (after)\n@@ -8,2 +8,5 @@\n             -e 'tell application \"Terminal\" to activate'\n }\n+\n+# Rust toolchain (rustup) (added by DevDoctor)\n+. \"$HOME/.cargo/env\"\n",
+        "line_changes": [
+          {
+            "after": ". \"$HOME/.cargo/env\"",
+            "kind": "added",
+            "line": 10
+          }
+        ],
+        "path": "~/.zshrc"
+      }
+    ],
+    "fixer_id": "shell.append_line",
+    "issue_id": "686b7e02abc8",
+    "notes": [
+      "Existing lines are not modified. Open a new terminal window afterwards to see the effect."
+    ],
+    "operations": [
+      "~/.zshrc: append `. \"$HOME/.cargo/env\"`"
+    ],
+    "processes_stopped": [],
+    "requires_confirmation": true,
+    "reversible": true,
+    "risk": "low",
+    "services_stopped": [],
+    "summary": "Appends one line at the end of ~/.zshrc so that every new terminal runs it.",
+    "title": "Add `. \"$HOME/.cargo/env\"` to ~/.zshrc",
+    "validations": [
+      "The modified file passes the shell's syntax check.",
+      "A fresh login shell now has ~/.cargo/bin in PATH and every other directory keeps its order; otherwise the file is restored."
+    ]
+  }
+}

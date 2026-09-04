@@ -26,7 +26,7 @@ export function PortsPage({ refreshKey, highlight }: { refreshKey: number; highl
           { key: "actions", label: "", render: (p) => (
             <span className="btn-row">
               {p.dev_process?.project_path && <Button size="small" icon="folder" onClick={() => api.reveal(p.dev_process!.project_path!).catch(() => {})}>Project</Button>}
-              {p.dev_process?.stoppable && <Button size="small" variant="destructive" onClick={() => setStopping(p.dev_process!.pid)}>Stop…</Button>}
+              {p.dev_process?.stoppable && <Button size="small" onClick={() => setStopping(p.dev_process!.pid)}>Stop…</Button>}
             </span>
           ) },
         ]}

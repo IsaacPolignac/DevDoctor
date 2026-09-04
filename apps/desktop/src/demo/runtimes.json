@@ -1,0 +1,101 @@
+{
+  "node": {
+    "active_node": {
+      "directory": "/usr/local/bin",
+      "is_symlink": false,
+      "origin": "installer",
+      "origin_label": "Installer package (/usr/local/bin)",
+      "path": "/usr/local/bin/node",
+      "path_position": 5,
+      "version": "v24.18.0"
+    },
+    "active_node_prefix": "/usr/local",
+    "active_npm": {
+      "directory": "/usr/local/bin",
+      "is_symlink": true,
+      "origin": "npm",
+      "origin_label": "npm",
+      "path": "/usr/local/bin/npm",
+      "path_position": 5,
+      "real_path": "/usr/local/lib/node_modules/npm/bin/npm-cli.js",
+      "shebang": "/usr/bin/env node",
+      "version": "11.16.0"
+    },
+    "active_npm_prefix": "/usr/local",
+    "installations": [
+      {
+        "active": true,
+        "binary": "/usr/local/bin/node",
+        "label": "nodejs.org installer",
+        "prefix": "/usr/local",
+        "source": "pkg_installer",
+        "version": "24.18.0"
+      }
+    ],
+    "managers": [],
+    "notes": []
+  },
+  "python": {
+    "broken_links": [],
+    "installations": [
+      {
+        "active": true,
+        "binary": "/usr/bin/python3",
+        "label": "macOS / Command Line Tools",
+        "source": "system",
+        "version": "3.9.6"
+      },
+      {
+        "active": false,
+        "binary": "/opt/homebrew/Cellar/python@3.12/3.12.14/bin/python3.12",
+        "label": "Homebrew",
+        "source": "homebrew",
+        "version": "3.12.14"
+      },
+      {
+        "active": false,
+        "binary": "~/.local/share/uv/python/cpython-3.14.0-macos-aarch64-none/bin/python3",
+        "label": "uv",
+        "source": "uv",
+        "version": "3.14.0"
+      }
+    ],
+    "notes": [],
+    "pip3": {
+      "directory": "/usr/bin",
+      "is_symlink": false,
+      "origin": "system",
+      "origin_label": "System",
+      "path": "/usr/bin/pip3",
+      "path_position": 7,
+      "version": "pip 21.2.4 from /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3"
+    },
+    "pip_mismatches": [],
+    "python3": {
+      "directory": "/usr/bin",
+      "is_symlink": false,
+      "origin": "system",
+      "origin_label": "System",
+      "path": "/usr/bin/python3",
+      "path_position": 7,
+      "version": "Python 3.9.6"
+    }
+  },
+  "rust": {
+    "cargo_bin_in_path": false,
+    "cargo_home": "~/.cargo",
+    "default_toolchain": "stable-aarch64-apple-darwin",
+    "installed_crates": [],
+    "notes": [
+      "rustup is installed but ~/.cargo/bin is not in PATH; cargo and rustc are not reachable."
+    ],
+    "rustup_home": "~/.rustup",
+    "rustup_installed": true,
+    "toolchains": [
+      {
+        "name": "stable-aarch64-apple-darwin",
+        "path": "~/.rustup/toolchains/stable-aarch64-apple-darwin"
+      }
+    ]
+  }
+}

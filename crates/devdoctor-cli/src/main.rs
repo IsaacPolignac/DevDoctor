@@ -161,6 +161,12 @@ enum Command {
     Report,
     /// List available detectors.
     Detectors,
+    /// Write sanitized JSON fixtures for the desktop UI's browser demo mode (development).
+    #[command(hide = true)]
+    DemoExport {
+        /// Output directory (default: apps/desktop/src/demo).
+        dir: Option<PathBuf>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -950,6 +956,16 @@ fn run(cli: Cli) -> Result<u8, devdoctor::devdoctor_core::Error> {
                 eprintln!("Home paths are shortened, the username is replaced and likely secrets are redacted.");
             }
             print_json(&report);
+            Ok(EXIT_OK)
+        }
+        Command::DemoExport { dir } => {
+            let dir = dir.clone().unwrap_or_else(|| PathBuf::from("apps/desktop/src/demo"));
+            let files = app.export_demo(&dir)?;
+            if json {
+                print_json(&files);
+            } else {
+                println!("Wrote {} fixture files to {}", files.len(), dir.display());
+            }
             Ok(EXIT_OK)
         }
         Command::Detectors => {

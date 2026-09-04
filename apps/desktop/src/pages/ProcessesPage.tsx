@@ -44,7 +44,7 @@ export function ProcessesPage({ refreshKey }: { refreshKey: number }) {
           { key: "actions", label: "", render: (p) => (
             <span className="btn-row">
               {p.project_path && <Button size="small" icon="folder" onClick={() => api.reveal(p.project_path!).catch(() => {})}>Folder</Button>}
-              {p.stoppable && <Button size="small" variant="destructive" onClick={() => setStopping(p.pid)}>Stop…</Button>}
+              {p.stoppable && <Button size="small" onClick={() => setStopping(p.pid)}>Stop…</Button>}
             </span>
           ) },
         ]}

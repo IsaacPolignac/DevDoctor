@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import type { IconName } from "../components/Icons";
+import type { TileColor } from "../components/Tile";
 
 export type PageId =
   | "overview" | "problems" | "issue" | "shell" | "path" | "resolve" | "runtimes" | "packages" | "processes" | "ports"
@@ -40,6 +41,33 @@ export const NAV: NavGroup[] = [
 ];
 
 export const ALL_PAGES: NavPage[] = NAV.flatMap((g) => g.pages);
+
+/** Sidebar entries: nine sections, some of which group several pages as tabs. */
+export interface Section { id: string; label: string; icon: IconName; color: TileColor; pages: { id: PageId; label: string }[] }
+export const SECTIONS: { group: string; items: Section[] }[] = [
+  { group: "Diagnose", items: [
+    { id: "overview", label: "Overview", icon: "grid", color: "blue", pages: [{ id: "overview", label: "Overview" }] },
+    { id: "problems", label: "Problems", icon: "triangle", color: "orange", pages: [{ id: "problems", label: "Problems" }] },
+  ] },
+  { group: "Inspect", items: [
+    { id: "shellpath", label: "Shell & PATH", icon: "terminal", color: "graphite", pages: [{ id: "shell", label: "Startup Files" }, { id: "path", label: "PATH" }, { id: "resolve", label: "Command Lookup" }] },
+    { id: "runtimes", label: "Runtimes & Tools", icon: "shippingbox", color: "purple", pages: [{ id: "runtimes", label: "Runtimes" }, { id: "packages", label: "Packages" }, { id: "tools", label: "Developer Tools" }, { id: "git", label: "Git" }, { id: "ssh", label: "SSH" }] },
+    { id: "activity", label: "Activity", icon: "waveform", color: "green", pages: [{ id: "processes", label: "Processes" }, { id: "ports", label: "Ports" }, { id: "services", label: "Startup Items" }] },
+  ] },
+  { group: "System", items: [
+    { id: "storage", label: "Developer Storage", icon: "internaldrive", color: "indigo", pages: [{ id: "storage", label: "Developer Storage" }] },
+    { id: "localai", label: "Local AI", icon: "cpu", color: "pink", pages: [{ id: "localai", label: "Local AI" }] },
+  ] },
+  { group: "History", items: [
+    { id: "history", label: "History", icon: "clock-arrow", color: "gray", pages: [{ id: "history", label: "Fixes & Scans" }, { id: "changes", label: "What Changed" }] },
+    { id: "settings", label: "Settings", icon: "gear", color: "gray", pages: [{ id: "settings", label: "Settings" }] },
+  ] },
+];
+export const ALL_SECTIONS: Section[] = SECTIONS.flatMap((g) => g.items);
+export function sectionOf(page: PageId): Section {
+  const p = page === "issue" ? "problems" : page;
+  return ALL_SECTIONS.find((s) => s.pages.some((x) => x.id === p)) ?? ALL_SECTIONS[0];
+}
 export const pageById = (id: PageId): NavPage | undefined => ALL_PAGES.find((p) => p.id === id);
 
 export interface NavParams { issueId?: string; command?: string; port?: number }

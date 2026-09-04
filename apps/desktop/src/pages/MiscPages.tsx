@@ -143,7 +143,6 @@ export function SettingsPage({ autoScan, onAutoScan }: { autoScan: boolean; onAu
   };
   return (
     <div className="page">
-      <PageHeader title="Settings" />
       <div className="grid cols-2">
         <Card title="Preferences">
           <Switch on={autoScan} onChange={onAutoScan} label={<span>Check automatically when DevDoctor opens<div className="muted small">Runs a quick check if the last one is older than an hour.</div></span>} />

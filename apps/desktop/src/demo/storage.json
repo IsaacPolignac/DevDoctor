@@ -1,0 +1,234 @@
+{
+  "build_bytes": 0,
+  "build_dirs": [],
+  "categories": [
+    {
+      "bytes": 198410240,
+      "description": "Downloaded bottles and API metadata. Clearing it does not uninstall packages.",
+      "exists": true,
+      "files": 2194,
+      "id": "homebrew_cache",
+      "kind": "cache",
+      "label": "Homebrew cache",
+      "paths": [
+        "~/Library/Caches/Homebrew"
+      ],
+      "recreatable": true,
+      "scan_ms": 15
+    },
+    {
+      "bytes": 1697845248,
+      "description": "Content-addressed package cache (~/.npm/_cacache). npm re-downloads packages when needed.",
+      "exists": true,
+      "files": 5335,
+      "id": "npm_cache",
+      "kind": "cache",
+      "label": "npm cache",
+      "paths": [
+        "~/.npm/_cacache"
+      ],
+      "recreatable": true,
+      "scan_ms": 126
+    },
+    {
+      "bytes": 0,
+      "description": "Global content-addressable store shared by pnpm projects via hard links.",
+      "exists": false,
+      "files": 0,
+      "id": "pnpm_store",
+      "kind": "cache",
+      "label": "pnpm store",
+      "paths": [],
+      "recreatable": true,
+      "scan_ms": 0
+    },
+    {
+      "bytes": 0,
+      "description": "Yarn package cache.",
+      "exists": false,
+      "files": 0,
+      "id": "yarn_cache",
+      "kind": "cache",
+      "label": "Yarn cache",
+      "paths": [],
+      "recreatable": true,
+      "scan_ms": 0
+    },
+    {
+      "bytes": 625754112,
+      "description": "Downloaded wheels and HTTP cache used by pip.",
+      "exists": true,
+      "files": 647,
+      "id": "pip_cache",
+      "kind": "cache",
+      "label": "pip cache",
+      "paths": [
+        "~/Library/Caches/pip"
+      ],
+      "recreatable": true,
+      "scan_ms": 38
+    },
+    {
+      "bytes": 1310363648,
+      "description": "uv's package and build cache.",
+      "exists": true,
+      "files": 22826,
+      "id": "uv_cache",
+      "kind": "cache",
+      "label": "uv cache",
+      "paths": [
+        "~/.cache/uv"
+      ],
+      "recreatable": true,
+      "scan_ms": 200
+    },
+    {
+      "bytes": 248614912,
+      "description": "Crate registry downloads, extracted sources and git checkouts.",
+      "exists": true,
+      "files": 13677,
+      "id": "cargo_cache",
+      "kind": "cache",
+      "label": "Cargo cache",
+      "paths": [
+        "~/.cargo/registry"
+      ],
+      "recreatable": true,
+      "scan_ms": 50
+    },
+    {
+      "bytes": 0,
+      "description": "Docker Desktop virtual disk (images, containers, volumes). Manage it with `docker system prune` or Docker Desktop.",
+      "exists": false,
+      "files": 0,
+      "id": "docker",
+      "kind": "data",
+      "label": "Docker",
+      "paths": [],
+      "recreatable": false,
+      "scan_ms": 0
+    },
+    {
+      "bytes": 0,
+      "description": "Models pulled with `ollama pull`. Remove individual models from the Local AI page.",
+      "exists": false,
+      "files": 0,
+      "id": "ollama_models",
+      "kind": "models",
+      "label": "Ollama models",
+      "paths": [],
+      "recreatable": false,
+      "scan_ms": 0
+    },
+    {
+      "bytes": 1462272,
+      "description": "Models and datasets downloaded by transformers, diffusers, MLX and friends.",
+      "exists": true,
+      "files": 5,
+      "id": "huggingface",
+      "kind": "models",
+      "label": "Hugging Face cache",
+      "paths": [
+        "~/.cache/huggingface"
+      ],
+      "recreatable": false,
+      "scan_ms": 0
+    },
+    {
+      "bytes": 0,
+      "description": "MLX-specific caches (most MLX models live in the Hugging Face cache).",
+      "exists": false,
+      "files": 0,
+      "id": "mlx",
+      "kind": "models",
+      "label": "MLX cache",
+      "paths": [],
+      "recreatable": false,
+      "scan_ms": 0
+    },
+    {
+      "bytes": 0,
+      "description": "Models downloaded through LM Studio.",
+      "exists": false,
+      "files": 0,
+      "id": "lmstudio",
+      "kind": "models",
+      "label": "LM Studio models",
+      "paths": [],
+      "recreatable": false,
+      "scan_ms": 0
+    },
+    {
+      "bytes": 0,
+      "description": "Browser builds installed by `npx playwright install`.",
+      "exists": false,
+      "files": 0,
+      "id": "playwright",
+      "kind": "cache",
+      "label": "Playwright browsers",
+      "paths": [],
+      "recreatable": true,
+      "scan_ms": 0
+    },
+    {
+      "bytes": 0,
+      "description": "Chromium builds downloaded by Puppeteer.",
+      "exists": false,
+      "files": 0,
+      "id": "puppeteer",
+      "kind": "cache",
+      "label": "Puppeteer browsers",
+      "paths": [],
+      "recreatable": true,
+      "scan_ms": 0
+    },
+    {
+      "bytes": 876544,
+      "description": "DerivedData, Xcode caches, simulator caches and device support files.",
+      "exists": true,
+      "files": 4,
+      "id": "xcode",
+      "kind": "cache",
+      "label": "Xcode caches",
+      "paths": [
+        "~/Library/Caches/com.apple.dt.Xcode",
+        "~/Library/Developer/CoreSimulator/Caches"
+      ],
+      "recreatable": true,
+      "scan_ms": 0
+    },
+    {
+      "bytes": 0,
+      "description": "JVM dependency caches.",
+      "exists": false,
+      "files": 0,
+      "id": "gradle_maven",
+      "kind": "cache",
+      "label": "Gradle / Maven caches",
+      "paths": [],
+      "recreatable": true,
+      "scan_ms": 0
+    },
+    {
+      "bytes": 0,
+      "description": "Go module and build caches.",
+      "exists": false,
+      "files": 0,
+      "id": "go_cache",
+      "kind": "cache",
+      "label": "Go caches",
+      "paths": [],
+      "recreatable": true,
+      "scan_ms": 0
+    }
+  ],
+  "duration_ms": 466,
+  "generated_at": "2026-09-04T09:42:29.855029Z",
+  "node_modules": [],
+  "node_modules_bytes": 0,
+  "projects_scanned": false,
+  "roots_scanned": [],
+  "total_bytes": 4083326976,
+  "venvs": [],
+  "venvs_bytes": 0
+}

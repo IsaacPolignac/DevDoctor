@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { api, errorMessage, onScanProgress } from "./lib/api";
-import { NAV, NavContext, pageById, type NavParams, type PageId } from "./lib/nav";
+import { api, errorMessage, inTauri, onScanProgress } from "./lib/api";
+import { NavContext, SECTIONS, sectionOf, type NavParams, type PageId } from "./lib/nav";
 import type { DetectorMeta, ScanMode, ScanProgress } from "./lib/types";
 import { PrefsContext, ToastProvider, useToast, type Appearance, type Glass } from "./components/Basics";
 import { Icon } from "./components/Icons";
+import { Tile } from "./components/Tile";
 import { Toolbar } from "./components/Toolbar";
 import { StatusBar } from "./components/StatusBar";
 import { SearchPalette } from "./components/SearchPalette";
@@ -22,10 +23,7 @@ import { LocalAiPage } from "./pages/LocalAiPage";
 import { ChangesPage } from "./pages/ChangesPage";
 import { GitPage, HistoryPage, ServicesPage, SettingsPage, SshPage, ToolsPage } from "./pages/MiscPages";
 
-const inTauri = typeof (window as unknown as { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ !== "undefined";
 if (!inTauri) document.documentElement.classList.add("no-tauri");
-
-const SIDEBAR_GROUPS: Record<string, string> = { "": "Diagnose", Understand: "Inspect", Activity: "Activity", "Storage & tools": "System", History: "History" };
 
 function applyAppearance(appearance: Appearance, glass: Glass) {
   const root = document.documentElement;
@@ -137,7 +135,8 @@ function Shell() {
   const finishOnboarding = () => { setOnboarding(false); api.setSetting("onboarding_done", true).catch(() => {}); };
   const prefs = useMemo(() => ({ technical, setTechnical, appearance, setAppearance, glass, setGlass }), [technical, appearance, glass]);
   const hasInspector = page === "overview" || page === "problems";
-  const current = page === "issue" ? pageById("problems") : pageById(page);
+  const section = sectionOf(page);
+  const tabs = section.pages.length > 1 ? { options: section.pages, value: page === "issue" ? "problems" : page, onChange: (id: string) => navigate(id as PageId) } : null;
 
   const content = (() => {
     switch (page) {
@@ -172,14 +171,14 @@ function Shell() {
               <button className="icon-btn" onClick={() => setSidebarHidden(true)} title="Hide sidebar"><Icon name="sidebar-left" /></button>
             </div>
             <div className="sidebar-list">
-              {NAV.map((group) => (
-                <div key={group.label || "main"}>
-                  <div className="side-section">{SIDEBAR_GROUPS[group.label] ?? group.label}</div>
-                  {group.pages.map((p) => (
-                    <button key={p.id} className={`side-row ${page === p.id || (page === "issue" && p.id === "problems") ? "active" : ""}`} onClick={() => navigate(p.id)} title={p.blurb}>
-                      <Icon name={p.icon} className="icon" />
-                      <span className="label">{p.label}</span>
-                      {p.id === "problems" && issueCount != null && issueCount > 0 && <span className="badge">{issueCount}</span>}
+              {SECTIONS.map((group) => (
+                <div key={group.group}>
+                  <div className="side-section">{group.group}</div>
+                  {group.items.map((sec) => (
+                    <button key={sec.id} className={`side-row ${section.id === sec.id ? "active" : ""}`} onClick={() => navigate(sec.pages[0].id)}>
+                      <Tile color={sec.color} icon={sec.icon} size={20} />
+                      <span className="label">{sec.label}</span>
+                      {sec.id === "problems" && issueCount != null && issueCount > 0 && <span className="badge">{issueCount}</span>}
                     </button>
                   ))}
                 </div>
@@ -191,7 +190,7 @@ function Shell() {
             </div>
           </nav>
           <div className="main">
-            <Toolbar title={page === "issue" ? "Issue" : current?.label ?? "DevDoctor"} status={null} scanning={!!scanning} onScan={() => runScan("quick")} inspector={hasInspector ? inspector : null} onToggleInspector={toggleInspector} sidebarHidden={sidebarHidden} onToggleSidebar={() => setSidebarHidden(false)} onSearch={() => setPalette(true)} />
+            <Toolbar title={page === "issue" ? "Problem" : section.label} status={null} tabs={tabs} scanning={!!scanning} onScan={() => runScan("quick")} inspector={hasInspector ? inspector : null} onToggleInspector={toggleInspector} sidebarHidden={sidebarHidden} onToggleSidebar={() => setSidebarHidden(false)} onSearch={() => setPalette(true)} />
             <div className={`body ${hasInspector && inspector ? "with-inspector" : ""}`}>{content}</div>
             <StatusBar scanning={!!scanning} progress={progress} lastScanAt={lastScanAt} mode={scanning} />
           </div>

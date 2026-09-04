@@ -1,0 +1,214 @@
+{
+  "capture_duration_ms": 24,
+  "duplicate_count": 0,
+  "entries": [
+    {
+      "executables": 1,
+      "exists": true,
+      "is_dir": true,
+      "is_duplicate": false,
+      "origin": "npm",
+      "origin_label": "npm",
+      "position": 1,
+      "raw": "~/.npm-global/bin",
+      "sources": [
+        {
+          "conditional": false,
+          "file": "~/.zshrc",
+          "line": 2,
+          "op": "prepend",
+          "statement": "export PATH=\"$HOME/.npm-global/bin:$PATH\""
+        }
+      ],
+      "writable": true
+    },
+    {
+      "executables": 4,
+      "exists": true,
+      "is_dir": true,
+      "is_duplicate": false,
+      "origin": "user_local_bin",
+      "origin_label": "User local bin (~/.local/bin)",
+      "position": 2,
+      "raw": "~/.local/bin",
+      "sources": [
+        {
+          "conditional": false,
+          "file": "~/.zshrc",
+          "line": 1,
+          "op": "prepend",
+          "statement": "export PATH=\"$HOME/.local/bin:$PATH\""
+        }
+      ],
+      "writable": true
+    },
+    {
+      "executables": 37,
+      "exists": true,
+      "is_dir": true,
+      "is_duplicate": false,
+      "origin": "homebrew",
+      "origin_label": "Homebrew",
+      "position": 3,
+      "raw": "/opt/homebrew/bin",
+      "source_hint": "system default (/etc/paths.d/homebrew)",
+      "sources": [],
+      "writable": true
+    },
+    {
+      "executables": 0,
+      "exists": true,
+      "is_dir": true,
+      "is_duplicate": false,
+      "origin": "homebrew",
+      "origin_label": "Homebrew",
+      "position": 4,
+      "raw": "/opt/homebrew/sbin",
+      "source_hint": "eval \"$(/opt/homebrew/bin/brew shellenv)\" in ~/.zprofile:5",
+      "sources": [],
+      "writable": true
+    },
+    {
+      "executables": 4,
+      "exists": true,
+      "is_dir": true,
+      "is_duplicate": false,
+      "origin": "system",
+      "origin_label": "System",
+      "position": 5,
+      "raw": "/usr/local/bin",
+      "source_hint": "system default (/etc/paths)",
+      "sources": [],
+      "writable": false
+    },
+    {
+      "executables": 1,
+      "exists": true,
+      "is_dir": true,
+      "is_duplicate": false,
+      "origin": "system",
+      "origin_label": "System",
+      "position": 6,
+      "raw": "/System/Cryptexes/App/usr/bin",
+      "source_hint": "system default (/etc/paths)",
+      "sources": [],
+      "writable": false
+    },
+    {
+      "executables": 924,
+      "exists": true,
+      "is_dir": true,
+      "is_duplicate": false,
+      "origin": "system",
+      "origin_label": "System",
+      "position": 7,
+      "raw": "/usr/bin",
+      "source_hint": "system default (/etc/paths)",
+      "sources": [],
+      "writable": false
+    },
+    {
+      "executables": 37,
+      "exists": true,
+      "is_dir": true,
+      "is_duplicate": false,
+      "origin": "system",
+      "origin_label": "System",
+      "position": 8,
+      "raw": "/bin",
+      "source_hint": "system default (/etc/paths)",
+      "sources": [],
+      "writable": false
+    },
+    {
+      "executables": 223,
+      "exists": true,
+      "is_dir": true,
+      "is_duplicate": false,
+      "origin": "system",
+      "origin_label": "System",
+      "position": 9,
+      "raw": "/usr/sbin",
+      "source_hint": "system default (/etc/paths)",
+      "sources": [],
+      "writable": false
+    },
+    {
+      "executables": 74,
+      "exists": true,
+      "is_dir": true,
+      "is_duplicate": false,
+      "origin": "system",
+      "origin_label": "System",
+      "position": 10,
+      "raw": "/sbin",
+      "source_hint": "system default (/etc/paths)",
+      "sources": [],
+      "writable": false
+    },
+    {
+      "exists": false,
+      "is_dir": false,
+      "is_duplicate": false,
+      "origin": "system",
+      "origin_label": "System",
+      "position": 11,
+      "raw": "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin",
+      "source_hint": "system default (/etc/paths.d/10-cryptex)",
+      "sources": []
+    },
+    {
+      "exists": false,
+      "is_dir": false,
+      "is_duplicate": false,
+      "origin": "system",
+      "origin_label": "System",
+      "position": 12,
+      "raw": "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin",
+      "source_hint": "system default (/etc/paths.d/10-cryptex)",
+      "sources": []
+    },
+    {
+      "exists": false,
+      "is_dir": false,
+      "is_duplicate": false,
+      "origin": "system",
+      "origin_label": "System",
+      "position": 13,
+      "raw": "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin",
+      "source_hint": "system default (/etc/paths.d/10-cryptex)",
+      "sources": []
+    },
+    {
+      "exists": false,
+      "is_dir": false,
+      "is_duplicate": false,
+      "origin": "unknown",
+      "origin_label": "Unknown",
+      "position": 14,
+      "raw": "/pkg/env/global/bin",
+      "source_hint": "system default (/etc/paths.d/10-pmk-global)",
+      "sources": []
+    },
+    {
+      "executables": 1,
+      "exists": true,
+      "is_dir": true,
+      "is_duplicate": false,
+      "origin": "system",
+      "origin_label": "System",
+      "position": 15,
+      "raw": "/Library/Apple/usr/bin",
+      "source_hint": "system default (/etc/paths.d/100-rvictl)",
+      "sources": [],
+      "writable": false
+    }
+  ],
+  "missing_count": 4,
+  "raw": "~/.npm-global/bin:~/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin",
+  "source": {
+    "kind": "login_shell",
+    "shell": "zsh"
+  },
+  "warnings": []
+}

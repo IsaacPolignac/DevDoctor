@@ -1,5 +1,15 @@
-import { invoke } from "@tauri-apps/api/core";
+import { invoke as tauriInvoke } from "@tauri-apps/api/core";
 import { listen, type UnlistenFn } from "@tauri-apps/api/event";
+import { demoListen } from "./events";
+
+export const inTauri = typeof (window as unknown as { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ !== "undefined";
+
+/** In the Tauri app every call goes to the Rust backend; in a plain browser the demo fixtures answer. */
+async function invoke<T>(cmd: string, args?: Record<string, unknown>): Promise<T> {
+  if (inTauri) return tauriInvoke<T>(cmd, args);
+  const { mockInvoke } = await import("./demo");
+  return mockInvoke<T>(cmd, args ?? {});
+}
 import type {
   BatchFixResult, CommandResolution, DetectorMeta, DevProcess, DevTool, DiagnosticReport, FixPreview, GitReport, IssueDetail, IssueRecord,
   LocalAiReport, Overview, PackagesReport, PathReport, PortEntry, RuntimesReport, ScanMode, ScanProgress, ScanReport, ScanSummary, SearchResults,
@@ -57,10 +67,12 @@ export const api = {
 };
 
 export function onScanProgress(cb: (p: ScanProgress) => void): Promise<UnlistenFn> {
+  if (!inTauri) return Promise.resolve(demoListen("scan-progress", (p) => cb(p as ScanProgress)));
   return listen<ScanProgress>("scan-progress", (e) => cb(e.payload));
 }
 
 export function onStorageProgress(cb: (p: StorageProgress) => void): Promise<UnlistenFn> {
+  if (!inTauri) return Promise.resolve(demoListen("storage-progress", (p) => cb(p as StorageProgress)));
   return listen<StorageProgress>("storage-progress", (e) => cb(e.payload));
 }
 

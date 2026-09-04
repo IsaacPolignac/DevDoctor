@@ -1,0 +1,125 @@
+[
+  {
+    "address": "127.0.0.1",
+    "common_dev_port": false,
+    "dev_process": {
+      "command": "node ~/Documents/Codex/2026-09-04/m/outputs/sanad-app/node_modules/.bin/vite --host 127.0.0.1 --port 4173 --strictPort",
+      "cpu_percent": 0.0,
+      "cwd": "~/Documents/Codex/2026-09-04/m/outputs/sanad-app",
+      "cwd_missing": false,
+      "kind": "node",
+      "kind_label": "Node.js",
+      "label": "vite dev server",
+      "memory_bytes": 1006141440,
+      "name": "node",
+      "orphaned": false,
+      "owned_by_user": true,
+      "parent_pid": 58843,
+      "pid": 58911,
+      "ports": [
+        4173
+      ],
+      "project_path": "~/Documents/Codex/2026-09-04/m/outputs/sanad-app",
+      "run_time_secs": 1024,
+      "stale": false,
+      "stoppable": true
+    },
+    "local_only": true,
+    "pid": 58911,
+    "port": 4173,
+    "process_name": "node"
+  },
+  {
+    "address": "*",
+    "common_dev_port": true,
+    "local_only": false,
+    "pid": 623,
+    "port": 5000,
+    "process_name": "ControlCenter"
+  },
+  {
+    "address": "*",
+    "common_dev_port": true,
+    "local_only": false,
+    "pid": 623,
+    "port": 7000,
+    "process_name": "ControlCenter"
+  },
+  {
+    "address": "127.0.0.1",
+    "common_dev_port": false,
+    "local_only": true,
+    "pid": 16940,
+    "port": 8787,
+    "process_name": "php"
+  },
+  {
+    "address": "127.0.0.1",
+    "common_dev_port": false,
+    "dev_process": {
+      "command": "~/Library/Application Support/Local/lightning-services/mysql-8.4.0/bin/darwin-arm64/bin/mysqld --defaults-file=~/Local Sites/purepetide-staging/mysql/my.cnf",
+      "cpu_percent": 0.001852500019595027,
+      "cwd": "~/Local Sites/purepetide-staging/mysql/data",
+      "cwd_missing": false,
+      "kind": "database",
+      "kind_label": "Database",
+      "label": "mysqld",
+      "memory_bytes": 7045120,
+      "name": "mysqld",
+      "orphaned": true,
+      "owned_by_user": true,
+      "parent_pid": 1,
+      "pid": 16420,
+      "ports": [
+        33306
+      ],
+      "run_time_secs": 172409,
+      "stale": false,
+      "stoppable": true
+    },
+    "local_only": true,
+    "pid": 16420,
+    "port": 33306,
+    "process_name": "mysqld"
+  },
+  {
+    "address": "127.0.0.1",
+    "common_dev_port": false,
+    "local_only": true,
+    "pid": 773,
+    "port": 44950,
+    "process_name": "figma_agent"
+  },
+  {
+    "address": "127.0.0.1",
+    "common_dev_port": false,
+    "local_only": true,
+    "pid": 773,
+    "port": 44960,
+    "process_name": "figma_agent"
+  },
+  {
+    "address": "*",
+    "common_dev_port": false,
+    "local_only": false,
+    "pid": 644,
+    "port": 58939,
+    "process_name": "rapportd"
+  },
+  {
+    "address": "*",
+    "common_dev_port": false,
+    "local_only": false,
+    "pid": 644,
+    "port": 61465,
+    "process_name": "rapportd"
+  },
+  {
+    "address": "*",
+    "common_dev_port": false,
+    "local_only": false,
+    "pid": 644,
+    "port": 61466,
+    "process_name": "rapportd"
+  }
+]

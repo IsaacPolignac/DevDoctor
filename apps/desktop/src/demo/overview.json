@@ -1,0 +1,351 @@
+{
+  "detector_count": 30,
+  "health": {
+    "categories": [
+      {
+        "capped": false,
+        "category": "shell",
+        "checks_run": 8,
+        "issues": 1,
+        "label": "Shell",
+        "max_severity": "info",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "runtimes",
+        "checks_run": 5,
+        "issues": 2,
+        "label": "Runtimes",
+        "max_severity": "medium",
+        "penalty": 6.0,
+        "problems": 1,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "package_managers",
+        "checks_run": 1,
+        "issues": 0,
+        "label": "Package Managers",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "processes",
+        "checks_run": 1,
+        "issues": 0,
+        "label": "Processes",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "ports",
+        "checks_run": 1,
+        "issues": 0,
+        "label": "Ports",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "ai_tools",
+        "checks_run": 0,
+        "issues": 0,
+        "label": "AI Tools",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "disk",
+        "checks_run": 0,
+        "issues": 0,
+        "label": "Disk",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "git",
+        "checks_run": 1,
+        "issues": 0,
+        "label": "Git",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "ssh",
+        "checks_run": 2,
+        "issues": 0,
+        "label": "SSH",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "containers",
+        "checks_run": 0,
+        "issues": 0,
+        "label": "Containers",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "environment",
+        "checks_run": 1,
+        "issues": 0,
+        "label": "Environment",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "services",
+        "checks_run": 2,
+        "issues": 0,
+        "label": "Services",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      }
+    ],
+    "checks_passed": 21,
+    "checks_total": 22,
+    "contributions": [
+      {
+        "category": "runtimes",
+        "confidence": "confirmed",
+        "issue_id": "686b7e02abc8",
+        "penalty": 6.0,
+        "severity": "medium",
+        "title": "Rust is installed but `cargo` and `rustc` are not in PATH"
+      },
+      {
+        "category": "shell",
+        "confidence": "confirmed",
+        "issue_id": "3e9374f17a01",
+        "penalty": 0.0,
+        "severity": "info",
+        "title": "System PATH entry does not exist: /pkg/env/global/bin"
+      },
+      {
+        "category": "runtimes",
+        "confidence": "confirmed",
+        "issue_id": "64d2b7096eff",
+        "penalty": 0.0,
+        "severity": "info",
+        "title": "3 Python installations from 3 different sources"
+      }
+    ],
+    "explanation": "Start at 100. Each issue subtracts its severity weight (critical 25, high 12, medium 6, low 2, info 0) multiplied by a confidence factor (confirmed 1.0, likely 0.6, possible 0.3); deductions are capped at 40 per category. Total deduction: 6.0.",
+    "notes": 2,
+    "problems": 1,
+    "score": 94,
+    "warnings": 0
+  },
+  "issues": {
+    "batch_safe": 0,
+    "fixable": 1,
+    "ignored": 0,
+    "notes": 2,
+    "problems": 1,
+    "total": 3,
+    "warnings": 0
+  },
+  "last_scan": {
+    "detectors_failed": 0,
+    "detectors_run": 22,
+    "duration_ms": 555,
+    "finished_at": "2026-09-04T09:42:29.301854Z",
+    "health_score": 94,
+    "id": "scan_24c5cce7e2b9",
+    "issue_count": 3,
+    "mode": "quick",
+    "started_at": "2026-09-04T09:42:28.746655Z"
+  },
+  "latest_snapshot": {
+    "created_at": "2026-09-04T09:42:29.354267Z",
+    "id": "snap_af723be0e831",
+    "kind": "scan",
+    "summary": {
+      "counts": {
+        "brew_formula": 10,
+        "env_var": 18,
+        "node_install": 1,
+        "npm_global": 1,
+        "path": 1,
+        "port": 10,
+        "python_install": 3,
+        "runtime": 9,
+        "service": 5,
+        "shell_file": 2,
+        "uv_tool": 3
+      },
+      "path_entries": 15
+    }
+  },
+  "path_source": {
+    "kind": "login_shell",
+    "shell": "zsh"
+  },
+  "recent_transactions": [],
+  "storage_scanned_at": "2026-09-04T09:42:29.855029Z",
+  "storage_total_bytes": 4083326976,
+  "system": {
+    "data_dir": "~/Library/Application Support/DevDoctor",
+    "devdoctor_version": "0.1.0",
+    "home": "~",
+    "os": {
+      "arch": "arm64",
+      "build": "25G83",
+      "name": "macOS",
+      "rosetta": false,
+      "version": "26.6.2"
+    },
+    "shell": "zsh",
+    "shell_path": "/bin/zsh",
+    "user": "demo"
+  },
+  "top_issues": [
+    {
+      "affected_commands": [
+        "cargo",
+        "rustc"
+      ],
+      "affected_files": [],
+      "batch_safe": false,
+      "category": "runtimes",
+      "confidence": "confirmed",
+      "created_at": "2026-09-04T09:42:29.044362Z",
+      "description": "rustup keeps its toolchains under ~/.rustup and its command shims under ~/.cargo/bin, but that directory is not part of the PATH of a fresh login shell. `cargo` and `rustc` are therefore not found.",
+      "detector_id": "rust.cargo_bin.not_in_path",
+      "evidence": [
+        "~/.rustup/toolchains exists",
+        "~/.cargo/bin is not in the login shell PATH"
+      ],
+      "fingerprint": "~/.cargo/bin",
+      "fixer_available": true,
+      "fixer_id": "shell.append_line",
+      "id": "686b7e02abc8",
+      "impact": "`command not found: cargo`, or a different Rust toolchain than the one rustup manages (rustup override/toolchain selection has no effect).",
+      "metadata": {
+        "append": {
+          "comment": "Rust toolchain (rustup)",
+          "expect_path_dir": "~/.cargo/bin",
+          "file": "~/.zshrc",
+          "line": ". \"$HOME/.cargo/env\""
+        },
+        "cargo_bin": "~/.cargo/bin",
+        "rustup_home": "~/.rustup",
+        "toolchains": [
+          "stable-aarch64-apple-darwin"
+        ]
+      },
+      "recommended_action": "Add `. \"$HOME/.cargo/env\"` to ~/.zshrc (this is the line the rustup installer adds), or `export PATH=\"~/.cargo/bin:$PATH\"`.",
+      "reversible": true,
+      "severity": "medium",
+      "technical_description": "",
+      "title": "Rust is installed but `cargo` and `rustc` are not in PATH"
+    },
+    {
+      "affected_commands": [],
+      "affected_files": [],
+      "batch_safe": false,
+      "category": "runtimes",
+      "confidence": "confirmed",
+      "created_at": "2026-09-04T09:42:28.980742Z",
+      "description": "Python is installed through Homebrew, macOS / Command Line Tools, uv. Each installation has its own packages; which one runs depends on PATH order.",
+      "detector_id": "python.interpreter.multiple",
+      "evidence": [
+        "Python 3.9.6 [active] — /usr/bin/python3 (macOS / Command Line Tools)",
+        "Python 3.12.14  — /opt/homebrew/Cellar/python@3.12/3.12.14/bin/python3.12 (Homebrew)",
+        "Python 3.14.0  — ~/.local/share/uv/python/cpython-3.14.0-macos-aarch64-none/bin/python3 (uv)"
+      ],
+      "fingerprint": "installations",
+      "fixer_available": false,
+      "id": "64d2b7096eff",
+      "impact": "Not a problem by itself, but it is the usual root cause of `pip` installing into the wrong place and of `python` behaving differently between terminals and editors.",
+      "metadata": {
+        "installations": [
+          {
+            "active": true,
+            "binary": "/usr/bin/python3",
+            "label": "macOS / Command Line Tools",
+            "source": "system",
+            "version": "3.9.6"
+          },
+          {
+            "active": false,
+            "binary": "/opt/homebrew/Cellar/python@3.12/3.12.14/bin/python3.12",
+            "label": "Homebrew",
+            "source": "homebrew",
+            "version": "3.12.14"
+          },
+          {
+            "active": false,
+            "binary": "~/.local/share/uv/python/cpython-3.14.0-macos-aarch64-none/bin/python3",
+            "label": "uv",
+            "source": "uv",
+            "version": "3.14.0"
+          }
+        ]
+      },
+      "recommended_action": "Keep the installations you actively use and uninstall the rest (for Homebrew: `brew uninstall python@3.x`; for pyenv: `pyenv uninstall <version>`). Use the Command Resolution page to see which one wins.",
+      "reversible": false,
+      "severity": "info",
+      "technical_description": "",
+      "title": "3 Python installations from 3 different sources"
+    },
+    {
+      "affected_commands": [],
+      "affected_files": [
+        {
+          "path": "/etc/paths.d/10-pmk-global"
+        }
+      ],
+      "batch_safe": false,
+      "category": "shell",
+      "confidence": "confirmed",
+      "created_at": "2026-09-04T09:42:28.760557Z",
+      "current_state": "PATH position 14: /pkg/env/global/bin",
+      "description": "/etc/paths.d/10-pmk-global adds /pkg/env/global/bin to every user's PATH, but the directory does not exist. It was left behind by an installer whose package has since been removed.",
+      "detector_id": "shell.path.missing_directory",
+      "evidence": [
+        "/pkg/env/global/bin does not exist",
+        "declared in /etc/paths.d/10-pmk-global"
+      ],
+      "fingerprint": "/pkg/env/global/bin",
+      "fixer_available": false,
+      "id": "3e9374f17a01",
+      "impact": "Harmless; every command lookup checks one dead directory.",
+      "metadata": {
+        "dir": "/pkg/env/global/bin",
+        "position": 14,
+        "removals": [],
+        "system_source": "/etc/paths.d/10-pmk-global"
+      },
+      "recommended_action": "Remove the file with administrator rights (`sudo rm /etc/paths.d/10-pmk-global`) if the tool is gone. DevDoctor never modifies system files.",
+      "reversible": false,
+      "severity": "info",
+      "technical_description": "",
+      "title": "System PATH entry does not exist: /pkg/env/global/bin"
+    }
+  ],
+  "warnings": []
+}

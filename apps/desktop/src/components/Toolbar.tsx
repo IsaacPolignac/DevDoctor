@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Icon } from "./Icons";
-import { Popover, usePrefs, type Appearance, type Glass } from "./Basics";
+import { Popover, Segmented, usePrefs, type Appearance, type Glass } from "./Basics";
 
-export function Toolbar({ title, status, scanning, onScan, inspector, onToggleInspector, sidebarHidden, onToggleSidebar, onSearch }: { title: string; status?: string | null; scanning: boolean; onScan: () => void; inspector: boolean | null; onToggleInspector: () => void; sidebarHidden: boolean; onToggleSidebar: () => void; onSearch: () => void }) {
+export interface ToolbarTabs { options: { id: string; label: string }[]; value: string; onChange: (id: string) => void }
+
+export function Toolbar({ title, status, scanning, onScan, inspector, onToggleInspector, sidebarHidden, onToggleSidebar, onSearch, tabs }: { title: string; status?: string | null; scanning: boolean; onScan: () => void; inspector: boolean | null; onToggleInspector: () => void; sidebarHidden: boolean; onToggleSidebar: () => void; onSearch: () => void; tabs?: ToolbarTabs | null }) {
   const { appearance, setAppearance, glass, setGlass } = usePrefs();
   const [menu, setMenu] = useState(false);
   const appearanceIcon = appearance === "light" ? "sun" : appearance === "dark" ? "moon" : "half-circle";
@@ -13,6 +15,8 @@ export function Toolbar({ title, status, scanning, onScan, inspector, onToggleIn
     <div className="toolbar" data-tauri-drag-region>
       {sidebarHidden && <button className="tb-btn" onClick={onToggleSidebar} title="Show sidebar"><Icon name="sidebar-left" /></button>}
       <span className="ttl" data-tauri-drag-region>{title}</span>
+      <div className="spacer" data-tauri-drag-region />
+      {tabs && tabs.options.length > 1 && <Segmented options={tabs.options} value={tabs.value} onChange={tabs.onChange} />}
       <div className="spacer" data-tauri-drag-region />
       {status && <span className="status">{status}</span>}
       <div className="tb-group">

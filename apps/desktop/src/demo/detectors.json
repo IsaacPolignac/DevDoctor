@@ -1,0 +1,270 @@
+[
+  {
+    "category": "shell",
+    "description": "Runs the shell's parser in check mode on every startup file.",
+    "id": "shell.zsh.syntax",
+    "modes": [
+      "quick"
+    ],
+    "name": "Shell configuration syntax"
+  },
+  {
+    "category": "shell",
+    "description": "Directories listed more than once in the PATH of a fresh login shell.",
+    "id": "shell.path.duplicate",
+    "modes": [
+      "quick"
+    ],
+    "name": "Duplicate PATH entries"
+  },
+  {
+    "category": "shell",
+    "description": "PATH entries that point to directories which do not exist.",
+    "id": "shell.path.missing_directory",
+    "modes": [
+      "quick"
+    ],
+    "name": "Missing PATH directories"
+  },
+  {
+    "category": "shell",
+    "description": "Empty, relative or world-writable PATH entries that can make commands resolve unexpectedly.",
+    "id": "shell.path.suspicious_entry",
+    "modes": [
+      "quick"
+    ],
+    "name": "Suspicious PATH entries"
+  },
+  {
+    "category": "shell",
+    "description": "`source` statements in startup files pointing to files that are gone.",
+    "id": "shell.source.missing_file",
+    "modes": [
+      "quick"
+    ],
+    "name": "Sourced files that do not exist"
+  },
+  {
+    "category": "shell",
+    "description": "Startup files that source each other in a loop.",
+    "id": "shell.source.recursive",
+    "modes": [
+      "quick"
+    ],
+    "name": "Recursive sourcing"
+  },
+  {
+    "category": "shell",
+    "description": "The same file sourced more than once at startup (typically an installer appended its line twice).",
+    "id": "shell.source.duplicate",
+    "modes": [
+      "quick"
+    ],
+    "name": "Duplicate source statements"
+  },
+  {
+    "category": "shell",
+    "description": "Shell aliases that replace common developer commands (python, pip, node, git...).",
+    "id": "shell.alias.shadow",
+    "modes": [
+      "quick"
+    ],
+    "name": "Aliases shadowing commands"
+  },
+  {
+    "category": "environment",
+    "description": "Tool variables (NVM_DIR, PYENV_ROOT, JAVA_HOME, ANDROID_HOME...) that point to directories which do not exist.",
+    "id": "env.var.missing_path",
+    "modes": [
+      "quick"
+    ],
+    "name": "Environment variables pointing nowhere"
+  },
+  {
+    "category": "runtimes",
+    "description": "Several Python installations, and `python` vs `python3` resolving to different interpreters.",
+    "id": "python.interpreter.multiple",
+    "modes": [
+      "quick"
+    ],
+    "name": "Python interpreters"
+  },
+  {
+    "category": "runtimes",
+    "description": "`pip` installs packages into a different Python than the interpreter you run.",
+    "id": "python.pip.mismatch",
+    "modes": [
+      "quick"
+    ],
+    "name": "pip / python mismatch"
+  },
+  {
+    "category": "runtimes",
+    "description": "Node.js installed through several tools (Homebrew, nvm, fnm, Volta, installer...).",
+    "id": "node.multiple_installations",
+    "modes": [
+      "quick"
+    ],
+    "name": "Node.js installations"
+  },
+  {
+    "category": "runtimes",
+    "description": "`npm` belongs to a different Node installation than `node`.",
+    "id": "node.npm.mismatch",
+    "modes": [
+      "quick"
+    ],
+    "name": "npm / node mismatch"
+  },
+  {
+    "category": "runtimes",
+    "description": "rustup is installed but its bin directory is not in PATH, so cargo and rustc are not reachable.",
+    "id": "rust.cargo_bin.not_in_path",
+    "modes": [
+      "quick"
+    ],
+    "name": "Cargo bin directory in PATH"
+  },
+  {
+    "category": "package_managers",
+    "description": "Installation prefix, PATH visibility, broken links and duplicated versioned formulae.",
+    "id": "homebrew.health",
+    "modes": [
+      "quick"
+    ],
+    "name": "Homebrew health"
+  },
+  {
+    "category": "package_managers",
+    "description": "Runs `brew doctor` (slow) and reports each warning.",
+    "id": "homebrew.doctor",
+    "modes": [],
+    "name": "brew doctor"
+  },
+  {
+    "category": "processes",
+    "description": "Dev servers and scripts whose terminal is gone or whose project directory no longer exists.",
+    "id": "process.dev.stale",
+    "modes": [
+      "quick"
+    ],
+    "name": "Stale development processes"
+  },
+  {
+    "category": "ports",
+    "description": "Common development ports (3000, 5173, 8000, ...) currently held by dev servers.",
+    "id": "port.dev.occupied",
+    "modes": [
+      "quick"
+    ],
+    "name": "Occupied development ports"
+  },
+  {
+    "category": "disk",
+    "description": "Size of the Homebrew download cache.",
+    "id": "disk.homebrew.cache",
+    "modes": [
+      "storage"
+    ],
+    "name": "Homebrew cache size"
+  },
+  {
+    "category": "disk",
+    "description": "Size of npm's content-addressed cache.",
+    "id": "disk.npm.cache",
+    "modes": [
+      "storage"
+    ],
+    "name": "npm cache size"
+  },
+  {
+    "category": "disk",
+    "description": "Size of pip's wheel/HTTP cache.",
+    "id": "disk.pip.cache",
+    "modes": [
+      "storage"
+    ],
+    "name": "pip cache size"
+  },
+  {
+    "category": "ai_tools",
+    "description": "Disk used by Ollama models, including models not used for a long time.",
+    "id": "disk.ollama.models",
+    "modes": [
+      "storage"
+    ],
+    "name": "Ollama models"
+  },
+  {
+    "category": "disk",
+    "description": "Size of uv's package and build cache.",
+    "id": "disk.uv.cache",
+    "modes": [
+      "storage"
+    ],
+    "name": "uv cache size"
+  },
+  {
+    "category": "disk",
+    "description": "Python virtualenvs whose interpreter no longer exists (Python was upgraded or removed).",
+    "id": "disk.venv.broken",
+    "modes": [
+      "storage"
+    ],
+    "name": "Broken virtual environments"
+  },
+  {
+    "category": "disk",
+    "description": "Large node_modules folders in projects untouched for six months or more.",
+    "id": "disk.node_modules.stale",
+    "modes": [
+      "storage"
+    ],
+    "name": "node_modules of inactive projects"
+  },
+  {
+    "category": "ssh",
+    "description": "Private keys or ~/.ssh readable by other users (ssh refuses such keys).",
+    "id": "ssh.permissions",
+    "modes": [
+      "quick"
+    ],
+    "name": "SSH file permissions"
+  },
+  {
+    "category": "ssh",
+    "description": "~/.ssh/config entries that reference missing identity files or duplicate hosts.",
+    "id": "ssh.config",
+    "modes": [
+      "quick"
+    ],
+    "name": "SSH configuration"
+  },
+  {
+    "category": "git",
+    "description": "Missing user.name / user.email and dangling paths in the global Git configuration.",
+    "id": "git.identity",
+    "modes": [
+      "quick"
+    ],
+    "name": "Git identity and global config"
+  },
+  {
+    "category": "services",
+    "description": "Services registered with `brew services` that start at login.",
+    "id": "service.brew.running",
+    "modes": [
+      "quick"
+    ],
+    "name": "Homebrew services"
+  },
+  {
+    "category": "services",
+    "description": "User launch agents whose program is missing or that keep failing.",
+    "id": "service.launchagent.broken",
+    "modes": [
+      "quick"
+    ],
+    "name": "Broken launch agents"
+  }
+]

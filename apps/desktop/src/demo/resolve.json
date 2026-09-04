@@ -1,0 +1,187 @@
+{
+  "brew": {
+    "active": {
+      "directory": "/opt/homebrew/bin",
+      "is_symlink": false,
+      "origin": "homebrew",
+      "origin_label": "Homebrew",
+      "path": "/opt/homebrew/bin/brew",
+      "path_position": 3,
+      "shebang": "/bin/bash -pu",
+      "version": "Homebrew 6.0.21"
+    },
+    "command": "brew",
+    "notes": [],
+    "others": [],
+    "precedence": [
+      {
+        "origin_label": "Homebrew",
+        "path": "/opt/homebrew/bin",
+        "position": 3
+      }
+    ],
+    "shell_function": false
+  },
+  "cargo": {
+    "command": "cargo",
+    "notes": [
+      "`cargo` was not found in PATH."
+    ],
+    "others": [],
+    "precedence": [],
+    "shell_function": false
+  },
+  "claude": {
+    "active": {
+      "directory": "~/.local/bin",
+      "is_symlink": true,
+      "origin": "user_local_bin",
+      "origin_label": "User local bin (~/.local/bin)",
+      "path": "~/.local/bin/claude",
+      "path_position": 2,
+      "real_path": "~/.local/share/claude/versions/2.1.260",
+      "version": "2.1.260 (Claude Code)"
+    },
+    "command": "claude",
+    "notes": [],
+    "others": [],
+    "precedence": [
+      {
+        "origin_label": "User local bin (~/.local/bin)",
+        "path": "~/.local/bin",
+        "position": 2
+      }
+    ],
+    "shell_function": false
+  },
+  "docker": {
+    "command": "docker",
+    "notes": [
+      "`docker` was not found in PATH."
+    ],
+    "others": [],
+    "precedence": [],
+    "shell_function": false
+  },
+  "git": {
+    "active": {
+      "directory": "/usr/bin",
+      "is_symlink": false,
+      "origin": "system",
+      "origin_label": "System",
+      "path": "/usr/bin/git",
+      "path_position": 7,
+      "version": "git version 2.50.1 (Apple Git-155)"
+    },
+    "command": "git",
+    "notes": [],
+    "others": [],
+    "precedence": [
+      {
+        "origin_label": "System",
+        "path": "/usr/bin",
+        "position": 7
+      }
+    ],
+    "shell_function": false
+  },
+  "node": {
+    "active": {
+      "directory": "/usr/local/bin",
+      "is_symlink": false,
+      "origin": "installer",
+      "origin_label": "Installer package (/usr/local/bin)",
+      "path": "/usr/local/bin/node",
+      "path_position": 5,
+      "version": "v24.18.0"
+    },
+    "command": "node",
+    "notes": [],
+    "others": [],
+    "precedence": [
+      {
+        "origin_label": "Installer package (/usr/local/bin)",
+        "path": "/usr/local/bin",
+        "position": 5
+      }
+    ],
+    "shell_function": false
+  },
+  "npm": {
+    "active": {
+      "directory": "/usr/local/bin",
+      "is_symlink": true,
+      "origin": "npm",
+      "origin_label": "npm",
+      "path": "/usr/local/bin/npm",
+      "path_position": 5,
+      "real_path": "/usr/local/lib/node_modules/npm/bin/npm-cli.js",
+      "shebang": "/usr/bin/env node",
+      "version": "11.16.0"
+    },
+    "command": "npm",
+    "notes": [],
+    "others": [],
+    "precedence": [
+      {
+        "origin_label": "npm",
+        "path": "/usr/local/bin",
+        "position": 5
+      }
+    ],
+    "shell_function": false
+  },
+  "pip3": {
+    "active": {
+      "directory": "/usr/bin",
+      "is_symlink": false,
+      "origin": "system",
+      "origin_label": "System",
+      "path": "/usr/bin/pip3",
+      "path_position": 7,
+      "version": "pip 21.2.4 from /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3"
+    },
+    "command": "pip3",
+    "notes": [],
+    "others": [],
+    "precedence": [
+      {
+        "origin_label": "System",
+        "path": "/usr/bin",
+        "position": 7
+      }
+    ],
+    "shell_function": false
+  },
+  "python": {
+    "command": "python",
+    "notes": [
+      "`python` was not found in PATH."
+    ],
+    "others": [],
+    "precedence": [],
+    "shell_function": false
+  },
+  "python3": {
+    "active": {
+      "directory": "/usr/bin",
+      "is_symlink": false,
+      "origin": "system",
+      "origin_label": "System",
+      "path": "/usr/bin/python3",
+      "path_position": 7,
+      "version": "Python 3.9.6"
+    },
+    "command": "python3",
+    "notes": [],
+    "others": [],
+    "precedence": [
+      {
+        "origin_label": "System",
+        "path": "/usr/bin",
+        "position": 7
+      }
+    ],
+    "shell_function": false
+  }
+}

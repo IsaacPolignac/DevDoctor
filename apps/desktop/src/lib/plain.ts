@@ -55,6 +55,18 @@ export function areaOf(detectorId: string, category: Category): string {
   return CATEGORY_PLAIN[category];
 }
 
+/** Colored tile per area, System Settings style. */
+export const AREA_STYLE: Record<string, { color: import("../components/Tile").TileColor; icon: import("../components/Icons").IconName }> = {
+  PATH: { color: "graphite", icon: "path" }, Shell: { color: "graphite", icon: "terminal" }, Aliases: { color: "graphite", icon: "terminal" },
+  Python: { color: "blue", icon: "chip" }, "Node.js": { color: "green", icon: "shippingbox" }, Rust: { color: "orange", icon: "gear" },
+  Homebrew: { color: "orange", icon: "box" }, Processes: { color: "green", icon: "waveform" }, Ports: { color: "teal", icon: "cable" },
+  Storage: { color: "indigo", icon: "internaldrive" }, Ollama: { color: "pink", icon: "cpu" }, Startup: { color: "gray", icon: "gear" },
+  SSH: { color: "yellow", icon: "key" }, Git: { color: "red", icon: "git" }, Environment: { color: "purple", icon: "sliders" },
+};
+export function areaStyle(area: string): { color: import("../components/Tile").TileColor; icon: import("../components/Icons").IconName } {
+  return AREA_STYLE[area] ?? { color: "gray", icon: "info" };
+}
+
 /** What a passed check means, in one sentence, keyed by detector id. */
 export const HEALTHY: Record<string, string> = {
   "shell.zsh.syntax": "Startup files parse correctly",

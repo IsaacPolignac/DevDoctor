@@ -1,0 +1,26 @@
+{
+  "agent_identities": 0,
+  "agent_status": "no_identities",
+  "config_exists": true,
+  "config_mode": 384,
+  "config_path": "~/.ssh/config",
+  "duplicate_hosts": [],
+  "findings": [],
+  "hosts": [
+    {
+      "identity_files": [
+        "~/.ssh/purepeptide_github"
+      ],
+      "line": 3,
+      "missing_identity_files": [],
+      "patterns": [
+        "github.com"
+      ]
+    }
+  ],
+  "keys": [],
+  "known_hosts_entries": 4,
+  "ssh_dir": "~/.ssh",
+  "ssh_dir_exists": true,
+  "ssh_dir_mode": 448
+}

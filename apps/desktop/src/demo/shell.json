@@ -1,0 +1,144 @@
+{
+  "aliases": [
+    {
+      "file": "~/.zshrc",
+      "line": 4,
+      "name": "pp",
+      "value_raw": "'cd ~/Downloads/purepeptide-site && claude --model claude-fable-5-1 --effort ultracode'"
+    }
+  ],
+  "capture_duration_ms": 24,
+  "capture_warnings": [],
+  "evals": [
+    {
+      "command": "/opt/homebrew/bin/brew shellenv",
+      "conditional": false,
+      "file": "~/.zprofile",
+      "line": 5
+    }
+  ],
+  "files": [
+    {
+      "exists": false,
+      "path": "~/.zshenv",
+      "role": "env",
+      "size": 0,
+      "statement_count": 0,
+      "warnings": []
+    },
+    {
+      "exists": true,
+      "mtime": 1787334426,
+      "path": "~/.zprofile",
+      "role": "profile",
+      "sha256": "76931f137a3c5adc18b7aabeb9094ecc50bd7f820a6f9562c59c4a0bd944d5f6",
+      "size": 84,
+      "statement_count": 4,
+      "warnings": []
+    },
+    {
+      "exists": true,
+      "mtime": 1788322714,
+      "path": "~/.zshrc",
+      "role": "rc",
+      "sha256": "6afc95d0346f697332cb2abab71eda10b5ac6949a073b7471f92a0a1df4106d7",
+      "size": 312,
+      "statement_count": 5,
+      "warnings": []
+    },
+    {
+      "exists": false,
+      "path": "~/.zlogin",
+      "role": "login",
+      "size": 0,
+      "statement_count": 0,
+      "warnings": []
+    }
+  ],
+  "mutations": [
+    {
+      "components": [
+        {
+          "exists": true,
+          "expanded": "~/.local/bin",
+          "is_path_ref": false,
+          "raw": "$HOME/.local/bin",
+          "text": "$HOME/.local/bin"
+        },
+        {
+          "is_path_ref": true,
+          "raw": "$PATH",
+          "text": "$PATH"
+        }
+      ],
+      "conditional": false,
+      "end_line": 1,
+      "exclusive_line": true,
+      "file": "~/.zshrc",
+      "form": {
+        "exported": true,
+        "form": "scalar",
+        "wrap": "double"
+      },
+      "in_function": false,
+      "line": 1,
+      "logical_line_raw": "export PATH=\"$HOME/.local/bin:$PATH\"",
+      "op": "prepend",
+      "raw": "export PATH=\"$HOME/.local/bin:$PATH\"",
+      "rewritable": true
+    },
+    {
+      "components": [
+        {
+          "exists": true,
+          "expanded": "~/.npm-global/bin",
+          "is_path_ref": false,
+          "raw": "$HOME/.npm-global/bin",
+          "text": "$HOME/.npm-global/bin"
+        },
+        {
+          "is_path_ref": true,
+          "raw": "$PATH",
+          "text": "$PATH"
+        }
+      ],
+      "conditional": false,
+      "end_line": 2,
+      "exclusive_line": true,
+      "file": "~/.zshrc",
+      "form": {
+        "exported": true,
+        "form": "scalar",
+        "wrap": "double"
+      },
+      "in_function": false,
+      "line": 2,
+      "logical_line_raw": "export PATH=\"$HOME/.npm-global/bin:$PATH\"",
+      "op": "prepend",
+      "raw": "export PATH=\"$HOME/.npm-global/bin:$PATH\"",
+      "rewritable": true
+    }
+  ],
+  "path_source": {
+    "kind": "login_shell",
+    "shell": "zsh"
+  },
+  "shell": "zsh",
+  "shell_aliases": 3,
+  "shell_functions": 1,
+  "shell_path": "/bin/zsh",
+  "sources": [
+    {
+      "conditional": false,
+      "exclusive_line": true,
+      "exists": true,
+      "expanded": "~/.profile",
+      "file": "~/.zprofile",
+      "guarded": false,
+      "in_function": false,
+      "line": 2,
+      "raw": "source ~/.profile",
+      "target_raw": "~/.profile"
+    }
+  ]
+}

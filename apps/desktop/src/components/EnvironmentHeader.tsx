@@ -1,6 +1,7 @@
 import type { Overview } from "../lib/types";
 import { formatBytes } from "../lib/format";
 import { Icon, type IconName } from "./Icons";
+import { Logo } from "./Logo";
 
 function Metric({ value, label, icon, tint }: { value: string; label: string; icon: IconName; tint?: string }) {
   return (
@@ -24,7 +25,7 @@ export function EnvironmentHeader({ overview, reclaimable }: { overview: Overvie
   return (
     <div className="card" style={{ padding: 20 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <div className="app-tile"><Icon name="stethoscope" /></div>
+        <Logo size={54} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div className="title2">Developer Environment</div>
           <div className="subheadline secondary">{sys.os.name} {sys.os.version} · {sys.os.arch === "arm64" ? "Apple silicon" : "Intel"} · {sys.shell} · {sys.user}</div>

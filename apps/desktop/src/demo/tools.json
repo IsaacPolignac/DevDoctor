@@ -1,0 +1,117 @@
+[
+  {
+    "binary": "~/.local/bin/claude",
+    "config_paths": [
+      "~/.claude.json",
+      "~/.claude/settings.json"
+    ],
+    "data_paths": [
+      "~/.claude"
+    ],
+    "id": "claude-code",
+    "install_method": "User configuration",
+    "installed": true,
+    "name": "Claude Code",
+    "notes": [],
+    "version": "2.1.260 (Claude Code)"
+  },
+  {
+    "binary": "~/.npm-global/bin/codex",
+    "config_paths": [
+      "~/.codex/config.toml"
+    ],
+    "data_paths": [
+      "~/.codex"
+    ],
+    "id": "codex",
+    "install_method": "npm global package",
+    "installed": true,
+    "name": "OpenAI Codex CLI",
+    "notes": [],
+    "version": "codex-cli 0.149.0"
+  },
+  {
+    "config_paths": [],
+    "data_paths": [
+      "~/.gemini"
+    ],
+    "id": "gemini-cli",
+    "installed": false,
+    "name": "Gemini CLI",
+    "notes": []
+  },
+  {
+    "config_paths": [],
+    "data_paths": [
+      "~/.local/share/opencode"
+    ],
+    "id": "opencode",
+    "installed": false,
+    "name": "OpenCode",
+    "notes": []
+  },
+  {
+    "config_paths": [],
+    "data_paths": [],
+    "id": "aider",
+    "installed": false,
+    "name": "Aider",
+    "notes": []
+  },
+  {
+    "config_paths": [],
+    "data_paths": [],
+    "id": "ollama",
+    "installed": false,
+    "name": "Ollama",
+    "notes": []
+  },
+  {
+    "config_paths": [],
+    "data_paths": [],
+    "id": "docker",
+    "installed": false,
+    "name": "Docker",
+    "notes": []
+  },
+  {
+    "config_paths": [],
+    "data_paths": [],
+    "id": "vscode",
+    "installed": false,
+    "name": "Visual Studio Code",
+    "notes": []
+  },
+  {
+    "config_paths": [],
+    "data_paths": [],
+    "id": "cursor",
+    "installed": false,
+    "name": "Cursor",
+    "notes": []
+  },
+  {
+    "binary": "/usr/bin/git",
+    "config_paths": [
+      "~/.gitconfig"
+    ],
+    "data_paths": [],
+    "id": "git",
+    "install_method": "system",
+    "installed": true,
+    "name": "Git",
+    "notes": [],
+    "version": "git version 2.50.1 (Apple Git-155)"
+  },
+  {
+    "binary": "/opt/homebrew/bin/gh",
+    "config_paths": [],
+    "data_paths": [],
+    "id": "gh",
+    "install_method": "Homebrew",
+    "installed": true,
+    "name": "GitHub CLI",
+    "notes": [],
+    "version": "gh version 2.100.0 (2026-09-03)"
+  }
+]

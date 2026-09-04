@@ -35,8 +35,7 @@
   "bundle": {
     "active": true,
     "targets": [
-      "app",
-      "dmg"
+      "app"
     ],
     "icon": [
       "icons/icon.png",

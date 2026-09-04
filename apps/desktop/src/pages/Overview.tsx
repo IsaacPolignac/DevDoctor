@@ -7,11 +7,12 @@ import { Button, ErrorBox, Loading, PageHeader, Segmented } from "../components/
 import { EnvironmentHeader } from "../components/EnvironmentHeader";
 import { FindingInspector, FindingsTable, RepairSheet, detectorName, filterByLevel, useFindings, useRepairActions, type ResultFilter } from "../components/FindingsView";
 import { Icon } from "../components/Icons";
+import { Logo } from "../components/Logo";
 
 export function Onboarding({ onStart, onSkip }: { onStart: () => void; onSkip: () => void }) {
   return (
     <div className="card onboarding" style={{ marginBottom: 20 }}>
-      <div className="title2">Welcome to DevDoctor</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 14 }}><Logo size={44} /><div className="title2">Welcome to DevDoctor</div></div>
       <p className="subheadline secondary" style={{ maxWidth: 640 }}>DevDoctor looks at how your Mac is set up for development and explains, in plain words, what is broken, why it matters and how to fix it. It never changes anything without showing you first.</p>
       <div className="promises">
         <div className="promise"><Icon name="eye" className="icon" /><div className="p-title">Understand first</div><div className="p-body">Every finding comes with what was seen and why it matters.</div></div>

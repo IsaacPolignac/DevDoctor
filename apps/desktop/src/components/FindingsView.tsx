@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { api, errorMessage } from "../lib/api";
 import { useNav } from "../lib/nav";
 import type { DetectorMeta, FixPreview, Issue, Transaction } from "../lib/types";
-import { LEVELS, plainFixLabel, type Finding, type Level } from "../lib/plain";
+import { LEVELS, areaStyle, plainFixLabel, type Finding, type Level } from "../lib/plain";
+import { Tile } from "./Tile";
 import { shortenHome } from "../lib/format";
 import { Button, DataTable, Disclosure, Empty, ErrorBox, GroupBox, Loading, Sheet, usePrefs, useToast } from "./Basics";
 import { DiffView } from "./DiffView";
@@ -16,7 +17,7 @@ export function FindingsTable({ findings, selected, onSelect, empty }: { finding
     <DataTable<Finding>
       columns={[
         { key: "level", label: "", width: "28px", className: "icon-cell", render: (f) => <Icon name={LEVELS[f.level].icon} className="sev" title={LEVELS[f.level].title} style={{ color: LEVELS[f.level].color }} /> },
-        { key: "area", label: "Area", width: "120px", render: (f) => <span style={{ fontWeight: 500 }}>{f.area}</span> },
+        { key: "area", label: "Area", width: "150px", render: (f) => <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontWeight: 500 }}><Tile color={areaStyle(f.area).color} icon={areaStyle(f.area).icon} size={20} />{f.area}</span> },
         { key: "title", label: "Finding", render: (f) => f.title },
         { key: "source", label: "Source", width: "200px", render: (f) => <span className="secondary">{f.source}</span> },
       ]}
@@ -74,7 +75,7 @@ export function RepairSheet({ issue, onClose, onApplied }: { issue: Issue; onClo
               {preview.validations.map((v, i) => <div key={i} className="check-line"><Icon name="check-circle-fill" style={{ color: "var(--label-3)" }} /><span>{v}</span></div>)}
             </GroupBox>
           )}
-          <div className="inspector note" style={{ padding: 0, border: 0, background: "none" }}>
+          <div className="sheet-note">
             <Icon name={preview.reversible ? "uturn-circle" : "triangle"} />
             <span>{preview.reversible ? "A rollback point will be created automatically. You can undo this repair from Fixes & scans." : "This repair cannot be undone automatically: nothing is backed up because files are deleted or a program is stopped."}</span>
           </div>

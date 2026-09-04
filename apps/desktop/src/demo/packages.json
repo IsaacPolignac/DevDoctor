@@ -1,0 +1,172 @@
+{
+  "homebrew": {
+    "brew_binary": "/opt/homebrew/bin/brew",
+    "broken_links": [],
+    "cache_dir": "~/Library/Caches/Homebrew",
+    "casks": [],
+    "expected_prefix": "/opt/homebrew",
+    "formulae": [
+      {
+        "linked": true,
+        "name": "ca-certificates",
+        "versions": [
+          "2026-08-13"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "gh",
+        "versions": [
+          "2.100.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "mpdecimal",
+        "versions": [
+          "4.0.1"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "openssl@3",
+        "versions": [
+          "3.6.3"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "python@3.12",
+        "versions": [
+          "3.12.14"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "readline",
+        "versions": [
+          "8.3.3"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "sqlite",
+        "versions": [
+          "3.53.4"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "stripe",
+        "versions": [
+          "1.50.8"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "uv",
+        "versions": [
+          "0.12.5"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "xz",
+        "versions": [
+          "5.8.3"
+        ]
+      }
+    ],
+    "in_path": true,
+    "installed": true,
+    "prefix": "/opt/homebrew",
+    "version": "Homebrew 6.0.21",
+    "versioned_duplicates": []
+  },
+  "managers": [
+    {
+      "binary": "/opt/homebrew/bin/brew",
+      "cache_path": "~/Library/Caches/Homebrew",
+      "id": "homebrew",
+      "installed": true,
+      "location": "/opt/homebrew",
+      "name": "Homebrew",
+      "notes": [
+        "10 formulae, 0 casks"
+      ],
+      "package_count": 10,
+      "version": "Homebrew 6.0.21"
+    },
+    {
+      "binary": "/usr/local/bin/npm",
+      "cache_path": "~/.npm/_cacache",
+      "id": "npm",
+      "installed": true,
+      "location": "~/.npm-global/lib/node_modules",
+      "name": "npm",
+      "notes": [],
+      "package_count": 1,
+      "version": "11.16.0"
+    },
+    {
+      "id": "pnpm",
+      "installed": false,
+      "name": "pnpm",
+      "notes": []
+    },
+    {
+      "id": "yarn",
+      "installed": false,
+      "name": "Yarn",
+      "notes": []
+    },
+    {
+      "binary": "/usr/bin/pip3",
+      "cache_path": "~/Library/Caches/pip",
+      "id": "pip",
+      "installed": true,
+      "name": "pip",
+      "notes": [],
+      "version": "pip 21.2.4 from /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3"
+    },
+    {
+      "id": "pipx",
+      "installed": false,
+      "name": "pipx",
+      "notes": []
+    },
+    {
+      "binary": "~/.local/bin/uv",
+      "cache_path": "~/.cache/uv",
+      "id": "uv",
+      "installed": true,
+      "location": "~/.local/share/uv/tools",
+      "name": "uv",
+      "notes": [
+        "Package count is the number of `uv tool` installs."
+      ],
+      "package_count": 1,
+      "version": "uv 0.12.5 (210d1f678 2026-08-14 aarch64-apple-darwin)"
+    },
+    {
+      "cache_path": "~/.cargo/registry",
+      "id": "cargo",
+      "installed": false,
+      "location": "~/.cargo",
+      "name": "Cargo",
+      "notes": [
+        "Package count is the number of `cargo install`ed binaries."
+      ]
+    },
+    {
+      "binary": "/usr/bin/gem",
+      "id": "gem",
+      "installed": true,
+      "name": "RubyGems",
+      "notes": [
+        "Package count covers user-installed gems under ~/.gem only."
+      ],
+      "version": "3.0.3.1"
+    }
+  ]
+}

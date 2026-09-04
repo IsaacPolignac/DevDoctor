@@ -1,0 +1,473 @@
+{
+  "detector_runs": [
+    {
+      "category": "shell",
+      "duration_ms": 13,
+      "id": "shell.zsh.syntax",
+      "issues": 0,
+      "name": "Shell configuration syntax",
+      "status": "ok"
+    },
+    {
+      "category": "shell",
+      "duration_ms": 0,
+      "id": "shell.path.duplicate",
+      "issues": 0,
+      "name": "Duplicate PATH entries",
+      "status": "ok"
+    },
+    {
+      "category": "shell",
+      "duration_ms": 0,
+      "id": "shell.path.missing_directory",
+      "issues": 1,
+      "name": "Missing PATH directories",
+      "status": "ok"
+    },
+    {
+      "category": "shell",
+      "duration_ms": 0,
+      "id": "shell.path.suspicious_entry",
+      "issues": 0,
+      "name": "Suspicious PATH entries",
+      "status": "ok"
+    },
+    {
+      "category": "shell",
+      "duration_ms": 0,
+      "id": "shell.source.missing_file",
+      "issues": 0,
+      "name": "Sourced files that do not exist",
+      "status": "ok"
+    },
+    {
+      "category": "shell",
+      "duration_ms": 0,
+      "id": "shell.source.recursive",
+      "issues": 0,
+      "name": "Recursive sourcing",
+      "status": "ok"
+    },
+    {
+      "category": "shell",
+      "duration_ms": 0,
+      "id": "shell.source.duplicate",
+      "issues": 0,
+      "name": "Duplicate source statements",
+      "status": "ok"
+    },
+    {
+      "category": "shell",
+      "duration_ms": 0,
+      "id": "shell.alias.shadow",
+      "issues": 0,
+      "name": "Aliases shadowing commands",
+      "status": "ok"
+    },
+    {
+      "category": "environment",
+      "duration_ms": 0,
+      "id": "env.var.missing_path",
+      "issues": 0,
+      "name": "Environment variables pointing nowhere",
+      "status": "ok"
+    },
+    {
+      "category": "runtimes",
+      "duration_ms": 220,
+      "id": "python.interpreter.multiple",
+      "issues": 1,
+      "name": "Python interpreters",
+      "status": "ok"
+    },
+    {
+      "category": "runtimes",
+      "duration_ms": 0,
+      "id": "python.pip.mismatch",
+      "issues": 0,
+      "name": "pip / python mismatch",
+      "status": "ok"
+    },
+    {
+      "category": "runtimes",
+      "duration_ms": 62,
+      "id": "node.multiple_installations",
+      "issues": 0,
+      "name": "Node.js installations",
+      "status": "ok"
+    },
+    {
+      "category": "runtimes",
+      "duration_ms": 0,
+      "id": "node.npm.mismatch",
+      "issues": 0,
+      "name": "npm / node mismatch",
+      "status": "ok"
+    },
+    {
+      "category": "runtimes",
+      "duration_ms": 0,
+      "id": "rust.cargo_bin.not_in_path",
+      "issues": 1,
+      "name": "Cargo bin directory in PATH",
+      "status": "ok"
+    },
+    {
+      "category": "package_managers",
+      "duration_ms": 1,
+      "id": "homebrew.health",
+      "issues": 0,
+      "name": "Homebrew health",
+      "status": "ok"
+    },
+    {
+      "category": "processes",
+      "duration_ms": 65,
+      "id": "process.dev.stale",
+      "issues": 0,
+      "name": "Stale development processes",
+      "status": "ok"
+    },
+    {
+      "category": "ports",
+      "duration_ms": 57,
+      "id": "port.dev.occupied",
+      "issues": 0,
+      "name": "Occupied development ports",
+      "status": "ok"
+    },
+    {
+      "category": "ssh",
+      "duration_ms": 11,
+      "id": "ssh.permissions",
+      "issues": 0,
+      "name": "SSH file permissions",
+      "status": "ok"
+    },
+    {
+      "category": "ssh",
+      "duration_ms": 6,
+      "id": "ssh.config",
+      "issues": 0,
+      "name": "SSH configuration",
+      "status": "ok"
+    },
+    {
+      "category": "git",
+      "duration_ms": 99,
+      "id": "git.identity",
+      "issues": 0,
+      "name": "Git identity and global config",
+      "status": "ok"
+    },
+    {
+      "category": "services",
+      "duration_ms": 7,
+      "id": "service.brew.running",
+      "issues": 0,
+      "name": "Homebrew services",
+      "status": "ok"
+    },
+    {
+      "category": "services",
+      "duration_ms": 7,
+      "id": "service.launchagent.broken",
+      "issues": 0,
+      "name": "Broken launch agents",
+      "status": "ok"
+    }
+  ],
+  "detectors_failed": 0,
+  "detectors_run": 22,
+  "duration_ms": 555,
+  "finished_at": "2026-09-04T09:42:29.301854Z",
+  "health": {
+    "categories": [
+      {
+        "capped": false,
+        "category": "shell",
+        "checks_run": 8,
+        "issues": 1,
+        "label": "Shell",
+        "max_severity": "info",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "runtimes",
+        "checks_run": 5,
+        "issues": 2,
+        "label": "Runtimes",
+        "max_severity": "medium",
+        "penalty": 6.0,
+        "problems": 1,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "package_managers",
+        "checks_run": 1,
+        "issues": 0,
+        "label": "Package Managers",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "processes",
+        "checks_run": 1,
+        "issues": 0,
+        "label": "Processes",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "ports",
+        "checks_run": 1,
+        "issues": 0,
+        "label": "Ports",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "ai_tools",
+        "checks_run": 0,
+        "issues": 0,
+        "label": "AI Tools",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "disk",
+        "checks_run": 0,
+        "issues": 0,
+        "label": "Disk",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "git",
+        "checks_run": 1,
+        "issues": 0,
+        "label": "Git",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "ssh",
+        "checks_run": 2,
+        "issues": 0,
+        "label": "SSH",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "containers",
+        "checks_run": 0,
+        "issues": 0,
+        "label": "Containers",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "environment",
+        "checks_run": 1,
+        "issues": 0,
+        "label": "Environment",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      },
+      {
+        "capped": false,
+        "category": "services",
+        "checks_run": 2,
+        "issues": 0,
+        "label": "Services",
+        "penalty": 0.0,
+        "problems": 0,
+        "warnings": 0
+      }
+    ],
+    "checks_passed": 21,
+    "checks_total": 22,
+    "contributions": [
+      {
+        "category": "runtimes",
+        "confidence": "confirmed",
+        "issue_id": "686b7e02abc8",
+        "penalty": 6.0,
+        "severity": "medium",
+        "title": "Rust is installed but `cargo` and `rustc` are not in PATH"
+      },
+      {
+        "category": "shell",
+        "confidence": "confirmed",
+        "issue_id": "3e9374f17a01",
+        "penalty": 0.0,
+        "severity": "info",
+        "title": "System PATH entry does not exist: /pkg/env/global/bin"
+      },
+      {
+        "category": "runtimes",
+        "confidence": "confirmed",
+        "issue_id": "64d2b7096eff",
+        "penalty": 0.0,
+        "severity": "info",
+        "title": "3 Python installations from 3 different sources"
+      }
+    ],
+    "explanation": "Start at 100. Each issue subtracts its severity weight (critical 25, high 12, medium 6, low 2, info 0) multiplied by a confidence factor (confirmed 1.0, likely 0.6, possible 0.3); deductions are capped at 40 per category. Total deduction: 6.0.",
+    "notes": 2,
+    "problems": 1,
+    "score": 94,
+    "warnings": 0
+  },
+  "id": "scan_24c5cce7e2b9",
+  "ignored": [],
+  "issues": [
+    {
+      "affected_commands": [
+        "cargo",
+        "rustc"
+      ],
+      "affected_files": [],
+      "batch_safe": false,
+      "category": "runtimes",
+      "confidence": "confirmed",
+      "created_at": "2026-09-04T09:42:29.044362Z",
+      "description": "rustup keeps its toolchains under ~/.rustup and its command shims under ~/.cargo/bin, but that directory is not part of the PATH of a fresh login shell. `cargo` and `rustc` are therefore not found.",
+      "detector_id": "rust.cargo_bin.not_in_path",
+      "evidence": [
+        "~/.rustup/toolchains exists",
+        "~/.cargo/bin is not in the login shell PATH"
+      ],
+      "fingerprint": "~/.cargo/bin",
+      "fixer_available": true,
+      "fixer_id": "shell.append_line",
+      "id": "686b7e02abc8",
+      "impact": "`command not found: cargo`, or a different Rust toolchain than the one rustup manages (rustup override/toolchain selection has no effect).",
+      "metadata": {
+        "append": {
+          "comment": "Rust toolchain (rustup)",
+          "expect_path_dir": "~/.cargo/bin",
+          "file": "~/.zshrc",
+          "line": ". \"$HOME/.cargo/env\""
+        },
+        "cargo_bin": "~/.cargo/bin",
+        "rustup_home": "~/.rustup",
+        "toolchains": [
+          "stable-aarch64-apple-darwin"
+        ]
+      },
+      "recommended_action": "Add `. \"$HOME/.cargo/env\"` to ~/.zshrc (this is the line the rustup installer adds), or `export PATH=\"~/.cargo/bin:$PATH\"`.",
+      "reversible": true,
+      "severity": "medium",
+      "technical_description": "",
+      "title": "Rust is installed but `cargo` and `rustc` are not in PATH"
+    },
+    {
+      "affected_commands": [],
+      "affected_files": [
+        {
+          "path": "/etc/paths.d/10-pmk-global"
+        }
+      ],
+      "batch_safe": false,
+      "category": "shell",
+      "confidence": "confirmed",
+      "created_at": "2026-09-04T09:42:28.760557Z",
+      "current_state": "PATH position 14: /pkg/env/global/bin",
+      "description": "/etc/paths.d/10-pmk-global adds /pkg/env/global/bin to every user's PATH, but the directory does not exist. It was left behind by an installer whose package has since been removed.",
+      "detector_id": "shell.path.missing_directory",
+      "evidence": [
+        "/pkg/env/global/bin does not exist",
+        "declared in /etc/paths.d/10-pmk-global"
+      ],
+      "fingerprint": "/pkg/env/global/bin",
+      "fixer_available": false,
+      "id": "3e9374f17a01",
+      "impact": "Harmless; every command lookup checks one dead directory.",
+      "metadata": {
+        "dir": "/pkg/env/global/bin",
+        "position": 14,
+        "removals": [],
+        "system_source": "/etc/paths.d/10-pmk-global"
+      },
+      "recommended_action": "Remove the file with administrator rights (`sudo rm /etc/paths.d/10-pmk-global`) if the tool is gone. DevDoctor never modifies system files.",
+      "reversible": false,
+      "severity": "info",
+      "technical_description": "",
+      "title": "System PATH entry does not exist: /pkg/env/global/bin"
+    },
+    {
+      "affected_commands": [],
+      "affected_files": [],
+      "batch_safe": false,
+      "category": "runtimes",
+      "confidence": "confirmed",
+      "created_at": "2026-09-04T09:42:28.980742Z",
+      "description": "Python is installed through Homebrew, macOS / Command Line Tools, uv. Each installation has its own packages; which one runs depends on PATH order.",
+      "detector_id": "python.interpreter.multiple",
+      "evidence": [
+        "Python 3.9.6 [active] — /usr/bin/python3 (macOS / Command Line Tools)",
+        "Python 3.12.14  — /opt/homebrew/Cellar/python@3.12/3.12.14/bin/python3.12 (Homebrew)",
+        "Python 3.14.0  — ~/.local/share/uv/python/cpython-3.14.0-macos-aarch64-none/bin/python3 (uv)"
+      ],
+      "fingerprint": "installations",
+      "fixer_available": false,
+      "id": "64d2b7096eff",
+      "impact": "Not a problem by itself, but it is the usual root cause of `pip` installing into the wrong place and of `python` behaving differently between terminals and editors.",
+      "metadata": {
+        "installations": [
+          {
+            "active": true,
+            "binary": "/usr/bin/python3",
+            "label": "macOS / Command Line Tools",
+            "source": "system",
+            "version": "3.9.6"
+          },
+          {
+            "active": false,
+            "binary": "/opt/homebrew/Cellar/python@3.12/3.12.14/bin/python3.12",
+            "label": "Homebrew",
+            "source": "homebrew",
+            "version": "3.12.14"
+          },
+          {
+            "active": false,
+            "binary": "~/.local/share/uv/python/cpython-3.14.0-macos-aarch64-none/bin/python3",
+            "label": "uv",
+            "source": "uv",
+            "version": "3.14.0"
+          }
+        ]
+      },
+      "recommended_action": "Keep the installations you actively use and uninstall the rest (for Homebrew: `brew uninstall python@3.x`; for pyenv: `pyenv uninstall <version>`). Use the Command Resolution page to see which one wins.",
+      "reversible": false,
+      "severity": "info",
+      "technical_description": "",
+      "title": "3 Python installations from 3 different sources"
+    }
+  ],
+  "mode": "quick",
+  "started_at": "2026-09-04T09:42:28.746655Z",
+  "warnings": []
+}

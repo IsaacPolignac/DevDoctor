@@ -26,6 +26,12 @@ Use `DEVDOCTOR_HOME=/tmp/devdoctor-dev` while developing so your real database s
 `cargo check -p devdoctor-desktop` needs `apps/desktop/dist` to exist (Tauri embeds it): run
 `npm run build` in `apps/desktop` once before checking or building the desktop crate.
 
+To work on the interface without the Rust backend, run `npm run dev` in `apps/desktop` and open
+http://localhost:1420: outside Tauri the app serves the sanitized fixtures in
+`apps/desktop/src/demo` (regenerate them with `devdoctor demo-export`). The app icon is drawn by
+`scripts/make-icon.swift`; run `swift scripts/make-icon.swift apps/desktop/src-tauri/icons/icon.png`
+then `npx tauri icon` in `apps/desktop` to refresh the icon set.
+
 ## Adding a detector
 
 1. Put facts in an inventory (`crates/devdoctor-core/src/inventory`) when they are reusable;
