@@ -7,8 +7,14 @@ import { api } from "../lib/api";
 import { Icon, type IconName } from "./Icons";
 
 /* ---------- preferences ---------- */
-export interface Prefs { technical: boolean; setTechnical: (v: boolean) => void }
-export const PrefsContext = createContext<Prefs>({ technical: false, setTechnical: () => {} });
+export type Appearance = "system" | "light" | "dark";
+export type Glass = "clear" | "tinted";
+export interface Prefs {
+  technical: boolean; setTechnical: (v: boolean) => void;
+  appearance: Appearance; setAppearance: (v: Appearance) => void;
+  glass: Glass; setGlass: (v: Glass) => void;
+}
+export const PrefsContext = createContext<Prefs>({ technical: false, setTechnical: () => {}, appearance: "system", setAppearance: () => {}, glass: "clear", setGlass: () => {} });
 export const usePrefs = () => useContext(PrefsContext);
 
 /* ---------- toasts ---------- */
@@ -30,15 +36,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       <div className="toasts">
         {toasts.map((t) => (
-          <div key={t.id} className="toast glass-strong">
-            {t.tone === "green" && <Icon name="check" size={16} className="" />}
-            {t.tone === "red" && <Icon name="alert" size={16} />}
+          <div key={t.id} className="toast">
+            {t.tone === "green" && <Icon name="check-circle-fill" style={{ color: "var(--green)" }} />}
+            {t.tone === "red" && <Icon name="triangle-fill" style={{ color: "var(--orange)" }} />}
             <div>
               <div className="t-title">{t.title}</div>
               {t.body && <div className="t-body">{t.body}</div>}
             </div>
             {t.action && <button className="btn small" onClick={() => { t.action?.onClick(); setToasts((all) => all.filter((x) => x.id !== t.id)); }}>{t.action.label}</button>}
-            <button className="btn ghost small" onClick={() => setToasts((all) => all.filter((x) => x.id !== t.id))} title="Dismiss"><Icon name="x" size={12} /></button>
+            <button className="icon-btn" onClick={() => setToasts((all) => all.filter((x) => x.id !== t.id))} title="Dismiss"><Icon name="x" size={12} /></button>
           </div>
         ))}
       </div>
@@ -54,7 +60,7 @@ export function Pill({ tone, children, title }: { tone?: Tone; children: ReactNo
 export function SeverityPill({ severity }: { severity: Severity }) {
   const { technical } = usePrefs();
   const p = SEVERITY_PLAIN[severity];
-  return <Pill tone={p.tone} title={p.hint}><span className="dot" />{technical ? severity : p.label}</Pill>;
+  return <Pill tone={p.tone} title={p.hint}>{technical ? severity : p.label}</Pill>;
 }
 
 export function ConfidencePill({ confidence }: { confidence: Confidence }) {
@@ -69,31 +75,37 @@ export function StatusPill({ status }: { status: string }) {
   return <Pill tone={tone}>{label}</Pill>;
 }
 
-export function Button({ variant = "default", size, icon, onClick, disabled, children, title, className }: { variant?: "default" | "primary" | "ghost" | "destructive" | "destructive-primary"; size?: "small" | "large"; icon?: IconName; onClick?: () => void; disabled?: boolean; children?: ReactNode; title?: string; className?: string }) {
-  const cls = ["btn", variant === "primary" ? "primary" : "", variant === "ghost" ? "ghost" : "", variant === "destructive" ? "destructive" : "", variant === "destructive-primary" ? "destructive primary" : "", size ?? "", className ?? ""].filter(Boolean).join(" ");
-  return <button className={cls} onClick={onClick} disabled={disabled} title={title}>{icon && <Icon name={icon} size={size === "small" ? 13 : 15} />}{children}</button>;
+type Variant = "default" | "primary" | "prominent" | "ghost" | "plain" | "destructive" | "destructive-primary";
+export function Button({ variant = "default", size, icon, onClick, disabled, children, title, className, full }: { variant?: Variant; size?: "small" | "large"; icon?: IconName; onClick?: () => void; disabled?: boolean; children?: ReactNode; title?: string; className?: string; full?: boolean }) {
+  const cls = ["btn", (variant === "primary" || variant === "prominent") ? "prominent" : "", (variant === "ghost" || variant === "plain") ? "plain" : "", variant === "destructive" ? "destructive" : "", variant === "destructive-primary" ? "destructive prominent" : "", size ?? "", full ? "full" : "", className ?? ""].filter(Boolean).join(" ");
+  return <button className={cls} onClick={onClick} disabled={disabled} title={title}>{icon && <Icon name={icon} size={size === "small" ? 12 : 14} />}{children}</button>;
 }
 
 export function Card({ title, children, actions, className }: { title?: ReactNode; children: ReactNode; actions?: ReactNode; className?: string }) {
   return (
-    <div className={`card glass-strong ${className ?? ""}`}>
+    <div className={`card ${className ?? ""}`}>
       {(title || actions) && <div className="card-title"><span>{title}</span>{actions}</div>}
       {children}
     </div>
   );
 }
 
+export function GroupBox({ title, children }: { title?: ReactNode; children: ReactNode }) {
+  return <div className="groupbox">{title && <div className="gb-title">{title}</div>}{children}</div>;
+}
+
+/** Section header: headline + caption, actions on the right (the prototype's "Results" header). */
 export function PageHeader({ title, subtitle, actions }: { title: ReactNode; subtitle?: ReactNode; actions?: ReactNode }) {
   return (
-    <div className="page-header">
-      <div><h1>{title}</h1>{subtitle && <div className="subtitle">{subtitle}</div>}</div>
+    <div className="section-head">
+      <div><div className="h">{title}</div>{subtitle && <div className="c">{subtitle}</div>}</div>
       {actions && <div className="btn-row">{actions}</div>}
     </div>
   );
 }
 
-export function Empty({ children }: { children: ReactNode }) {
-  return <div className="empty">{children}</div>;
+export function Empty({ children, icon, title }: { children?: ReactNode; icon?: IconName; title?: string }) {
+  return <div className="empty">{icon && <Icon name={icon} className="icon" />}{title && <div className="t">{title}</div>}<div className="subheadline">{children}</div></div>;
 }
 
 export function ErrorBox({ error }: { error: string | null | undefined }) {
@@ -102,7 +114,7 @@ export function ErrorBox({ error }: { error: string | null | undefined }) {
 }
 
 export function Loading({ what }: { what?: string }) {
-  return <p className="muted" style={{ display: "flex", gap: 8, alignItems: "center" }}><span className="spinner" /> Loading{what ? ` ${what}` : ""}…</p>;
+  return <p className="secondary" style={{ display: "flex", gap: 8, alignItems: "center" }}><span className="spinner" /> Loading{what ? ` ${what}` : ""}…</p>;
 }
 
 export function Stat({ value, label }: { value: ReactNode; label: ReactNode }) {
@@ -115,7 +127,7 @@ export function KeyValue({ rows }: { rows: [string, ReactNode][] }) {
       {rows.map(([k, v]) => (
         <div key={k} style={{ display: "contents" }}>
           <div className="k">{k}</div>
-          <div className="v">{v ?? <span className="muted">—</span>}</div>
+          <div className="v">{v ?? <span className="secondary">—</span>}</div>
         </div>
       ))}
     </div>
@@ -127,7 +139,7 @@ export function PathLink({ path, line }: { path: string; line?: number }) {
   return (
     <span className="mono selectable">
       {shortenHome(path, home)}{line != null ? `:${line}` : ""}{" "}
-      <button className="btn ghost small" title="Reveal in Finder" onClick={() => api.reveal(path).catch(() => {})}><Icon name="folder" size={12} /></button>
+      <button className="icon-btn" style={{ width: 20, height: 20, verticalAlign: "middle" }} title="Reveal in Finder" onClick={() => api.reveal(path).catch(() => {})}><Icon name="folder" size={12} /></button>
     </span>
   );
 }
@@ -139,40 +151,45 @@ export function Code({ children }: { children: ReactNode }) {
 export function Disclosure({ label, children, defaultOpen }: { label: string; children: ReactNode; defaultOpen?: boolean }) {
   return (
     <details className="disclosure" open={defaultOpen}>
-      <summary><Icon name="chevron" size={12} />{label}</summary>
-      <div className="body">{children}</div>
+      <summary><Icon name="chevron" size={11} />{label}</summary>
+      <div className="dbody">{children}</div>
     </details>
   );
 }
 
-/** A glossary term with a hover explanation. */
-export function Term({ k, children }: { k: keyof typeof GLOSSARY | string; children?: ReactNode }) {
+export function Term({ k, children }: { k: string; children?: ReactNode }) {
   const text = GLOSSARY[k];
   if (!text) return <>{children ?? k}</>;
-  return <span className="term">{children ?? k}<span className="tip glass-strong">{text}</span></span>;
+  return <span className="term">{children ?? k}<span className="tip">{text}</span></span>;
 }
 
 export interface Column<T> { key: string; label: string; render?: (row: T) => ReactNode; className?: string; width?: string }
 
-export function DataTable<T>({ columns, rows, rowKey, onRowClick, empty }: { columns: Column<T>[]; rows: T[]; rowKey: (row: T) => string; onRowClick?: (row: T) => void; empty?: string }) {
-  if (rows.length === 0) return <Empty>{empty ?? "Nothing to show."}</Empty>;
+export function DataTable<T>({ columns, rows, rowKey, onRowClick, selectedKey, empty }: { columns: Column<T>[]; rows: T[]; rowKey: (row: T) => string; onRowClick?: (row: T) => void; selectedKey?: string | null; empty?: ReactNode }) {
+  if (rows.length === 0) return <div className="table-wrap"><Empty>{empty ?? "Nothing to show."}</Empty></div>;
   return (
-    <div className="table-wrap glass-strong">
-      <table className="data">
-        <thead><tr>{columns.map((c) => <th key={c.key} style={c.width ? { width: c.width } : undefined}>{c.label}</th>)}</tr></thead>
-        <tbody>
-          {rows.map((r) => (
-            <tr key={rowKey(r)} className={onRowClick ? "clickable" : undefined} onClick={onRowClick ? () => onRowClick(r) : undefined}>
-              {columns.map((c) => <td key={c.key} className={c.className}>{c.render ? c.render(r) : String((r as Record<string, unknown>)[c.key] ?? "")}</td>)}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="table-wrap">
+      <div style={{ overflowX: "auto" }}>
+        <table className="data">
+          <thead><tr>{columns.map((c) => <th key={c.key} style={c.width ? { width: c.width } : undefined}>{c.label}</th>)}</tr></thead>
+          <tbody>
+            {rows.map((r) => {
+              const k = rowKey(r);
+              return (
+                <tr key={k} className={`${onRowClick ? "clickable" : ""} ${selectedKey === k ? "selected" : ""}`} onClick={onRowClick ? () => onRowClick(r) : undefined}>
+                  {columns.map((c) => <td key={c.key} className={c.className}>{c.render ? c.render(r) : String((r as Record<string, unknown>)[c.key] ?? "")}</td>)}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
 
-export function Sheet({ title, children, onClose, footer, wide }: { title: ReactNode; children: ReactNode; onClose: () => void; footer?: ReactNode; wide?: boolean }) {
+/** A native-style sheet: header with icon, scrolling body, footer with actions. */
+export function Sheet({ title, caption, icon, children, onClose, footer, wide }: { title: ReactNode; caption?: ReactNode; icon?: IconName; children: ReactNode; onClose: () => void; footer?: ReactNode; wide?: boolean }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
@@ -180,20 +197,21 @@ export function Sheet({ title, children, onClose, footer, wide }: { title: React
   }, [onClose]);
   return (
     <div className="backdrop" onClick={onClose}>
-      <div className="sheet glass-strong" style={wide ? { width: "min(900px, 94vw)" } : undefined} onClick={(e) => e.stopPropagation()}>
-        <h2>{title}</h2>
-        {children}
-        {footer && <div className="actions">{footer}</div>}
+      <div className={`sheet ${wide ? "wide" : ""}`} onClick={(e) => e.stopPropagation()}>
+        <div className="sh-head">{icon && <Icon name={icon} />}<div><div className="h">{title}</div>{caption && <div className="c">{caption}</div>}</div></div>
+        <div className="sh-body">{children}</div>
+        {footer && <div className="sh-foot">{footer}</div>}
       </div>
     </div>
   );
 }
 
-export function ConfirmDialog({ title, children, confirmLabel, danger, busy, onConfirm, onCancel }: { title: ReactNode; children: ReactNode; confirmLabel: string; danger?: boolean; busy?: boolean; onConfirm: () => void; onCancel: () => void }) {
+export function ConfirmDialog({ title, caption, icon, children, confirmLabel, danger, busy, onConfirm, onCancel, wide }: { title: ReactNode; caption?: ReactNode; icon?: IconName; children: ReactNode; confirmLabel: string; danger?: boolean; busy?: boolean; onConfirm: () => void; onCancel: () => void; wide?: boolean }) {
   return (
-    <Sheet title={title} onClose={busy ? () => {} : onCancel} footer={<>
-      <Button onClick={onCancel} disabled={busy}>Not now</Button>
-      <Button variant={danger ? "destructive-primary" : "primary"} onClick={onConfirm} disabled={busy}>{busy ? "Working…" : confirmLabel}</Button>
+    <Sheet title={title} caption={caption} icon={icon ?? "wrench-screwdriver"} wide={wide} onClose={busy ? () => {} : onCancel} footer={<>
+      <Button onClick={onCancel} disabled={busy}>Cancel</Button>
+      <span className="spacer" />
+      <Button variant={danger ? "destructive-primary" : "prominent"} onClick={onConfirm} disabled={busy}>{busy ? "Working…" : confirmLabel}</Button>
     </>}>
       {children}
     </Sheet>
@@ -213,28 +231,24 @@ export function Switch({ on, onChange, label }: { on: boolean; onChange: (v: boo
   );
 }
 
-export function HealthRing({ score }: { score: number }) {
-  const r = 50, c = 2 * Math.PI * r;
-  const color = score >= 85 ? "var(--green)" : score >= 60 ? "var(--orange)" : "var(--red)";
-  return (
-    <div className="ring">
-      <svg width="116" height="116" viewBox="0 0 116 116">
-        <circle cx="58" cy="58" r={r} stroke="rgba(127,127,127,0.18)" strokeWidth="10" fill="none" />
-        <circle cx="58" cy="58" r={r} stroke={color} strokeWidth="10" fill="none" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c * (1 - Math.max(0, Math.min(100, score)) / 100)} style={{ transition: "stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1)" }} />
-      </svg>
-      <div className="num">{score}<small>out of 100</small></div>
-    </div>
-  );
-}
-
 export function Sparkline({ values }: { values: number[] }) {
   if (values.length < 2) return null;
-  const w = 220, h = 44, pad = 3;
+  const w = 220, h = 40, pad = 3;
   const min = Math.min(...values, 0), max = Math.max(...values, 100);
   const pts = values.map((v, i) => `${pad + (i / (values.length - 1)) * (w - 2 * pad)},${h - pad - ((v - min) / (max - min || 1)) * (h - 2 * pad)}`).join(" ");
-  return (
-    <svg className="sparkline" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none">
-      <polyline points={pts} fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
-    </svg>
-  );
+  return <svg className="sparkline" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none"><polyline points={pts} fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" /></svg>;
+}
+
+/** Small popover menu anchored to its parent (position: relative). */
+export function Popover({ open, onClose, children }: { open: boolean; onClose: () => void; children: ReactNode }) {
+  useEffect(() => {
+    if (!open) return;
+    const onDown = () => onClose();
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("mousedown", onDown);
+    window.addEventListener("keydown", onKey);
+    return () => { window.removeEventListener("mousedown", onDown); window.removeEventListener("keydown", onKey); };
+  }, [open, onClose]);
+  if (!open) return null;
+  return <div className="popover" onMouseDown={(e) => e.stopPropagation()}>{children}</div>;
 }
