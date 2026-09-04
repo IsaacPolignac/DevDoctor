@@ -33,9 +33,10 @@ It answers the question every developer eventually asks:
 - Environment snapshots and "What changed" diffs
 - Safe fixes: exact preview, backups, post-fix validation, automatic rollback, manual rollback
 - Desktop app (Tauri + React) and CLI sharing one Rust engine
-- Native macOS 26 interface: translucent sidebar with colored section tiles, results table with
-  a details inspector, "Preview Repair" sheet, appearance and Liquid Glass options; plain-language
-  explanations for beginners with a "Technical details" switch for experts
+- Native macOS 26 interface: floating translucent sidebar, health ring dashboard with one tile per
+  area, results table with a details inspector, "Preview Repair" sheet, Day / Night / System
+  appearance and Liquid Glass options; plain-language explanations for beginners with a
+  "Technical details" switch for experts
 - Fully local: no account, no telemetry, no network access
 
 ## Status

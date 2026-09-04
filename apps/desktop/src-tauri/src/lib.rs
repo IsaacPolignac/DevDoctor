@@ -306,6 +306,18 @@ async fn get_detectors(state: State<'_, AppState>) -> CmdResult<Vec<devdoctor::d
 }
 
 #[tauri::command]
+fn set_window_theme(handle: AppHandle, theme: String) -> CmdResult<()> {
+    use tauri::Manager;
+    let window = handle.get_webview_window("main").ok_or_else(|| "main window not found".to_string())?;
+    let theme = match theme.as_str() {
+        "light" => Some(tauri::Theme::Light),
+        "dark" => Some(tauri::Theme::Dark),
+        _ => None,
+    };
+    window.set_theme(theme).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
 async fn reveal_path(state: State<'_, AppState>, path: String) -> CmdResult<()> {
     blocking(state.app.clone(), move |a| a.reveal(&PathBuf::from(path))).await
 }
@@ -402,6 +414,7 @@ pub fn run() {
             get_detectors,
             reveal_path,
             export_report,
+            set_window_theme,
         ])
         .run(tauri::generate_context!())
         .expect("error while running DevDoctor");

@@ -3,7 +3,8 @@ import { api, errorMessage } from "../lib/api";
 import { useAsync } from "../lib/useAsync";
 import { useNav } from "../lib/nav";
 import { formatBytes, formatDate, formatMs, shortenHome } from "../lib/format";
-import { Button, Card, DataTable, ErrorBox, KeyValue, Loading, PageHeader, PathLink, Pill, StatusPill, Switch, Term, usePrefs } from "../components/Basics";
+import { Button, Card, DataTable, ErrorBox, KeyValue, Loading, PageHeader, PathLink, Pill, Segmented, StatusPill, Switch, Term, usePrefs, type Appearance, type Glass } from "../components/Basics";
+import { Logo } from "../components/Logo";
 import { TransactionView } from "../components/TransactionView";
 
 export function ServicesPage({ refreshKey }: { refreshKey: number }) {
@@ -132,7 +133,7 @@ export function HistoryPage({ refreshKey }: { refreshKey: number }) {
 }
 
 export function SettingsPage({ autoScan, onAutoScan }: { autoScan: boolean; onAutoScan: (v: boolean) => void }) {
-  const { technical, setTechnical } = usePrefs();
+  const { technical, setTechnical, appearance, setAppearance, glass, setGlass } = usePrefs();
   const sys = useAsync(() => api.system(), []);
   const detectors = useAsync(() => api.detectors(), []);
   const [report, setReport] = useState<string | null>(null);
@@ -144,12 +145,18 @@ export function SettingsPage({ autoScan, onAutoScan }: { autoScan: boolean; onAu
   return (
     <div className="page">
       <div className="grid cols-2">
+        <Card title="Appearance">
+          <div className="switch-row"><span>Theme<div className="secondary caption">Applies to the window, the sidebar glass and the title bar.</div></span><Segmented value={appearance} onChange={(v) => setAppearance(v as Appearance)} options={[{ id: "system", label: "System" }, { id: "light", label: "Day" }, { id: "dark", label: "Night" }]} /></div>
+          <div className="hairline" />
+          <div className="switch-row"><span>Liquid Glass<div className="secondary caption">Tinted adds a hint of the accent colour to glass controls.</div></span><Segmented value={glass} onChange={(v) => setGlass(v as Glass)} options={[{ id: "clear", label: "Clear" }, { id: "tinted", label: "Tinted" }]} /></div>
+        </Card>
         <Card title="Preferences">
           <Switch on={autoScan} onChange={onAutoScan} label={<span>Check automatically when DevDoctor opens<div className="muted small">Runs a quick check if the last one is older than an hour.</div></span>} />
           <div className="hairline" />
           <Switch on={technical} onChange={setTechnical} label={<span>Show technical details<div className="muted small">Detector ids, raw severities, evidence and diffs shown by default.</div></span>} />
         </Card>
         <Card title="About">
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}><Logo size={48} /><div><div className="title3">DevDoctor</div><div className="secondary caption">Find what broke your development environment.</div></div></div>
           {sys.data && <KeyValue rows={[["Version", sys.data.devdoctor_version], ["Data folder", <span className="mono selectable">{sys.data.data_dir}</span>], ["User", sys.data.user], ["Shell", `${sys.data.shell} (${sys.data.shell_path})`], ["macOS", `${sys.data.os.version} ${sys.data.os.build ?? ""} · ${sys.data.os.arch}`]]} />}
           <p className="muted small" style={{ marginTop: 10 }}>Everything runs on this Mac. No account, no telemetry, no network. Backups of every modified file live in the data folder.</p>
         </Card>

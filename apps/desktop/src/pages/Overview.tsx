@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
 import { api } from "../lib/api";
 import { useAsync } from "../lib/useAsync";
-import type { DetectorMeta, Issue } from "../lib/types";
+import type { Category, DetectorMeta, Issue } from "../lib/types";
 import { findingFromIssue, healthyFinding, type Finding } from "../lib/plain";
 import { Button, ErrorBox, Loading, PageHeader, Segmented } from "../components/Basics";
 import { EnvironmentHeader } from "../components/EnvironmentHeader";
+import { Dashboard } from "../components/Dashboard";
 import { FindingInspector, FindingsTable, RepairSheet, detectorName, filterByLevel, useFindings, useRepairActions, type ResultFilter } from "../components/FindingsView";
 import { Icon } from "../components/Icons";
 import { Logo } from "../components/Logo";
@@ -33,6 +34,7 @@ export function OverviewPage({ refreshKey, refresh, detectors, inspector, onboar
   const issues = useAsync(() => api.issues(false), [refreshKey]);
   const storage = useAsync(() => api.lastStorage(), [refreshKey]);
   const [filter, setFilter] = useState<ResultFilter>("all");
+  const [area, setArea] = useState<Category | null>(null);
   const findings: Finding[] = useMemo(() => {
     const open = (issues.data ?? []).map((r) => findingFromIssue(r.issue, detectorName(detectors, r.issue.detector_id)));
     const reported = new Set(open.map((f) => f.detectorId));
@@ -40,7 +42,7 @@ export function OverviewPage({ refreshKey, refresh, detectors, inspector, onboar
     const order = { attention: 0, recommendation: 1, healthy: 2 };
     return [...open, ...healthy].sort((a, b) => order[a.level] - order[b.level]);
   }, [issues.data, report.data, detectors]);
-  const visible = useMemo(() => filterByLevel(findings, filter), [findings, filter]);
+  const visible = useMemo(() => filterByLevel(findings, filter).filter((f) => !area || f.category === area), [findings, filter, area]);
   const { selected, selectedKey, setSelectedKey, repairing, setRepairing } = useFindings(visible);
   const actions = useRepairActions(refresh);
   if (ov.loading && !ov.data) return <Loading what="overview" />;
@@ -53,6 +55,7 @@ export function OverviewPage({ refreshKey, refresh, detectors, inspector, onboar
       <div className="content">
         {onboarding && <Onboarding onStart={() => { onOnboardingDone(); onScan(); }} onSkip={onOnboardingDone} />}
         <EnvironmentHeader overview={o} reclaimable={reclaimable} />
+        <Dashboard health={o.health} issues={(issues.data ?? []).map((r) => r.issue)} selected={area} onSelect={setArea} />
         {!o.health && !onboarding && (
           <div className="card" style={{ marginTop: 16 }}>
             <p className="subheadline">No scan yet. A quick scan takes about a second and changes nothing.</p>
@@ -60,7 +63,7 @@ export function OverviewPage({ refreshKey, refresh, detectors, inspector, onboar
           </div>
         )}
         {o.warnings.map((w, i) => <div key={i} className="notice">{w}</div>)}
-        <PageHeader title="Results" subtitle="Select a row to review the evidence and repair plan." actions={
+        <PageHeader title={area ? `Results · ${area === "package_managers" ? "Packages" : area.replace("_", " ")}` : "Results"} subtitle="Select a row to review the evidence and repair plan." actions={
           <Segmented value={filter} onChange={(v) => setFilter(v as ResultFilter)} options={[{ id: "all", label: "All" }, { id: "attention", label: `Needs Attention${counts.attention ? ` · ${counts.attention}` : ""}` }, { id: "recommendation", label: `Recommendations${counts.recommendation ? ` · ${counts.recommendation}` : ""}` }, { id: "healthy", label: `Healthy${counts.healthy ? ` · ${counts.healthy}` : ""}` }]} />
         } />
         <FindingsTable findings={visible} selected={selectedKey} onSelect={(f) => setSelectedKey(f.key)} empty={o.health ? "No results for this filter." : "Run a scan to see results."} />

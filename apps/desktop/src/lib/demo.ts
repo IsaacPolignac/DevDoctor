@@ -164,6 +164,7 @@ export async function mockInvoke<T>(cmd: string, args: Record<string, unknown> =
     case "set_setting": state.settings[String(args.key)] = args.value; return r(null);
     case "get_detectors": return r(detectors);
     case "reveal_path": return r(null);
+    case "set_window_theme": return r(null);
     case "export_report": return r({ generated_at: new Date().toISOString(), devdoctor_version: "0.1.0", sanitized: true, included: ["system information", "last scan results", "PATH", "shell startup files", "runtimes and tools", "startup services"], system, last_scan: state.report, path, shell, runtimes, packages, tools, services });
     default: throw new Error(`demo mode: unknown command ${cmd}`);
   }

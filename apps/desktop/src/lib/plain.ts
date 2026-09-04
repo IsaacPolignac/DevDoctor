@@ -104,6 +104,7 @@ export const HEALTHY: Record<string, string> = {
 export interface Finding {
   key: string;
   level: Level;
+  category: Category;
   area: string;
   title: string;
   source: string;
@@ -116,6 +117,7 @@ export function findingFromIssue(issue: Issue, detectorName: string | undefined)
   return {
     key: issue.id,
     level: levelOf(issue.severity),
+    category: issue.category,
     area: areaOf(issue.detector_id, issue.category),
     title: issue.title,
     source: detectorName ?? issue.detector_id,
@@ -129,6 +131,7 @@ export function healthyFinding(run: DetectorRun, category: Category): Finding {
   return {
     key: `ok:${run.id}`,
     level: "healthy",
+    category,
     area: areaOf(run.id, category),
     title: HEALTHY[run.id] ?? `${run.name}: nothing found`,
     source: run.name,

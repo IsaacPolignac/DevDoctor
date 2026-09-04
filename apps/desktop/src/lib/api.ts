@@ -63,6 +63,7 @@ export const api = {
   setSetting: (key: string, value: unknown) => invoke<void>("set_setting", { key, value }),
   detectors: () => invoke<DetectorMeta[]>("get_detectors"),
   reveal: (path: string) => invoke<void>("reveal_path", { path }),
+  setWindowTheme: (theme: "system" | "light" | "dark") => (inTauri ? invoke<void>("set_window_theme", { theme }) : Promise.resolve()),
   exportReport: () => invoke<DiagnosticReport>("export_report"),
 };
 

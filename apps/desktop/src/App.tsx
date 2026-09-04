@@ -69,6 +69,7 @@ function Shell() {
       setGlassState(g);
       setInspectorState(s.inspector !== false);
       applyAppearance(a, g);
+      api.setWindowTheme(a).catch(() => {});
       setSettingsLoaded(true);
     }).catch(() => setSettingsLoaded(true));
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
@@ -128,7 +129,7 @@ function Shell() {
 
   const setTechnical = (v: boolean) => { setTechnicalState(v); api.setSetting("technical_details", v).catch(() => {}); };
   const setAutoScan = (v: boolean) => { setAutoScanState(v); api.setSetting("auto_scan_on_launch", v).catch(() => {}); };
-  const setAppearance = (v: Appearance) => { setAppearanceState(v); applyAppearance(v, glass); api.setSetting("appearance", v).catch(() => {}); };
+  const setAppearance = (v: Appearance) => { setAppearanceState(v); applyAppearance(v, glass); api.setWindowTheme(v).catch(() => {}); api.setSetting("appearance", v).catch(() => {}); };
   const setGlass = (v: Glass) => { setGlassState(v); applyAppearance(appearance, v); api.setSetting("glass", v).catch(() => {}); };
   const toggleInspector = () => { setInspectorState((i) => { api.setSetting("inspector", !i).catch(() => {}); return !i; }); };
   const finishOnboarding = () => { setOnboarding(false); api.setSetting("onboarding_done", true).catch(() => {}); };
