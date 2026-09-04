@@ -13,7 +13,7 @@ export function Toolbar({ title, status, scanning, onScan, inspector, onToggleIn
   );
   return (
     <div className="toolbar" data-tauri-drag-region>
-      {sidebarHidden && <button className="tb-btn" onClick={onToggleSidebar} title="Show sidebar"><Icon name="sidebar-left" /></button>}
+      {sidebarHidden && <button className="icon-btn" onClick={onToggleSidebar} title="Show sidebar" style={{ marginRight: 6 }}><Icon name="sidebar-left" size={20} /></button>}
       <span className="ttl" data-tauri-drag-region>{title}</span>
       <div className="spacer" data-tauri-drag-region />
       {tabs && tabs.options.length > 1 && <Segmented options={tabs.options} value={tabs.value} onChange={tabs.onChange} />}
@@ -23,7 +23,7 @@ export function Toolbar({ title, status, scanning, onScan, inspector, onToggleIn
         <button className="tb-btn" onClick={onSearch} title="Search (⌘K)"><Icon name="search" /></button>
         <button className="tb-btn" onClick={onScan} disabled={scanning} title="Run a new diagnostic scan (⌘R)"><Icon name="refresh" /></button>
         <div style={{ position: "relative" }}>
-          <button className="tb-btn" onClick={() => setMenu((m) => !m)} title="Appearance and Liquid Glass"><Icon name={appearanceIcon} /><Icon name="chevron-down" className="chev" /></button>
+          <button className="tb-btn wide" style={{ width: 50 }} onClick={() => setMenu((m) => !m)} title="Appearance and Liquid Glass"><Icon name={appearanceIcon} /><Icon name="chevron-down" className="chev" /></button>
           <Popover open={menu} onClose={() => setMenu(false)}>
             <div className="ph">Appearance</div>
             {(["system", "light", "dark"] as Appearance[]).map((a) => item(a === "system" ? "System" : a === "light" ? "Light" : "Dark", appearance === a, a === "system" ? "half-circle" : a === "light" ? "sun" : "moon", () => setAppearance(a)))}
@@ -32,7 +32,7 @@ export function Toolbar({ title, status, scanning, onScan, inspector, onToggleIn
             {(["clear", "tinted"] as Glass[]).map((g) => item(g === "clear" ? "Clear" : "Tinted", glass === g, undefined, () => setGlass(g)))}
           </Popover>
         </div>
-        {inspector !== null && <button className="tb-btn" onClick={onToggleInspector} title={inspector ? "Hide Inspector (⌥⌘I)" : "Show Inspector (⌥⌘I)"}><Icon name="sidebar-right" /></button>}
+        {inspector !== null && <button className="tb-btn" style={{ width: 40 }} onClick={onToggleInspector} title={inspector ? "Hide Inspector (⌥⌘I)" : "Show Inspector (⌥⌘I)"}><Icon name="sidebar-right" /></button>}
       </div>
     </div>
   );

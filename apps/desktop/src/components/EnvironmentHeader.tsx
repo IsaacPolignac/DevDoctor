@@ -27,8 +27,8 @@ export function EnvironmentHeader({ overview, reclaimable }: { overview: Overvie
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
         <Logo size={54} />
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div className="title2">Developer Environment</div>
-          <div className="subheadline secondary">{sys.os.name} {sys.os.version} · {sys.os.arch === "arm64" ? "Apple silicon" : "Intel"} · {sys.shell} · {sys.user}</div>
+          <div className="title2" style={{ fontSize: 17 }}>Developer Environment</div>
+          <div className="subheadline secondary" style={{ marginTop: 3 }}>{sys.os.name} {sys.os.version} · {sys.os.arch === "arm64" ? "Apple silicon" : "Intel"} · {sys.shell} · {sys.user}</div>
         </div>
         <span className={`capsule ${capsule.tone}`}><Icon name={capsule.icon} />{capsule.text}</span>
       </div>

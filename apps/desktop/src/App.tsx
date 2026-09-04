@@ -4,7 +4,6 @@ import { NavContext, SECTIONS, sectionOf, type NavParams, type PageId } from "./
 import type { DetectorMeta, ScanMode, ScanProgress } from "./lib/types";
 import { PrefsContext, ToastProvider, useToast, type Appearance, type Glass } from "./components/Basics";
 import { Icon } from "./components/Icons";
-import { Tile } from "./components/Tile";
 import { Toolbar } from "./components/Toolbar";
 import { StatusBar } from "./components/StatusBar";
 import { SearchPalette } from "./components/SearchPalette";
@@ -176,7 +175,7 @@ function Shell() {
                   <div className="side-section">{group.group}</div>
                   {group.items.map((sec) => (
                     <button key={sec.id} className={`side-row ${section.id === sec.id ? "active" : ""}`} onClick={() => navigate(sec.pages[0].id)}>
-                      <Tile color={sec.color} icon={sec.icon} size={20} />
+                      <Icon name={sec.icon} className="icon" size={16} />
                       <span className="label">{sec.label}</span>
                       {sec.id === "problems" && issueCount != null && issueCount > 0 && <span className="badge">{issueCount}</span>}
                     </button>

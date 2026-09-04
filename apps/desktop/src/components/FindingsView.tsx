@@ -2,8 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { api, errorMessage } from "../lib/api";
 import { useNav } from "../lib/nav";
 import type { DetectorMeta, FixPreview, Issue, Transaction } from "../lib/types";
-import { LEVELS, areaStyle, plainFixLabel, type Finding, type Level } from "../lib/plain";
-import { Tile } from "./Tile";
+import { LEVELS, plainFixLabel, type Finding, type Level } from "../lib/plain";
 import { shortenHome } from "../lib/format";
 import { Button, DataTable, Disclosure, Empty, ErrorBox, GroupBox, Loading, Sheet, usePrefs, useToast } from "./Basics";
 import { DiffView } from "./DiffView";
@@ -17,9 +16,9 @@ export function FindingsTable({ findings, selected, onSelect, empty }: { finding
     <DataTable<Finding>
       columns={[
         { key: "level", label: "", width: "28px", className: "icon-cell", render: (f) => <Icon name={LEVELS[f.level].icon} className="sev" title={LEVELS[f.level].title} style={{ color: LEVELS[f.level].color }} /> },
-        { key: "area", label: "Area", width: "150px", render: (f) => <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontWeight: 500 }}><Tile color={areaStyle(f.area).color} icon={areaStyle(f.area).icon} size={20} />{f.area}</span> },
-        { key: "title", label: "Finding", render: (f) => f.title },
-        { key: "source", label: "Source", width: "200px", render: (f) => <span className="secondary">{f.source}</span> },
+        { key: "area", label: "Area", width: "112px", render: (f) => <span style={{ fontWeight: 500 }}>{f.area}</span> },
+        { key: "title", label: "Finding", render: (f) => <span className="truncate" style={{ display: "block", maxWidth: 520 }} title={f.title}>{f.title}</span> },
+        { key: "source", label: "Source", width: "190px", render: (f) => <span className="secondary truncate" style={{ display: "block", maxWidth: 190 }} title={f.source}>{f.source}</span> },
       ]}
       rows={findings}
       rowKey={(f) => f.key}

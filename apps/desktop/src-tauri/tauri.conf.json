@@ -13,16 +13,16 @@
     "windows": [
       {
         "title": "DevDoctor",
-        "width": 1240,
+        "width": 1320,
         "height": 820,
-        "minWidth": 960,
-        "minHeight": 620,
+        "minWidth": 1080,
+        "minHeight": 680,
         "transparent": true,
         "titleBarStyle": "Overlay",
         "hiddenTitle": true,
         "trafficLightPosition": {
-          "x": 18,
-          "y": 20
+          "x": 19,
+          "y": 19
         },
         "decorations": true
       }
