@@ -768,6 +768,7 @@ dependencies = [
  "tauri",
  "tauri-build",
  "tracing",
+ "window-vibrancy",
 ]
 
 [[package]]

@@ -29,6 +29,15 @@ impl Detector for CargoBinPathDetector {
         }
         let cargo_bin = inv.cargo_home.join("bin");
         let reachable_elsewhere = inv.cargo.is_some();
+        let rc_file = match ctx.shell {
+            devdoctor_core::shell::ShellKind::Bash => ctx.home.join(".bash_profile"),
+            _ => ctx.home.join(".zshrc"),
+        };
+        let line = if inv.cargo_home.join("env").exists() && inv.cargo_home == ctx.home.join(".cargo") {
+            ". \"$HOME/.cargo/env\"".to_string()
+        } else {
+            format!("export PATH=\"{}:$PATH\"", cargo_bin.display())
+        };
         let issue = IssueBuilder::new(CARGO_BIN_ID, Category::Runtimes, cargo_bin.display().to_string(), if reachable_elsewhere { "rustup's cargo is shadowed by another installation" } else { "Rust is installed but `cargo` and `rustc` are not in PATH" })
             .severity(if reachable_elsewhere { Severity::Low } else { Severity::Medium })
             .confidence(Confidence::Confirmed)
@@ -47,7 +56,13 @@ impl Detector for CargoBinPathDetector {
             .affected_command("cargo")
             .affected_command("rustc")
             .recommended_action(format!("Add `. \"$HOME/.cargo/env\"` to ~/.zshrc (this is the line the rustup installer adds), or `export PATH=\"{}:$PATH\"`.", ctx.display_path(&cargo_bin)))
-            .metadata(json!({ "cargo_bin": cargo_bin, "rustup_home": inv.rustup_home, "toolchains": inv.toolchains.iter().map(|t| t.name.clone()).collect::<Vec<_>>() }))
+            .fixer("shell.append_line")
+            .metadata(json!({
+                "cargo_bin": cargo_bin,
+                "rustup_home": inv.rustup_home,
+                "toolchains": inv.toolchains.iter().map(|t| t.name.clone()).collect::<Vec<_>>(),
+                "append": { "file": rc_file, "line": line, "expect_path_dir": cargo_bin, "comment": "Rust toolchain (rustup)" },
+            }))
             .build();
         Ok(vec![issue])
     }

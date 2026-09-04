@@ -197,6 +197,16 @@ async fn delete_node_modules(state: State<'_, AppState>, path: String) -> CmdRes
 }
 
 #[tauri::command]
+async fn preview_delete_venv(state: State<'_, AppState>, path: String) -> CmdResult<FixPreview> {
+    blocking(state.app.clone(), move |a| a.preview_delete_venv(&PathBuf::from(path))).await
+}
+
+#[tauri::command]
+async fn delete_venv(state: State<'_, AppState>, path: String) -> CmdResult<Transaction> {
+    blocking(state.app.clone(), move |a| a.delete_venv(&PathBuf::from(path))).await
+}
+
+#[tauri::command]
 async fn get_local_ai(state: State<'_, AppState>) -> CmdResult<devdoctor::devdoctor_core::inventory::localai::LocalAiReport> {
     blocking(state.app.clone(), |a| Ok(a.local_ai())).await
 }
@@ -325,6 +335,25 @@ pub fn run() {
     };
     tauri::Builder::default()
         .manage(AppState { app: Arc::new(app) })
+        .setup(|app| {
+            // Real macOS vibrancy behind the transparent window: the desktop is blurred by the
+            // window server, and the web content layers its own glass surfaces on top.
+            #[cfg(target_os = "macos")]
+            {
+                use tauri::Manager;
+                if let Some(window) = app.get_webview_window("main") {
+                    if let Err(e) = window_vibrancy::apply_vibrancy(
+                        &window,
+                        window_vibrancy::NSVisualEffectMaterial::UnderWindowBackground,
+                        None,
+                        Some(26.0),
+                    ) {
+                        tracing::warn!(error = %e, "could not apply window vibrancy");
+                    }
+                }
+            }
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             get_overview,
             get_system,
@@ -353,6 +382,8 @@ pub fn run() {
             get_last_storage,
             preview_delete_node_modules,
             delete_node_modules,
+            preview_delete_venv,
+            delete_venv,
             get_local_ai,
             preview_remove_ollama_model,
             remove_ollama_model,

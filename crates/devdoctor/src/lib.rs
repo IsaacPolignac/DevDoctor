@@ -249,8 +249,12 @@ impl DevDoctor {
     // ----- scanning -----
 
     pub fn scan(&self, mode: ScanMode, progress: &mut dyn FnMut(ScanProgress)) -> Result<ScanReport> {
-        // Always start from fresh shell state so consecutive scans see edits.
+        // Always start from fresh shell state so consecutive scans see edits, and re-measure
+        // storage when the scan includes storage detectors.
         self.ctx.refresh_shell_capture();
+        if mode != ScanMode::Quick {
+            self.ctx.invalidate_storage_report();
+        }
         let ignored: HashSet<String> = self.db.ignored_issues()?.into_iter().map(|i| i.issue_id).collect();
         let report = self.engine.run(&self.ctx, mode, &self.fixers, &ignored, progress);
         self.db.insert_scan(&report)?;
@@ -261,6 +265,9 @@ impl DevDoctor {
     }
 
     fn record_snapshot_after_scan(&self, mode: ScanMode) -> Result<Option<Snapshot>> {
+        if let Some(measured) = self.ctx.cached_storage_report() {
+            self.db.set_setting("last_storage_report", &serde_json::to_value(measured.as_ref())?)?;
+        }
         let storage = if mode != ScanMode::Quick { self.last_storage_report()? } else { None };
         let snapshot = snapshot::collect(
             &self.ctx,
@@ -476,6 +483,9 @@ impl DevDoctor {
     pub fn storage(&self, scan_projects: bool, progress: &mut dyn FnMut(storage::StorageProgress)) -> Result<storage::StorageReport> {
         let report = storage::scan(&self.ctx, &storage::StorageOptions { scan_projects, ..Default::default() }, progress);
         self.db.set_setting("last_storage_report", &serde_json::to_value(&report)?)?;
+        if scan_projects {
+            self.ctx.set_storage_report(report.clone());
+        }
         Ok(report)
     }
 
@@ -513,6 +523,31 @@ impl DevDoctor {
     pub fn delete_node_modules(&self, path: &Path) -> Result<Transaction> {
         let issue = self.node_modules_issue(path)?;
         let fixer = self.fixers.by_id("storage.delete_node_modules").ok_or_else(|| Error::FixUnavailable("fixer missing".into()))?;
+        self.tx.apply(fixer.as_ref(), &issue, &self.ctx)
+    }
+
+    fn venv_issue(&self, path: &Path) -> Result<Issue> {
+        let report = self.last_storage_report()?.ok_or_else(|| Error::Invalid("run a storage scan first".into()))?;
+        let venv =
+            report.venvs.iter().find(|v| v.path == path).ok_or_else(|| {
+                Error::NotFound(format!("{} is not a virtual environment found by the last storage scan", path.display()))
+            })?;
+        Ok(IssueBuilder::new("storage.venv", Category::Disk, venv.path.display().to_string(), format!("Delete virtual environment {}", self.ctx.display_path(&venv.path)))
+            .severity(Severity::Info)
+            .metadata(json!({ "path": venv.path, "project_path": venv.project_path, "bytes": venv.bytes, "python_version": venv.python_version, "broken": venv.broken }))
+            .fixer("storage.delete_venv")
+            .build())
+    }
+
+    pub fn preview_delete_venv(&self, path: &Path) -> Result<FixPreview> {
+        let issue = self.venv_issue(path)?;
+        let fixer = self.fixers.by_id("storage.delete_venv").ok_or_else(|| Error::FixUnavailable("fixer missing".into()))?;
+        fixer.preview(&issue, &self.ctx)
+    }
+
+    pub fn delete_venv(&self, path: &Path) -> Result<Transaction> {
+        let issue = self.venv_issue(path)?;
+        let fixer = self.fixers.by_id("storage.delete_venv").ok_or_else(|| Error::FixUnavailable("fixer missing".into()))?;
         self.tx.apply(fixer.as_ref(), &issue, &self.ctx)
     }
 
@@ -732,9 +767,15 @@ impl DevDoctor {
 
     // ----- settings -----
 
+    /// User settings with defaults applied. Keys: `auto_scan_on_launch` (bool),
+    /// `technical_details` (bool), `onboarding_done` (bool).
     pub fn settings(&self) -> Result<serde_json::Map<String, Value>> {
         let mut map = self.db.all_settings()?;
         map.remove("last_storage_report");
+        for (key, default) in [("auto_scan_on_launch", json!(true)), ("technical_details", json!(false)), ("onboarding_done", json!(false))]
+        {
+            map.entry(key).or_insert(default);
+        }
         Ok(map)
     }
 

@@ -67,7 +67,9 @@
   environment variable names), PATH report with per-entry attribution and origin.
 - `resolve`: command resolution explorer.
 - `inventory`: read-only fact gathering for Homebrew, Node, Python, Rust, tools, package
-  managers, processes, storage, Ollama, other local AI stores, Git and SSH.
+  managers, processes, storage, Ollama, other local AI stores, Git and SSH. The storage
+  measurement is cached on the `SystemContext` for the duration of a scan so that several
+  storage detectors share one walk of the project folders.
 - `snapshot`: snapshot collection (metadata only) and diffing.
 
 ### Platform trait

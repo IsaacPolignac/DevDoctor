@@ -73,3 +73,29 @@ The frontend is a plain React/TypeScript app with CSS variables, small presentat
 components and pages that only call the typed API wrapper. Explanatory text comes from the
 backend (`Issue`, `FixPreview`), so a later redesign can replace components without touching
 diagnostics.
+
+## ADR-011 — Plain-language layer over technical data
+
+The engine keeps precise vocabulary (severity, confidence, detector ids, diffs). The desktop app
+maps it to beginner-friendly words in one place (`apps/desktop/src/lib/plain.ts`): "Needs
+attention / Should fix / Worth a look / Good to know" for severity, "Verified / Probable /
+Possible" for confidence, glossary tooltips for PATH, startup files, caches and snapshots. A
+"Technical details" switch (persisted as a setting) reveals ids, raw severities, evidence and
+diffs by default. Nothing is hidden from experts and nothing is dumbed down in the data.
+
+## ADR-012 — Fixers recompute their targets at apply time
+
+Line numbers recorded during a scan go stale as soon as another fix (or the user) edits the same
+file. Every file-editing fixer therefore re-parses the current files when previewing and
+applying, locates the statement again (by directory, source target or content) and refuses with
+a clear message when it cannot. Batch "fix safe issues" runs are correct without re-scanning
+between fixes.
+
+## ADR-013 — Real macOS glass, CSS layers on top
+
+The window is transparent with an overlay title bar; `window-vibrancy` attaches an
+`NSVisualEffectView` so macOS blurs the desktop behind the window. Inside, the sidebar,
+toolbar, cards and sheets are CSS glass layers (translucent fills, backdrop blur, specular top
+edge, concentric radii, pill controls). No UI framework or icon font: a small set of inline SVG
+line icons and CSS variables, so a designer can restyle everything without touching React logic
+or the Rust core.

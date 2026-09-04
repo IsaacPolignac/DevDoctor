@@ -3,7 +3,7 @@ import { api } from "../lib/api";
 import { useAsync } from "../lib/useAsync";
 import { useNav } from "../lib/nav";
 import { shortenHome } from "../lib/format";
-import { DataTable, ErrorBox, Loading } from "../components/Basics";
+import { Button, DataTable, ErrorBox, Loading, PageHeader, Pill, Term } from "../components/Basics";
 import { StopProcessDialog } from "./ProcessesPage";
 
 export function PortsPage({ refreshKey, highlight }: { refreshKey: number; highlight?: number }) {
@@ -14,26 +14,25 @@ export function PortsPage({ refreshKey, highlight }: { refreshKey: number; highl
   if (r.error || !r.data) return <ErrorBox error={r.error} />;
   const rows = highlight ? [...r.data].sort((a, b) => (a.port === highlight ? -1 : b.port === highlight ? 1 : 0)) : r.data;
   return (
-    <div>
-      <h1>Ports</h1>
-      <p className="muted">TCP ports in LISTEN state (from lsof). Only processes you own are visible without administrator rights. <button className="btn small" onClick={r.reload}>refresh</button></p>
+    <div className="page">
+      <PageHeader title="Ports" subtitle={<>A <Term k="port">port</Term> can only be used by one program at a time; “address already in use” means something else already has it. Only programs you own are visible.</>} actions={<Button icon="refresh" onClick={r.reload}>Refresh</Button>} />
       <DataTable
         columns={[
-          { key: "port", label: "Port", className: "num", render: (p) => <strong>{p.port}</strong> },
-          { key: "process", label: "Process", render: (p) => (p.dev_process ? <><strong>{p.dev_process.label}</strong><div className="muted small">{p.dev_process.name} · pid {p.pid}</div></> : <>{p.process_name ?? "?"}<div className="muted small">pid {p.pid ?? "?"}</div></>) },
-          { key: "bind", label: "Bound to", render: (p) => <span className="mono">{p.address}{p.local_only === false ? <span className="badge medium" style={{ marginLeft: 6 }}>exposed on network</span> : ""}</span> },
-          { key: "project", label: "Project", render: (p) => (p.dev_process?.project_path ? <span className="mono">{shortenHome(p.dev_process.project_path, home)}</span> : "") },
-          { key: "flags", label: "", render: (p) => <span className="list-inline">{p.common_dev_port && <span className="badge info">dev port</span>}{p.dev_process?.stale && <span className="badge low" title={p.dev_process.stale_reason}>stale</span>}</span> },
+          { key: "port", label: "Port", className: "num", render: (p) => <b style={p.port === highlight ? { color: "var(--accent)" } : undefined}>{p.port}</b> },
+          { key: "process", label: "Used by", render: (p) => (p.dev_process ? <><b>{p.dev_process.label}</b><div className="muted small">{p.dev_process.name} · pid {p.pid}</div></> : <>{p.process_name ?? "?"}<div className="muted small">pid {p.pid ?? "?"}</div></>) },
+          { key: "bind", label: "Reachable from", render: (p) => <span>{p.local_only === false ? <Pill tone="orange">other computers too</Pill> : <Pill tone="green">this Mac only</Pill>} <span className="mono muted small">{p.address}</span></span> },
+          { key: "project", label: "Project", render: (p) => (p.dev_process?.project_path ? <span className="mono selectable">{shortenHome(p.dev_process.project_path, home)}</span> : "") },
+          { key: "flags", label: "", render: (p) => <span className="list-inline">{p.common_dev_port && <Pill tone="blue">dev port</Pill>}{p.dev_process?.stale && <Pill tone="yellow" title={p.dev_process.stale_reason}>looks abandoned</Pill>}</span> },
           { key: "actions", label: "", render: (p) => (
             <span className="btn-row">
-              {p.dev_process?.project_path && <button className="btn small" onClick={() => api.reveal(p.dev_process!.project_path!).catch(() => {})}>project</button>}
-              {p.dev_process?.stoppable && <button className="btn small danger" onClick={() => setStopping(p.dev_process!.pid)}>stop…</button>}
+              {p.dev_process?.project_path && <Button size="small" icon="folder" onClick={() => api.reveal(p.dev_process!.project_path!).catch(() => {})}>Project</Button>}
+              {p.dev_process?.stoppable && <Button size="small" variant="destructive" onClick={() => setStopping(p.dev_process!.pid)}>Stop…</Button>}
             </span>
           ) },
         ]}
         rows={rows}
         rowKey={(p) => `${p.port}:${p.pid}:${p.address}`}
-        empty="No listening TCP ports found."
+        empty="No program is listening on a TCP port."
       />
       {stopping != null && <StopProcessDialog pid={stopping} onDone={() => { setStopping(null); r.reload(); }} onCancel={() => setStopping(null)} />}
     </div>

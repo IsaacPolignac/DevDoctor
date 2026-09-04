@@ -1,6 +1,7 @@
 //! The system context: the single door through which detectors and fixers look at the machine.
 
 use crate::command::{CommandOutput, CommandRunner, CommandSpec, VersionCache};
+use crate::inventory::storage::{self, StorageOptions, StorageProgress, StorageReport};
 use crate::path_env::{capture_shell, EffectivePath, ShellCapture};
 use crate::paths::DevDoctorDirs;
 use crate::platform::{OsInfo, Platform};
@@ -86,6 +87,7 @@ pub struct SystemContext {
     capture: RwLock<Option<Arc<ShellCapture>>>,
     shell_analysis: RwLock<Option<Arc<ShellAnalysis>>>,
     program_cache: Mutex<HashMap<String, Option<PathBuf>>>,
+    storage: RwLock<Option<Arc<StorageReport>>>,
 }
 
 impl SystemContext {
@@ -121,6 +123,7 @@ impl SystemContext {
             capture: RwLock::new(None),
             shell_analysis: RwLock::new(None),
             program_cache: Mutex::new(HashMap::new()),
+            storage: RwLock::new(None),
         })
     }
 
@@ -146,6 +149,7 @@ impl SystemContext {
             capture: RwLock::new(None),
             shell_analysis: RwLock::new(None),
             program_cache: Mutex::new(HashMap::new()),
+            storage: RwLock::new(None),
         }
     }
 
@@ -223,5 +227,31 @@ impl SystemContext {
 
     pub fn display_path(&self, path: &Path) -> String {
         crate::fs_util::display_path(path, &self.home)
+    }
+
+    /// The storage report measured during this scan, if any.
+    pub fn cached_storage_report(&self) -> Option<Arc<StorageReport>> {
+        self.storage.read().expect("storage lock").clone()
+    }
+
+    /// Returns the cached storage report or measures it (project folders included). Storage-mode
+    /// detectors share one measurement this way instead of walking the disk several times.
+    pub fn storage_report(&self, progress: &mut dyn FnMut(StorageProgress)) -> Arc<StorageReport> {
+        if let Some(r) = self.cached_storage_report() {
+            return r;
+        }
+        let report = Arc::new(storage::scan(self, &StorageOptions::default(), progress));
+        *self.storage.write().expect("storage lock") = Some(report.clone());
+        report
+    }
+
+    pub fn set_storage_report(&self, report: StorageReport) -> Arc<StorageReport> {
+        let report = Arc::new(report);
+        *self.storage.write().expect("storage lock") = Some(report.clone());
+        report
+    }
+
+    pub fn invalidate_storage_report(&self) {
+        *self.storage.write().expect("storage lock") = None;
     }
 }

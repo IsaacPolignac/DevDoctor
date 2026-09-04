@@ -12,6 +12,8 @@ use std::path::{Path, PathBuf};
 
 pub const HOMEBREW_ID: &str = "cache.clear_homebrew";
 pub const NPM_ID: &str = "cache.clear_npm";
+pub const PIP_ID: &str = "cache.clear_pip";
+pub const UV_ID: &str = "cache.clear_uv";
 
 fn plan_clear(ctx: &SystemContext, dir: &Path, keep: &[&str]) -> Result<(Vec<DirDeletion>, u64)> {
     if !dir.exists() {
@@ -170,6 +172,108 @@ impl Fixer for ClearNpmCacheFixer {
         let dir = npm_cache_dir(ctx);
         let mut report = ValidationReport::ok();
         report.check("cache directory exists", dir.exists(), ctx.display_path(&dir));
+        report.check(
+            "cache emptied",
+            fs_util::list_dir(&dir).is_empty(),
+            format!("{} recovered", format_bytes(tx.transaction().disk_space_recovered)),
+        );
+        Ok(report)
+    }
+}
+
+fn first_existing(ctx: &SystemContext, candidates: &[&str]) -> PathBuf {
+    candidates.iter().map(|c| ctx.home.join(c)).find(|p| p.exists()).unwrap_or_else(|| ctx.home.join(candidates[0]))
+}
+
+pub struct ClearPipCacheFixer;
+
+impl Fixer for ClearPipCacheFixer {
+    fn id(&self) -> &'static str {
+        PIP_ID
+    }
+
+    fn name(&self) -> &'static str {
+        "Clear pip cache"
+    }
+
+    fn supports(&self, issue: &Issue) -> bool {
+        issue.detector_id == "disk.pip.cache"
+    }
+
+    fn reversible(&self, _issue: &Issue) -> bool {
+        false
+    }
+
+    fn preview(&self, issue: &Issue, ctx: &SystemContext) -> Result<FixPreview> {
+        let dir = first_existing(ctx, &["Library/Caches/pip", ".cache/pip"]);
+        cache_preview(
+            PIP_ID,
+            issue,
+            ctx,
+            "pip cache",
+            &dir,
+            &[],
+            &["Installed packages are not affected; pip downloads wheels again when needed.", "Equivalent manual command: pip cache purge"],
+        )
+    }
+
+    fn apply(&self, _issue: &Issue, ctx: &SystemContext, tx: &mut TxBuilder<'_>) -> Result<()> {
+        tx.clear_dir(&first_existing(ctx, &["Library/Caches/pip", ".cache/pip"]), &[])?;
+        Ok(())
+    }
+
+    fn validate(&self, _issue: &Issue, ctx: &SystemContext, tx: &TxBuilder<'_>) -> Result<ValidationReport> {
+        let dir = first_existing(ctx, &["Library/Caches/pip", ".cache/pip"]);
+        let mut report = ValidationReport::ok();
+        report.check(
+            "cache emptied",
+            fs_util::list_dir(&dir).is_empty(),
+            format!("{} recovered", format_bytes(tx.transaction().disk_space_recovered)),
+        );
+        Ok(report)
+    }
+}
+
+pub struct ClearUvCacheFixer;
+
+impl Fixer for ClearUvCacheFixer {
+    fn id(&self) -> &'static str {
+        UV_ID
+    }
+
+    fn name(&self) -> &'static str {
+        "Clear uv cache"
+    }
+
+    fn supports(&self, issue: &Issue) -> bool {
+        issue.detector_id == "disk.uv.cache"
+    }
+
+    fn reversible(&self, _issue: &Issue) -> bool {
+        false
+    }
+
+    fn preview(&self, issue: &Issue, ctx: &SystemContext) -> Result<FixPreview> {
+        let dir = first_existing(ctx, &["Library/Caches/uv", ".cache/uv"]);
+        cache_preview(
+            UV_ID,
+            issue,
+            ctx,
+            "uv cache",
+            &dir,
+            &[],
+            &["Projects and installed tools keep working; uv re-downloads what it needs.", "Equivalent manual command: uv cache clean"],
+        )
+    }
+
+    fn apply(&self, _issue: &Issue, ctx: &SystemContext, tx: &mut TxBuilder<'_>) -> Result<()> {
+        tx.clear_dir(&first_existing(ctx, &["Library/Caches/uv", ".cache/uv"]), &[])?;
+        Ok(())
+    }
+
+    fn validate(&self, _issue: &Issue, ctx: &SystemContext, tx: &TxBuilder<'_>) -> Result<ValidationReport> {
+        let dir = first_existing(ctx, &["Library/Caches/uv", ".cache/uv"]);
+        let mut report = ValidationReport::ok();
         report.check(
             "cache emptied",
             fs_util::list_dir(&dir).is_empty(),

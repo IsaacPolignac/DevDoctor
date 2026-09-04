@@ -1,14 +1,12 @@
 //! Safe PATH fixers: remove redundant duplicate statements and dead directories.
 
-use crate::util::{count_dir, syntax_check, syntax_check_content};
+use crate::util::{record_before_state, syntax_check_content, validate_shell_change, PathExpectation};
 use devdoctor_core::context::SystemContext;
 use devdoctor_core::fixer::{FileChange, FixPreview, Fixer, RiskLevel, ValidationReport};
 use devdoctor_core::issue::Issue;
-use devdoctor_core::path_env::PathSource;
 use devdoctor_core::shell::{apply_removals, plan_duplicate_removals, FileEdit, Removal};
 use devdoctor_core::transaction::TxBuilder;
 use devdoctor_core::{Error, Result};
-use serde_json::json;
 
 pub const REMOVE_DUPLICATE_ID: &str = "shell.path.remove_duplicate";
 pub const REMOVE_MISSING_ID: &str = "shell.path.remove_missing_directory";
@@ -120,71 +118,6 @@ fn preview_from_edits(
     preview
 }
 
-fn record_before_state(ctx: &SystemContext, tx: &mut TxBuilder<'_>, dir: &str) {
-    let capture = ctx.shell_capture();
-    tx.set_state(json!({
-        "dir": dir,
-        "before_dedup": capture.path.dedup_order(),
-        "before_count": count_dir(&capture.path.entries, dir),
-        "login_shell": matches!(capture.path.source, PathSource::LoginShell { .. }),
-    }));
-}
-
-fn validate_path_change(ctx: &SystemContext, tx: &TxBuilder<'_>, expect_removed: bool) -> ValidationReport {
-    let mut report = ValidationReport::ok();
-    for op in &tx.transaction().operations {
-        if let devdoctor_core::transaction::Operation::FileWrite { path, .. } = op {
-            report.checks.push(syntax_check(ctx, path));
-        }
-    }
-    let state = tx.state().clone();
-    let dir = state.get("dir").and_then(|d| d.as_str()).unwrap_or("");
-    let before: Vec<String> = state.get("before_dedup").and_then(|v| serde_json::from_value(v.clone()).ok()).unwrap_or_default();
-    let before_count = state.get("before_count").and_then(|v| v.as_u64()).unwrap_or(0) as usize;
-    let was_login_shell = state.get("login_shell").and_then(|v| v.as_bool()).unwrap_or(false);
-    if !was_login_shell {
-        report.check("PATH re-verification", true, "skipped: the original PATH did not come from a login shell capture");
-        return report;
-    }
-    let after = ctx.refresh_shell_capture();
-    if !matches!(after.path.source, PathSource::LoginShell { .. }) {
-        report.check(
-            "login shell restart",
-            false,
-            format!("could not capture PATH from a fresh login shell after the change: {}", after.warnings.join("; ")),
-        );
-        return report;
-    }
-    report.check("login shell restart", true, format!("fresh login shell started in {} ms", after.duration_ms));
-    let after_dedup = after.path.dedup_order();
-    let expected: Vec<String> = if expect_removed {
-        before.iter().filter(|e| devdoctor_core::shell::normalize_key(e) != devdoctor_core::shell::normalize_key(dir)).cloned().collect()
-    } else {
-        before.clone()
-    };
-    let same = after_dedup == expected;
-    report.check(
-        "PATH order preserved",
-        same,
-        if same {
-            format!("{} directories in the same order", after_dedup.len())
-        } else {
-            format!("expected {} but got {}", expected.join(":"), after_dedup.join(":"))
-        },
-    );
-    let after_count = count_dir(&after.path.entries, dir);
-    if expect_removed {
-        report.check("directory removed from PATH", after_count == 0, format!("{dir} appears {after_count} times"));
-    } else {
-        report.check(
-            "duplicate count reduced",
-            after_count < before_count,
-            format!("{dir} appeared {before_count} times, now {after_count}"),
-        );
-    }
-    report
-}
-
 pub struct RemoveDuplicateFixer;
 
 impl Fixer for RemoveDuplicateFixer {
@@ -241,7 +174,7 @@ impl Fixer for RemoveDuplicateFixer {
 
     fn apply(&self, issue: &Issue, ctx: &SystemContext, tx: &mut TxBuilder<'_>) -> Result<()> {
         let dir = issue_dir(issue)?;
-        record_before_state(ctx, tx, &dir);
+        record_before_state(ctx, tx, Some(&dir));
         let (edits, _skipped, notes) = duplicate_edits(ctx, &dir)?;
         for n in notes {
             tx.note(n);
@@ -253,8 +186,8 @@ impl Fixer for RemoveDuplicateFixer {
         Ok(())
     }
 
-    fn validate(&self, _issue: &Issue, ctx: &SystemContext, tx: &TxBuilder<'_>) -> Result<ValidationReport> {
-        Ok(validate_path_change(ctx, tx, false))
+    fn validate(&self, issue: &Issue, ctx: &SystemContext, tx: &TxBuilder<'_>) -> Result<ValidationReport> {
+        Ok(validate_shell_change(ctx, tx, PathExpectation::Reduced(issue_dir(issue)?)))
     }
 }
 
@@ -306,7 +239,7 @@ impl Fixer for RemoveMissingDirectoryFixer {
 
     fn apply(&self, issue: &Issue, ctx: &SystemContext, tx: &mut TxBuilder<'_>) -> Result<()> {
         let dir = issue_dir(issue)?;
-        record_before_state(ctx, tx, &dir);
+        record_before_state(ctx, tx, Some(&dir));
         let (edits, _skipped) = missing_edits(ctx, &dir)?;
         for edit in &edits {
             tx.write_file(&edit.path, edit.updated.as_bytes())?;
@@ -315,7 +248,7 @@ impl Fixer for RemoveMissingDirectoryFixer {
         Ok(())
     }
 
-    fn validate(&self, _issue: &Issue, ctx: &SystemContext, tx: &TxBuilder<'_>) -> Result<ValidationReport> {
-        Ok(validate_path_change(ctx, tx, true))
+    fn validate(&self, issue: &Issue, ctx: &SystemContext, tx: &TxBuilder<'_>) -> Result<ValidationReport> {
+        Ok(validate_shell_change(ctx, tx, PathExpectation::Removed(issue_dir(issue)?)))
     }
 }

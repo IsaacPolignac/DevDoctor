@@ -45,8 +45,14 @@ impl Detector for HomebrewHealthDetector {
             );
         }
         if !inv.in_path {
+            let profile = match ctx.shell {
+                devdoctor_core::shell::ShellKind::Bash => ctx.home.join(".bash_profile"),
+                _ => ctx.home.join(".zprofile"),
+            };
             issues.push(
                 IssueBuilder::new(HEALTH_ID, Category::PackageManagers, "not_in_path", "Homebrew is installed but `brew` is not in PATH")
+                    .fixer("shell.append_line")
+                    .metadata(json!({ "prefix": prefix, "append": { "file": profile, "line": format!("eval \"$({}/bin/brew shellenv)\"", prefix.display()), "expect_path_dir": prefix.join("bin"), "comment": "Homebrew" } }))
                     .severity(Severity::High)
                     .confidence(Confidence::Confirmed)
                     .description(format!(

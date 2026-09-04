@@ -23,6 +23,8 @@ It answers the question every developer eventually asks:
 - Environment snapshots and "What changed" diffs
 - Safe fixes: exact preview, backups, post-fix validation, automatic rollback, manual rollback
 - Desktop app (Tauri + React) and CLI sharing one Rust engine
+- macOS 26 style interface: transparent window with native vibrancy, Liquid Glass surfaces,
+  plain-language explanations for beginners with a "Technical details" switch for experts
 - Fully local: no account, no telemetry, no network access
 
 ## Status
@@ -32,10 +34,11 @@ Version 0.1 (first vertical slice complete). Implemented and tested end to end:
 | Area | What works today |
 | --- | --- |
 | Scans | Quick, Deep and Storage scans; per-detector timings; detector failures isolated |
-| Detectors | 22 real detectors (see `devdoctor detectors`) |
-| Fixers | Remove redundant PATH statements, remove dead PATH directories, restore a startup file from a DevDoctor backup, stop a stale dev process, clear the Homebrew and npm caches, delete a project's `node_modules`, remove an Ollama model |
+| Detectors | 30 real detectors (see `devdoctor detectors`): shell syntax, PATH duplicates/missing/suspicious entries, missing/recursive/duplicate `source`, aliases shadowing commands, environment variables pointing nowhere, Python and Node conflicts, rustup PATH, Homebrew health and `brew doctor`, stale processes, occupied dev ports, caches (Homebrew, npm, pip, uv), Ollama models, broken virtualenvs, stale `node_modules`, brew services, broken launch agents, SSH permissions/config, Git identity |
+| Fixers | 14 fixers, all previewed and transactional: remove redundant PATH statements, remove dead PATH directories, disable a `source` line for a missing file, disable duplicated `source` lines, add the rustup/Homebrew initialisation line, restore a startup file from a DevDoctor backup, stop a stale dev process, clear the Homebrew/npm/pip/uv caches, delete a project's `node_modules`, delete a virtual environment, remove an Ollama model |
 | Safety | Every fix: preview → backup → apply → validate → commit; automatic rollback when validation fails; manual rollback from history |
 | History | Scan history, fix history, environment snapshots, snapshot diffs |
+| Desktop | Home with health ring and plain-language issue groups, first-run onboarding, automatic check on launch, one-click "Fix safely" with preview, undo from a toast, Spotlight-style search (⌘K), live check progress, glossary tooltips |
 | Platform | macOS (Apple Silicon and Intel). The engine is platform-agnostic; only `devdoctor-platform-macos` talks to the OS |
 
 Not implemented yet (and not pretended): Linux/Windows, plugin SDK, universal install tracking,

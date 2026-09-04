@@ -45,11 +45,14 @@ impl Detector for SourceMissingFileDetector {
                 .evidence(format!("{file_display}:{} — {}", s.line, s.raw))
                 .affected_file(s.file.clone(), Some(s.line), Some(s.raw.clone()))
                 .current_state(s.raw.clone())
-                .metadata(json!({ "file": s.file, "line": s.line, "target": target, "raw": s.raw }));
+                .metadata(json!({ "file": s.file, "line": s.line, "target": target, "raw": s.raw, "exclusive_line": s.exclusive_line }));
             builder = match tool_hint {
-                Some(hint) => builder.recommended_action(format!("{hint} Either reinstall the tool or delete line {} from {file_display}.", s.line)),
-                None => builder.recommended_action(format!("Delete line {} from {file_display}, or guard it with `[ -f {target_display} ] && source {target_display}` if the file is created on some machines only.", s.line)),
+                Some(hint) => builder.recommended_action(format!("{hint} Either reinstall the tool or disable line {} of {file_display} (DevDoctor can comment it out for you; the file is backed up first).", s.line)),
+                None => builder.recommended_action(format!("Disable line {} of {file_display} (DevDoctor can comment it out, with a backup), or guard it with `[ -f {target_display} ] && source {target_display}` if the file only exists on some machines.", s.line)),
             };
+            if s.exclusive_line {
+                builder = builder.fixer("shell.source.comment_out");
+            }
             issues.push(builder.build());
         }
         Ok(issues)
@@ -157,13 +160,13 @@ impl Detector for SourceDuplicateDetector {
 
     fn scan(&self, ctx: &SystemContext) -> Result<Vec<Issue>> {
         let analysis = ctx.shell_analysis();
-        let mut by_target: BTreeMap<PathBuf, Vec<(PathBuf, u32, String)>> = BTreeMap::new();
+        let mut by_target: BTreeMap<PathBuf, Vec<(PathBuf, u32, String, bool)>> = BTreeMap::new();
         for s in &analysis.sources {
             if s.in_function || s.conditional {
                 continue;
             }
             if let Some(t) = &s.expanded {
-                by_target.entry(t.clone()).or_default().push((s.file.clone(), s.line, s.raw.clone()));
+                by_target.entry(t.clone()).or_default().push((s.file.clone(), s.line, s.raw.clone(), s.exclusive_line));
             }
         }
         let mut issues = Vec::new();
@@ -171,15 +174,16 @@ impl Detector for SourceDuplicateDetector {
             if refs.len() < 2 {
                 continue;
             }
-            let locations: Vec<String> = refs.iter().map(|(f, l, _)| format!("{}:{}", ctx.display_path(f), l)).collect();
+            let locations: Vec<String> = refs.iter().map(|(f, l, _, _)| format!("{}:{}", ctx.display_path(f), l)).collect();
             let mut builder = IssueBuilder::new(DUPLICATE_ID, Category::Shell, target.display().to_string(), format!("{} is sourced {} times at startup", ctx.display_path(&target), refs.len()))
                 .severity(Severity::Low)
                 .confidence(Confidence::Confirmed)
                 .description(format!("{} is loaded by {}. Loading it once is enough.", ctx.display_path(&target), locations.join(" and ")))
                 .impact("Slower shell startup and, for tools such as nvm or conda, duplicated PATH entries and double initialisation.")
-                .recommended_action(format!("Keep one of the statements and delete the other(s): {}.", locations[1..].join(", ")))
-                .metadata(json!({ "target": target, "references": refs.iter().map(|(f, l, r)| json!({ "file": f, "line": l, "raw": r })).collect::<Vec<_>>() }));
-            for (f, l, r) in &refs {
+                .recommended_action(format!("Keep the first statement and disable the other(s): {}. DevDoctor can comment them out with a backup.", locations[1..].join(", ")))
+                .fixer("shell.source.remove_duplicate")
+                .metadata(json!({ "target": target, "references": refs.iter().map(|(f, l, r, ex)| json!({ "file": f, "line": l, "raw": r, "exclusive_line": ex })).collect::<Vec<_>>() }));
+            for (f, l, r, _) in &refs {
                 builder =
                     builder.evidence(format!("{}:{} — {}", ctx.display_path(f), l, r)).affected_file(f.clone(), Some(*l), Some(r.clone()));
             }
