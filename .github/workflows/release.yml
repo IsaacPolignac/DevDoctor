@@ -11,6 +11,9 @@ jobs:
   cli:
     name: CLI ${{ matrix.target }}
     runs-on: macos-latest
+    env:
+      # Secrets cannot be tested directly in a step `if`; expose their presence at job level.
+      HAS_APPLE_CERT: ${{ secrets.APPLE_CERTIFICATE_P12 != '' }}
     strategy:
       matrix:
         target: [aarch64-apple-darwin, x86_64-apple-darwin]
@@ -25,7 +28,6 @@ jobs:
       - name: Sign the CLI (Developer ID, when configured)
         if: env.HAS_APPLE_CERT == 'true'
         env:
-          HAS_APPLE_CERT: ${{ secrets.APPLE_CERTIFICATE_P12 != '' }}
           APPLE_CERTIFICATE_P12: ${{ secrets.APPLE_CERTIFICATE_P12 }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
           APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
@@ -135,6 +137,9 @@ jobs:
   native-app:
     name: Native app (macOS 26, Apple Silicon)
     runs-on: macos-26
+    env:
+      HAS_APPLE_CERT: ${{ secrets.APPLE_CERTIFICATE_P12 != '' }}
+      HAS_NOTARY: ${{ secrets.APPLE_NOTARY_KEY_P8 != '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -142,7 +147,6 @@ jobs:
       - name: Import the Developer ID certificate (when configured)
         if: env.HAS_APPLE_CERT == 'true'
         env:
-          HAS_APPLE_CERT: ${{ secrets.APPLE_CERTIFICATE_P12 != '' }}
           APPLE_CERTIFICATE_P12: ${{ secrets.APPLE_CERTIFICATE_P12 }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
         run: scripts/ci/import-apple-cert.sh
@@ -154,7 +158,6 @@ jobs:
       - name: Notarize and staple (when configured)
         if: env.HAS_NOTARY == 'true'
         env:
-          HAS_NOTARY: ${{ secrets.APPLE_NOTARY_KEY_P8 != '' }}
           APPLE_NOTARY_KEY_P8: ${{ secrets.APPLE_NOTARY_KEY_P8 }}
           APPLE_NOTARY_KEY_ID: ${{ secrets.APPLE_NOTARY_KEY_ID }}
           APPLE_NOTARY_ISSUER_ID: ${{ secrets.APPLE_NOTARY_ISSUER_ID }}
