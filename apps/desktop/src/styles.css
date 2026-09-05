@@ -359,3 +359,6 @@ textarea.report { width: 100%; height: 280px; font-family: var(--mono); font-siz
 .dash-tile .dt-count.warn { background: var(--orange); }
 .tile { display: inline-flex; align-items: center; justify-content: center; color: #fff; flex: none; box-shadow: inset 0 -1px 0 rgba(0,0,0,0.12), inset 0 0.5px 0 rgba(255,255,255,0.35), 0 0.5px 1px rgba(0,0,0,0.25); }
 .tile .icon { stroke-width: 1.9; }
+
+/* Language names such as 中文 must not wrap inside the segmented control. */
+.segmented button { white-space: nowrap; }

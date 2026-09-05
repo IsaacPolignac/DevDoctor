@@ -205,7 +205,7 @@ export function SettingsPage({ autoScan, onAutoScan }: { autoScan: boolean; onAu
     <div className="page">
       <div className="grid cols-2">
         <Card title={t("Language")}>
-          <div className="switch-row"><span>{t("Interface language")}<div className="secondary caption">{t("System follows your OS languages. Findings and explanations produced by the diagnostic engine are shown in English in this version.")}</div></span><Segmented value={languageChoice} onChange={(v) => setLanguage(v as Language, (lang) => api.setSetting("language", lang))} options={LANGUAGES} /></div>
+          <div className="switch-row"><span>{t("Interface language")}<div className="secondary caption">{t("System follows your OS languages. Findings and explanations produced by the diagnostic engine are shown in English in this version.")}</div></span><Segmented value={languageChoice} onChange={(v) => setLanguage(v as Language, (lang) => api.setSetting("language", lang))} options={LANGUAGES.map((l) => (l.id === "system" ? { ...l, label: t("System") } : l))} /></div>
         </Card>
         <Card title={t("Appearance")}>
           <div className="switch-row"><span>{t("Theme")}<div className="secondary caption">{t("Applies to the window, the sidebar glass and the title bar.")}</div></span><Segmented value={appearance} onChange={(v) => setAppearance(v as Appearance)} options={[{ id: "system", label: t("System") }, { id: "light", label: t("Day") }, { id: "dark", label: t("Night") }]} /></div>
