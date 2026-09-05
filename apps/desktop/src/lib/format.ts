@@ -1,3 +1,4 @@
+import { intlLocale, t } from "./i18n";
 export function formatBytes(bytes: number | null | undefined): string {
   if (bytes == null) return "";
   if (bytes < 1000) return `${bytes} B`;
@@ -21,23 +22,23 @@ export function formatMs(ms: number): string {
 
 export function formatAgo(secs: number | null | undefined): string {
   if (secs == null) return "";
-  if (secs < 60) return "just now";
-  if (secs < 3600) return `${Math.floor(secs / 60)} min ago`;
-  if (secs < 86400) return `${Math.floor(secs / 3600)} h ago`;
-  if (secs < 30 * 86400) return `${Math.floor(secs / 86400)} days ago`;
-  if (secs < 365 * 86400) return `${Math.floor(secs / (30 * 86400))} months ago`;
-  return `${Math.floor(secs / (365 * 86400))} years ago`;
+  if (secs < 60) return t("just now");
+  if (secs < 3600) return t("{n} min ago", { n: Math.floor(secs / 60) });
+  if (secs < 86400) return t("{n} h ago", { n: Math.floor(secs / 3600) });
+  if (secs < 30 * 86400) return t("{n} days ago", { n: Math.floor(secs / 86400) });
+  if (secs < 365 * 86400) return t("{n} months ago", { n: Math.floor(secs / (30 * 86400)) });
+  return t("{n} years ago", { n: Math.floor(secs / (365 * 86400)) });
 }
 
 export function formatDuration(secs: number | null | undefined): string {
-  return formatAgo(secs).replace(" ago", "");
+  return formatAgo(secs).replace(t(" ago"), "").replace(" ago", "");
 }
 
 export function formatDate(iso: string | null | undefined): string {
   if (!iso) return "";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleString(undefined, { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleString(intlLocale, { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
 }
 
 export function relativeDate(iso: string | null | undefined): string {

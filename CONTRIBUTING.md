@@ -23,6 +23,12 @@ cd apps/desktop && npm run typecheck && npm run build
 
 Use `DEVDOCTOR_HOME=/tmp/devdoctor-dev` while developing so your real database stays clean.
 
+Interface strings: write English text in the code (`tr("…")` in Swift, `t("…")` in TypeScript,
+with `%@` / `{name}` placeholders), add the translations to `apps/i18n/strings/*.json`, then run
+`scripts/gen-i18n.py` to regenerate the `.lproj` files and `i18n.generated.ts`.
+`scripts/gen-i18n.py --check` lists strings that still lack a translation. Engine messages
+(detector titles, descriptions) are English and are not part of this table.
+
 Windows: the same commands work from PowerShell (Rust stable with the MSVC toolchain, Node 20+).
 From macOS you can prove a change still compiles for Windows without a PC:
 `rustup target add x86_64-pc-windows-gnu && brew install mingw-w64`, then

@@ -184,6 +184,15 @@ resolution (path only, versions informational), launch agents, listening ports, 
 variable names, tools, Ollama models and (when measured) storage buckets. `snapshot::diff`
 turns two snapshots into described changes and a headline.
 
+## Interface languages
+
+Both front ends use English strings as keys (`tr()` in Swift, `t()` in TypeScript) and one
+translation table, `apps/i18n/strings/*.json`, generated into `Resources/<lang>.lproj/Localizable.strings`
+and `src/lib/i18n.generated.ts` by `scripts/gen-i18n.py`. The native app switches at runtime
+(the root view is rebuilt on change; dates follow the chosen locale); the web app persists the
+choice and reloads so module-level labels are rebuilt. Engine output stays English: issue text is
+assembled from format strings in the detectors and would need a message catalog of its own.
+
 ## The native macOS app
 
 `apps/macos` is a Swift Package (SwiftUI, macOS 26) with no Rust linkage: `EngineClient` runs the

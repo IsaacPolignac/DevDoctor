@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Icon } from "./Icons";
 import { Popover, Segmented, usePrefs, type Appearance, type Glass } from "./Basics";
+import { t } from "../lib/i18n";
 
 export interface ToolbarTabs { options: { id: string; label: string }[]; value: string; onChange: (id: string) => void }
 
@@ -13,26 +14,26 @@ export function Toolbar({ title, status, scanning, onScan, inspector, onToggleIn
   );
   return (
     <div className="toolbar" data-tauri-drag-region>
-      {sidebarHidden && <button className="icon-btn" onClick={onToggleSidebar} title="Show sidebar" style={{ marginRight: 6 }}><Icon name="sidebar-left" size={20} /></button>}
+      {sidebarHidden && <button className="icon-btn" onClick={onToggleSidebar} title={t("Show sidebar")} style={{ marginRight: 6 }}><Icon name="sidebar-left" size={20} /></button>}
       <span className="ttl" data-tauri-drag-region>{title}</span>
       <div className="spacer" data-tauri-drag-region />
       {tabs && tabs.options.length > 1 && <Segmented options={tabs.options} value={tabs.value} onChange={tabs.onChange} />}
       <div className="spacer" data-tauri-drag-region />
       {status && <span className="status">{status}</span>}
       <div className="tb-group">
-        <button className="tb-btn" onClick={onSearch} title="Search (⌘K)"><Icon name="search" /></button>
-        <button className="tb-btn" onClick={onScan} disabled={scanning} title="Run a new diagnostic scan (⌘R)"><Icon name="refresh" /></button>
+        <button className="tb-btn" onClick={onSearch} title={t("Search (⌘K)")}><Icon name="search" /></button>
+        <button className="tb-btn" onClick={onScan} disabled={scanning} title={t("Run a new diagnostic scan (⌘R)")}><Icon name="refresh" /></button>
         <div style={{ position: "relative" }}>
-          <button className="tb-btn wide" style={{ width: 50 }} onClick={() => setMenu((m) => !m)} title="Appearance and Liquid Glass"><Icon name={appearanceIcon} /><Icon name="chevron-down" className="chev" /></button>
+          <button className="tb-btn wide" style={{ width: 50 }} onClick={() => setMenu((m) => !m)} title={t("Appearance and Liquid Glass")}><Icon name={appearanceIcon} /><Icon name="chevron-down" className="chev" /></button>
           <Popover open={menu} onClose={() => setMenu(false)}>
-            <div className="ph">Appearance</div>
-            {(["system", "light", "dark"] as Appearance[]).map((a) => item(a === "system" ? "System" : a === "light" ? "Light" : "Dark", appearance === a, a === "system" ? "half-circle" : a === "light" ? "sun" : "moon", () => setAppearance(a)))}
+            <div className="ph">{t("Appearance")}</div>
+            {(["system", "light", "dark"] as Appearance[]).map((a) => item(a === "system" ? t("System") : a === "light" ? t("Light") : t("Dark"), appearance === a, a === "system" ? "half-circle" : a === "light" ? "sun" : "moon", () => setAppearance(a)))}
             <div className="sep" />
-            <div className="ph">Liquid Glass</div>
-            {(["clear", "tinted"] as Glass[]).map((g) => item(g === "clear" ? "Clear" : "Tinted", glass === g, undefined, () => setGlass(g)))}
+            <div className="ph">{t("Liquid Glass")}</div>
+            {(["clear", "tinted"] as Glass[]).map((g) => item(g === "clear" ? t("Clear") : t("Tinted"), glass === g, undefined, () => setGlass(g)))}
           </Popover>
         </div>
-        {inspector !== null && <button className="tb-btn" style={{ width: 40 }} onClick={onToggleInspector} title={inspector ? "Hide Inspector (⌥⌘I)" : "Show Inspector (⌥⌘I)"}><Icon name="sidebar-right" /></button>}
+        {inspector !== null && <button className="tb-btn" style={{ width: 40 }} onClick={onToggleInspector} title={inspector ? t("Hide Inspector (⌥⌘I)") : t("Show Inspector (⌥⌘I)")}><Icon name="sidebar-right" /></button>}
       </div>
     </div>
   );

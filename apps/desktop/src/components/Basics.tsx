@@ -5,6 +5,7 @@ import { useNav } from "../lib/nav";
 import { shortenHome } from "../lib/format";
 import { api } from "../lib/api";
 import { Icon, type IconName } from "./Icons";
+import { t } from "../lib/i18n";
 
 /* ---------- preferences ---------- */
 export type Appearance = "system" | "light" | "dark";
@@ -35,16 +36,16 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={{ push }}>
       {children}
       <div className="toasts">
-        {toasts.map((t) => (
-          <div key={t.id} className="toast">
-            {t.tone === "green" && <Icon name="check-circle-fill" style={{ color: "var(--green)" }} />}
-            {t.tone === "red" && <Icon name="triangle-fill" style={{ color: "var(--orange)" }} />}
+        {toasts.map((toast) => (
+          <div key={toast.id} className="toast">
+            {toast.tone === "green" && <Icon name="check-circle-fill" style={{ color: "var(--green)" }} />}
+            {toast.tone === "red" && <Icon name="triangle-fill" style={{ color: "var(--orange)" }} />}
             <div>
-              <div className="t-title">{t.title}</div>
-              {t.body && <div className="t-body">{t.body}</div>}
+              <div className="t-title">{toast.title}</div>
+              {toast.body && <div className="t-body">{toast.body}</div>}
             </div>
-            {t.action && <button className="btn small" onClick={() => { t.action?.onClick(); setToasts((all) => all.filter((x) => x.id !== t.id)); }}>{t.action.label}</button>}
-            <button className="icon-btn" onClick={() => setToasts((all) => all.filter((x) => x.id !== t.id))} title="Dismiss"><Icon name="x" size={12} /></button>
+            {toast.action && <button className="btn small" onClick={() => { toast.action?.onClick(); setToasts((all) => all.filter((x) => x.id !== toast.id)); }}>{toast.action.label}</button>}
+            <button className="icon-btn" onClick={() => setToasts((all) => all.filter((x) => x.id !== toast.id))} title={t("Dismiss")}><Icon name="x" size={12} /></button>
           </div>
         ))}
       </div>
@@ -71,13 +72,13 @@ export function ConfidencePill({ confidence }: { confidence: Confidence }) {
 
 export function StatusPill({ status }: { status: string }) {
   const tone: Tone = status === "applied" ? "green" : status === "rolled_back" ? "blue" : status.includes("fail") ? "red" : "gray";
-  const label = status === "applied" ? "Applied" : status === "rolled_back" ? "Undone" : status === "failed" ? "Failed (rolled back)" : status.replace("_", " ");
+  const label = status === "applied" ? t("Applied") : status === "rolled_back" ? t("Undone") : status === "failed" ? t("Failed (rolled back)") : status.replace("_", " ");
   return <Pill tone={tone}>{label}</Pill>;
 }
 
 type Variant = "default" | "primary" | "prominent" | "ghost" | "plain" | "destructive" | "destructive-primary";
 export function Button({ variant = "default", size, icon, onClick, disabled, children, title, className, full }: { variant?: Variant; size?: "small" | "large"; icon?: IconName; onClick?: () => void; disabled?: boolean; children?: ReactNode; title?: string; className?: string; full?: boolean }) {
-  const cls = ["btn", (variant === "primary" || variant === "prominent") ? "prominent" : "", (variant === "ghost" || variant === "plain") ? "plain" : "", variant === "destructive" ? "destructive" : "", variant === "destructive-primary" ? "destructive prominent" : "", size ?? "", full ? "full" : "", className ?? ""].filter(Boolean).join(" ");
+  const cls = ["btn", (variant === "primary" || variant === "prominent") ? "prominent" : "", (variant === "ghost" || variant === "plain") ? "plain" : "", variant === "destructive" ? "destructive" : "", variant === "destructive-primary" ? t("destructive prominent") : "", size ?? "", full ? "full" : "", className ?? ""].filter(Boolean).join(" ");
   return <button className={cls} onClick={onClick} disabled={disabled} title={title}>{icon && <Icon name={icon} size={size === "small" ? 12 : 14} />}{children}</button>;
 }
 
@@ -114,7 +115,7 @@ export function ErrorBox({ error }: { error: string | null | undefined }) {
 }
 
 export function Loading({ what }: { what?: string }) {
-  return <p className="secondary" style={{ display: "flex", gap: 8, alignItems: "center" }}><span className="spinner" /> Loading{what ? ` ${what}` : ""}…</p>;
+  return <p className="secondary" style={{ display: "flex", gap: 8, alignItems: "center" }}><span className="spinner" /> {t(" Loading")}{what ? ` ${what}` : ""}…</p>;
 }
 
 export function Stat({ value, label }: { value: ReactNode; label: ReactNode }) {
@@ -139,7 +140,7 @@ export function PathLink({ path, line }: { path: string; line?: number }) {
   return (
     <span className="mono selectable">
       {shortenHome(path, home)}{line != null ? `:${line}` : ""}{" "}
-      <button className="icon-btn" style={{ width: 20, height: 20, verticalAlign: "middle" }} title="Reveal in Finder" onClick={() => api.reveal(path).catch(() => {})}><Icon name="folder" size={12} /></button>
+      <button className="icon-btn" style={{ width: 20, height: 20, verticalAlign: "middle" }} title={t("Reveal in Finder")} onClick={() => api.reveal(path).catch(() => {})}><Icon name="folder" size={12} /></button>
     </span>
   );
 }
@@ -159,14 +160,14 @@ export function Disclosure({ label, children, defaultOpen }: { label: string; ch
 
 export function Term({ k, children }: { k: string; children?: ReactNode }) {
   const text = GLOSSARY[k];
-  if (!text) return <>{children ?? k}</>;
-  return <span className="term">{children ?? k}<span className="tip">{text}</span></span>;
+  if (!text) return <>{children ?? t(k)}</>;
+  return <span className="term">{children ?? t(k)}<span className="tip">{t(text)}</span></span>;
 }
 
 export interface Column<T> { key: string; label: string; render?: (row: T) => ReactNode; className?: string; width?: string }
 
 export function DataTable<T>({ columns, rows, rowKey, onRowClick, selectedKey, empty }: { columns: Column<T>[]; rows: T[]; rowKey: (row: T) => string; onRowClick?: (row: T) => void; selectedKey?: string | null; empty?: ReactNode }) {
-  if (rows.length === 0) return <div className="table-wrap"><Empty>{empty ?? "Nothing to show."}</Empty></div>;
+  if (rows.length === 0) return <div className="table-wrap"><Empty>{empty ?? t("Nothing to show.")}</Empty></div>;
   return (
     <div className="table-wrap">
       <div style={{ overflowX: "auto" }}>
@@ -209,9 +210,9 @@ export function Sheet({ title, caption, icon, children, onClose, footer, wide }:
 export function ConfirmDialog({ title, caption, icon, children, confirmLabel, danger, busy, onConfirm, onCancel, wide }: { title: ReactNode; caption?: ReactNode; icon?: IconName; children: ReactNode; confirmLabel: string; danger?: boolean; busy?: boolean; onConfirm: () => void; onCancel: () => void; wide?: boolean }) {
   return (
     <Sheet title={title} caption={caption} icon={icon ?? "wrench-screwdriver"} wide={wide} onClose={busy ? () => {} : onCancel} footer={<>
-      <Button onClick={onCancel} disabled={busy}>Cancel</Button>
+      <Button onClick={onCancel} disabled={busy}>{t("Cancel")}</Button>
       <span className="spacer" />
-      <Button variant={danger ? "destructive-primary" : "prominent"} onClick={onConfirm} disabled={busy}>{busy ? "Working…" : confirmLabel}</Button>
+      <Button variant={danger ? "destructive-primary" : "prominent"} onClick={onConfirm} disabled={busy}>{busy ? t("Working…") : confirmLabel}</Button>
     </>}>
       {children}
     </Sheet>

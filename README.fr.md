@@ -48,6 +48,9 @@ Il répond à la question que tout développeur finit par se poser :
   winget/Scoop/Chocolatey, et planifie les snapshots quotidiens avec le Planificateur de tâches.
   Le PATH Windows n'est pas encore modifié automatiquement ; l'analyse du démarrage du shell ne
   s'applique pas à PowerShell
+- **Interface en français, anglais, espagnol et chinois simplifié** : choix Système / English / Français /
+  Español / 中文 dans les réglages des deux applications de bureau ; les diagnostics eux-mêmes
+  restent en anglais dans cette version
 - **Entièrement local** : pas de compte, pas de télémétrie, pas d'accès réseau
 
 ## Installation
@@ -132,6 +135,19 @@ trouvés (`doctor`, `scan --fail-on`), 3 abandon par l'utilisateur.
 DevDoctor n'exécute jamais `sudo`, ne modifie jamais de fichiers hors de votre dossier
 personnel, ne touche jamais `~/.ssh`, `~/.gnupg` ni les trousseaux, et n'exécute jamais de
 chaînes shell construites à partir d'entrées non maîtrisées.
+
+## Langues
+
+Les deux applications de bureau proposent le choix de la langue dans les réglages : **Système**
+(suit le système d'exploitation), **English**, **Français**, **Español** ou **中文** (chinois
+simplifié). Le choix est enregistré localement ; l'application web se recharge pour l'appliquer.
+Les résultats, explications et preuves produits par le moteur de diagnostic (et la sortie de la
+ligne de commande) restent en anglais dans cette version.
+
+Les traductions sont centralisées dans `apps/i18n/strings/*.json` (le texte anglais sert de clé),
+et `scripts/gen-i18n.py` génère les fichiers `.lproj` Swift et le dictionnaire TypeScript.
+`scripts/gen-i18n.py --check` liste les textes d'interface sans traduction ; un texte manquant
+s'affiche en anglais.
 
 ## Données et confidentialité
 

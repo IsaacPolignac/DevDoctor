@@ -1,0 +1,672 @@
+{
+  "PATH Entry": {
+    "fr": "Entrée PATH",
+    "es": "Entrada del PATH",
+    "zh-Hans": "PATH 条目"
+  },
+  "PATH Explorer": {
+    "fr": "Explorateur PATH",
+    "es": "Explorador del PATH",
+    "zh-Hans": "PATH 浏览器"
+  },
+  "PATH Unavailable": {
+    "fr": "PATH indisponible",
+    "es": "PATH no disponible",
+    "zh-Hans": "PATH 不可用"
+  },
+  "PATH has no duplicate entries": {
+    "fr": "Le PATH n'a pas d'entrée en double",
+    "es": "El PATH no tiene entradas duplicadas",
+    "zh-Hans": "PATH 中没有重复条目"
+  },
+  "PID %@ · %@": {
+    "fr": "PID %@ · %@",
+    "es": "PID %@ · %@",
+    "zh-Hans": "PID %@ · %@"
+  },
+  "Package managers": {
+    "fr": "Gestionnaires de paquets",
+    "es": "Gestores de paquetes",
+    "zh-Hans": "包管理器"
+  },
+  "Packages": {
+    "fr": "Paquets",
+    "es": "Paquetes",
+    "zh-Hans": "软件包"
+  },
+  "Packages Unavailable": {
+    "fr": "Paquets indisponibles",
+    "es": "Paquetes no disponibles",
+    "zh-Hans": "软件包信息不可用"
+  },
+  "Passed": {
+    "fr": "Réussi",
+    "es": "Superado",
+    "zh-Hans": "通过"
+  },
+  "Permissions": {
+    "fr": "Permissions",
+    "es": "Permisos",
+    "zh-Hans": "权限"
+  },
+  "Port": {
+    "fr": "Port",
+    "es": "Puerto",
+    "zh-Hans": "端口"
+  },
+  "Port %@": {
+    "fr": "Port %@",
+    "es": "Puerto %@",
+    "zh-Hans": "端口 %@"
+  },
+  "Ports": {
+    "fr": "Ports",
+    "es": "Puertos",
+    "zh-Hans": "端口"
+  },
+  "Ports Unavailable": {
+    "fr": "Ports indisponibles",
+    "es": "Puertos no disponibles",
+    "zh-Hans": "端口信息不可用"
+  },
+  "Possible": {
+    "fr": "Possible",
+    "es": "Posible",
+    "zh-Hans": "可能"
+  },
+  "Possibly stale": {
+    "fr": "Peut-être obsolète",
+    "es": "Posiblemente obsoleto",
+    "zh-Hans": "可能已过期"
+  },
+  "Preferences": {
+    "fr": "Préférences",
+    "es": "Preferencias",
+    "zh-Hans": "偏好设置"
+  },
+  "Preferences, detectors and diagnostic export.": {
+    "fr": "Préférences, détecteurs et export de diagnostic.",
+    "es": "Preferencias, detectores y exportación de diagnóstico.",
+    "zh-Hans": "偏好设置、检测器和诊断导出。"
+  },
+  "Preparing previews…": {
+    "fr": "Préparation des aperçus…",
+    "es": "Preparando vistas previas…",
+    "zh-Hans": "正在准备预览…"
+  },
+  "Preparing the repair preview…": {
+    "fr": "Préparation de l'aperçu de la réparation…",
+    "es": "Preparando la vista previa de la reparación…",
+    "zh-Hans": "正在准备修复预览…"
+  },
+  "Press ⌘R to scan": {
+    "fr": "Appuyez sur ⌘R pour analyser",
+    "es": "Pulsa ⌘R para analizar",
+    "zh-Hans": "按 ⌘R 开始扫描"
+  },
+  "Preview Fix": {
+    "fr": "Aperçu de la correction",
+    "es": "Previsualizar corrección",
+    "zh-Hans": "预览修复"
+  },
+  "Preview Repair": {
+    "fr": "Aperçu de la réparation",
+    "es": "Previsualizar reparación",
+    "zh-Hans": "预览修复"
+  },
+  "Preview Repair…": {
+    "fr": "Aperçu de la réparation…",
+    "es": "Previsualizar reparación…",
+    "zh-Hans": "预览修复…"
+  },
+  "Preview Safe Fix": {
+    "fr": "Aperçu de la correction sans risque",
+    "es": "Previsualizar corrección segura",
+    "zh-Hans": "预览安全修复"
+  },
+  "Preview and confirmation required; not reversible": {
+    "fr": "Aperçu et confirmation requis ; irréversible",
+    "es": "Se requiere vista previa y confirmación; no reversible",
+    "zh-Hans": "需要预览并确认；不可逆"
+  },
+  "Preview before any change": {
+    "fr": "Aperçu avant tout changement",
+    "es": "Vista previa antes de cualquier cambio",
+    "zh-Hans": "任何更改前先预览"
+  },
+  "Preview first": {
+    "fr": "Aperçu d'abord",
+    "es": "Primero la vista previa",
+    "zh-Hans": "先预览"
+  },
+  "Previous state restored": {
+    "fr": "État précédent restauré",
+    "es": "Estado anterior restaurado",
+    "zh-Hans": "已恢复到之前的状态"
+  },
+  "Printed when a terminal opens": {
+    "fr": "Affiché à l'ouverture d'un terminal",
+    "es": "Se imprime al abrir un terminal",
+    "zh-Hans": "打开终端时输出"
+  },
+  "Privacy & Safety": {
+    "fr": "Confidentialité et sécurité",
+    "es": "Privacidad y seguridad",
+    "zh-Hans": "隐私与安全"
+  },
+  "Private key contents are never read.": {
+    "fr": "Le contenu des clés privées n'est jamais lu.",
+    "es": "El contenido de las claves privadas nunca se lee.",
+    "zh-Hans": "绝不会读取私钥的内容。"
+  },
+  "Probable": {
+    "fr": "Probable",
+    "es": "Probable",
+    "zh-Hans": "很可能"
+  },
+  "Problem": {
+    "fr": "Problème",
+    "es": "Problema",
+    "zh-Hans": "问题"
+  },
+  "Problems": {
+    "fr": "Problèmes",
+    "es": "Problemas",
+    "zh-Hans": "问题"
+  },
+  "Process": {
+    "fr": "Processus",
+    "es": "Proceso",
+    "zh-Hans": "进程"
+  },
+  "Processes": {
+    "fr": "Processus",
+    "es": "Procesos",
+    "zh-Hans": "进程"
+  },
+  "Processes Unavailable": {
+    "fr": "Processus indisponibles",
+    "es": "Procesos no disponibles",
+    "zh-Hans": "进程信息不可用"
+  },
+  "Program": {
+    "fr": "Programme",
+    "es": "Programa",
+    "zh-Hans": "程序"
+  },
+  "Program stopped": {
+    "fr": "Programme arrêté",
+    "es": "Programa detenido",
+    "zh-Hans": "程序已停止"
+  },
+  "Program that runs": {
+    "fr": "Programme exécuté",
+    "es": "Programa que se ejecuta",
+    "zh-Hans": "实际运行的程序"
+  },
+  "Programs macOS starts for you at login, described by ": {
+    "fr": "Programmes que macOS démarre pour vous à la connexion, décrits par des ",
+    "es": "Programas que macOS inicia por ti al iniciar sesión, descritos por ",
+    "zh-Hans": "macOS 在登录时为您启动的程序，由以下项描述："
+  },
+  "Programs macOS starts for you at login.": {
+    "fr": "Programmes que macOS démarre pour vous à la connexion.",
+    "es": "Programas que macOS inicia por ti al iniciar sesión.",
+    "zh-Hans": "macOS 在登录时为您启动的程序。"
+  },
+  "Programs stopped": {
+    "fr": "Programmes arrêtés",
+    "es": "Programas detenidos",
+    "zh-Hans": "已停止的程序"
+  },
+  "Project": {
+    "fr": "Projet",
+    "es": "Proyecto",
+    "zh-Hans": "项目"
+  },
+  "Project Artifacts": {
+    "fr": "Artefacts de projets",
+    "es": "Artefactos de proyectos",
+    "zh-Hans": "项目产物"
+  },
+  "Proposed Change": {
+    "fr": "Changement proposé",
+    "es": "Cambio propuesto",
+    "zh-Hans": "建议的更改"
+  },
+  "Proposed repair": {
+    "fr": "Réparation proposée",
+    "es": "Reparación propuesta",
+    "zh-Hans": "建议的修复"
+  },
+  "Public key": {
+    "fr": "Clé publique",
+    "es": "Clave pública",
+    "zh-Hans": "公钥"
+  },
+  "Python %@": {
+    "fr": "Python %@",
+    "es": "Python %@",
+    "zh-Hans": "Python %@"
+  },
+  "Python Installs": {
+    "fr": "Installations Python",
+    "es": "Instalaciones de Python",
+    "zh-Hans": "Python 安装"
+  },
+  "Python environments": {
+    "fr": "Environnements Python",
+    "es": "Entornos de Python",
+    "zh-Hans": "Python 环境"
+  },
+  "Python environments ({n})": {
+    "fr": "Environnements Python ({n})",
+    "es": "Entornos de Python ({n})",
+    "zh-Hans": "Python 环境（{n}）"
+  },
+  "Quick Check": {
+    "fr": "Vérification rapide",
+    "es": "Comprobación rápida",
+    "zh-Hans": "快速检查"
+  },
+  "Ran %@ %@ (exit %@)": {
+    "fr": "Exécuté %@ %@ (sortie %@)",
+    "es": "Ejecutado %@ %@ (salida %@)",
+    "zh-Hans": "已运行 %@ %@（退出码 %@）"
+  },
+  "Ran {command} (exit {code})": {
+    "fr": "Exécuté {command} (sortie {code})",
+    "es": "Ejecutado {command} (salida {code})",
+    "zh-Hans": "已运行 {command}（退出码 {code}）"
+  },
+  "Re-creatable": {
+    "fr": "Recréable",
+    "es": "Recreable",
+    "zh-Hans": "可重新生成"
+  },
+  "Re-creatable data": {
+    "fr": "Données recréables",
+    "es": "Datos recreables",
+    "zh-Hans": "可重新生成的数据"
+  },
+  "Reachable from": {
+    "fr": "Accessible depuis",
+    "es": "Accesible desde",
+    "zh-Hans": "可访问范围"
+  },
+  "Reading Git configuration…": {
+    "fr": "Lecture de la configuration Git…",
+    "es": "Leyendo la configuración de Git…",
+    "zh-Hans": "正在读取 Git 配置…"
+  },
+  "Reading SSH metadata…": {
+    "fr": "Lecture des métadonnées SSH…",
+    "es": "Leyendo metadatos de SSH…",
+    "zh-Hans": "正在读取 SSH 元数据…"
+  },
+  "Reading active processes…": {
+    "fr": "Lecture des processus actifs…",
+    "es": "Leyendo procesos activos…",
+    "zh-Hans": "正在读取活动进程…"
+  },
+  "Reading launch agents…": {
+    "fr": "Lecture des agents de lancement…",
+    "es": "Leyendo agentes de inicio…",
+    "zh-Hans": "正在读取启动代理…"
+  },
+  "Reading local history…": {
+    "fr": "Lecture de l'historique local…",
+    "es": "Leyendo el historial local…",
+    "zh-Hans": "正在读取本地历史…"
+  },
+  "Reading package managers…": {
+    "fr": "Lecture des gestionnaires de paquets…",
+    "es": "Leyendo gestores de paquetes…",
+    "zh-Hans": "正在读取包管理器…"
+  },
+  "Reading shell configuration and PATH…": {
+    "fr": "Lecture de la configuration du shell et du PATH…",
+    "es": "Leyendo la configuración del shell y el PATH…",
+    "zh-Hans": "正在读取 shell 配置和 PATH…"
+  },
+  "Reading shell startup files…": {
+    "fr": "Lecture des fichiers de démarrage du shell…",
+    "es": "Leyendo los archivos de inicio del shell…",
+    "zh-Hans": "正在读取 shell 启动文件…"
+  },
+  "Reading snapshots…": {
+    "fr": "Lecture des instantanés…",
+    "es": "Leyendo instantáneas…",
+    "zh-Hans": "正在读取快照…"
+  },
+  "Ready": {
+    "fr": "Prêt",
+    "es": "Listo",
+    "zh-Hans": "就绪"
+  },
+  "Ready for a local scan": {
+    "fr": "Prêt pour une analyse locale",
+    "es": "Listo para un análisis local",
+    "zh-Hans": "已准备好进行本地扫描"
+  },
+  "Ready to scan locally": {
+    "fr": "Prêt à analyser en local",
+    "es": "Listo para analizar localmente",
+    "zh-Hans": "已准备好本地扫描"
+  },
+  "Ready with": {
+    "fr": "Prêt avec",
+    "es": "Listo con",
+    "zh-Hans": "就绪："
+  },
+  "Really located at": {
+    "fr": "Réellement situé dans",
+    "es": "Ubicado realmente en",
+    "zh-Hans": "实际位置"
+  },
+  "Rebuild with": {
+    "fr": "Recréer avec",
+    "es": "Reconstruir con",
+    "zh-Hans": "重新生成命令"
+  },
+  "Reclaimable": {
+    "fr": "Récupérable",
+    "es": "Recuperable",
+    "zh-Hans": "可回收"
+  },
+  "Recommendation": {
+    "fr": "Recommandation",
+    "es": "Recomendación",
+    "zh-Hans": "建议"
+  },
+  "Recommendations": {
+    "fr": "Recommandations",
+    "es": "Recomendaciones",
+    "zh-Hans": "建议"
+  },
+  "Recorded Runs · %@": {
+    "fr": "Exécutions enregistrées · %@",
+    "es": "Ejecuciones registradas · %@",
+    "zh-Hans": "记录的运行 · %@"
+  },
+  "Recorded installs": {
+    "fr": "Installations enregistrées",
+    "es": "Instalaciones registradas",
+    "zh-Hans": "记录的安装"
+  },
+  "Recorded repairs": {
+    "fr": "Réparations enregistrées",
+    "es": "Reparaciones registradas",
+    "zh-Hans": "记录的修复"
+  },
+  "Recovered": {
+    "fr": "Récupéré",
+    "es": "Recuperado",
+    "zh-Hans": "已回收"
+  },
+  "Refresh": {
+    "fr": "Actualiser",
+    "es": "Actualizar",
+    "zh-Hans": "刷新"
+  },
+  "Removed broken link %@ → %@": {
+    "fr": "Lien cassé supprimé %@ → %@",
+    "es": "Enlace roto eliminado %@ → %@",
+    "zh-Hans": "已移除损坏的链接 %@ → %@"
+  },
+  "Remove…": {
+    "fr": "Supprimer…",
+    "es": "Quitar…",
+    "zh-Hans": "移除…"
+  },
+  "Removing Hugging Face, MLX or LM Studio models is not automated yet; use the folder button and the tool's own commands.": {
+    "fr": "La suppression des modèles Hugging Face, MLX ou LM Studio n'est pas encore automatisée ; utilisez le bouton de dossier et les commandes de l'outil.",
+    "es": "Eliminar modelos de Hugging Face, MLX o LM Studio aún no está automatizado; usa el botón de carpeta y los comandos propios de la herramienta.",
+    "zh-Hans": "移除 Hugging Face、MLX 或 LM Studio 模型尚未自动化；请使用文件夹按钮和工具自身的命令。"
+  },
+  "Repair applied": {
+    "fr": "Réparation appliquée",
+    "es": "Reparación aplicada",
+    "zh-Hans": "修复已应用"
+  },
+  "Repairs & Rollbacks · %@": {
+    "fr": "Réparations et retours arrière · %@",
+    "es": "Reparaciones y reversiones · %@",
+    "zh-Hans": "修复与回滚 · %@"
+  },
+  "Repairs and rollback records appear here.": {
+    "fr": "Les réparations et les retours arrière apparaissent ici.",
+    "es": "Las reparaciones y los registros de reversión aparecen aquí.",
+    "zh-Hans": "修复和回滚记录将显示在这里。"
+  },
+  "Reports": {
+    "fr": "Rapports",
+    "es": "Informes",
+    "zh-Hans": "报告"
+  },
+  "Repository / file": {
+    "fr": "Dépôt / fichier",
+    "es": "Repositorio / archivo",
+    "zh-Hans": "仓库 / 文件"
+  },
+  "Resolve": {
+    "fr": "Résoudre",
+    "es": "Resolver",
+    "zh-Hans": "解析"
+  },
+  "Resolve a Command": {
+    "fr": "Résoudre une commande",
+    "es": "Resolver un comando",
+    "zh-Hans": "解析命令"
+  },
+  "Restore files": {
+    "fr": "Restaurer les fichiers",
+    "es": "Restaurar archivos",
+    "zh-Hans": "恢复文件"
+  },
+  "Result": {
+    "fr": "Résultat",
+    "es": "Resultado",
+    "zh-Hans": "结果"
+  },
+  "Results": {
+    "fr": "Résultats",
+    "es": "Resultados",
+    "zh-Hans": "结果"
+  },
+  "Results for “%@”": {
+    "fr": "Résultats pour « %@ »",
+    "es": "Resultados para «%@»",
+    "zh-Hans": "“%@”的结果"
+  },
+  "Reveal in Finder": {
+    "fr": "Afficher dans le Finder",
+    "es": "Mostrar en el Finder",
+    "zh-Hans": "在访达中显示"
+  },
+  "Reversible": {
+    "fr": "Réversible",
+    "es": "Reversible",
+    "zh-Hans": "可逆"
+  },
+  "Review": {
+    "fr": "Examiner",
+    "es": "Revisar",
+    "zh-Hans": "查看"
+  },
+  "Review carefully": {
+    "fr": "À examiner attentivement",
+    "es": "Revisar con cuidado",
+    "zh-Hans": "请仔细查看"
+  },
+  "Review every operation before it is applied.": {
+    "fr": "Examinez chaque opération avant son application.",
+    "es": "Revisa cada operación antes de aplicarla.",
+    "zh-Hans": "在应用前查看每项操作。"
+  },
+  "Review the exact changes before applying them.": {
+    "fr": "Examinez les changements exacts avant de les appliquer.",
+    "es": "Revisa los cambios exactos antes de aplicarlos.",
+    "zh-Hans": "应用前查看确切的更改。"
+  },
+  "Review what was found before deciding whether to change anything.": {
+    "fr": "Examinez ce qui a été trouvé avant de décider de changer quoi que ce soit.",
+    "es": "Revisa lo encontrado antes de decidir si cambiar algo.",
+    "zh-Hans": "在决定是否更改之前，先查看发现的内容。"
+  },
+  "Risk: ": {
+    "fr": "Risque : ",
+    "es": "Riesgo: ",
+    "zh-Hans": "风险："
+  },
+  "Role": {
+    "fr": "Rôle",
+    "es": "Rol",
+    "zh-Hans": "角色"
+  },
+  "Rollback complete": {
+    "fr": "Retour arrière terminé",
+    "es": "Reversión completada",
+    "zh-Hans": "回滚完成"
+  },
+  "Rollback failed": {
+    "fr": "Échec du retour arrière",
+    "es": "Reversión fallida",
+    "zh-Hans": "回滚失败"
+  },
+  "Rollback ready": {
+    "fr": "Retour arrière prêt",
+    "es": "Reversión lista",
+    "zh-Hans": "可以回滚"
+  },
+  "Rolled back": {
+    "fr": "Annulé",
+    "es": "Revertido",
+    "zh-Hans": "已回滚"
+  },
+  "Run Deep Check (includes brew doctor and storage)": {
+    "fr": "Lancer une vérification approfondie (avec brew doctor et le stockage)",
+    "es": "Ejecutar comprobación profunda (incluye brew doctor y almacenamiento)",
+    "zh-Hans": "运行深度检查（包含 brew doctor 和存储）"
+  },
+  "Run First Scan": {
+    "fr": "Lancer la première analyse",
+    "es": "Ejecutar el primer análisis",
+    "zh-Hans": "运行首次扫描"
+  },
+  "Run Quick Check": {
+    "fr": "Lancer une vérification rapide",
+    "es": "Ejecutar comprobación rápida",
+    "zh-Hans": "运行快速检查"
+  },
+  "Run Scan": {
+    "fr": "Lancer l'analyse",
+    "es": "Ejecutar análisis",
+    "zh-Hans": "运行扫描"
+  },
+  "Run a new diagnostic scan (⌘R)": {
+    "fr": "Lancer une nouvelle analyse de diagnostic (⌘R)",
+    "es": "Ejecutar un nuevo análisis de diagnóstico (⌘R)",
+    "zh-Hans": "运行新的诊断扫描 (⌘R)"
+  },
+  "Run a quick check (⌘R); hold for deep and storage checks": {
+    "fr": "Lancer une vérification rapide (⌘R) ; maintenir pour les vérifications approfondie et de stockage",
+    "es": "Ejecutar una comprobación rápida (⌘R); mantén pulsado para comprobaciones profunda y de almacenamiento",
+    "zh-Hans": "运行快速检查 (⌘R)；长按可选择深度检查和存储检查"
+  },
+  "Run a quick check when DevDoctor opens (if the last one is older than an hour)": {
+    "fr": "Lancer une vérification rapide à l'ouverture de DevDoctor (si la dernière date de plus d'une heure)",
+    "es": "Ejecutar una comprobación rápida al abrir DevDoctor (si la última tiene más de una hora)",
+    "zh-Hans": "打开 DevDoctor 时运行快速检查（若上次检查已超过一小时）"
+  },
+  "Run a scan to build your health summary.": {
+    "fr": "Lancez une analyse pour construire votre résumé de santé.",
+    "es": "Ejecuta un análisis para generar tu resumen de salud.",
+    "zh-Hans": "运行扫描以生成健康摘要。"
+  },
+  "Run a scan to check runtimes, shell configuration, and local developer tools.": {
+    "fr": "Lancez une analyse pour vérifier les runtimes, la configuration du shell et les outils de développement locaux.",
+    "es": "Ejecuta un análisis para comprobar runtimes, configuración del shell y herramientas de desarrollo locales.",
+    "zh-Hans": "运行扫描以检查运行时、shell 配置和本地开发工具。"
+  },
+  "Run a scan to see results.": {
+    "fr": "Lancez une analyse pour voir les résultats.",
+    "es": "Ejecuta un análisis para ver resultados.",
+    "zh-Hans": "运行扫描以查看结果。"
+  },
+  "Run a scan to see your score.": {
+    "fr": "Lancez une analyse pour voir votre score.",
+    "es": "Ejecuta un análisis para ver tu puntuación.",
+    "zh-Hans": "运行扫描以查看评分。"
+  },
+  "Run first scan": {
+    "fr": "Lancer la première analyse",
+    "es": "Ejecutar el primer análisis",
+    "zh-Hans": "运行首次扫描"
+  },
+  "Running": {
+    "fr": "En cours",
+    "es": "En ejecución",
+    "zh-Hans": "运行中"
+  },
+  "Running for": {
+    "fr": "En cours depuis",
+    "es": "En ejecución desde hace",
+    "zh-Hans": "已运行"
+  },
+  "Running local checks…": {
+    "fr": "Exécution des vérifications locales…",
+    "es": "Ejecutando comprobaciones locales…",
+    "zh-Hans": "正在运行本地检查…"
+  },
+  "Running programs": {
+    "fr": "Programmes en cours",
+    "es": "Programas en ejecución",
+    "zh-Hans": "正在运行的程序"
+  },
+  "Runs": {
+    "fr": "Exécutions",
+    "es": "Ejecuciones",
+    "zh-Hans": "运行记录"
+  },
+  "Runs a quick check if the last one is older than an hour.": {
+    "fr": "Lance une vérification rapide si la dernière date de plus d'une heure.",
+    "es": "Ejecuta una comprobación rápida si la última tiene más de una hora.",
+    "zh-Hans": "若上次检查已超过一小时，则运行快速检查。"
+  },
+  "Runs in": {
+    "fr": "S'exécute dans",
+    "es": "Se ejecuta en",
+    "zh-Hans": "运行于"
+  },
+  "Runtimes": {
+    "fr": "Runtimes",
+    "es": "Runtimes",
+    "zh-Hans": "运行时"
+  },
+  "Runtimes & Tools": {
+    "fr": "Runtimes et outils",
+    "es": "Runtimes y herramientas",
+    "zh-Hans": "运行时与工具"
+  },
+  "Runtimes Unavailable": {
+    "fr": "Runtimes indisponibles",
+    "es": "Runtimes no disponibles",
+    "zh-Hans": "运行时信息不可用"
+  },
+  "Rust PATH": {
+    "fr": "PATH Rust",
+    "es": "PATH de Rust",
+    "zh-Hans": "Rust PATH"
+  },
+  "Rust tools are reachable": {
+    "fr": "Les outils Rust sont accessibles",
+    "es": "Las herramientas de Rust son accesibles",
+    "zh-Hans": "Rust 工具可以访问"
+  },
+  "brew services": {
+    "fr": "brew services",
+    "es": "brew services",
+    "zh-Hans": "brew services"
+  }
+}

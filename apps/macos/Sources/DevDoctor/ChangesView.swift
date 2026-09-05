@@ -15,9 +15,9 @@ struct ChangesView: View {
     private var hasBaseline: Bool { snapshots.contains { $0.kind == "baseline" } }
 
     var body: some View {
-        PageScaffold(title: "What Changed", subtitle: AppSection.changes.blurb) {
+        PageScaffold(title: tr("What Changed"), subtitle: AppSection.changes.blurb) {
             if isLoading {
-                LoadingPanel(title: "Reading snapshots…")
+                LoadingPanel(title: tr("Reading snapshots…"))
             } else {
                 if let error {
                     Callout(symbol: "exclamationmark.triangle", color: .orange, text: error)
@@ -25,32 +25,32 @@ struct ChangesView: View {
 
                 InsetPanel {
                     VStack(alignment: .leading, spacing: 12) {
-                        SectionHeading("Compare two snapshots", detail: "DevDoctor takes a snapshot after every check. It records metadata only: PATH, startup-file hashes, packages, runtimes, services, ports and variable names.") {
+                        SectionHeading(tr("Compare two snapshots"), detail: tr("DevDoctor takes a snapshot after every check. It records metadata only: PATH, startup-file hashes, packages, runtimes, services, ports and variable names.")) {
                             HStack(spacing: 8) {
                                 Button {
                                     creating = false
-                                } label: { Label("Take Snapshot", systemImage: "camera") }
+                                } label: { Label(tr("Take Snapshot"), systemImage: "camera") }
                                     .buttonStyle(.glass)
                                 if !hasBaseline {
                                     Button {
                                         creating = true
-                                    } label: { Label("Create Baseline", systemImage: "flag") }
+                                    } label: { Label(tr("Create Baseline"), systemImage: "flag") }
                                         .buttonStyle(.glassProminent)
                                 }
                             }
                         }
                         HStack(spacing: 10) {
-                            Picker("From", selection: $from) {
-                                Text("the previous snapshot").tag("")
-                                if hasBaseline { Text("the baseline").tag("baseline") }
-                                Text("24 hours ago").tag("24h")
-                                Text("7 days ago").tag("7d")
+                            Picker(tr("From"), selection: $from) {
+                                Text(tr("the previous snapshot")).tag("")
+                                if hasBaseline { Text(tr("the baseline")).tag("baseline") }
+                                Text(tr("24 hours ago")).tag("24h")
+                                Text(tr("7 days ago")).tag("7d")
                                 Divider()
                                 ForEach(snapshots) { s in Text(label(s)).tag(s.id) }
                             }
                             .frame(maxWidth: 320)
-                            Picker("To", selection: $to) {
-                                Text("the latest snapshot").tag("")
+                            Picker(tr("To"), selection: $to) {
+                                Text(tr("the latest snapshot")).tag("")
                                 ForEach(snapshots) { s in Text(label(s)).tag(s.id) }
                             }
                             .frame(maxWidth: 320)
@@ -62,9 +62,9 @@ struct ChangesView: View {
                 }
 
                 if let diff {
-                    SectionCard("Between \(Formatters.shortDate(diff.fromAt)) and \(Formatters.shortDate(diff.toAt))") {
+                    SectionCard(tr("Between %@ and %@", "\(Formatters.shortDate(diff.fromAt))", "\(Formatters.shortDate(diff.toAt))")) {
                         if diff.changes.isEmpty {
-                            Label("No changes detected.", systemImage: "checkmark.circle").foregroundStyle(.secondary)
+                            Label(tr("No changes detected."), systemImage: "checkmark.circle").foregroundStyle(.secondary)
                         } else {
                             ForEach(Array(diff.headline.enumerated()), id: \.offset) { _, h in
                                 Label(h, systemImage: "circle.fill").font(.callout.weight(.medium)).imageScale(.small)
@@ -97,38 +97,38 @@ struct ChangesView: View {
                     }
                 } else if !isComparing {
                     InsetPanel {
-                        Label("Not enough snapshots to compare yet. Run a check later, or take a snapshot now.", systemImage: "clock")
+                        Label(tr("Not enough snapshots to compare yet. Run a check later, or take a snapshot now."), systemImage: "clock")
                             .foregroundStyle(.secondary)
                     }
                 }
 
                 VStack(alignment: .leading, spacing: 10) {
-                    SectionHeading("Recorded installs", detail: "Wrap an installer in your terminal — `devdoctor run brew install something` — or use `devdoctor watch`, and DevDoctor records exactly what changed.")
+                    SectionHeading(tr("Recorded installs"), detail: tr("Wrap an installer in your terminal — `devdoctor run brew install something` — or use `devdoctor watch`, and DevDoctor records exactly what changed."))
                     if runs.isEmpty {
-                        InsetPanel { Text("No recorded installs yet.").foregroundStyle(.secondary).frame(maxWidth: .infinity, alignment: .leading) }
+                        InsetPanel { Text(tr("No recorded installs yet.")).foregroundStyle(.secondary).frame(maxWidth: .infinity, alignment: .leading) }
                     } else {
                         ForEach(runs) { run in RunCard(run: run) }
                     }
                 }
 
-                SectionCard("Snapshots") {
+                SectionCard(tr("Snapshots")) {
                     if snapshots.isEmpty {
-                        Text("None yet.").foregroundStyle(.secondary)
+                        Text(tr("None yet.")).foregroundStyle(.secondary)
                     } else {
                         Table(snapshots) {
-                            TableColumn("When") { s in Text(Formatters.shortDate(s.createdAt)) }
+                            TableColumn(tr("When")) { s in Text(Formatters.shortDate(s.createdAt)) }
                                 .width(min: 150, ideal: 180)
-                            TableColumn("Kind") { s in
+                            TableColumn(tr("Kind")) { s in
                                 HStack(spacing: 6) {
                                     Text(s.kind.replacingOccurrences(of: "_", with: " "))
-                                    if s.kind == "baseline" { StatusPill(text: "baseline", symbol: "flag", color: .blue) }
+                                    if s.kind == "baseline" { StatusPill(text: tr("baseline"), symbol: "flag", color: .blue) }
                                 }
                             }
                             .width(min: 120, ideal: 160)
-                            TableColumn("Label") { s in Text(s.label ?? "").foregroundStyle(.secondary).lineLimit(1) }
-                            TableColumn("Items") { s in Text("\(s.itemCount)").monospacedDigit() }
+                            TableColumn(tr("Label")) { s in Text(s.label ?? "").foregroundStyle(.secondary).lineLimit(1) }
+                            TableColumn(tr("Items")) { s in Text("\(s.itemCount)").monospacedDigit() }
                                 .width(60)
-                            TableColumn("Id") { s in Text(s.id).font(.system(.caption2, design: .monospaced)).foregroundStyle(.tertiary) }
+                            TableColumn(tr("Id")) { s in Text(s.id).font(.system(.caption2, design: .monospaced)).foregroundStyle(.tertiary) }
                                 .width(150)
                         }
                         .devDoctorTable(minHeight: CGFloat(min(360, 60 + snapshots.count * 28)))
@@ -138,17 +138,17 @@ struct ChangesView: View {
         }
         .task(id: model.refreshToken) { await load() }
         .task(id: "\(from)|\(to)") { await compare() }
-        .alert(creating == true ? "Create baseline snapshot" : "Take a snapshot", isPresented: Binding(get: { creating != nil }, set: { if !$0 { creating = nil } })) {
-            Button("Cancel", role: .cancel) { creating = nil }
-            Button("Create") {
+        .alert(creating == true ? tr("Create baseline snapshot") : tr("Take a snapshot"), isPresented: Binding(get: { creating != nil }, set: { if !$0 { creating = nil } })) {
+            Button(tr("Cancel"), role: .cancel) { creating = nil }
+            Button(tr("Create")) {
                 let baseline = creating == true
                 creating = nil
                 Task { await create(baseline: baseline) }
             }
         } message: {
             Text(creating == true
-                 ? "The baseline is the reference for \"what changed since I set things up\". It records metadata only, no file contents and no secret values."
-                 : "A snapshot records metadata only: PATH, hashes of your startup files, package names and versions, runtime versions, startup items, listening ports and environment variable names.")
+                 ? tr("The baseline is the reference for \"what changed since I set things up\". It records metadata only, no file contents and no secret values.")
+                 : tr("A snapshot records metadata only: PATH, hashes of your startup files, package names and versions, runtime versions, startup items, listening ports and environment variable names."))
         }
     }
 
@@ -207,7 +207,7 @@ struct RunCard: View {
                     StatusPill(text: run.exitCode.map { "exit \($0)" } ?? "interrupted", symbol: run.exitCode == 0 ? "checkmark.circle" : "exclamationmark.circle", color: run.exitCode == 0 ? .green : .orange)
                 }
                 if run.headline.isEmpty {
-                    Text("Nothing DevDoctor tracks changed.").font(.callout).foregroundStyle(.secondary)
+                    Text(tr("Nothing DevDoctor tracks changed.")).font(.callout).foregroundStyle(.secondary)
                 } else {
                     ForEach(Array(run.headline.enumerated()), id: \.offset) { _, h in
                         Label(h, systemImage: "circle.fill").font(.callout).imageScale(.small)
@@ -220,7 +220,7 @@ struct RunCard: View {
                     .font(.callout)
                 }
                 if !run.diff.changes.isEmpty {
-                    DisclosureGroup("\(run.diff.changes.count) tracked change\(run.diff.changes.count > 1 ? "s" : "")") {
+                    DisclosureGroup(tr("%@ tracked change%@", "\(run.diff.changes.count)", "\(run.diff.changes.count > 1 ? "s" : "")")) {
                         VStack(alignment: .leading, spacing: 4) {
                             ForEach(run.diff.changes) { c in
                                 HStack(spacing: 8) {

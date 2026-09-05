@@ -5,6 +5,7 @@ import type { DetectorMeta, Issue } from "../lib/types";
 import { findingFromIssue, healthyFinding, type Finding } from "../lib/plain";
 import { ErrorBox, Loading, PageHeader, Segmented } from "../components/Basics";
 import { FindingInspector, FindingsTable, RepairSheet, detectorName, filterByLevel, useFindings, useRepairActions, type ResultFilter } from "../components/FindingsView";
+import { t } from "../lib/i18n";
 
 export function ProblemsPage({ refreshKey, refresh, detectors, inspector }: { refreshKey: number; refresh: () => void; detectors: DetectorMeta[]; inspector: boolean }) {
   const issues = useAsync(() => api.issues(true), [refreshKey]);
@@ -29,12 +30,12 @@ export function ProblemsPage({ refreshKey, refresh, detectors, inspector }: { re
   return (
     <>
       <div className="content">
-        <PageHeader title="All results" subtitle="Every check from the latest scans, including the ones that passed. Select a row to see evidence and the repair plan." actions={<>
-          <select className="text" value={area} onChange={(e) => setArea(e.target.value)}><option value="">All areas</option>{areas.map((a) => <option key={a} value={a}>{a}</option>)}</select>
-          {ignoredCount > 0 && <label className="check"><input type="checkbox" checked={showIgnored} onChange={(e) => setShowIgnored(e.target.checked)} /> show {ignoredCount} ignored</label>}
-          <Segmented value={filter} onChange={(v) => setFilter(v as ResultFilter)} options={[{ id: "all", label: "All" }, { id: "attention", label: "Needs Attention" }, { id: "recommendation", label: "Recommendations" }, { id: "healthy", label: "Healthy" }]} />
+        <PageHeader title={t("All results")} subtitle={t("Every check from the latest scans, including the ones that passed. Select a row to see evidence and the repair plan.")} actions={<>
+          <select className="text" value={area} onChange={(e) => setArea(e.target.value)}><option value="">{t("All areas")}</option>{areas.map((a) => <option key={a} value={a}>{t(a)}</option>)}</select>
+          {ignoredCount > 0 && <label className="check"><input type="checkbox" checked={showIgnored} onChange={(e) => setShowIgnored(e.target.checked)} /> {t(" show ")}{ignoredCount} {t(" ignored")}</label>}
+          <Segmented value={filter} onChange={(v) => setFilter(v as ResultFilter)} options={[{ id: "all", label: t("All") }, { id: "attention", label: t("Needs Attention") }, { id: "recommendation", label: t("Recommendations") }, { id: "healthy", label: t("Healthy") }]} />
         </>} />
-        <FindingsTable findings={visible} selected={selectedKey} onSelect={(f) => setSelectedKey(f.key)} empty="No results match these filters." />
+        <FindingsTable findings={visible} selected={selectedKey} onSelect={(f) => setSelectedKey(f.key)} empty={t("No results match these filters.")} />
       </div>
       {inspector && <FindingInspector finding={selected} onRepair={(issue: Issue) => setRepairing(issue)} onIgnore={actions.ignore} onOpen={actions.open} />}
       {repairing && <RepairSheet issue={repairing} onClose={() => setRepairing(null)} onApplied={(tx) => { setRepairing(null); actions.applied(tx); }} />}

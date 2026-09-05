@@ -12,50 +12,50 @@ struct ProcessesView: View {
 
     var body: some View {
         PageScaffold(
-            title: "Processes",
+            title: tr("Processes"),
             subtitle: AppSection.processes.blurb
         ) {
             if isLoading {
-                LoadingPanel(title: "Reading active processes…")
+                LoadingPanel(title: tr("Reading active processes…"))
             } else if let error {
-                DataUnavailableView(title: "Processes Unavailable", detail: error, symbol: "waveform.path.ecg")
+                DataUnavailableView(title: tr("Processes Unavailable"), detail: error, symbol: "waveform.path.ecg")
             } else {
                 HStack {
-                    StatusPill(text: "\(processes.count) development", symbol: "waveform.path.ecg", color: .blue)
+                    StatusPill(text: tr("%@ development", "\(processes.count)"), symbol: "waveform.path.ecg", color: .blue)
                     if processes.contains(where: \.stale) {
-                        StatusPill(text: "\(processes.filter(\.stale).count) stale", symbol: "clock.badge.exclamationmark", color: .orange)
+                        StatusPill(text: tr("%@ stale", "\(processes.filter(\.stale).count)"), symbol: "clock.badge.exclamationmark", color: .orange)
                     }
                     Spacer()
                     Button { Task { await load() } } label: {
-                        Label("Refresh", systemImage: "arrow.clockwise")
+                        Label(tr("Refresh"), systemImage: "arrow.clockwise")
                     }
                 }
 
                 Table(processes, selection: $selectedPID) {
-                    TableColumn("Process") { process in
+                    TableColumn(tr("Process")) { process in
                         VStack(alignment: .leading, spacing: 2) {
                             Text(process.label).fontWeight(.medium).lineLimit(1)
                             Text(process.kindLabel).font(.caption).foregroundStyle(.secondary)
                         }
                     }
                     .width(min: 150, ideal: 210)
-                    TableColumn("PID") { process in
+                    TableColumn(tr("PID")) { process in
                         Text("\(process.pid)").font(.system(.body, design: .monospaced))
                     }
                     .width(70)
-                    TableColumn("Project") { process in
+                    TableColumn(tr("Project")) { process in
                         Text(process.projectPath ?? process.cwd ?? "—").lineLimit(1).foregroundStyle(.secondary)
                     }
                     .width(min: 180, ideal: 300)
-                    TableColumn("CPU") { process in
+                    TableColumn(tr("CPU")) { process in
                         Text(process.cpuPercent.map { String(format: "%.1f%%", $0) } ?? "—").monospacedDigit()
                     }
                     .width(65)
-                    TableColumn("Memory") { process in
+                    TableColumn(tr("Memory")) { process in
                         Text(process.memoryBytes.map(Formatters.byteString) ?? "—").monospacedDigit()
                     }
                     .width(85)
-                    TableColumn("Ports") { process in
+                    TableColumn(tr("Ports")) { process in
                         Text(process.ports.isEmpty ? "—" : process.ports.map(String.init).joined(separator: ", "))
                             .monospacedDigit()
                     }
@@ -72,15 +72,15 @@ struct ProcessesView: View {
                             HStack {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(selected.label).font(.headline)
-                                    Text("PID \(selected.pid) · \(selected.kindLabel)")
+                                    Text(tr("PID %@ · %@", "\(selected.pid)", "\(selected.kindLabel)"))
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }
                                 Spacer()
                                 if selected.stale {
-                                    StatusPill(text: "Possibly stale", symbol: "clock.badge.exclamationmark", color: .orange)
+                                    StatusPill(text: tr("Possibly stale"), symbol: "clock.badge.exclamationmark", color: .orange)
                                 }
-                                Button("Stop Process…", role: .destructive) { pendingStop = selected }
+                                Button(tr("Stop Process…"), role: .destructive) { pendingStop = selected }
                                     .disabled(!selected.stoppable)
                             }
                             Text(selected.command)
@@ -98,18 +98,18 @@ struct ProcessesView: View {
             }
         }
         .task(id: model.refreshToken) { await load() }
-        .alert("Stop \(pendingStop?.label ?? "process")?", isPresented: Binding(
+        .alert(tr("Stop %@?", "\(pendingStop?.label ?? "process")"), isPresented: Binding(
             get: { pendingStop != nil },
             set: { if !$0 { pendingStop = nil } }
         )) {
-            Button("Cancel", role: .cancel) { pendingStop = nil }
-            Button("Stop Process", role: .destructive) {
+            Button(tr("Cancel"), role: .cancel) { pendingStop = nil }
+            Button(tr("Stop Process"), role: .destructive) {
                 guard let process = pendingStop else { return }
                 pendingStop = nil
                 Task { await stop(process) }
             }
         } message: {
-            Text("DevDoctor will send a normal termination request to PID \(pendingStop?.pid ?? 0). Unsaved work in that process may be lost.")
+            Text(tr("DevDoctor will send a normal termination request to PID %@. Unsaved work in that process may be lost.", "\(pendingStop?.pid ?? 0)"))
         }
     }
 
@@ -144,46 +144,46 @@ struct PortsView: View {
 
     var body: some View {
         PageScaffold(
-            title: "Ports",
+            title: tr("Ports"),
             subtitle: AppSection.ports.blurb
         ) {
             if isLoading {
-                LoadingPanel(title: "Inspecting listening ports…")
+                LoadingPanel(title: tr("Inspecting listening ports…"))
             } else if let error {
-                DataUnavailableView(title: "Ports Unavailable", detail: error, symbol: "cable.connector")
+                DataUnavailableView(title: tr("Ports Unavailable"), detail: error, symbol: "cable.connector")
             } else {
                 HStack {
-                    StatusPill(text: "\(ports.count) listeners", symbol: "antenna.radiowaves.left.and.right", color: .blue)
-                    StatusPill(text: "\(ports.filter { $0.localOnly == true }.count) local only", symbol: "lock", color: .green)
+                    StatusPill(text: tr("%@ listeners", "\(ports.count)"), symbol: "antenna.radiowaves.left.and.right", color: .blue)
+                    StatusPill(text: tr("%@ local only", "\(ports.filter { $0.localOnly == true }.count)"), symbol: "lock", color: .green)
                     Spacer()
                     Button { Task { await load() } } label: {
-                        Label("Refresh", systemImage: "arrow.clockwise")
+                        Label(tr("Refresh"), systemImage: "arrow.clockwise")
                     }
                 }
 
                 Table(ports, selection: $selectedID) {
-                    TableColumn("Port") { entry in
+                    TableColumn(tr("Port")) { entry in
                         Text("\(entry.port)").font(.system(.body, design: .monospaced)).fontWeight(.medium)
                     }
                     .width(70)
-                    TableColumn("Process") { entry in
-                        Text(entry.devProcess?.label ?? entry.processName ?? "Unknown")
+                    TableColumn(tr("Process")) { entry in
+                        Text(entry.devProcess?.label ?? entry.processName ?? tr("Unknown"))
                     }
                     .width(min: 150, ideal: 220)
-                    TableColumn("PID") { entry in
+                    TableColumn(tr("PID")) { entry in
                         Text(entry.pid.map(String.init) ?? "—").monospacedDigit()
                     }
                     .width(75)
-                    TableColumn("Address") { entry in
+                    TableColumn(tr("Address")) { entry in
                         Text(entry.address).font(.system(.body, design: .monospaced))
                     }
                     .width(min: 130, ideal: 170)
-                    TableColumn("Exposure") { entry in
-                        Label(entry.localOnly == true ? "This Mac" : "Network", systemImage: entry.localOnly == true ? "lock" : "network")
+                    TableColumn(tr("Exposure")) { entry in
+                        Label(entry.localOnly == true ? tr("This Mac") : tr("Network"), systemImage: entry.localOnly == true ? "lock" : "network")
                             .foregroundStyle(entry.localOnly == true ? Color.secondary : Color.orange)
                     }
                     .width(110)
-                    TableColumn("Project") { entry in
+                    TableColumn(tr("Project")) { entry in
                         Text(entry.devProcess?.projectPath ?? "—").lineLimit(1).foregroundStyle(.secondary)
                     }
                     .width(min: 170, ideal: 280)
@@ -197,10 +197,10 @@ struct PortsView: View {
                     InsetPanel {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text("Port \(selected.port)").font(.headline)
+                                Text(tr("Port %@", "\(selected.port)")).font(.headline)
                                 Spacer()
                                 StatusPill(
-                                    text: selected.localOnly == true ? "Local only" : "Visible on network",
+                                    text: selected.localOnly == true ? tr("Local only") : tr("Visible on network"),
                                     symbol: selected.localOnly == true ? "lock.fill" : "network",
                                     color: selected.localOnly == true ? .green : .orange
                                 )
@@ -210,7 +210,7 @@ struct PortsView: View {
                                     .font(.system(.caption, design: .monospaced))
                                     .textSelection(.enabled)
                                 if process.stoppable {
-                                    Button("Stop \(process.label)…", role: .destructive) { pendingStop = process }
+                                    Button(tr("Stop %@…", "\(process.label)"), role: .destructive) { pendingStop = process }
                                 }
                             }
                         }
@@ -219,12 +219,12 @@ struct PortsView: View {
             }
         }
         .task(id: model.refreshToken) { await load() }
-        .alert("Stop \(pendingStop?.label ?? "process")?", isPresented: Binding(
+        .alert(tr("Stop %@?", "\(pendingStop?.label ?? "process")"), isPresented: Binding(
             get: { pendingStop != nil },
             set: { if !$0 { pendingStop = nil } }
         )) {
-            Button("Cancel", role: .cancel) { pendingStop = nil }
-            Button("Stop Process", role: .destructive) {
+            Button(tr("Cancel"), role: .cancel) { pendingStop = nil }
+            Button(tr("Stop Process"), role: .destructive) {
                 guard let process = pendingStop else { return }
                 pendingStop = nil
                 Task {
@@ -232,7 +232,7 @@ struct PortsView: View {
                 }
             }
         } message: {
-            Text("DevDoctor sends a normal termination request to PID \(pendingStop?.pid ?? 0). Unsaved work in that process may be lost.")
+            Text(tr("DevDoctor sends a normal termination request to PID %@. Unsaved work in that process may be lost.", "\(pendingStop?.pid ?? 0)"))
         }
     }
 

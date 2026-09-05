@@ -79,19 +79,19 @@ private struct EnvironmentHealthBar: View {
     private var issueCount: Int { findings.count }
 
     private var statusTitle: String {
-        if model.isScanning { return "Checking your environment" }
-        if health?.problems ?? 0 > 0 { return "Attention recommended" }
-        if issueCount > 0 { return "A few items to review" }
-        return "Your environment is ready"
+        if model.isScanning { return tr("Checking your environment") }
+        if health?.problems ?? 0 > 0 { return tr("Attention recommended") }
+        if issueCount > 0 { return tr("A few items to review") }
+        return tr("Your environment is ready")
     }
 
     private var statusDetail: String {
-        if model.isScanning { return "Running local checks…" }
-        guard let health else { return "Run a scan to build your health summary." }
+        if model.isScanning { return tr("Running local checks…") }
+        guard let health else { return tr("Run a scan to build your health summary.") }
         if health.problems == 0 && health.warnings == 0 {
-            return "All active checks passed."
+            return tr("All active checks passed.")
         }
-        return "\(health.problems) problems · \(health.warnings) warnings"
+        return tr("%@ problems · %@ warnings", "\(health.problems)", "\(health.warnings)")
     }
 
     private var statusColor: Color {
@@ -105,7 +105,7 @@ private struct EnvironmentHealthBar: View {
         MaterialPanel(cornerRadius: 20, padding: 14) {
             HStack(spacing: 16) {
                 Gauge(value: Double(score), in: 0...100) {
-                    Text("Health")
+                    Text(tr("Health"))
                 } currentValueLabel: {
                     Text("\(score)")
                         .font(.subheadline.monospacedDigit().weight(.bold))
@@ -113,8 +113,8 @@ private struct EnvironmentHealthBar: View {
                 .gaugeStyle(.accessoryCircularCapacity)
                 .tint(statusColor)
                 .frame(width: 58, height: 58)
-                .accessibilityLabel("Environment health")
-                .accessibilityValue("\(score) percent")
+                .accessibilityLabel(tr("Environment health"))
+                .accessibilityValue(tr("%@ percent", "\(score)"))
 
                 VStack(alignment: .leading, spacing: 3) {
                     Label(
@@ -137,15 +137,15 @@ private struct EnvironmentHealthBar: View {
                 Spacer(minLength: 4)
 
                 HStack(spacing: 14) {
-                    HealthMetric(value: health?.checksPassed ?? 0, label: "Passed", color: .green)
-                    HealthMetric(value: health?.problems ?? 0, label: "Problems", color: .orange)
-                    HealthMetric(value: health?.notes ?? 0, label: "Notes", color: .blue)
+                    HealthMetric(value: health?.checksPassed ?? 0, label: tr("Passed"), color: .green)
+                    HealthMetric(value: health?.problems ?? 0, label: tr("Problems"), color: .orange)
+                    HealthMetric(value: health?.notes ?? 0, label: tr("Notes"), color: .blue)
                 }
 
                 GlassEffectContainer(spacing: 10) {
                     HStack(spacing: 8) {
                         if issueCount > 0 {
-                            Button("Review") {
+                            Button(tr("Review")) {
                                 model.selection = .problems
                             }
                             .buttonStyle(.glassProminent)
@@ -162,7 +162,7 @@ private struct EnvironmentHealthBar: View {
                         .buttonBorderShape(.circle)
                         .controlSize(.small)
                         .disabled(model.isScanning)
-                        .help(model.isScanning ? "Scanning" : "Scan Again")
+                        .help(model.isScanning ? tr("Scanning") : tr("Scan Again"))
                     }
                 }
             }
@@ -193,13 +193,13 @@ private struct OverviewHeader: View {
     @EnvironmentObject private var model: AppModel
 
     private var machineName: String {
-        Host.current().localizedName ?? "This Mac"
+        Host.current().localizedName ?? tr("This Mac")
     }
 
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
             VStack(alignment: .leading, spacing: 3) {
-                Text("Developer Environment")
+                Text(tr("Developer Environment"))
                     .font(.largeTitle.weight(.semibold))
                     .tracking(-0.5)
 
@@ -207,9 +207,9 @@ private struct OverviewHeader: View {
                     Text(machineName)
                     Text("·")
                     if let scan = model.lastScan {
-                        Text("Updated \(Formatters.shortDate(scan.finishedAt))")
+                        Text(tr("Updated %@", "\(Formatters.shortDate(scan.finishedAt))"))
                     } else {
-                        Text("Ready for a local scan")
+                        Text(tr("Ready for a local scan"))
                     }
                 }
                 .font(.subheadline)
@@ -218,13 +218,13 @@ private struct OverviewHeader: View {
 
             Spacer()
 
-            Label("On-device", systemImage: "lock.shield.fill")
+            Label(tr("On-device"), systemImage: "lock.shield.fill")
                 .font(.caption.weight(.medium))
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 11)
                 .padding(.vertical, 7)
                 .background(.quaternary, in: Capsule())
-                .help("Diagnostic data stays on this Mac")
+                .help(tr("Diagnostic data stays on this Mac"))
         }
     }
 }
@@ -243,21 +243,21 @@ private struct WelcomePanel: View {
                 DevDoctorAppIcon(size: 86)
 
                 VStack(spacing: 8) {
-                    Text("Know exactly what is happening on your Mac")
+                    Text(tr("Know exactly what is happening on your Mac"))
                         .font(.title2.weight(.semibold))
-                    Text("Inspect runtimes, PATH, ports, processes, storage, and local AI. DevDoctor shows every change before it happens.")
+                    Text(tr("Inspect runtimes, PATH, ports, processes, storage, and local AI. DevDoctor shows every change before it happens."))
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: 590)
                 }
 
                 HStack(spacing: 26) {
-                    WelcomeFact(symbol: "lock.shield", title: "Local", detail: "Nothing uploaded")
-                    WelcomeFact(symbol: "eye", title: "Transparent", detail: "Evidence included")
-                    WelcomeFact(symbol: "arrow.uturn.backward", title: "Reversible", detail: "Rollback ready")
+                    WelcomeFact(symbol: "lock.shield", title: tr("Local"), detail: tr("Nothing uploaded"))
+                    WelcomeFact(symbol: "eye", title: tr("Transparent"), detail: tr("Evidence included"))
+                    WelcomeFact(symbol: "arrow.uturn.backward", title: tr("Reversible"), detail: tr("Rollback ready"))
                 }
 
-                Button("Run First Scan") {
+                Button(tr("Run First Scan")) {
                     Task { await model.runScan() }
                 }
                 .buttonStyle(.glassProminent)
@@ -304,12 +304,12 @@ private struct RadarArea: Identifiable {
 
     var status: String {
         if problems > 0 {
-            return problems == 1 ? "1 conflict" : "\(problems) conflicts"
+            return problems == 1 ? tr("1 conflict") : tr("%@ conflicts", "\(problems)")
         }
         if issues > 0 {
-            return issues == 1 ? "1 finding" : "\(issues) findings"
+            return issues == 1 ? tr("1 finding") : tr("%@ findings", "\(issues)")
         }
-        return "All good"
+        return tr("All good")
     }
 }
 
@@ -341,7 +341,7 @@ private struct EnvironmentRadarView: View {
         return [
             RadarArea(
                 id: "shell",
-                title: "Shell",
+                title: tr("Shell"),
                 symbol: "terminal.fill",
                 issues: max(0, (shell?.issues ?? 0) - shellPathFindings),
                 problems: max(0, (shell?.problems ?? 0) - shellPathFindings),
@@ -350,7 +350,7 @@ private struct EnvironmentRadarView: View {
             ),
             RadarArea(
                 id: "packages",
-                title: "Packages",
+                title: tr("Packages"),
                 symbol: "shippingbox.fill",
                 issues: packageManagers?.issues ?? 0,
                 problems: packageManagers?.problems ?? 0,
@@ -359,7 +359,7 @@ private struct EnvironmentRadarView: View {
             ),
             RadarArea(
                 id: "path",
-                title: "PATH",
+                title: tr("PATH"),
                 symbol: "point.topleft.down.to.point.bottomright.curvepath",
                 issues: pathFindings.count,
                 problems: pathFindings.filter { $0.severity == .attention }.count,
@@ -368,7 +368,7 @@ private struct EnvironmentRadarView: View {
             ),
             RadarArea(
                 id: "services",
-                title: "Services",
+                title: tr("Services"),
                 symbol: "bolt.horizontal.fill",
                 issues: services?.issues ?? 0,
                 problems: services?.problems ?? 0,
@@ -377,7 +377,7 @@ private struct EnvironmentRadarView: View {
             ),
             RadarArea(
                 id: "runtimes",
-                title: "Runtimes",
+                title: tr("Runtimes"),
                 symbol: "cube.fill",
                 issues: runtimes?.issues ?? 0,
                 problems: runtimes?.problems ?? 0,
@@ -386,7 +386,7 @@ private struct EnvironmentRadarView: View {
             ),
             RadarArea(
                 id: "storage",
-                title: "Storage",
+                title: tr("Storage"),
                 symbol: "internaldrive.fill",
                 issues: disk?.issues ?? 0,
                 problems: disk?.problems ?? 0,
@@ -609,7 +609,7 @@ private struct RadarAreaLabel: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .help("Open \(area.title)")
+        .help(tr("Open %@", "\(area.title)"))
         .accessibilityLabel("\(area.title), \(area.status)")
     }
 
@@ -637,16 +637,16 @@ private struct RadarCenter: View {
     }
 
     private var title: String {
-        if isScanning { return "Scanning" }
-        if availableFixes > 0 { return "Ready with" }
-        if issueCount > 0 { return "Review" }
-        return "All checks"
+        if isScanning { return tr("Scanning") }
+        if availableFixes > 0 { return tr("Ready with") }
+        if issueCount > 0 { return tr("Review") }
+        return tr("All checks")
     }
 
     private var value: String {
-        if isScanning { return "your Mac" }
-        if availableFixes > 0 { return availableFixes == 1 ? "1 fix" : "\(availableFixes) fixes" }
-        if issueCount > 0 { return issueCount == 1 ? "1 finding" : "\(issueCount) findings" }
+        if isScanning { return tr("your Mac") }
+        if availableFixes > 0 { return availableFixes == 1 ? tr("1 fix") : tr("%@ fixes", "\(availableFixes)") }
+        if issueCount > 0 { return issueCount == 1 ? tr("1 finding") : tr("%@ findings", "\(issueCount)") }
         return "passed"
     }
 
@@ -665,7 +665,7 @@ private struct RadarCenter: View {
             }
 
             if let health {
-                Text("\(health.checksPassed) of \(health.checksTotal) checks passed")
+                Text(tr("%@ of %@ checks passed", "\(health.checksPassed)", "\(health.checksTotal)"))
                     .font(.caption2.monospacedDigit())
                     .foregroundStyle(.secondary)
             }
@@ -687,7 +687,7 @@ private struct AttentionCardsSection: View {
         MaterialPanel(cornerRadius: 20, padding: 14) {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 8) {
-                    Text(findings.isEmpty ? "Environment Ready" : "Needs Attention")
+                    Text(findings.isEmpty ? tr("Environment Ready") : tr("Needs Attention"))
                         .font(.headline)
 
                     Text("\(findings.count)")
@@ -700,7 +700,7 @@ private struct AttentionCardsSection: View {
                     Spacer()
 
                     if findings.count > 3 {
-                        Button("View All") {
+                        Button(tr("View All")) {
                             model.selection = .problems
                         }
                         .buttonStyle(.glass)
@@ -715,8 +715,8 @@ private struct AttentionCardsSection: View {
                             .font(.title2)
                             .foregroundStyle(.green)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("No active findings").font(.subheadline.weight(.semibold))
-                            Text("Your development environment passed every active check.")
+                            Text(tr("No active findings")).font(.subheadline.weight(.semibold))
+                            Text(tr("Your development environment passed every active check."))
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -766,19 +766,19 @@ private struct AttentionFindingCard: View {
 
     private var conciseTitle: String {
         let title = finding.title.lowercased()
-        if title.contains("npm") && title.contains("node") { return "Node & npm" }
-        if title.contains("rust") { return "Rust PATH" }
-        if title.contains("node.js") && title.contains("different tools") { return "Node.js Installs" }
-        if title.contains("python") && title.contains("install") { return "Python Installs" }
-        if title.contains("stale") { return "Stale Process" }
-        if title.contains("path entry") { return "PATH Entry" }
-        if title.contains("takes") && title.contains("to start") { return "Slow Terminal" }
-        if title.contains("not installed") && title.contains("runs") { return "Missing Tool at Startup" }
-        if title.contains("broken command link") { return "Broken Links in PATH" }
-        if title.contains("command line tools") { return "Xcode Tools" }
-        if title.contains("claude code") { return "Claude Code" }
-        if title.contains("npm install -g") { return "npm Permissions" }
-        if title.contains("left behind in node") { return "Stranded npm Globals" }
+        if title.contains("npm") && title.contains("node") { return tr("Node & npm") }
+        if title.contains("rust") { return tr("Rust PATH") }
+        if title.contains("node.js") && title.contains("different tools") { return tr("Node.js Installs") }
+        if title.contains("python") && title.contains("install") { return tr("Python Installs") }
+        if title.contains("stale") { return tr("Stale Process") }
+        if title.contains("path entry") { return tr("PATH Entry") }
+        if title.contains("takes") && title.contains("to start") { return tr("Slow Terminal") }
+        if title.contains("not installed") && title.contains("runs") { return tr("Missing Tool at Startup") }
+        if title.contains("broken command link") { return tr("Broken Links in PATH") }
+        if title.contains("command line tools") { return tr("Xcode Tools") }
+        if title.contains("claude code") { return tr("Claude Code") }
+        if title.contains("npm install -g") { return tr("npm Permissions") }
+        if title.contains("left behind in node") { return tr("Stranded npm Globals") }
         return finding.title
     }
 
@@ -854,9 +854,9 @@ private struct SystemAreasSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             VStack(alignment: .leading, spacing: 2) {
-                Text("System Areas")
+                Text(tr("System Areas"))
                     .font(.headline)
-                Text("Every part of your development environment, at a glance")
+                Text(tr("Every part of your development environment, at a glance"))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -888,13 +888,13 @@ private struct SystemAreaTile: View {
 
     private var statusText: String {
         if category.problems > 0 {
-            return category.problems == 1 ? "1 problem" : "\(category.problems) problems"
+            return category.problems == 1 ? tr("1 problem") : tr("%@ problems", "\(category.problems)")
         }
         if category.issues > 0 {
-            return category.issues == 1 ? "1 finding" : "\(category.issues) findings"
+            return category.issues == 1 ? tr("1 finding") : tr("%@ findings", "\(category.issues)")
         }
-        if category.checksRun == 0 { return "Not scanned" }
-        return category.checksRun == 1 ? "1 check passed" : "\(category.checksRun) checks passed"
+        if category.checksRun == 0 { return tr("Not scanned") }
+        return category.checksRun == 1 ? tr("1 check passed") : tr("%@ checks passed", "\(category.checksRun)")
     }
 
     private var glass: Glass {
@@ -958,7 +958,7 @@ private struct SystemAreaTile: View {
         .onHover { hovering in
             withAnimation(.easeOut(duration: 0.15)) { isHovering = hovering }
         }
-        .help("Open \(category.label)")
+        .help(tr("Open %@", "\(category.label)"))
         .accessibilityLabel("\(category.label), \(statusText)")
     }
 }

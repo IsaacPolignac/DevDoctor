@@ -1,0 +1,282 @@
+{
+  "%@ broken": {
+    "fr": "%@ cassé(s)",
+    "es": "%@ roto(s)",
+    "zh-Hans": "%@ 个已损坏"
+  },
+  "%@ completed": {
+    "fr": "%@ terminée",
+    "es": "%@ completada",
+    "zh-Hans": "%@已完成"
+  },
+  "%@ conflicts": {
+    "fr": "%@ conflits",
+    "es": "%@ conflictos",
+    "zh-Hans": "%@ 个冲突"
+  },
+  "%@ development": {
+    "fr": "%@ de développement",
+    "es": "%@ de desarrollo",
+    "zh-Hans": "%@ 个开发进程"
+  },
+  "%@ duplicates": {
+    "fr": "%@ doublons",
+    "es": "%@ duplicados",
+    "zh-Hans": "%@ 个重复"
+  },
+  "%@ entries": {
+    "fr": "%@ entrées",
+    "es": "%@ entradas",
+    "zh-Hans": "%@ 个条目"
+  },
+  "%@ findings": {
+    "fr": "%@ résultats",
+    "es": "%@ hallazgos",
+    "zh-Hans": "%@ 项发现"
+  },
+  "%@ fixes": {
+    "fr": "%@ corrections",
+    "es": "%@ correcciones",
+    "zh-Hans": "%@ 项修复"
+  },
+  "%@ installed": {
+    "fr": "%@ installés",
+    "es": "%@ instalados",
+    "zh-Hans": "已安装 %@ 个"
+  },
+  "%@ items": {
+    "fr": "%@ éléments",
+    "es": "%@ elementos",
+    "zh-Hans": "%@ 项"
+  },
+  "%@ listeners": {
+    "fr": "%@ en écoute",
+    "es": "%@ en escucha",
+    "zh-Hans": "%@ 个监听"
+  },
+  "%@ missing": {
+    "fr": "%@ manquant(s)",
+    "es": "%@ ausente(s)",
+    "zh-Hans": "%@ 个缺失"
+  },
+  "%@ percent": {
+    "fr": "%@ pour cent",
+    "es": "%@ por ciento",
+    "zh-Hans": "百分之 %@"
+  },
+  "%@ problems": {
+    "fr": "%@ problèmes",
+    "es": "%@ problemas",
+    "zh-Hans": "%@ 个问题"
+  },
+  "%@ recommendations": {
+    "fr": "%@ recommandations",
+    "es": "%@ recomendaciones",
+    "zh-Hans": "%@ 条建议"
+  },
+  "%@ running": {
+    "fr": "%@ en cours",
+    "es": "%@ en ejecución",
+    "zh-Hans": "%@ 个运行中"
+  },
+  "%@ stale": {
+    "fr": "%@ obsolète(s)",
+    "es": "%@ obsoleto(s)",
+    "zh-Hans": "%@ 个已过期"
+  },
+  "%@ · %@ key%@ loaded": {
+    "fr": "%1$@ · %2$@ clé(s) chargée(s)",
+    "es": "%1$@ · %2$@ clave(s) cargada(s)",
+    "zh-Hans": "%1$@ · 已加载 %2$@ 个密钥"
+  },
+  "1 recommendation": {
+    "fr": "1 recommandation",
+    "es": "1 recomendación",
+    "zh-Hans": "1 条建议"
+  },
+  "1 action recommended": {
+    "fr": "1 action recommandée",
+    "es": "1 acción recomendada",
+    "zh-Hans": "建议 1 项操作"
+  },
+  "{n} actions recommended": {
+    "fr": "{n} actions recommandées",
+    "es": "{n} acciones recomendadas",
+    "zh-Hans": "建议 {n} 项操作"
+  },
+  "{n} recommendations": {
+    "fr": "{n} recommandations",
+    "es": "{n} recomendaciones",
+    "zh-Hans": "{n} 条建议"
+  },
+  "1 check": {
+    "fr": "1 vérification",
+    "es": "1 comprobación",
+    "zh-Hans": "1 项检查"
+  },
+  "{n} checks": {
+    "fr": "{n} vérifications",
+    "es": "{n} comprobaciones",
+    "zh-Hans": "{n} 项检查"
+  },
+  "{n} findings": {
+    "fr": "{n} résultats",
+    "es": "{n} hallazgos",
+    "zh-Hans": "{n} 项发现"
+  },
+  "Results · {area}": {
+    "fr": "Résultats · {area}",
+    "es": "Resultados · {area}",
+    "zh-Hans": "结果 · {area}"
+  },
+  "Checking {name}…": {
+    "fr": "Vérification : {name}…",
+    "es": "Comprobando {name}…",
+    "zh-Hans": "正在检查{name}…"
+  },
+  "Starting {mode} scan…": {
+    "fr": "Démarrage de l'analyse ({mode})…",
+    "es": "Iniciando análisis ({mode})…",
+    "zh-Hans": "正在开始扫描（{mode}）…"
+  },
+  "installed ({path})": {
+    "fr": "installé ({path})",
+    "es": "instalado ({path})",
+    "zh-Hans": "已安装（{path}）"
+  },
+  "Between {from} and {to}": {
+    "fr": "Entre {from} et {to}",
+    "es": "Entre {from} y {to}",
+    "zh-Hans": "{from} 与 {to} 之间"
+  },
+  "exit {code}": {
+    "fr": "sortie {code}",
+    "es": "salida {code}",
+    "zh-Hans": "退出码 {code}"
+  },
+  "Removed {name}": {
+    "fr": "{name} supprimé",
+    "es": "{name} eliminado",
+    "zh-Hans": "已移除 {name}"
+  },
+  "Remove {name}?": {
+    "fr": "Supprimer {name} ?",
+    "es": "¿Eliminar {name}?",
+    "zh-Hans": "移除 {name}？"
+  },
+  "{n} statements · {size} bytes": {
+    "fr": "{n} instructions · {size} octets",
+    "es": "{n} instrucciones · {size} bytes",
+    "zh-Hans": "{n} 条语句 · {size} 字节"
+  },
+  "Delete {path}": {
+    "fr": "Supprimer {path}",
+    "es": "Eliminar {path}",
+    "zh-Hans": "删除 {path}"
+  },
+  "Containers": {
+    "fr": "Conteneurs",
+    "es": "Contenedores",
+    "zh-Hans": "容器"
+  },
+  "The ordered list of folders your terminal searches when you type a command. The first folder that contains the command wins.": {
+    "fr": "La liste ordonnée des dossiers que votre terminal parcourt quand vous tapez une commande. Le premier dossier qui contient la commande l'emporte.",
+    "es": "La lista ordenada de carpetas que tu terminal recorre cuando escribes un comando. Gana la primera carpeta que contiene el comando.",
+    "zh-Hans": "您输入命令时终端按顺序搜索的目录列表。第一个包含该命令的目录胜出。"
+  },
+  "A file such as ~/.zshrc that your terminal runs every time it opens. Installers often add lines to it.": {
+    "fr": "Un fichier comme ~/.zshrc que votre terminal exécute à chaque ouverture. Les installateurs y ajoutent souvent des lignes.",
+    "es": "Un archivo como ~/.zshrc que tu terminal ejecuta cada vez que se abre. Los instaladores suelen añadirle líneas.",
+    "zh-Hans": "终端每次打开时都会运行的文件，例如 ~/.zshrc。安装程序经常往里添加行。"
+  },
+  "A brand-new terminal session, started the way a new Terminal window is. DevDoctor uses one to see exactly what you would see.": {
+    "fr": "Une session de terminal toute neuve, démarrée comme une nouvelle fenêtre Terminal. DevDoctor en utilise une pour voir exactement ce que vous verriez.",
+    "es": "Una sesión de terminal completamente nueva, iniciada como una ventana de Terminal nueva. DevDoctor usa una para ver exactamente lo que verías tú.",
+    "zh-Hans": "一个全新的终端会话，与新开一个终端窗口的方式相同。DevDoctor 用它来查看您会看到的确切内容。"
+  },
+  "Files a tool keeps so it does not have to download them again. Safe to delete; the tool re-downloads what it needs.": {
+    "fr": "Des fichiers qu'un outil conserve pour ne pas les retélécharger. Supprimables sans risque ; l'outil retélécharge ce dont il a besoin.",
+    "es": "Archivos que una herramienta guarda para no tener que descargarlos de nuevo. Seguros de eliminar; la herramienta vuelve a descargar lo que necesita.",
+    "zh-Hans": "工具保留的文件，以免重复下载。可以安全删除；工具会重新下载所需内容。"
+  },
+  "The folder where a JavaScript project keeps its dependencies. It can be rebuilt with npm install, pnpm install or yarn.": {
+    "fr": "Le dossier où un projet JavaScript garde ses dépendances. Il peut être recréé avec npm install, pnpm install ou yarn.",
+    "es": "La carpeta donde un proyecto JavaScript guarda sus dependencias. Se puede reconstruir con npm install, pnpm install o yarn.",
+    "zh-Hans": "JavaScript 项目存放依赖项的目录。可以通过 npm install、pnpm install 或 yarn 重新生成。"
+  },
+  "A private Python installation for one project (.venv). It can be recreated from the project's requirements.": {
+    "fr": "Une installation Python privée pour un projet (.venv). Elle peut être recréée à partir des dépendances du projet.",
+    "es": "Una instalación privada de Python para un proyecto (.venv). Se puede recrear a partir de los requisitos del proyecto.",
+    "zh-Hans": "供单个项目使用的私有 Python 安装（.venv）。可以根据项目的依赖要求重新创建。"
+  },
+  "A lightweight record of your setup (installed packages, PATH, startup files, services) used to show what changed later.": {
+    "fr": "Un enregistrement léger de votre configuration (paquets installés, PATH, fichiers de démarrage, services) utilisé pour montrer ce qui a changé ensuite.",
+    "es": "Un registro ligero de tu configuración (paquetes instalados, PATH, archivos de inicio, servicios) usado para mostrar qué cambió después.",
+    "zh-Hans": "您的配置的轻量记录（已安装的软件包、PATH、启动文件、服务），用于日后显示发生了什么变化。"
+  },
+  "A small configuration file that tells macOS to start a program when you log in.": {
+    "fr": "Un petit fichier de configuration qui indique à macOS de démarrer un programme à votre connexion.",
+    "es": "Un pequeño archivo de configuración que indica a macOS que inicie un programa cuando inicias sesión.",
+    "zh-Hans": "一个小型配置文件，告诉 macOS 在您登录时启动某个程序。"
+  },
+  "A numbered door on your Mac that a server program listens on, such as 3000 for a web app.": {
+    "fr": "Une porte numérotée de votre Mac sur laquelle un programme serveur écoute, comme 3000 pour une application web.",
+    "es": "Una puerta numerada de tu Mac en la que escucha un programa servidor, como 3000 para una aplicación web.",
+    "zh-Hans": "Mac 上带编号的“门”，服务器程序在上面监听，例如 Web 应用常用的 3000。"
+  },
+  "A tool that installs software for you: Homebrew, npm, pip, cargo...": {
+    "fr": "Un outil qui installe des logiciels pour vous : Homebrew, npm, pip, cargo…",
+    "es": "Una herramienta que instala software por ti: Homebrew, npm, pip, cargo…",
+    "zh-Hans": "为您安装软件的工具：Homebrew、npm、pip、cargo……"
+  },
+  "A recorded change with backups, so it can be undone.": {
+    "fr": "Un changement enregistré avec des sauvegardes, pour pouvoir être annulé.",
+    "es": "Un cambio registrado con copias de seguridad, para poder deshacerlo.",
+    "zh-Hans": "带有备份记录的更改，因此可以撤销。"
+  },
+  "A command you wrapped with `devdoctor run` in the terminal. DevDoctor took a snapshot before and after, so everything the command changed is recorded.": {
+    "fr": "Une commande que vous avez encadrée avec `devdoctor run` dans le terminal. DevDoctor a pris un instantané avant et après, donc tout ce que la commande a changé est enregistré.",
+    "es": "Un comando que envolviste con `devdoctor run` en el terminal. DevDoctor tomó una instantánea antes y después, así que todo lo que el comando cambió está registrado.",
+    "zh-Hans": "您在终端中用 `devdoctor run` 包装的命令。DevDoctor 在前后各创建了一份快照，因此该命令所做的一切更改都有记录。"
+  },
+  "A copy of a file taken before DevDoctor changes it, stored in DevDoctor's own folder.": {
+    "fr": "Une copie d'un fichier prise avant que DevDoctor ne le modifie, stockée dans le dossier de DevDoctor.",
+    "es": "Una copia de un archivo tomada antes de que DevDoctor lo cambie, guardada en la propia carpeta de DevDoctor.",
+    "zh-Hans": "DevDoctor 修改文件前创建的副本，保存在 DevDoctor 自己的文件夹中。"
+  },
+  "instant": {
+    "fr": "instantané",
+    "es": "instantáneo",
+    "zh-Hans": "瞬间"
+  },
+  "fine": {
+    "fr": "correct",
+    "es": "aceptable",
+    "zh-Hans": "尚可"
+  },
+  "slow": {
+    "fr": "lent",
+    "es": "lento",
+    "zh-Hans": "慢"
+  },
+  "Remove model": {
+    "fr": "Supprimer le modèle",
+    "es": "Eliminar modelo",
+    "zh-Hans": "移除模型"
+  },
+  "quick": {
+    "fr": "rapide",
+    "es": "rápido",
+    "zh-Hans": "快速"
+  },
+  "deep": {
+    "fr": "approfondi",
+    "es": "profundo",
+    "zh-Hans": "深度"
+  },
+  "storage": {
+    "fr": "stockage",
+    "es": "almacenamiento",
+    "zh-Hans": "存储"
+  }
+}

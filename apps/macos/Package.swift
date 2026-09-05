@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "DevDoctor",
+    defaultLocalization: "en",
     platforms: [
         .macOS("26.0")
     ],

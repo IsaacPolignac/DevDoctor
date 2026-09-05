@@ -16,9 +16,9 @@ struct HistoryView: View {
     private var selectedRun: RunRecord? { model.history.runs.first { $0.id == selectedRunID } }
 
     var body: some View {
-        PageScaffold(title: "History", subtitle: AppSection.history.blurb) {
+        PageScaffold(title: tr("History"), subtitle: AppSection.history.blurb) {
             HStack {
-                Picker("History", selection: $mode) {
+                Picker(tr("History"), selection: $mode) {
                     ForEach(HistoryMode.allCases) { item in
                         Text(item.title(model)).tag(item)
                     }
@@ -28,12 +28,12 @@ struct HistoryView: View {
                 .fixedSize()
                 Spacer()
                 Button { Task { await load() } } label: {
-                    Label("Refresh", systemImage: "arrow.clockwise")
+                    Label(tr("Refresh"), systemImage: "arrow.clockwise")
                 }
             }
 
             if isLoading {
-                LoadingPanel(title: "Reading local history…")
+                LoadingPanel(title: tr("Reading local history…"))
             } else {
                 switch mode {
                 case .scans: scans
@@ -43,38 +43,38 @@ struct HistoryView: View {
             }
         }
         .task(id: model.refreshToken) { await load() }
-        .alert("Undo this repair?", isPresented: Binding(
+        .alert(tr("Undo this repair?"), isPresented: Binding(
             get: { pendingRollback != nil },
             set: { if !$0 { pendingRollback = nil } }
         )) {
-            Button("Cancel", role: .cancel) { pendingRollback = nil }
-            Button("Restore files", role: .destructive) {
+            Button(tr("Cancel"), role: .cancel) { pendingRollback = nil }
+            Button(tr("Restore files"), role: .destructive) {
                 guard let transaction = pendingRollback else { return }
                 pendingRollback = nil
                 Task { await model.rollback(transaction) }
             }
         } message: {
-            Text("DevDoctor puts back the \(pendingRollback?.backups?.count ?? 0) file(s) it saved before “\(pendingRollback?.title ?? "this repair")”. If a file changed since, the restore is refused to protect your edits.")
+            Text(tr("DevDoctor puts back the %@ file(s) it saved before “%@”. If a file changed since, the restore is refused to protect your edits.", "\(pendingRollback?.backups?.count ?? 0)", "\(pendingRollback?.title ?? "this repair")"))
         }
     }
 
     @ViewBuilder
     private var scans: some View {
         if model.history.scans.isEmpty {
-            DataUnavailableView(title: "No Scan History", detail: "Completed scans appear here.", symbol: "clock")
+            DataUnavailableView(title: tr("No Scan History"), detail: tr("Completed scans appear here."), symbol: "clock")
         } else {
             Table(model.history.scans, selection: $selectedScanID) {
-                TableColumn("Date") { scan in Text(Formatters.shortDate(scan.finishedAt)) }
+                TableColumn(tr("Date")) { scan in Text(Formatters.shortDate(scan.finishedAt)) }
                     .width(min: 150, ideal: 190)
-                TableColumn("Type") { scan in Text(ScanMode(rawValue: scan.mode)?.label ?? scan.mode) }
+                TableColumn(tr("Type")) { scan in Text(ScanMode(rawValue: scan.mode)?.label ?? scan.mode) }
                     .width(120)
-                TableColumn("Health") { scan in Text(scan.healthScore.map { "\($0) / 100" } ?? "—").monospacedDigit() }
+                TableColumn(tr("Health")) { scan in Text(scan.healthScore.map { "\($0) / 100" } ?? "—").monospacedDigit() }
                     .width(90)
-                TableColumn("Findings") { scan in Text("\(scan.issueCount)").monospacedDigit() }
+                TableColumn(tr("Findings")) { scan in Text("\(scan.issueCount)").monospacedDigit() }
                     .width(75)
-                TableColumn("Checks") { scan in Text("\(scan.detectorsRun)\(scan.detectorsFailed > 0 ? " (\(scan.detectorsFailed) failed)" : "")").monospacedDigit() }
+                TableColumn(tr("Checks")) { scan in Text("\(scan.detectorsRun)\(scan.detectorsFailed > 0 ? " (\(scan.detectorsFailed) failed)" : "")").monospacedDigit() }
                     .width(110)
-                TableColumn("Duration") { scan in Text(Formatters.duration(ms: scan.durationMs)).monospacedDigit().foregroundStyle(.secondary) }
+                TableColumn(tr("Duration")) { scan in Text(Formatters.duration(ms: scan.durationMs)).monospacedDigit().foregroundStyle(.secondary) }
                     .width(90)
             }
             .devDoctorTable(minHeight: 390)
@@ -83,12 +83,12 @@ struct HistoryView: View {
                 InsetPanel {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("\((ScanMode(rawValue: selectedScan.mode)?.label ?? selectedScan.mode).capitalized) completed").font(.headline)
-                            Text("\(Formatters.shortDate(selectedScan.finishedAt)) · \(selectedScan.detectorsRun) checks in \(Formatters.duration(ms: selectedScan.durationMs))").foregroundStyle(.secondary)
+                            Text(tr("%@ completed", "\((ScanMode(rawValue: selectedScan.mode)?.label ?? selectedScan.mode).capitalized)")).font(.headline)
+                            Text(tr("%@ · %@ checks in %@", "\(Formatters.shortDate(selectedScan.finishedAt))", "\(selectedScan.detectorsRun)", "\(Formatters.duration(ms: selectedScan.durationMs))")).foregroundStyle(.secondary)
                         }
                         Spacer()
                         StatusPill(
-                            text: selectedScan.issueCount == 0 ? "No findings" : "\(selectedScan.issueCount) findings",
+                            text: selectedScan.issueCount == 0 ? tr("No findings") : tr("%@ findings", "\(selectedScan.issueCount)"),
                             symbol: selectedScan.issueCount == 0 ? "checkmark.circle.fill" : "exclamationmark.triangle.fill",
                             color: selectedScan.issueCount == 0 ? .green : .orange
                         )
@@ -101,19 +101,19 @@ struct HistoryView: View {
     @ViewBuilder
     private var transactions: some View {
         if model.history.transactions.isEmpty {
-            DataUnavailableView(title: "No Repairs Yet", detail: "Repairs and rollback records appear here.", symbol: "arrow.uturn.backward.circle")
+            DataUnavailableView(title: tr("No Repairs Yet"), detail: tr("Repairs and rollback records appear here."), symbol: "arrow.uturn.backward.circle")
         } else {
             Table(model.history.transactions, selection: $selectedTransactionID) {
-                TableColumn("Date") { transaction in Text(Formatters.shortDate(transaction.createdAt)) }
+                TableColumn(tr("Date")) { transaction in Text(Formatters.shortDate(transaction.createdAt)) }
                     .width(min: 150, ideal: 190)
-                TableColumn("Action") { transaction in Text(transaction.title).fontWeight(.medium).lineLimit(1) }
+                TableColumn(tr("Action")) { transaction in Text(transaction.title).fontWeight(.medium).lineLimit(1) }
                     .width(min: 240, ideal: 360)
-                TableColumn("Status") { transaction in
+                TableColumn(tr("Status")) { transaction in
                     Text(transaction.statusLabel)
                         .foregroundStyle(transaction.status == "applied" ? .green : (transaction.status == "rolled_back" ? .blue : .orange))
                 }
                 .width(110)
-                TableColumn("Recovered") { transaction in
+                TableColumn(tr("Recovered")) { transaction in
                     Text(transaction.diskSpaceRecovered > 0 ? Formatters.byteString(transaction.diskSpaceRecovered) : "—").monospacedDigit()
                 }
                 .width(100)
@@ -126,14 +126,14 @@ struct HistoryView: View {
                         HStack {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(tx.title).font(.headline)
-                                Text("\(tx.operations.count) recorded operation\(tx.operations.count == 1 ? "" : "s") · \(tx.id)")
+                                Text(tr("%@ recorded operation%@ · %@", "\(tx.operations.count)", "\(tx.operations.count == 1 ? "" : "s")", "\(tx.id)"))
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                                     .textSelection(.enabled)
                             }
                             Spacer()
                             if tx.canRollback {
-                                Button("Undo…", role: .destructive) { pendingRollback = tx }
+                                Button(tr("Undo…"), role: .destructive) { pendingRollback = tx }
                             }
                         }
                         ForEach(Array(tx.operations.enumerated()), id: \.offset) { _, op in
@@ -163,16 +163,16 @@ struct HistoryView: View {
     @ViewBuilder
     private var runs: some View {
         if model.history.runs.isEmpty {
-            DataUnavailableView(title: "No Recorded Runs", detail: "Wrap an installer with `devdoctor run <command>` or use `devdoctor watch` in the terminal; every recorded run appears here and in What Changed.", symbol: "terminal")
+            DataUnavailableView(title: tr("No Recorded Runs"), detail: tr("Wrap an installer with `devdoctor run <command>` or use `devdoctor watch` in the terminal; every recorded run appears here and in What Changed."), symbol: "terminal")
         } else {
             Table(model.history.runs, selection: $selectedRunID) {
-                TableColumn("Date") { run in Text(Formatters.shortDate(run.startedAt)) }
+                TableColumn(tr("Date")) { run in Text(Formatters.shortDate(run.startedAt)) }
                     .width(min: 150, ideal: 190)
-                TableColumn("Command") { run in Text(run.label).font(.system(.body, design: .monospaced)).lineLimit(1) }
+                TableColumn(tr("Command")) { run in Text(run.label).font(.system(.body, design: .monospaced)).lineLimit(1) }
                     .width(min: 240, ideal: 360)
-                TableColumn("Exit") { run in Text(run.exitCode.map(String.init) ?? "signal").monospacedDigit().foregroundStyle(run.exitCode == 0 ? .green : .orange) }
+                TableColumn(tr("Exit")) { run in Text(run.exitCode.map(String.init) ?? "signal").monospacedDigit().foregroundStyle(run.exitCode == 0 ? .green : .orange) }
                     .width(60)
-                TableColumn("What changed") { run in Text(run.headline.isEmpty ? "nothing tracked" : run.headline.joined(separator: "; ")).foregroundStyle(.secondary).lineLimit(1) }
+                TableColumn(tr("What changed")) { run in Text(run.headline.isEmpty ? tr("nothing tracked") : run.headline.joined(separator: "; ")).foregroundStyle(.secondary).lineLimit(1) }
             }
             .devDoctorTable(minHeight: 300)
 
@@ -203,9 +203,9 @@ private enum HistoryMode: String, CaseIterable, Identifiable {
     @MainActor
     func title(_ model: AppModel) -> String {
         switch self {
-        case .scans: "Scans · \(model.history.scans.count)"
-        case .repairs: "Repairs & Rollbacks · \(model.history.transactions.count)"
-        case .runs: "Recorded Runs · \(model.history.runs.count)"
+        case .scans: tr("Scans · %@", "\(model.history.scans.count)")
+        case .repairs: tr("Repairs & Rollbacks · %@", "\(model.history.transactions.count)")
+        case .runs: tr("Recorded Runs · %@", "\(model.history.runs.count)")
         }
     }
 }
@@ -214,19 +214,35 @@ struct SettingsView: View {
     @EnvironmentObject private var model: AppModel
     @Binding var appearance: AppearanceMode
     @Binding var glassMode: GlassMode
+    @AppStorage(L10n.storageKey) private var languageChoice = AppLanguage.system.rawValue
     @State private var schedule: SnapshotSchedule?
     @State private var scheduleHour = 12
     @State private var markdown: String?
     @State private var reportStatus: String?
 
     var body: some View {
-        PageScaffold(title: "Settings", subtitle: AppSection.settings.blurb) {
+        PageScaffold(title: tr("Settings"), subtitle: AppSection.settings.blurb) {
             Form {
-                Section("Appearance") {
-                    LabeledContent("Theme") {
-                        Picker("Theme", selection: $appearance) {
+                Section(tr("Language")) {
+                    LabeledContent(tr("Interface language")) {
+                        Picker(tr("Interface language"), selection: $languageChoice) {
+                            ForEach(AppLanguage.allCases) { language in
+                                Text(language.title).tag(language.rawValue)
+                            }
+                        }
+                        .labelsHidden()
+                        .frame(width: 180)
+                    }
+                    Text(tr("System follows the languages set in System Settings. Findings and explanations produced by the diagnostic engine are shown in English in this version."))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Section(tr("Appearance")) {
+                    LabeledContent(tr("Theme")) {
+                        Picker(tr("Theme"), selection: $appearance) {
                             ForEach(AppearanceMode.allCases) { mode in
-                                Label(mode.rawValue, systemImage: mode.symbol).tag(mode)
+                                Label(mode.title, systemImage: mode.symbol).tag(mode)
                             }
                         }
                         .labelsHidden()
@@ -234,10 +250,10 @@ struct SettingsView: View {
                         .frame(width: 310)
                     }
 
-                    LabeledContent("Liquid Glass") {
-                        Picker("Liquid Glass", selection: $glassMode) {
+                    LabeledContent(tr("Liquid Glass")) {
+                        Picker(tr("Liquid Glass"), selection: $glassMode) {
                             ForEach(GlassMode.allCases) { mode in
-                                Text(mode.rawValue).tag(mode)
+                                Text(mode.title).tag(mode)
                             }
                         }
                         .labelsHidden()
@@ -245,21 +261,21 @@ struct SettingsView: View {
                         .frame(width: 210)
                     }
 
-                    Text("System follows the Mac automatically. Liquid Glass is reserved for navigation and primary controls so technical content stays easy to read.")
+                    Text(tr("System follows the Mac automatically. Liquid Glass is reserved for navigation and primary controls so technical content stays easy to read."))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
 
-                Section("Diagnostics") {
-                    Toggle("Run a quick check when DevDoctor opens (if the last one is older than an hour)", isOn: Binding(
+                Section(tr("Diagnostics")) {
+                    Toggle(tr("Run a quick check when DevDoctor opens (if the last one is older than an hour)"), isOn: Binding(
                         get: { model.autoScanOnLaunch },
                         set: { model.autoScanOnLaunch = $0 }
                     ))
-                    Toggle("Show technical details: detector ids, all evidence, raw diagnostics", isOn: Binding(
+                    Toggle(tr("Show technical details: detector ids, all evidence, raw diagnostics"), isOn: Binding(
                         get: { model.showTechnicalDetails },
                         set: { model.showTechnicalDetails = $0 }
                     ))
-                    Toggle("Show ignored findings in the Problems list", isOn: Binding(
+                    Toggle(tr("Show ignored findings in the Problems list"), isOn: Binding(
                         get: { model.showIgnored },
                         set: { model.showIgnored = $0 }
                     ))
@@ -276,26 +292,26 @@ struct SettingsView: View {
                             }
                         )) {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Take a snapshot every day")
+                                Text(tr("Take a snapshot every day"))
                                 if schedule.installed {
-                                    Text("At \(String(format: "%02d:%02d", schedule.hour ?? 0, schedule.minute ?? 0)) · \(schedule.loaded ? "active" : "not loaded yet")\(schedule.lastRun.map { " · last run \(Formatters.shortDate($0))" } ?? "")")
+                                    Text(tr("At %@ · %@%@", "\(String(format: "%02d:%02d", schedule.hour ?? 0, schedule.minute ?? 0))", "\(schedule.loaded ? "active" : "not loaded yet")", "\(schedule.lastRun.map { " · last run \(Formatters.shortDate($0))" } ?? "")"))
                                         .font(.caption).foregroundStyle(.secondary)
                                 } else {
-                                    Text("\"What changed since yesterday\" needs a snapshot from yesterday. A user launch agent runs the DevDoctor command line tool for about a second; no password, metadata only.")
+                                    Text(tr("\"What changed since yesterday\" needs a snapshot from yesterday. A user launch agent runs the DevDoctor command line tool for about a second; no password, metadata only."))
                                         .font(.caption).foregroundStyle(.secondary)
                                 }
                             }
                         }
                         if !schedule.installed {
-                            LabeledContent("Time of day") {
-                                Picker("Time of day", selection: $scheduleHour) {
+                            LabeledContent(tr("Time of day")) {
+                                Picker(tr("Time of day"), selection: $scheduleHour) {
                                     ForEach(0..<24, id: \.self) { h in Text(String(format: "%02d:00", h)).tag(h) }
                                 }
                                 .labelsHidden()
                                 .frame(width: 110)
                             }
                             if schedule.availableProgram == nil {
-                                Label("The `devdoctor` command line tool was not found in PATH. Install it (`cargo install --path crates/devdoctor-cli`) so launchd has a stable command to run.", systemImage: "exclamationmark.triangle")
+                                Label(tr("The `devdoctor` command line tool was not found in PATH. Install it (`cargo install --path crates/devdoctor-cli`) so launchd has a stable command to run."), systemImage: "exclamationmark.triangle")
                                     .font(.caption).foregroundStyle(.orange)
                             }
                         }
@@ -303,22 +319,22 @@ struct SettingsView: View {
                             Label(note, systemImage: "info.circle").font(.caption).foregroundStyle(.secondary)
                         }
                     } else {
-                        LabeledContent("Daily snapshot") { ProgressView().controlSize(.small) }
+                        LabeledContent(tr("Daily snapshot")) { ProgressView().controlSize(.small) }
                     }
                 } header: {
-                    Text("Daily snapshot")
+                    Text(tr("Daily snapshot"))
                 }
 
-                Section("Reports") {
-                    Text("Create a report to share when asking for help. Home paths are shortened, your username and e-mail addresses are replaced, and anything that looks like a secret is removed.")
+                Section(tr("Reports")) {
+                    Text(tr("Create a report to share when asking for help. Home paths are shortened, your username and e-mail addresses are replaced, and anything that looks like a secret is removed."))
                         .font(.caption).foregroundStyle(.secondary)
                     HStack {
                         Button {
                             Task { await copyMarkdown() }
-                        } label: { Label("Copy Markdown for a bug report", systemImage: "doc.on.clipboard") }
+                        } label: { Label(tr("Copy Markdown for a bug report"), systemImage: "doc.on.clipboard") }
                         Button {
                             Task { await saveJSON() }
-                        } label: { Label("Save full JSON report…", systemImage: "square.and.arrow.down") }
+                        } label: { Label(tr("Save full JSON report…"), systemImage: "square.and.arrow.down") }
                         if let reportStatus {
                             Text(reportStatus).font(.caption).foregroundStyle(.secondary)
                         }
@@ -336,47 +352,47 @@ struct SettingsView: View {
                     }
                 }
 
-                Section("Privacy & Safety") {
-                    SettingsFact(symbol: "lock.shield.fill", title: "Local by default", detail: "Scans, snapshots and history stay on this Mac. No account, no network.")
-                    SettingsFact(symbol: "eye.fill", title: "Preview first", detail: "File changes and commands are shown before confirmation.")
-                    SettingsFact(symbol: "arrow.uturn.backward.circle.fill", title: "Recorded repairs", detail: "Files are backed up; eligible repairs can be undone from History.")
+                Section(tr("Privacy & Safety")) {
+                    SettingsFact(symbol: "lock.shield.fill", title: tr("Local by default"), detail: tr("Scans, snapshots and history stay on this Mac. No account, no network."))
+                    SettingsFact(symbol: "eye.fill", title: tr("Preview first"), detail: tr("File changes and commands are shown before confirmation."))
+                    SettingsFact(symbol: "arrow.uturn.backward.circle.fill", title: tr("Recorded repairs"), detail: tr("Files are backed up; eligible repairs can be undone from History."))
                 }
 
-                Section("Data") {
-                    LabeledContent("Local database") {
+                Section(tr("Data")) {
+                    LabeledContent(tr("Local database")) {
                         Text(Formatters.shortenHome(EngineClient.shared.dataDirectory.path))
                             .font(.system(.caption, design: .monospaced))
                             .textSelection(.enabled)
                     }
-                    Button("Show in Finder") {
+                    Button(tr("Show in Finder")) {
                         NSWorkspace.shared.activateFileViewerSelecting([EngineClient.shared.dataDirectory])
                     }
                 }
 
-                Section("Engine") {
-                    LabeledContent("Status") {
+                Section(tr("Engine")) {
+                    LabeledContent(tr("Status")) {
                         StatusPill(
-                            text: model.engineAvailable ? "Ready" : "Unavailable",
+                            text: model.engineAvailable ? tr("Ready") : tr("Unavailable"),
                             symbol: model.engineAvailable ? "checkmark.circle.fill" : "xmark.circle.fill",
                             color: model.engineAvailable ? .green : .red
                         )
                     }
-                    LabeledContent("Version") { Text(model.engineVersion.isEmpty ? "—" : model.engineVersion) }
-                    LabeledContent("Command line tool") {
-                        Text(EngineClient.shared.engineURL.map { Formatters.shortenHome($0.path) } ?? "not found")
+                    LabeledContent(tr("Version")) { Text(model.engineVersion.isEmpty ? "—" : model.engineVersion) }
+                    LabeledContent(tr("Command line tool")) {
+                        Text(EngineClient.shared.engineURL.map { Formatters.shortenHome($0.path) } ?? tr("not found"))
                             .font(.system(.caption, design: .monospaced))
                             .textSelection(.enabled)
                     }
-                    LabeledContent("Interface") { Text("Native SwiftUI for macOS 26 · same Rust engine as the CLI") }
+                    LabeledContent(tr("Interface")) { Text(tr("Native SwiftUI for macOS 26 · same Rust engine as the CLI")) }
                 }
 
-                Section("Checks DevDoctor runs (\(model.detectors.count))") {
+                Section(tr("Checks DevDoctor runs (%@)", "\(model.detectors.count)")) {
                     ForEach(model.detectors) { detector in
                         VStack(alignment: .leading, spacing: 2) {
                             HStack {
                                 Text(detector.name).font(.callout.weight(.medium))
                                 Spacer()
-                                Text(detector.modes.isEmpty ? "deep check only" : detector.modes.map { ScanMode(rawValue: $0)?.label ?? $0 }.joined(separator: ", "))
+                                Text(detector.modes.isEmpty ? tr("deep check only") : detector.modes.map { ScanMode(rawValue: $0)?.label ?? $0 }.joined(separator: ", "))
                                     .font(.caption2).foregroundStyle(.secondary)
                             }
                             Text(detector.description).font(.caption).foregroundStyle(.secondary)
@@ -405,7 +421,7 @@ struct SettingsView: View {
             markdown = text
             NSPasteboard.general.clearContents()
             NSPasteboard.general.setString(text, forType: .string)
-            reportStatus = "Copied to the clipboard."
+            reportStatus = tr("Copied to the clipboard.")
         } catch {
             model.alertMessage = error.localizedDescription
         }
@@ -419,7 +435,7 @@ struct SettingsView: View {
             panel.allowedContentTypes = [.json]
             if panel.runModal() == .OK, let url = panel.url {
                 try data.write(to: url)
-                reportStatus = "Saved \(url.lastPathComponent)."
+                reportStatus = tr("Saved %@.", "\(url.lastPathComponent)")
             }
         } catch {
             model.alertMessage = error.localizedDescription

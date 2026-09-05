@@ -16,17 +16,17 @@ struct PathExplorerView: View {
 
     var body: some View {
         PageScaffold(
-            title: "PATH Explorer",
+            title: tr("PATH Explorer"),
             subtitle: AppSection.path.blurb
         ) {
             InsetPanel {
                 VStack(alignment: .leading, spacing: 14) {
-                    SectionHeading("Resolve a Command", detail: "Uses the same PATH captured by the diagnostic engine")
+                    SectionHeading(tr("Resolve a Command"), detail: tr("Uses the same PATH captured by the diagnostic engine"))
                     HStack {
-                        TextField("Command, for example node", text: $command)
+                        TextField(tr("Command, for example node"), text: $command)
                             .textFieldStyle(.roundedBorder)
                             .onSubmit { Task { await resolve() } }
-                        Button("Resolve") { Task { await resolve() } }
+                        Button(tr("Resolve")) { Task { await resolve() } }
                             .buttonStyle(.glassProminent)
                             .disabled(command.trimmingCharacters(in: .whitespaces).isEmpty || isResolving)
                     }
@@ -39,7 +39,7 @@ struct PathExplorerView: View {
                             Image(systemName: resolution.conflict == nil ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
                                 .foregroundStyle(resolution.conflict == nil ? .green : .orange)
                             VStack(alignment: .leading, spacing: 5) {
-                                Text(resolution.active?.path ?? "Command not found")
+                                Text(resolution.active?.path ?? tr("Command not found"))
                                     .font(.system(.body, design: .monospaced))
                                     .textSelection(.enabled)
                                 if let version = resolution.active?.version {
@@ -49,7 +49,7 @@ struct PathExplorerView: View {
                                     Text(conflict).font(.caption).foregroundStyle(.orange)
                                 }
                                 ForEach(resolution.others, id: \.path) { other in
-                                    Text("also: \(Formatters.shortenHome(other.path)) · \(other.originLabel)\(other.version.map { " · \($0)" } ?? "") (PATH position \(other.pathPosition))")
+                                    Text(tr("also: %@ · %@%@ (PATH position %@)", "\(Formatters.shortenHome(other.path))", "\(other.originLabel)", "\(other.version.map { " · \($0)" } ?? "")", "\(other.pathPosition)"))
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }
@@ -63,17 +63,17 @@ struct PathExplorerView: View {
             }
 
             if isLoading {
-                LoadingPanel(title: "Reading shell configuration and PATH…")
+                LoadingPanel(title: tr("Reading shell configuration and PATH…"))
             } else if let error {
-                DataUnavailableView(title: "PATH Unavailable", detail: error, symbol: "exclamationmark.triangle")
+                DataUnavailableView(title: tr("PATH Unavailable"), detail: error, symbol: "exclamationmark.triangle")
             } else if let report {
                 HStack {
-                    StatusPill(text: "\(report.entries.count) entries", symbol: "list.number", color: .blue)
+                    StatusPill(text: tr("%@ entries", "\(report.entries.count)"), symbol: "list.number", color: .blue)
                     if report.duplicateCount > 0 {
-                        StatusPill(text: "\(report.duplicateCount) duplicates", symbol: "doc.on.doc", color: .orange)
+                        StatusPill(text: tr("%@ duplicates", "\(report.duplicateCount)"), symbol: "doc.on.doc", color: .orange)
                     }
                     if report.missingCount > 0 {
-                        StatusPill(text: "\(report.missingCount) missing", symbol: "questionmark.folder", color: .orange)
+                        StatusPill(text: tr("%@ missing", "\(report.missingCount)"), symbol: "questionmark.folder", color: .orange)
                     }
                     Spacer()
                 }
@@ -83,20 +83,20 @@ struct PathExplorerView: View {
                         Text("\(entry.position)").monospacedDigit().foregroundStyle(.secondary)
                     }
                     .width(34)
-                    TableColumn("Status") { entry in
+                    TableColumn(tr("Status")) { entry in
                         Image(systemName: entry.exists ? (entry.isDuplicate ? "doc.on.doc" : "checkmark.circle") : "xmark.circle")
                             .foregroundStyle(entry.exists ? (entry.isDuplicate ? .orange : .green) : .red)
                     }
                     .width(50)
-                    TableColumn("Directory") { entry in
+                    TableColumn(tr("Directory")) { entry in
                         Text(entry.raw).font(.system(.body, design: .monospaced)).lineLimit(1)
                     }
                     .width(min: 260, ideal: 430)
-                    TableColumn("Origin") { entry in
+                    TableColumn(tr("Origin")) { entry in
                         Text(entry.originLabel).foregroundStyle(.secondary)
                     }
                     .width(min: 130, ideal: 180)
-                    TableColumn("Executables") { entry in
+                    TableColumn(tr("Executables")) { entry in
                         Text(entry.executables.map(String.init) ?? "—").monospacedDigit()
                     }
                     .width(90)
@@ -109,7 +109,7 @@ struct PathExplorerView: View {
                 if let selected {
                     InsetPanel {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Source").font(.headline)
+                            Text(tr("Source")).font(.headline)
                             if selected.sources.isEmpty {
                                 Text(selected.sourceHint ?? selected.originLabel).foregroundStyle(.secondary)
                             } else {
@@ -166,17 +166,17 @@ struct ToolsView: View {
 
     var body: some View {
         PageScaffold(
-            title: "Developer Tools",
+            title: tr("Developer Tools"),
             subtitle: AppSection.tools.blurb
         ) {
             if isLoading {
-                LoadingPanel(title: "Inventorying developer tools…")
+                LoadingPanel(title: tr("Inventorying developer tools…"))
             } else if let error {
-                DataUnavailableView(title: "Inventory Unavailable", detail: error, symbol: "shippingbox")
+                DataUnavailableView(title: tr("Inventory Unavailable"), detail: error, symbol: "shippingbox")
             } else {
                 HStack {
-                    StatusPill(text: "\(tools.filter(\.installed).count) installed", symbol: "checkmark.seal.fill", color: .green)
-                    StatusPill(text: "\(tools.filter { !$0.installed }.count) not found", symbol: "minus.circle", color: .secondary)
+                    StatusPill(text: tr("%@ installed", "\(tools.filter(\.installed).count)"), symbol: "checkmark.seal.fill", color: .green)
+                    StatusPill(text: tr("%@ not found", "\(tools.filter { !$0.installed }.count)"), symbol: "minus.circle", color: .secondary)
                     Spacer()
                 }
 
@@ -186,19 +186,19 @@ struct ToolsView: View {
                             .foregroundStyle(tool.installed ? .green : .secondary)
                     }
                     .width(28)
-                    TableColumn("Tool") { tool in
+                    TableColumn(tr("Tool")) { tool in
                         Text(tool.name).fontWeight(.medium)
                     }
                     .width(min: 130, ideal: 180)
-                    TableColumn("Version") { tool in
+                    TableColumn(tr("Version")) { tool in
                         Text(tool.version ?? "—").font(.system(.body, design: .monospaced)).lineLimit(1)
                     }
                     .width(min: 150, ideal: 240)
-                    TableColumn("Installation") { tool in
-                        Text(tool.installMethod ?? "Not detected").foregroundStyle(.secondary)
+                    TableColumn(tr("Installation")) { tool in
+                        Text(tool.installMethod ?? tr("Not detected")).foregroundStyle(.secondary)
                     }
                     .width(min: 130, ideal: 180)
-                    TableColumn("Disk") { tool in
+                    TableColumn(tr("Disk")) { tool in
                         Text(tool.diskUsage.map(Formatters.byteString) ?? "—").monospacedDigit()
                     }
                     .width(90)
@@ -215,24 +215,24 @@ struct ToolsView: View {
                                 Text(selected.name).font(.headline)
                                 Spacer()
                                 if selected.installed {
-                                    StatusPill(text: "Installed", symbol: "checkmark", color: .green)
+                                    StatusPill(text: tr("Installed"), symbol: "checkmark", color: .green)
                                 }
                             }
                             if let binary = selected.binary {
-                                LabeledContent("Executable") {
+                                LabeledContent(tr("Executable")) {
                                     Text(Formatters.shortenHome(binary)).font(.system(.caption, design: .monospaced)).textSelection(.enabled)
                                 }
                             }
                             if let app = selected.appBundle {
-                                LabeledContent("Application") {
+                                LabeledContent(tr("Application")) {
                                     Text(app).font(.system(.caption, design: .monospaced)).textSelection(.enabled)
                                 }
                             }
                             if let method = selected.installMethod {
-                                LabeledContent("Installed by") { Text(method) }
+                                LabeledContent(tr("Installed by")) { Text(method) }
                             }
                             ForEach(selected.configPaths, id: \.self) { path in
-                                LabeledContent("Configuration") {
+                                LabeledContent(tr("Configuration")) {
                                     Text(path).font(.system(.caption, design: .monospaced)).textSelection(.enabled)
                                 }
                             }

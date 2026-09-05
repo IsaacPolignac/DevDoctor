@@ -4,6 +4,7 @@ import type { Category, HealthScore, Issue } from "../lib/types";
 import { CATEGORY_PLAIN } from "../lib/plain";
 import { Icon, type IconName } from "./Icons";
 import { Tile, type TileColor } from "./Tile";
+import { t } from "../lib/i18n";
 
 const AREA: Record<Category, { icon: IconName; color: TileColor }> = {
   shell: { icon: "terminal", color: "graphite" },
@@ -38,8 +39,8 @@ export function HealthRing({ score, size = 104 }: { score: number; size?: number
 
 export function Dashboard({ health, issues, selected, onSelect }: { health: HealthScore | undefined; issues: Issue[]; selected: Category | null; onSelect: (c: Category | null) => void }) {
   const cats = (health?.categories ?? []).filter((c) => c.checks_run > 0 || c.issues > 0);
-  const label = !health ? "Not checked yet" : health.problems === 0 && health.warnings === 0 ? "Healthy" : health.problems === 0 ? "Almost perfect" : "Needs attention";
-  const sub = !health ? "Run a scan to see your score." : `${health.checks_passed} of ${health.checks_total} checks passed`;
+  const label = !health ? t("Not checked yet") : health.problems === 0 && health.warnings === 0 ? t("Healthy") : health.problems === 0 ? t("Almost perfect") : t("Needs attention");
+  const sub = !health ? t("Run a scan to see your score.") : t("{passed} of {total} checks passed", { passed: health.checks_passed, total: health.checks_total });
   return (
     <div className="card dashboard">
       <div className="dash-score">
@@ -53,14 +54,14 @@ export function Dashboard({ health, issues, selected, onSelect }: { health: Heal
           const attention = issues.some((i) => i.category === c.category && (i.severity === "critical" || i.severity === "high" || i.severity === "medium"));
           const active = selected === c.category;
           return (
-            <button key={c.category} className={`dash-tile ${active ? "active" : ""}`} onClick={() => onSelect(active ? null : c.category)} title={`${c.checks_run} check${c.checks_run === 1 ? "" : "s"} · ${count} finding${count === 1 ? "" : "s"}`}>
+            <button key={c.category} className={`dash-tile ${active ? "active" : ""}`} onClick={() => onSelect(active ? null : c.category)} title={`${c.checks_run === 1 ? t("1 check") : t("{n} checks", { n: c.checks_run })} · ${count === 1 ? t("1 finding") : t("{n} findings", { n: count })}`}>
               <Tile color={meta.color} icon={meta.icon} size={26} />
-              <span className="dt-label">{CATEGORY_PLAIN[c.category]}</span>
+              <span className="dt-label">{t(CATEGORY_PLAIN[c.category])}</span>
               {count === 0 ? <Icon name="check-circle-fill" className="dt-ok" /> : <span className={`dt-count ${attention ? "warn" : ""}`}>{count}</span>}
             </button>
           );
         })}
-        {cats.length === 0 && <div className="secondary caption">Areas appear here after the first scan.</div>}
+        {cats.length === 0 && <div className="secondary caption">{t("Areas appear here after the first scan.")}</div>}
       </div>
     </div>
   );

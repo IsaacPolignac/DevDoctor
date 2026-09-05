@@ -40,9 +40,19 @@ struct DevDoctorApp: App {
     @StateObject private var model = AppModel()
     @AppStorage("appearanceMode") private var appearanceMode = AppearanceMode.system.rawValue
     @AppStorage("glassMode") private var glassMode = GlassMode.clear.rawValue
+    @AppStorage(L10n.storageKey) private var languageChoice = AppLanguage.system.rawValue
+
+    init() {
+        L10n.activate(L10n.loadPreference())
+    }
+
+    private var language: AppLanguage { AppLanguage(rawValue: languageChoice) ?? .system }
 
     var body: some Scene {
-        Window("Developer Environment", id: "main") {
+        // Reading `languageChoice` here makes the scene (window title, menus) and, through
+        // `.id`, every view rebuild when the language changes.
+        let _ = L10n.activate(language)
+        return Window(tr("Developer Environment"), id: "main") {
             RootView(
                 appearance: Binding(
                     get: { AppearanceMode(rawValue: appearanceMode) ?? .system },
@@ -54,6 +64,8 @@ struct DevDoctorApp: App {
                 )
             )
             .environmentObject(model)
+            .environment(\.locale, L10n.locale)
+            .id(languageChoice)
             .preferredColorScheme((AppearanceMode(rawValue: appearanceMode) ?? .system).colorScheme)
             .frame(minWidth: 1160, minHeight: 680)
         }
@@ -62,27 +74,27 @@ struct DevDoctorApp: App {
         .windowToolbarStyle(.unified(showsTitle: true))
         .restorationBehavior(.disabled)
         .commands {
-            CommandMenu("Diagnostics") {
-                Button("Run Quick Check") {
+            CommandMenu(tr("Diagnostics")) {
+                Button(tr("Run Quick Check")) {
                     Task { await model.runScan() }
                 }
                 .keyboardShortcut("r", modifiers: [.command])
                 .disabled(model.isScanning)
 
-                Button("Run Deep Check (includes brew doctor and storage)") {
+                Button(tr("Run Deep Check (includes brew doctor and storage)")) {
                     Task { await model.runScan(mode: .deep) }
                 }
                 .keyboardShortcut("r", modifiers: [.command, .shift])
                 .disabled(model.isScanning)
 
-                Button("Measure Developer Storage") {
+                Button(tr("Measure Developer Storage")) {
                     Task { await model.runScan(mode: .storage) }
                 }
                 .disabled(model.isScanning)
 
                 Divider()
 
-                Button("Take Snapshot") {
+                Button(tr("Take Snapshot")) {
                     Task {
                         do {
                             _ = try await EngineClient.shared.createSnapshot(baseline: false)
@@ -96,7 +108,7 @@ struct DevDoctorApp: App {
 
                 Divider()
 
-                Button(model.isInspectorPresented ? "Hide Inspector" : "Show Inspector") {
+                Button(model.isInspectorPresented ? tr("Hide Inspector") : tr("Show Inspector")) {
                     model.isInspectorPresented.toggle()
                 }
                 .keyboardShortcut("i", modifiers: [.command, .option])
@@ -122,20 +134,20 @@ struct RootView: View {
                     selectedPage
                 }
             }
-            .navigationTitle(model.selection?.rawValue ?? "Overview")
-            .searchable(text: $model.searchQuery, placement: .toolbar, prompt: "Search DevDoctor")
+            .navigationTitle(model.selection?.title ?? tr("Overview"))
+            .searchable(text: $model.searchQuery, placement: .toolbar, prompt: tr("Search DevDoctor"))
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
                     Menu {
-                        Button("Quick Check") { Task { await model.runScan() } }
-                        Button("Deep Check") { Task { await model.runScan(mode: .deep) } }
-                        Button("Measure Developer Storage") { Task { await model.runScan(mode: .storage) } }
+                        Button(tr("Quick Check")) { Task { await model.runScan() } }
+                        Button(tr("Deep Check")) { Task { await model.runScan(mode: .deep) } }
+                        Button(tr("Measure Developer Storage")) { Task { await model.runScan(mode: .storage) } }
                     } label: {
-                        Label("Run Scan", systemImage: "arrow.clockwise")
+                        Label(tr("Run Scan"), systemImage: "arrow.clockwise")
                     } primaryAction: {
                         Task { await model.runScan() }
                     }
-                    .help("Run a quick check (⌘R); hold for deep and storage checks")
+                    .help(tr("Run a quick check (⌘R); hold for deep and storage checks"))
                     .disabled(model.isScanning)
 
                     AppearanceMenu(appearance: $appearance, glassMode: $glassMode)
@@ -144,9 +156,9 @@ struct RootView: View {
                         Button {
                             model.isInspectorPresented.toggle()
                         } label: {
-                            Label("Inspector", systemImage: "sidebar.right")
+                            Label(tr("Inspector"), systemImage: "sidebar.right")
                         }
-                        .help(model.isInspectorPresented ? "Hide Inspector" : "Show Inspector")
+                        .help(model.isInspectorPresented ? tr("Hide Inspector") : tr("Show Inspector"))
                     }
                 }
             }
@@ -159,13 +171,13 @@ struct RootView: View {
         .sheet(item: $model.completedTransaction) { transaction in
             TransactionResultSheet(transaction: transaction)
         }
-        .alert("DevDoctor", isPresented: Binding(
+        .alert(tr("DevDoctor"), isPresented: Binding(
             get: { model.alertMessage != nil },
             set: { if !$0 { model.alertMessage = nil } }
         )) {
-            Button("OK") { model.alertMessage = nil }
+            Button(tr("OK")) { model.alertMessage = nil }
         } message: {
-            Text(model.alertMessage ?? "An unknown error occurred.")
+            Text(model.alertMessage ?? tr("An unknown error occurred."))
         }
     }
 
@@ -219,9 +231,9 @@ struct AppearanceMenu: View {
         Button {
             isPresented.toggle()
         } label: {
-            Label("Appearance", systemImage: appearance.symbol)
+            Label(tr("Appearance"), systemImage: appearance.symbol)
         }
-        .help("Appearance and Liquid Glass")
+        .help(tr("Appearance and Liquid Glass"))
         .popover(isPresented: $isPresented, arrowEdge: .top) {
             AppearancePopover(appearance: $appearance, glassMode: $glassMode)
         }
@@ -235,9 +247,9 @@ private struct AppearancePopover: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 3) {
-                Text("Appearance")
+                Text(tr("Appearance"))
                     .font(.headline)
-                Text("Choose how DevDoctor looks on this Mac.")
+                Text(tr("Choose how DevDoctor looks on this Mac."))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -253,7 +265,7 @@ private struct AppearancePopover: View {
             Divider()
 
             VStack(alignment: .leading, spacing: 10) {
-                Text("Liquid Glass")
+                Text(tr("Liquid Glass"))
                     .font(.subheadline.weight(.semibold))
 
                 HStack(spacing: 12) {
@@ -266,7 +278,7 @@ private struct AppearancePopover: View {
             }
 
             Label(
-                appearance == .system ? "Follows your Mac appearance" : "DevDoctor appearance override",
+                appearance == .system ? tr("Follows your Mac appearance") : tr("DevDoctor appearance override"),
                 systemImage: appearance == .system ? "macbook" : "circle.lefthalf.filled"
             )
             .font(.caption)
@@ -307,7 +319,7 @@ private struct AppearanceChoice: View {
                 }
 
                 HStack(spacing: 4) {
-                    Text(mode.rawValue)
+                    Text(mode.title)
                     if isSelected {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundStyle(.blue)
@@ -318,8 +330,8 @@ private struct AppearanceChoice: View {
             .frame(maxWidth: .infinity)
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(mode.rawValue)
-        .accessibilityValue(isSelected ? "Selected" : "Not selected")
+        .accessibilityLabel(mode.title)
+        .accessibilityValue(isSelected ? tr("Selected") : tr("Not selected"))
     }
 }
 
@@ -337,7 +349,7 @@ private struct GlassChoice: View {
             HStack(spacing: 9) {
                 Image(systemName: mode == .clear ? "drop" : "paintpalette")
                     .font(.system(size: 15, weight: .semibold))
-                Text(mode.rawValue)
+                Text(mode.title)
                     .font(.subheadline.weight(.medium))
                 Spacer(minLength: 0)
                 if isSelected {
@@ -355,7 +367,7 @@ private struct GlassChoice: View {
             }
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("\(mode.rawValue) Liquid Glass")
-        .accessibilityValue(isSelected ? "Selected" : "Not selected")
+        .accessibilityLabel(tr("%@ Liquid Glass", "\(mode.title)"))
+        .accessibilityValue(isSelected ? tr("Selected") : tr("Not selected"))
     }
 }

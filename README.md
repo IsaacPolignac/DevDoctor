@@ -61,6 +61,8 @@ It answers the question every developer eventually asks:
   finds duplicated and dead entries, Node/Python installations (nvm-windows, fnm, Volta, python.org,
   pyenv-win, uv, conda, the Microsoft Store alias trap), processes, ports, startup entries, caches
   under `%LOCALAPPDATA%`, winget/Scoop/Chocolatey, and schedules daily snapshots with Task Scheduler
+- Interface in English, French, Spanish and Simplified Chinese (System / English / Français / Español / 中文 in
+  Settings, in both desktop apps); the diagnostics themselves are still written in English
 - Fully local: no account, no telemetry, no network access
 
 ## Status
@@ -316,6 +318,20 @@ Formula/, scoop/                 Homebrew formula and Scoop manifest for the CLI
 
 See `docs/ARCHITECTURE.md` for the design, `docs/native-design-qa.md` for the native app's design
 review, and `CONTRIBUTING.md` for how to add a detector.
+
+## Languages
+
+Both desktop apps let you choose the interface language in Settings: **System** (follows the
+OS), **English**, **Français**, **Español** or **中文** (Simplified Chinese). The choice is stored
+locally; the web-technology app reloads to apply it. Findings, explanations and evidence produced
+by the diagnostic engine (and the CLI output) are in English in this version; translating the
+engine's messages is a separate project because they are built from hundreds of format strings.
+
+Translations live in one place, `apps/i18n/strings/*.json` (English text as the key, one entry per
+language), and `scripts/gen-i18n.py` generates the Swift `.lproj` files and the TypeScript
+dictionary. `scripts/gen-i18n.py --check` lists interface strings that have no translation yet; a
+missing translation falls back to English. Adding a language is a matter of adding a column to
+those files and one case to `AppLanguage` (Swift) and `LANGUAGES` (TypeScript).
 
 ## Data and privacy
 

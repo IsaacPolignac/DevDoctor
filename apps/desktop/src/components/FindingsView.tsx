@@ -7,6 +7,7 @@ import { shortenHome } from "../lib/format";
 import { Button, DataTable, Disclosure, Empty, ErrorBox, GroupBox, Loading, Sheet, usePrefs, useToast } from "./Basics";
 import { DiffView } from "./DiffView";
 import { Icon } from "./Icons";
+import { t } from "../lib/i18n";
 
 export type ResultFilter = "all" | "attention" | "recommendation" | "healthy";
 
@@ -16,15 +17,15 @@ export function FindingsTable({ findings, selected, onSelect, empty }: { finding
     <DataTable<Finding>
       columns={[
         { key: "level", label: "", width: "28px", className: "icon-cell", render: (f) => <Icon name={LEVELS[f.level].icon} className="sev" title={LEVELS[f.level].title} style={{ color: LEVELS[f.level].color }} /> },
-        { key: "area", label: "Area", width: "112px", render: (f) => <span style={{ fontWeight: 500 }}>{f.area}</span> },
-        { key: "title", label: "Finding", render: (f) => <span className="truncate" style={{ display: "block", maxWidth: 520 }} title={f.title}>{f.title}</span> },
-        { key: "source", label: "Source", width: "190px", render: (f) => <span className="secondary truncate" style={{ display: "block", maxWidth: 190 }} title={f.source}>{f.source}</span> },
+        { key: "area", label: t("Area"), width: "112px", render: (f) => <span style={{ fontWeight: 500 }}>{t(f.area)}</span> },
+        { key: "title", label: t("Finding"), render: (f) => <span className="truncate" style={{ display: "block", maxWidth: 520 }} title={f.title}>{f.title}</span> },
+        { key: "source", label: t("Source"), width: "190px", render: (f) => <span className="secondary truncate" style={{ display: "block", maxWidth: 190 }} title={f.source}>{f.source}</span> },
       ]}
       rows={findings}
       rowKey={(f) => f.key}
       selectedKey={selected}
       onRowClick={onSelect}
-      empty={empty ?? "No results."}
+      empty={empty ?? t("No results.")}
     />
   );
 }
@@ -48,35 +49,35 @@ export function RepairSheet({ issue, onClose, onApplied }: { issue: Issue; onClo
   };
   const irreversible = preview ? !preview.reversible : false;
   return (
-    <Sheet title="Preview Repair" caption="Review the exact changes before applying them." icon="wrench-screwdriver" onClose={busy ? () => {} : onClose} wide={technical}
-      footer={<><Button onClick={onClose} disabled={busy}>Cancel</Button><span className="spacer" /><Button variant={irreversible ? "destructive-primary" : "prominent"} onClick={apply} disabled={busy || !preview}>{busy ? "Applying…" : irreversible ? "Apply (cannot be undone)" : "Apply Repair"}</Button></>}>
+    <Sheet title={t("Preview Repair")} caption={t("Review the exact changes before applying them.")} icon="wrench-screwdriver" onClose={busy ? () => {} : onClose} wide={technical}
+      footer={<><Button onClick={onClose} disabled={busy}>{t("Cancel")}</Button><span className="spacer" /><Button variant={irreversible ? "destructive-primary" : "prominent"} onClick={apply} disabled={busy || !preview}>{busy ? t("Applying…") : irreversible ? t("Apply (cannot be undone)") : t("Apply Repair")}</Button></>}>
       <div className="title3">{preview?.title ?? issue.title}</div>
       <ErrorBox error={error} />
       {!preview && !error && <Loading what="repair plan" />}
       {preview && (
         <>
           <p className="subheadline secondary" style={{ margin: "6px 0 14px" }}>{preview.summary}</p>
-          <GroupBox title="Changes">
-            {preview.operations.length === 0 && <p className="secondary caption">Nothing would change.</p>}
+          <GroupBox title={t("Changes")}>
+            {preview.operations.length === 0 && <p className="secondary caption">{t("Nothing would change.")}</p>}
             {preview.operations.map((o, i) => <div key={i} className="check-line"><Icon name="check-circle-fill" /><span className="mono selectable">{shortenHome(o, home)}</span></div>)}
-            {preview.directories_deleted.map((d) => <div key={d.path} className="check-line"><Icon name="check-circle-fill" /><span>Delete {shortenHome(d.path, home)}</span></div>)}
+            {preview.directories_deleted.map((d) => <div key={d.path} className="check-line"><Icon name="check-circle-fill" /><span>{t("Delete ")}{shortenHome(d.path, home)}</span></div>)}
           </GroupBox>
           {preview.notes.length > 0 && <ul className="section-list caption secondary">{preview.notes.map((n, i) => <li key={i}>{n}</li>)}</ul>}
           {preview.files_modified.length > 0 && (
             <div style={{ marginTop: 10 }}>
-              <Disclosure label="Exact file changes" defaultOpen={technical}>
+              <Disclosure label={t("Exact file changes")} defaultOpen={technical}>
                 {preview.files_modified.map((f) => <div key={f.path}><div className="caption secondary mono">{shortenHome(f.path, home)}</div><DiffView diff={f.diff} /></div>)}
               </Disclosure>
             </div>
           )}
           {preview.validations.length > 0 && (
-            <GroupBox title="Verified right after applying">
+            <GroupBox title={t("Verified right after applying")}>
               {preview.validations.map((v, i) => <div key={i} className="check-line"><Icon name="check-circle-fill" style={{ color: "var(--label-3)" }} /><span>{v}</span></div>)}
             </GroupBox>
           )}
           <div className="sheet-note">
             <Icon name={preview.reversible ? "uturn-circle" : "triangle"} />
-            <span>{preview.reversible ? "A rollback point will be created automatically. You can undo this repair from Fixes & scans." : "This repair cannot be undone automatically: nothing is backed up because files are deleted or a program is stopped."}</span>
+            <span>{preview.reversible ? t("A rollback point will be created automatically. You can undo this repair from Fixes & scans.") : t("This repair cannot be undone automatically: nothing is backed up because files are deleted or a program is stopped.")}</span>
           </div>
         </>
       )}
@@ -96,41 +97,41 @@ export function FindingInspector({ finding, onRepair, onIgnore, onOpen }: { find
     api.previewFix(issue.id).then((p) => { if (!cancelled) setPlan({ id: issue.id, ops: p.operations }); }).catch(() => { if (!cancelled) setPlan({ id: issue.id, ops: [] }); });
     return () => { cancelled = true; };
   }, [issue?.id, issue?.fixer_available]);
-  if (!finding) return <div className="inspector"><Empty icon="sidebar-right" title="No Result Selected">Select a row to review the evidence and repair plan.</Empty></div>;
+  if (!finding) return <div className="inspector"><Empty icon="sidebar-right" title={t("No Result Selected")}>{t("Select a row to review the evidence and repair plan.")}</Empty></div>;
   const lvl = LEVELS[finding.level];
   return (
     <div className="inspector">
       <div className="sev" style={{ color: lvl.color }}><Icon name={lvl.icon} />{lvl.title}</div>
       <div className="ititle">{finding.title}</div>
       <div className="isummary">{finding.summary}</div>
-      {issue?.impact && <><h3>Why it matters</h3><div className="subheadline">{issue.impact}</div></>}
+      {issue?.impact && <><h3>{t("Why it matters")}</h3><div className="subheadline">{issue.impact}</div></>}
       {issue && issue.evidence.length > 0 && (
         <>
-          <h3>Evidence</h3>
+          <h3>{t("Evidence")}</h3>
           {issue.evidence.slice(0, technical ? 20 : 6).map((e, i) => <div key={i} className="evidence"><Icon name="chevron" /><span className="mono selectable">{shortenHome(e, home)}</span></div>)}
         </>
       )}
       {issue && (
         <>
-          <h3>Proposed repair</h3>
+          <h3>{t("Proposed repair")}</h3>
           {issue.fixer_available ? (
-            plan && plan.id === issue.id ? (plan.ops.length ? plan.ops.map((o, i) => <div key={i} className="check-line"><Icon name="check" /><span className="selectable">{shortenHome(o, home)}</span></div>) : <div className="subheadline secondary">Nothing would change right now; run a new scan.</div>) : <Loading what="plan" />
+            plan && plan.id === issue.id ? (plan.ops.length ? plan.ops.map((o, i) => <div key={i} className="check-line"><Icon name="check" /><span className="selectable">{shortenHome(o, home)}</span></div>) : <div className="subheadline secondary">{t("Nothing would change right now; run a new scan.")}</div>) : <Loading what="plan" />
           ) : (
             <div className="subheadline">{issue.recommended_action}</div>
           )}
           <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 18 }}>
-            {issue.fixer_available && <Button variant="prominent" size="large" className="capsule-btn" full onClick={() => onRepair(issue)}>{issue.batch_safe ? "Preview Repair…" : plainFixLabel(issue.reversible, false).replace("Fix", "Preview Repair")}</Button>}
-            <Button variant="plain" full onClick={() => onOpen(issue)}>Full details</Button>
-            <Button variant="plain" full onClick={() => onIgnore(issue)}>Ignore for Now</Button>
+            {issue.fixer_available && <Button variant="prominent" size="large" className="capsule-btn" full onClick={() => onRepair(issue)}>{issue.batch_safe ? t("Preview Repair…") : plainFixLabel(issue.reversible, false).replace("Fix", "Preview Repair")}</Button>}
+            <Button variant="plain" full onClick={() => onOpen(issue)}>{t("Full details")}</Button>
+            <Button variant="plain" full onClick={() => onIgnore(issue)}>{t("Ignore for Now")}</Button>
           </div>
-          <div className="note"><Icon name="lock-shield" /><span>No changes are made without confirmation. Every repair that edits files creates a rollback point.</span></div>
+          <div className="note"><Icon name="lock-shield" /><span>{t("No changes are made without confirmation. Every repair that edits files creates a rollback point.")}</span></div>
         </>
       )}
       {!issue && (
         <>
-          <h3>What this means</h3>
-          <div className="subheadline">This check ran and found nothing to report. Nothing to do.</div>
-          <div className="note"><Icon name="check-circle-fill" style={{ color: "var(--green)" }} /><span>Healthy checks are listed so you can see what was verified, not only what went wrong.</span></div>
+          <h3>{t("What this means")}</h3>
+          <div className="subheadline">{t("This check ran and found nothing to report. Nothing to do.")}</div>
+          <div className="note"><Icon name="check-circle-fill" style={{ color: "var(--green)" }} /><span>{t("Healthy checks are listed so you can see what was verified, not only what went wrong.")}</span></div>
         </>
       )}
     </div>
@@ -154,10 +155,10 @@ export function useRepairActions(refresh: () => void) {
   const { navigate } = useNav();
   const applied = (tx: Transaction) => {
     const undoable = tx.operations.length > 0 && tx.operations.every((o) => o.kind === "file_write" || o.kind === "file_delete");
-    toast.push({ title: "Repair applied", body: tx.title, tone: "green", action: undoable ? { label: "Undo", onClick: () => api.rollback(tx.id, false).then(() => { toast.push({ title: "Rollback complete", tone: "green" }); refresh(); }).catch((e) => toast.push({ title: "Could not roll back", body: errorMessage(e), tone: "red" })) } : undefined });
+    toast.push({ title: t("Repair applied"), body: tx.title, tone: "green", action: undoable ? { label: t("Undo"), onClick: () => api.rollback(tx.id, false).then(() => { toast.push({ title: t("Rollback complete"), tone: "green" }); refresh(); }).catch((e) => toast.push({ title: t("Could not roll back"), body: errorMessage(e), tone: "red" })) } : undefined });
     refresh();
   };
-  const ignore = (issue: Issue) => api.ignore(issue.id).then(() => { toast.push({ title: "Ignored", body: issue.title }); refresh(); }).catch((e) => toast.push({ title: "Could not ignore", body: errorMessage(e), tone: "red" }));
+  const ignore = (issue: Issue) => api.ignore(issue.id).then(() => { toast.push({ title: t("Ignored"), body: issue.title }); refresh(); }).catch((e) => toast.push({ title: t("Could not ignore"), body: errorMessage(e), tone: "red" }));
   const open = (issue: Issue) => navigate("issue", { issueId: issue.id });
   return { applied, ignore, open };
 }

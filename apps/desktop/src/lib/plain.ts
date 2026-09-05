@@ -1,28 +1,29 @@
 // Plain-language layer: turns engine vocabulary into what a beginner reads on screen.
 import type { Category, Confidence, DetectorRun, Issue, Severity } from "./types";
+import { t } from "./i18n";
 
 export type Tone = "red" | "orange" | "yellow" | "green" | "blue" | "gray" | "purple";
 
 export const SEVERITY_PLAIN: Record<Severity, { label: string; tone: Tone; hint: string }> = {
-  critical: { label: "Fix now", tone: "red", hint: "Severity: critical. This is breaking things right now." },
-  high: { label: "Needs attention", tone: "orange", hint: "Severity: high. Very likely causing errors or failures." },
-  medium: { label: "Needs attention", tone: "orange", hint: "Severity: medium. Causes confusion or will bite you soon." },
-  low: { label: "Recommendation", tone: "blue", hint: "Severity: low. Harmless most of the time, but untidy." },
-  info: { label: "Good to know", tone: "gray", hint: "Severity: info. Nothing is wrong; this is context." },
+  critical: { label: t("Fix now"), tone: "red", hint: t("Severity: critical. This is breaking things right now.") },
+  high: { label: t("Needs attention"), tone: "orange", hint: t("Severity: high. Very likely causing errors or failures.") },
+  medium: { label: t("Needs attention"), tone: "orange", hint: t("Severity: medium. Causes confusion or will bite you soon.") },
+  low: { label: t("Recommendation"), tone: "blue", hint: t("Severity: low. Harmless most of the time, but untidy.") },
+  info: { label: t("Good to know"), tone: "gray", hint: t("Severity: info. Nothing is wrong; this is context.") },
 };
 
 export const CONFIDENCE_PLAIN: Record<Confidence, { label: string; tone: Tone; hint: string }> = {
-  confirmed: { label: "Verified", tone: "green", hint: "DevDoctor observed this directly on your Mac." },
-  likely: { label: "Probable", tone: "blue", hint: "Strong signals, but not a direct observation." },
-  possible: { label: "Possible", tone: "gray", hint: "A plausible interpretation that could not be verified." },
+  confirmed: { label: t("Verified"), tone: "green", hint: t("DevDoctor observed this directly on your Mac.") },
+  likely: { label: t("Probable"), tone: "blue", hint: t("Strong signals, but not a direct observation.") },
+  possible: { label: t("Possible"), tone: "gray", hint: t("A plausible interpretation that could not be verified.") },
 };
 
 /** The three levels the results table works with, as in the native prototype. */
 export type Level = "attention" | "recommendation" | "healthy";
 export const LEVELS: Record<Level, { title: string; tone: Tone; icon: "triangle-fill" | "info-circle-fill" | "check-circle-fill"; color: string }> = {
-  attention: { title: "Attention", tone: "orange", icon: "triangle-fill", color: "var(--orange)" },
-  recommendation: { title: "Recommendation", tone: "blue", icon: "info-circle-fill", color: "var(--blue)" },
-  healthy: { title: "Healthy", tone: "green", icon: "check-circle-fill", color: "var(--green)" },
+  attention: { title: t("Attention"), tone: "orange", icon: "triangle-fill", color: "var(--orange)" },
+  recommendation: { title: t("Recommendation"), tone: "blue", icon: "info-circle-fill", color: "var(--blue)" },
+  healthy: { title: t("Healthy"), tone: "green", icon: "check-circle-fill", color: "var(--green)" },
 };
 
 export function levelOf(severity: Severity): Level {
@@ -37,24 +38,24 @@ export const CATEGORY_PLAIN: Record<Category, string> = {
 /** Short "Area" names for the results table, derived from the detector id. */
 export function areaOf(detectorId: string, category: Category): string {
   const [head, second] = detectorId.split(".");
-  if (head === "shell" && second === "path") return "PATH";
-  if (head === "shell" && second === "alias") return "Aliases";
-  if (head === "shell" && second === "startup") return "Terminal";
-  if (head === "shell") return "Shell";
+  if (head === "shell" && second === "path") return t("PATH");
+  if (head === "shell" && second === "alias") return t("Aliases");
+  if (head === "shell" && second === "startup") return t("Terminal");
+  if (head === "shell") return t("Shell");
   if (head === "macos") return "macOS";
-  if (head === "ai") return "AI tools";
-  if (head === "python") return "Python";
-  if (head === "node") return "Node.js";
-  if (head === "rust") return "Rust";
-  if (head === "homebrew") return "Homebrew";
-  if (head === "process") return "Processes";
-  if (head === "port") return "Ports";
-  if (head === "disk" && second === "ollama") return "Ollama";
-  if (head === "disk") return "Storage";
-  if (head === "service") return "Startup";
-  if (head === "ssh") return "SSH";
-  if (head === "git") return "Git";
-  if (head === "env") return "Environment";
+  if (head === "ai") return t("AI tools");
+  if (head === "python") return t("Python");
+  if (head === "node") return t("Node.js");
+  if (head === "rust") return t("Rust");
+  if (head === "homebrew") return t("Homebrew");
+  if (head === "process") return t("Processes");
+  if (head === "port") return t("Ports");
+  if (head === "disk" && second === "ollama") return t("Ollama");
+  if (head === "disk") return t("Storage");
+  if (head === "service") return t("Startup");
+  if (head === "ssh") return t("SSH");
+  if (head === "git") return t("Git");
+  if (head === "env") return t("Environment");
   return CATEGORY_PLAIN[category];
 }
 
@@ -144,9 +145,9 @@ export function healthyFinding(run: DetectorRun, category: Category): Finding {
     level: "healthy",
     category,
     area: areaOf(run.id, category),
-    title: HEALTHY[run.id] ?? `${run.name}: nothing found`,
+    title: HEALTHY[run.id] ? t(HEALTHY[run.id]) : t("{name}: nothing found", { name: run.name }),
     source: run.name,
-    summary: `The "${run.name}" check ran in ${run.duration_ms} ms and found nothing to report.`,
+    summary: t("The \"{name}\" check ran in {ms} ms and found nothing to report.", { name: run.name, ms: run.duration_ms }),
     detectorId: run.id,
   };
 }
@@ -168,7 +169,7 @@ export const GLOSSARY: Record<string, string> = {
 };
 
 export function plainFixLabel(reversible: boolean, batchSafe: boolean): string {
-  if (batchSafe) return "Fix safely";
-  if (reversible) return "Fix (can be undone)";
-  return "Fix…";
+  if (batchSafe) return t("Fix safely");
+  if (reversible) return t("Fix (can be undone)");
+  return t("Fix…");
 }

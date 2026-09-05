@@ -24,6 +24,11 @@ All notable changes to DevDoctor. The format follows [Keep a Changelog](https://
   opaque window and the system title bar. CI runs clippy, the tests, a real scan and the Task
   Scheduler round trip on `windows-latest`; the release workflow publishes `devdoctor.exe` and
   both installers.
+- **Interface languages**: English, French, Spanish and Simplified Chinese in the native macOS app
+  and in the web-technology app (Settings → Language: System / English / Français / Español /
+  中文). One translation source (`apps/i18n/strings/*.json`, English as the key) feeds both apps
+  through `scripts/gen-i18n.py`, which also reports untranslated strings; a missing translation
+  falls back to English. The engine's diagnostics and the CLI remain in English.
 - **Publishing kit**: `scripts/install.sh` (macOS, SHA-256 verified, `~/.local/bin`),
   `scripts/install.ps1` (Windows, user PATH), a Homebrew formula (`Formula/devdoctor.rb`) and
   a Scoop manifest (`scoop/devdoctor.json`) with `scripts/update-formula.sh` to refresh their

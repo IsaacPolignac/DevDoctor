@@ -52,7 +52,7 @@ struct DevDoctorAppIcon: View {
         .frame(width: size, height: size)
         .clipShape(RoundedRectangle(cornerRadius: size * 0.225, style: .continuous))
         .shadow(color: .black.opacity(0.10), radius: size * 0.045, y: 1)
-        .accessibilityLabel("DevDoctor")
+        .accessibilityLabel(tr("DevDoctor"))
     }
 }
 
@@ -235,37 +235,37 @@ struct FindingTable: View {
             }
             .width(28)
 
-            TableColumn("Area") { finding in
+            TableColumn(tr("Area")) { finding in
                 Text(finding.area).fontWeight(.medium)
             }
             .width(min: 70, ideal: 100, max: 140)
 
-            TableColumn("Finding") { finding in
+            TableColumn(tr("Finding")) { finding in
                 Text(finding.title).lineLimit(1)
             }
             .width(min: 180, ideal: 380)
 
-            TableColumn("Confidence") { finding in
+            TableColumn(tr("Confidence")) { finding in
                 if let issue = finding.issue {
                     Text(issue.confidenceLabel).foregroundStyle(.secondary)
                 } else {
-                    Text("Passed").foregroundStyle(.secondary)
+                    Text(tr("Passed")).foregroundStyle(.secondary)
                 }
             }
             .width(90)
 
-            TableColumn("Fix") { finding in
+            TableColumn(tr("Fix")) { finding in
                 if let issue = finding.issue, issue.fixerAvailable {
                     Image(systemName: issue.batchSafe ? "wand.and.stars" : "wrench.adjustable")
                         .foregroundStyle(.blue)
-                        .help(issue.batchSafe ? "Safe fix available" : "Fix available after preview")
+                        .help(issue.batchSafe ? tr("Safe fix available") : tr("Fix available after preview"))
                 } else if finding.ignored {
-                    Image(systemName: "eye.slash").foregroundStyle(.secondary).help("Ignored")
+                    Image(systemName: "eye.slash").foregroundStyle(.secondary).help(tr("Ignored"))
                 }
             }
             .width(36)
 
-            TableColumn("Source") { finding in
+            TableColumn(tr("Source")) { finding in
                 Text(finding.source)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
@@ -297,8 +297,8 @@ struct IssueInspector: View {
                     .padding(18)
             } else {
                 DataUnavailableView(
-                    title: "No Result Selected",
-                    detail: "Select a diagnostic result to review its evidence.",
+                    title: tr("No Result Selected"),
+                    detail: tr("Select a diagnostic result to review its evidence."),
                     symbol: "sidebar.right"
                 )
             }
@@ -376,7 +376,7 @@ private struct InspectorFindingContent: View {
                         .padding(.horizontal, 7)
                         .padding(.vertical, 3)
                         .background(.quaternary, in: Capsule())
-                        .help("Confidence: \(issue.confidence)")
+                        .help(tr("Confidence: %@", "\(issue.confidence)"))
                 }
 
                 Label(finding.severity.title, systemImage: finding.severity.symbol)
@@ -404,7 +404,7 @@ private struct InspectorFindingContent: View {
                     .fixedSize(horizontal: false, vertical: true)
 
                 if finding.ignored {
-                    StatusPill(text: "Ignored", symbol: "eye.slash", color: .secondary)
+                    StatusPill(text: tr("Ignored"), symbol: "eye.slash", color: .secondary)
                 }
 
                 if let state = issue?.currentState, !state.isEmpty {
@@ -423,13 +423,13 @@ private struct InspectorFindingContent: View {
             .padding(.vertical, 4)
 
             VStack(spacing: 0) {
-                InspectorDetailRow(symbol: "info.circle", title: issue == nil ? "Result" : "Cause", text: finding.summary)
+                InspectorDetailRow(symbol: "info.circle", title: issue == nil ? tr("Result") : tr("Cause"), text: finding.summary)
 
                 if let issue {
                     Divider().padding(.leading, 36)
-                    InspectorDetailRow(symbol: "exclamationmark.triangle", title: "Impact", text: issue.impact.isEmpty ? "This result may affect the reliability of your development environment." : issue.impact)
+                    InspectorDetailRow(symbol: "exclamationmark.triangle", title: tr("Impact"), text: issue.impact.isEmpty ? tr("This result may affect the reliability of your development environment.") : issue.impact)
                     Divider().padding(.leading, 36)
-                    InspectorDetailRow(symbol: "arrow.trianglehead.2.clockwise.rotate.90", title: "Proposed Change", text: issue.recommendedAction)
+                    InspectorDetailRow(symbol: "arrow.trianglehead.2.clockwise.rotate.90", title: tr("Proposed Change"), text: issue.recommendedAction)
                 }
             }
             .background(Color.devDoctorSurface, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
@@ -441,12 +441,12 @@ private struct InspectorFindingContent: View {
             if !visibleEvidence.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Label("Evidence", systemImage: "doc.text.magnifyingglass")
+                        Label(tr("Evidence"), systemImage: "doc.text.magnifyingglass")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(.secondary)
                         Spacer()
                         if finding.evidence.count > visibleEvidence.count {
-                            Button("Show all \(finding.evidence.count)") { model.showTechnicalDetails = true }
+                            Button(tr("Show all %@", "\(finding.evidence.count)")) { model.showTechnicalDetails = true }
                                 .buttonStyle(.plain)
                                 .font(.caption2)
                                 .foregroundStyle(.blue)
@@ -466,10 +466,10 @@ private struct InspectorFindingContent: View {
 
             if model.showTechnicalDetails, let issue {
                 VStack(alignment: .leading, spacing: 6) {
-                    Label("Technical details", systemImage: "chevron.left.forwardslash.chevron.right")
+                    Label(tr("Technical details"), systemImage: "chevron.left.forwardslash.chevron.right")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.secondary)
-                    Text("Detector \(issue.detectorId) · issue \(issue.id) · severity \(issue.severity.rawValue) · confidence \(issue.confidence)")
+                    Text(tr("Detector %@ · issue %@ · severity %@ · confidence %@", "\(issue.detectorId)", "\(issue.id)", "\(issue.severity.rawValue)", "\(issue.confidence)"))
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                         .textSelection(.enabled)
@@ -477,7 +477,7 @@ private struct InspectorFindingContent: View {
                         MonoBlock(text: technical)
                     }
                     if !issue.affectedCommands.isEmpty {
-                        Text("Affected commands: \(issue.affectedCommands.joined(separator: ", "))")
+                        Text(tr("Affected commands: %@", "\(issue.affectedCommands.joined(separator: ", "))"))
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
@@ -489,7 +489,7 @@ private struct InspectorFindingContent: View {
                     Button {
                         Task { await model.previewRepair(issue: issue) }
                     } label: {
-                        Label(issue.batchSafe ? "Preview Safe Fix" : "Preview Fix", systemImage: "eye.fill")
+                        Label(issue.batchSafe ? tr("Preview Safe Fix") : tr("Preview Fix"), systemImage: "eye.fill")
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.glassProminent)
@@ -497,7 +497,7 @@ private struct InspectorFindingContent: View {
                     .controlSize(.large)
                     .keyboardShortcut(.defaultAction)
                 } else {
-                    Label("Manual step: follow the proposed change above.", systemImage: "hand.point.right")
+                    Label(tr("Manual step: follow the proposed change above."), systemImage: "hand.point.right")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -506,7 +506,7 @@ private struct InspectorFindingContent: View {
                 Button {
                     Task { await model.setIgnored(issue, !finding.ignored) }
                 } label: {
-                    Label(finding.ignored ? "Stop Ignoring" : "Ignore This Finding", systemImage: finding.ignored ? "eye" : "eye.slash")
+                    Label(finding.ignored ? tr("Stop Ignoring") : tr("Ignore This Finding"), systemImage: finding.ignored ? "eye" : "eye.slash")
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.glass)
@@ -515,8 +515,8 @@ private struct InspectorFindingContent: View {
 
                 Label(
                     issue.reversible
-                        ? "Backup and rollback included"
-                        : (issue.fixerAvailable ? "Preview and confirmation required; not reversible" : "No change is made without confirmation"),
+                        ? tr("Backup and rollback included")
+                        : (issue.fixerAvailable ? tr("Preview and confirmation required; not reversible") : tr("No change is made without confirmation")),
                     systemImage: issue.reversible ? "lock.rotation" : "lock.shield"
                 )
                 .font(.caption)
@@ -581,14 +581,14 @@ struct ScanStatusBar: View {
             HStack(spacing: 8) {
                 if model.isScanning {
                     ProgressView().controlSize(.small)
-                    Text(model.scanStatusText.isEmpty ? "Checking your developer environment…" : model.scanStatusText)
+                    Text(model.scanStatusText.isEmpty ? tr("Checking your developer environment…") : model.scanStatusText)
                         .lineLimit(1)
                 } else if let scan = model.lastScan {
                     Image(systemName: "checkmark.circle").foregroundStyle(.green)
-                    Text("Last scan \(Formatters.shortDate(scan.finishedAt))")
+                    Text(tr("Last scan %@", "\(Formatters.shortDate(scan.finishedAt))"))
                 } else {
                     Image(systemName: "lock.shield").foregroundStyle(.secondary)
-                    Text("Ready to scan locally")
+                    Text(tr("Ready to scan locally"))
                 }
 
                 Spacer()
@@ -596,7 +596,7 @@ struct ScanStatusBar: View {
                 if model.isScanning {
                     ProgressView(value: model.scanProgress).frame(width: 130)
                 } else {
-                    Text("Engine runs entirely on this Mac")
+                    Text(tr("Engine runs entirely on this Mac"))
                 }
             }
             .font(.caption)
@@ -613,10 +613,10 @@ struct RepairPreviewSheet: View {
 
     private var confirmLabel: String {
         switch model.pendingAction {
-        case .clean: "Delete"
-        case .schedule: "Schedule"
-        case .unschedule: "Stop"
-        default: "Apply Repair"
+        case .clean: tr("Delete")
+        case .schedule: tr("Schedule")
+        case .unschedule: tr("Stop")
+        default: tr("Apply Repair")
         }
     }
 
@@ -627,8 +627,8 @@ struct RepairPreviewSheet: View {
                     .font(.title2)
                     .foregroundStyle(.blue)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Preview Repair").font(.headline)
-                    Text("Review every operation before it is applied.")
+                    Text(tr("Preview Repair")).font(.headline)
+                    Text(tr("Review every operation before it is applied."))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -640,7 +640,7 @@ struct RepairPreviewSheet: View {
                         color: preview.risk == "low" ? .green : (preview.risk == "medium" ? .orange : .red)
                     )
                     StatusPill(
-                        text: preview.reversible ? "Reversible" : "Not reversible",
+                        text: preview.reversible ? tr("Reversible") : tr("Not reversible"),
                         symbol: preview.reversible ? "arrow.uturn.backward.circle" : "exclamationmark.shield",
                         color: preview.reversible ? .green : .orange
                     )
@@ -658,14 +658,14 @@ struct RepairPreviewSheet: View {
                             Text(preview.summary).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                         }
 
-                        GroupBox("Operations") {
+                        GroupBox(tr("Operations")) {
                             VStack(alignment: .leading, spacing: 9) {
                                 ForEach(Array(preview.operations.enumerated()), id: \.offset) { _, operation in
                                     Label(operation, systemImage: "checkmark.circle")
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 ForEach(preview.directoriesDeleted) { dir in
-                                    Label("\(Formatters.shortenHome(dir.path)) — \(Formatters.byteString(dir.bytes)), \(dir.entries) entries", systemImage: "trash")
+                                    Label(tr("%@ — %@, %@ entries", "\(Formatters.shortenHome(dir.path))", "\(Formatters.byteString(dir.bytes))", "\(dir.entries)"), systemImage: "trash")
                                         .font(.system(.caption, design: .monospaced))
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
@@ -692,12 +692,12 @@ struct RepairPreviewSheet: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 Label(Formatters.shortenHome(file.path), systemImage: "doc.text")
                                     .font(.caption.weight(.medium))
-                                DiffBlock(text: file.diff.isEmpty ? "The file contents will be updated." : file.diff)
+                                DiffBlock(text: file.diff.isEmpty ? tr("The file contents will be updated.") : file.diff)
                             }
                         }
 
                         if preview.estimatedDiskSpaceRecovered > 0 {
-                            Label("Frees about \(Formatters.byteString(preview.estimatedDiskSpaceRecovered)).", systemImage: "internaldrive")
+                            Label(tr("Frees about %@.", "\(Formatters.byteString(preview.estimatedDiskSpaceRecovered))"), systemImage: "internaldrive")
                                 .font(.caption)
                         }
 
@@ -710,7 +710,7 @@ struct RepairPreviewSheet: View {
 
                         if !preview.validations.isEmpty {
                             VStack(alignment: .leading, spacing: 6) {
-                                Text("Verified after applying (automatic rollback on failure)")
+                                Text(tr("Verified after applying (automatic rollback on failure)"))
                                     .font(.caption.weight(.semibold))
                                     .foregroundStyle(.secondary)
                                 ForEach(Array(preview.validations.enumerated()), id: \.offset) { _, check in
@@ -722,7 +722,7 @@ struct RepairPreviewSheet: View {
                             }
                         }
 
-                        Label(preview.backupCreated ? "Modified files are backed up before the change." : "DevDoctor records the transaction before changing anything.", systemImage: "lock.shield")
+                        Label(preview.backupCreated ? tr("Modified files are backed up before the change.") : tr("DevDoctor records the transaction before changing anything."), systemImage: "lock.shield")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -731,20 +731,20 @@ struct RepairPreviewSheet: View {
             } else if let error = model.previewError {
                 VStack(spacing: 12) {
                     Image(systemName: "exclamationmark.triangle.fill").font(.title).foregroundStyle(.orange)
-                    Text("No fix is available right now").font(.headline)
+                    Text(tr("No fix is available right now")).font(.headline)
                     Text(error).foregroundStyle(.secondary).multilineTextAlignment(.center).frame(maxWidth: 520)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(20)
             } else {
-                LoadingPanel(title: "Preparing the repair preview…").padding(20)
+                LoadingPanel(title: tr("Preparing the repair preview…")).padding(20)
                 Spacer()
             }
 
             Divider()
 
             HStack {
-                Button("Cancel", role: .cancel) { model.cancelPending() }
+                Button(tr("Cancel"), role: .cancel) { model.cancelPending() }
                     .keyboardShortcut(.cancelAction)
                 Spacer()
                 if model.isApplying {
@@ -784,7 +784,7 @@ struct TransactionResultSheet: View {
                     .font(.title2)
                     .foregroundStyle(color)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(transaction.status == "applied" ? "Repair applied" : transaction.statusLabel).font(.headline)
+                    Text(transaction.status == "applied" ? tr("Repair applied") : transaction.statusLabel).font(.headline)
                     Text(transaction.title).font(.caption).foregroundStyle(.secondary)
                 }
                 Spacer()
@@ -797,7 +797,7 @@ struct TransactionResultSheet: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     if !transaction.operations.isEmpty {
-                        GroupBox("What changed") {
+                        GroupBox(tr("What changed")) {
                             VStack(alignment: .leading, spacing: 8) {
                                 ForEach(Array(transaction.operations.enumerated()), id: \.offset) { _, operation in
                                     Label(Formatters.shortenHome(operation.summary), systemImage: operation.isReversible ? "doc.badge.clock" : "bolt")
@@ -809,7 +809,7 @@ struct TransactionResultSheet: View {
                         }
                     }
                     if let validation = transaction.validation, !validation.checks.isEmpty {
-                        GroupBox("Verified") {
+                        GroupBox(tr("Verified")) {
                             VStack(alignment: .leading, spacing: 8) {
                                 ForEach(Array(validation.checks.enumerated()), id: \.offset) { _, check in
                                     HStack(alignment: .top, spacing: 8) {
@@ -827,7 +827,7 @@ struct TransactionResultSheet: View {
                         }
                     }
                     if transaction.diskSpaceRecovered > 0 {
-                        Label("Freed \(Formatters.byteString(transaction.diskSpaceRecovered)).", systemImage: "internaldrive").font(.caption)
+                        Label(tr("Freed %@.", "\(Formatters.byteString(transaction.diskSpaceRecovered))"), systemImage: "internaldrive").font(.caption)
                     }
                     ForEach(Array(transaction.notes.enumerated()), id: \.offset) { _, note in
                         Label(note, systemImage: "info.circle").font(.caption).foregroundStyle(.secondary)
@@ -835,7 +835,7 @@ struct TransactionResultSheet: View {
                     if let error = transaction.error {
                         Label(error, systemImage: "exclamationmark.triangle").font(.caption).foregroundStyle(.orange)
                     }
-                    Text("Transaction \(transaction.id) · \(Formatters.shortDate(transaction.createdAt))")
+                    Text(tr("Transaction %@ · %@", "\(transaction.id)", "\(Formatters.shortDate(transaction.createdAt))"))
                         .font(.caption2)
                         .foregroundStyle(.tertiary)
                         .textSelection(.enabled)
@@ -847,23 +847,23 @@ struct TransactionResultSheet: View {
 
             HStack {
                 if transaction.canRollback {
-                    Button("Undo…") { confirmingUndo = true }
+                    Button(tr("Undo…")) { confirmingUndo = true }
                 }
                 Spacer()
-                Button("Done") { model.completedTransaction = nil }
+                Button(tr("Done")) { model.completedTransaction = nil }
                     .buttonStyle(.glassProminent)
                     .keyboardShortcut(.defaultAction)
             }
             .padding(16)
         }
         .frame(minWidth: 560, idealWidth: 620, minHeight: 360, idealHeight: 460)
-        .alert("Undo this repair?", isPresented: $confirmingUndo) {
-            Button("Cancel", role: .cancel) {}
-            Button("Restore files", role: .destructive) {
+        .alert(tr("Undo this repair?"), isPresented: $confirmingUndo) {
+            Button(tr("Cancel"), role: .cancel) {}
+            Button(tr("Restore files"), role: .destructive) {
                 Task { await model.rollback(transaction) }
             }
         } message: {
-            Text("DevDoctor puts back the \(transaction.backups?.count ?? 0) file(s) it saved before this repair.")
+            Text(tr("DevDoctor puts back the %@ file(s) it saved before this repair.", "\(transaction.backups?.count ?? 0)"))
         }
     }
 }

@@ -9,9 +9,9 @@ struct SidebarView: View {
             HStack(spacing: 10) {
                 DevDoctorAppIcon(size: 30)
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("DevDoctor")
+                    Text(tr("DevDoctor"))
                         .font(.subheadline.weight(.semibold))
-                    Text("Developer diagnostics")
+                    Text(tr("Developer diagnostics"))
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
@@ -22,12 +22,12 @@ struct SidebarView: View {
             .padding(.bottom, 4)
 
             List(selection: $selection) {
-                Section("Diagnose") {
+                Section(tr("Diagnose")) {
                     SidebarRow(section: .overview)
                     SidebarRow(section: .problems, badge: model.openIssueCount == 0 ? nil : model.openIssueCount)
                 }
 
-                Section("Inspect") {
+                Section(tr("Inspect")) {
                     SidebarRow(section: .shell)
                     SidebarRow(section: .path)
                     SidebarRow(section: .runtimes)
@@ -35,20 +35,20 @@ struct SidebarView: View {
                     SidebarRow(section: .tools)
                 }
 
-                Section("Activity") {
+                Section(tr("Activity")) {
                     SidebarRow(section: .processes)
                     SidebarRow(section: .ports)
                     SidebarRow(section: .services)
                 }
 
-                Section("System") {
+                Section(tr("System")) {
                     SidebarRow(section: .storage)
                     SidebarRow(section: .localAI)
                     SidebarRow(section: .git)
                     SidebarRow(section: .ssh)
                 }
 
-                Section("History") {
+                Section(tr("History")) {
                     SidebarRow(section: .changes)
                     SidebarRow(section: .history)
                     SidebarRow(section: .settings)
@@ -61,7 +61,7 @@ struct SidebarView: View {
             HStack(spacing: 8) {
                 Image(systemName: "lock.shield")
                     .foregroundStyle(.secondary)
-                Text("Local by default · nothing leaves this Mac")
+                Text(tr("Local by default · nothing leaves this Mac"))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
@@ -80,7 +80,7 @@ private struct SidebarRow: View {
     var body: some View {
         Label {
             HStack {
-                Text(section.rawValue)
+                Text(section.title)
                 Spacer()
                 if let badge {
                     Text("\(badge)")

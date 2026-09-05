@@ -12,13 +12,13 @@ struct StorageView: View {
 
     var body: some View {
         PageScaffold(
-            title: "Developer Storage",
+            title: tr("Developer Storage"),
             subtitle: AppSection.storage.blurb
         ) {
             if isLoading {
-                LoadingPanel(title: scanningProjects ? "Scanning project folders…" : "Measuring developer storage…")
+                LoadingPanel(title: scanningProjects ? tr("Scanning project folders…") : tr("Measuring developer storage…"))
             } else if let error {
-                DataUnavailableView(title: "Storage Scan Unavailable", detail: error, symbol: "internaldrive")
+                DataUnavailableView(title: tr("Storage Scan Unavailable"), detail: error, symbol: "internaldrive")
             } else if let report {
                 InsetPanel {
                     HStack(spacing: 20) {
@@ -32,11 +32,11 @@ struct StorageView: View {
                         VStack(alignment: .leading, spacing: 3) {
                             Text(Formatters.byteString(report.totalBytes))
                                 .font(.title2.monospacedDigit().weight(.semibold))
-                            Text("Developer data measured across \(report.categories.filter(\.exists).count) categories")
+                            Text(tr("Developer data measured across %@ categories", "\(report.categories.filter(\.exists).count)"))
                                 .foregroundStyle(.secondary)
                         }
                         Spacer()
-                        Button(report.projectsScanned ? "Scan Again" : "Include Projects…") {
+                        Button(report.projectsScanned ? tr("Scan Again") : tr("Include Projects…")) {
                             Task { await load(scanProjects: true) }
                         }
                         .buttonStyle(.glassProminent)
@@ -44,27 +44,27 @@ struct StorageView: View {
                 }
 
                 Table(report.categories.filter(\.exists), selection: $selectedID) {
-                    TableColumn("Category") { category in
+                    TableColumn(tr("Category")) { category in
                         VStack(alignment: .leading, spacing: 2) {
                             Text(category.label).fontWeight(.medium)
                             Text(category.description).font(.caption).foregroundStyle(.secondary).lineLimit(1)
                         }
                     }
                     .width(min: 200, ideal: 310)
-                    TableColumn("Size") { category in
+                    TableColumn(tr("Size")) { category in
                         Text(Formatters.byteString(category.bytes)).monospacedDigit()
                     }
                     .width(100)
-                    TableColumn("Files") { category in
+                    TableColumn(tr("Files")) { category in
                         Text("\(category.files)").monospacedDigit()
                     }
                     .width(75)
-                    TableColumn("Type") { category in
-                        Text(category.recreatable ? "Re-creatable" : "Review carefully")
+                    TableColumn(tr("Type")) { category in
+                        Text(category.recreatable ? tr("Re-creatable") : tr("Review carefully"))
                             .foregroundStyle(category.recreatable ? Color.secondary : Color.orange)
                     }
                     .width(120)
-                    TableColumn("Locations") { category in
+                    TableColumn(tr("Locations")) { category in
                         Text(category.paths.first ?? "—").font(.system(.caption, design: .monospaced)).lineLimit(1)
                     }
                     .width(min: 180, ideal: 300)
@@ -81,7 +81,7 @@ struct StorageView: View {
                                 Text(selected.label).font(.headline)
                                 Spacer()
                                 StatusPill(
-                                    text: selected.recreatable ? "Re-creatable data" : "Contains user data",
+                                    text: selected.recreatable ? tr("Re-creatable data") : tr("Contains user data"),
                                     symbol: selected.recreatable ? "arrow.clockwise" : "exclamationmark.shield",
                                     color: selected.recreatable ? .green : .orange
                                 )
@@ -90,7 +90,7 @@ struct StorageView: View {
                             ForEach(selected.paths, id: \.self) { path in
                                 Text(path).font(.system(.caption, design: .monospaced)).textSelection(.enabled)
                             }
-                            Label(selected.recreatable ? "Caches can be cleared from the Problems page when they grow large; the tool re-downloads what it needs." : "Contains data that cannot be recreated. Nothing is removed from this screen.", systemImage: "lock.shield")
+                            Label(selected.recreatable ? tr("Caches can be cleared from the Problems page when they grow large; the tool re-downloads what it needs.") : tr("Contains data that cannot be recreated. Nothing is removed from this screen."), systemImage: "lock.shield")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -130,15 +130,15 @@ private struct ProjectArtifacts: View {
 
     private var items: [(String, [StorageItem], Int64, Bool)] {
         [
-            ("Node Modules", report.nodeModules, report.nodeModulesBytes, true),
-            ("Virtual Environments", report.venvs, report.venvsBytes, true),
-            ("Build Directories", report.buildDirs, report.buildBytes, false)
+            (tr("Node Modules"), report.nodeModules, report.nodeModulesBytes, true),
+            (tr("Virtual Environments"), report.venvs, report.venvsBytes, true),
+            (tr("Build Directories"), report.buildDirs, report.buildBytes, false)
         ]
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            SectionHeading("Project Artifacts", detail: "Large generated folders found in your project roots. Dependencies can be deleted after a preview and recreated by the project's package manager.")
+            SectionHeading(tr("Project Artifacts"), detail: tr("Large generated folders found in your project roots. Dependencies can be deleted after a preview and recreated by the project's package manager."))
             ForEach(items, id: \.0) { title, artifacts, bytes, deletable in
                 DisclosureGroup {
                     VStack(spacing: 0) {
@@ -147,19 +147,19 @@ private struct ProjectArtifacts: View {
                                 VStack(alignment: .leading, spacing: 2) {
                                     HStack(spacing: 6) {
                                         Text(artifact.projectName ?? Formatters.shortenHome(artifact.projectPath ?? artifact.path)).font(.subheadline)
-                                        if artifact.broken == true { StatusPill(text: "broken", symbol: "exclamationmark.triangle", color: .orange) }
+                                        if artifact.broken == true { StatusPill(text: tr("broken"), symbol: "exclamationmark.triangle", color: .orange) }
                                         if let pm = artifact.packageManager { Text(pm).font(.caption2).foregroundStyle(.secondary) }
-                                        if let py = artifact.pythonVersion { Text("Python \(py)").font(.caption2).foregroundStyle(.secondary) }
-                                        if let ago = artifact.lastActivitySecsAgo { Text("last activity \(Formatters.ago(seconds: ago))").font(.caption2).foregroundStyle(.secondary) }
+                                        if let py = artifact.pythonVersion { Text(tr("Python %@", "\(py)")).font(.caption2).foregroundStyle(.secondary) }
+                                        if let ago = artifact.lastActivitySecsAgo { Text(tr("last activity %@", "\(Formatters.ago(seconds: ago))")).font(.caption2).foregroundStyle(.secondary) }
                                     }
                                     Text(Formatters.shortenHome(artifact.path)).font(.system(.caption, design: .monospaced)).foregroundStyle(.secondary).lineLimit(1)
                                 }
                                 Spacer()
                                 Text(Formatters.byteString(artifact.bytes)).monospacedDigit()
                                 if deletable {
-                                    Button("Delete…") {
+                                    Button(tr("Delete…")) {
                                         Task {
-                                            await model.previewClean(title == "Node Modules" ? .nodeModules(path: artifact.path) : .venv(path: artifact.path))
+                                            await model.previewClean(title == tr("Node Modules") ? .nodeModules(path: artifact.path) : .venv(path: artifact.path))
                                         }
                                     }
                                     .buttonStyle(.glass)
@@ -196,39 +196,39 @@ struct LocalAIView: View {
 
     var body: some View {
         PageScaffold(
-            title: "Local AI",
+            title: tr("Local AI"),
             subtitle: AppSection.localAI.blurb
         ) {
             if isLoading {
-                LoadingPanel(title: "Inspecting local model stores…")
+                LoadingPanel(title: tr("Inspecting local model stores…"))
             } else if let error {
-                DataUnavailableView(title: "Local AI Unavailable", detail: error, symbol: "cpu")
+                DataUnavailableView(title: tr("Local AI Unavailable"), detail: error, symbol: "cpu")
             } else if let report {
                 HStack(spacing: 0) {
-                    MetricCell(value: Formatters.byteString(report.totalBytes), label: "Total model data", symbol: "internaldrive", tint: .blue)
+                    MetricCell(value: Formatters.byteString(report.totalBytes), label: tr("Total model data"), symbol: "internaldrive", tint: .blue)
                     Divider().frame(height: 36)
-                    MetricCell(value: "\(report.sources.filter(\.present).count)", label: "Model stores", symbol: "square.stack.3d.up", tint: .purple)
+                    MetricCell(value: "\(report.sources.filter(\.present).count)", label: tr("Model stores"), symbol: "square.stack.3d.up", tint: .purple)
                     Divider().frame(height: 36)
-                    MetricCell(value: "\(report.ollama.models.count)", label: "Ollama models", symbol: "shippingbox", tint: .orange)
+                    MetricCell(value: "\(report.ollama.models.count)", label: tr("Ollama models"), symbol: "shippingbox", tint: .orange)
                     Divider().frame(height: 36)
-                    MetricCell(value: report.ollama.running ? "Running" : "Stopped", label: "Ollama service", symbol: "bolt.horizontal", tint: report.ollama.running ? .green : .secondary)
+                    MetricCell(value: report.ollama.running ? tr("Running") : tr("Stopped"), label: tr("Ollama service"), symbol: "bolt.horizontal", tint: report.ollama.running ? .green : .secondary)
                 }
                 .padding(.vertical, 18)
                 .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 16))
                 .overlay(RoundedRectangle(cornerRadius: 16).stroke(.separator.opacity(0.5), lineWidth: 0.5))
 
                 if report.ollama.installed, !report.ollama.models.isEmpty {
-                    SectionCard("Ollama models", detail: "\(report.ollama.models.count) models · \(Formatters.byteString(report.ollama.totalBytes)) in \(Formatters.shortenHome(report.ollama.modelsDir))") {
+                    SectionCard(tr("Ollama models"), detail: tr("%@ models · %@ in %@", "\(report.ollama.models.count)", "\(Formatters.byteString(report.ollama.totalBytes))", "\(Formatters.shortenHome(report.ollama.modelsDir))")) {
                         ForEach(report.ollama.models) { m in
                             HStack {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(m.name).font(.subheadline)
-                                    Text([m.family, m.parameterSize, m.quantization].compactMap { $0 }.joined(separator: " · ") + (m.modifiedSecsAgo.map { " · modified \(Formatters.ago(seconds: $0))" } ?? ""))
+                                    Text([m.family, m.parameterSize, m.quantization].compactMap { $0 }.joined(separator: " · ") + (m.modifiedSecsAgo.map { tr(" · modified %@", "\(Formatters.ago(seconds: $0))") } ?? ""))
                                         .font(.caption).foregroundStyle(.secondary)
                                 }
                                 Spacer()
                                 Text(Formatters.byteString(m.size)).monospacedDigit()
-                                Button("Remove…") {
+                                Button(tr("Remove…")) {
                                     Task { await model.previewClean(.ollamaModel(name: m.name)) }
                                 }
                                 .buttonStyle(.glass)
@@ -241,7 +241,7 @@ struct LocalAIView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 12) {
-                    SectionHeading("Model Stores", detail: "Locations recognized by the diagnostic engine")
+                    SectionHeading(tr("Model Stores"), detail: tr("Locations recognized by the diagnostic engine"))
                     ForEach(report.sources) { source in
                         DisclosureGroup {
                             VStack(alignment: .leading, spacing: 10) {
@@ -282,8 +282,8 @@ struct LocalAIView: View {
                         HStack {
                             Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
                             VStack(alignment: .leading, spacing: 3) {
-                                Text("Unused Ollama blobs").font(.headline)
-                                Text("\(report.ollama.orphanBlobs) blobs use \(Formatters.byteString(report.ollama.orphanBlobBytes)). Review them before any cleanup.")
+                                Text(tr("Unused Ollama blobs")).font(.headline)
+                                Text(tr("%@ blobs use %@. Review them before any cleanup.", "\(report.ollama.orphanBlobs)", "\(Formatters.byteString(report.ollama.orphanBlobBytes))"))
                                     .foregroundStyle(.secondary)
                             }
                             Spacer()

@@ -22,6 +22,9 @@ enum AppSection: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    /// Localised name shown in the sidebar, titles and search.
+    var title: String { tr(rawValue) }
+
     var symbol: String {
         switch self {
         case .overview: "square.grid.2x2"
@@ -47,23 +50,23 @@ enum AppSection: String, CaseIterable, Identifiable {
     /// One-line description shown under page titles.
     var blurb: String {
         switch self {
-        case .overview: "Health of your development environment at a glance."
-        case .problems: "Review what was found before deciding whether to change anything."
-        case .shell: "The files your terminal runs at startup, what they change, and how long they take."
-        case .path: "See the exact lookup order and discover which executable wins."
-        case .runtimes: "Node.js, Python and Rust installations, and whether node/npm and python/pip agree."
-        case .packages: "Homebrew, npm, pip, uv, cargo and friends."
-        case .tools: "AI coding agents, editors, containers and Git tooling, with how each was installed."
-        case .processes: "Development processes grouped with their project, resources, and listening ports."
-        case .ports: "Understand which local service owns each listening port."
-        case .services: "Programs macOS starts for you at login."
-        case .storage: "Caches, build products, dependencies and models taking disk space."
-        case .localAI: "Ollama and other locally stored AI models. Nothing is sent anywhere."
-        case .git: "Your global Git identity and settings. Passwords and tokens are never read."
-        case .ssh: "Keys, permissions and configuration. Never their contents."
-        case .changes: "What was installed, removed or edited between two snapshots, and what each recorded install did."
-        case .history: "A local audit trail of scans, repairs, recorded runs and rollback points."
-        case .settings: "Choose how DevDoctor looks, scans, and presents technical detail."
+        case .overview: tr("Health of your development environment at a glance.")
+        case .problems: tr("Review what was found before deciding whether to change anything.")
+        case .shell: tr("The files your terminal runs at startup, what they change, and how long they take.")
+        case .path: tr("See the exact lookup order and discover which executable wins.")
+        case .runtimes: tr("Node.js, Python and Rust installations, and whether node/npm and python/pip agree.")
+        case .packages: tr("Homebrew, npm, pip, uv, cargo and friends.")
+        case .tools: tr("AI coding agents, editors, containers and Git tooling, with how each was installed.")
+        case .processes: tr("Development processes grouped with their project, resources, and listening ports.")
+        case .ports: tr("Understand which local service owns each listening port.")
+        case .services: tr("Programs macOS starts for you at login.")
+        case .storage: tr("Caches, build products, dependencies and models taking disk space.")
+        case .localAI: tr("Ollama and other locally stored AI models. Nothing is sent anywhere.")
+        case .git: tr("Your global Git identity and settings. Passwords and tokens are never read.")
+        case .ssh: tr("Keys, permissions and configuration. Never their contents.")
+        case .changes: tr("What was installed, removed or edited between two snapshots, and what each recorded install did.")
+        case .history: tr("A local audit trail of scans, repairs, recorded runs and rollback points.")
+        case .settings: tr("Choose how DevDoctor looks, scans, and presents technical detail.")
         }
     }
 }
@@ -74,6 +77,7 @@ enum AppearanceMode: String, CaseIterable, Identifiable {
     case dark = "Dark"
 
     var id: String { rawValue }
+    var title: String { tr(rawValue) }
 
     var colorScheme: ColorScheme? {
         switch self {
@@ -97,6 +101,7 @@ enum GlassMode: String, CaseIterable, Identifiable {
     case tinted = "Tinted"
 
     var id: String { rawValue }
+    var title: String { tr(rawValue) }
 }
 
 enum FindingSeverity: Int, Comparable, Hashable {
@@ -110,9 +115,9 @@ enum FindingSeverity: Int, Comparable, Hashable {
 
     var title: String {
         switch self {
-        case .attention: "Needs Attention"
-        case .recommendation: "Recommendation"
-        case .healthy: "Healthy"
+        case .attention: tr("Needs Attention")
+        case .recommendation: tr("Recommendation")
+        case .healthy: tr("Healthy")
         }
     }
 
@@ -165,9 +170,9 @@ struct FindingRow: Identifiable, Hashable {
         id = "healthy:\(run.id)"
         severity = .healthy
         area = FindingRow.area(for: run.id, category: run.category)
-        title = FindingRow.healthyTitle(for: run.id) ?? "\(run.name): nothing found"
+        title = FindingRow.healthyTitle(for: run.id) ?? tr("%@: nothing found", "\(run.name)")
         source = run.name
-        summary = "The \"\(run.name)\" check ran in \(run.durationMs) ms and found nothing to report."
+        summary = tr("The \"%@\" check ran in %@ ms and found nothing to report.", "\(run.name)", "\(run.durationMs)")
         evidence = []
         changes = []
         issue = nil
@@ -180,67 +185,67 @@ struct FindingRow: Identifiable, Hashable {
         let head = parts.first ?? ""
         let second = parts.count > 1 ? parts[1] : ""
         switch (head, second) {
-        case ("shell", "path"): return "PATH"
-        case ("shell", "alias"): return "Aliases"
-        case ("shell", "startup"): return "Terminal"
-        case ("shell", _): return "Shell"
-        case ("python", _): return "Python"
-        case ("node", _): return "Node.js"
-        case ("rust", _): return "Rust"
-        case ("homebrew", _): return "Homebrew"
-        case ("process", _): return "Processes"
-        case ("port", _): return "Ports"
-        case ("disk", "ollama"): return "Ollama"
-        case ("disk", _): return "Storage"
-        case ("service", _): return "Startup"
-        case ("ssh", _): return "SSH"
-        case ("git", _): return "Git"
-        case ("env", _): return "Environment"
-        case ("macos", _): return "macOS"
-        case ("ai", _): return "AI tools"
+        case ("shell", "path"): return tr("PATH")
+        case ("shell", "alias"): return tr("Aliases")
+        case ("shell", "startup"): return tr("Terminal")
+        case ("shell", _): return tr("Shell")
+        case ("python", _): return tr("Python")
+        case ("node", _): return tr("Node.js")
+        case ("rust", _): return tr("Rust")
+        case ("homebrew", _): return tr("Homebrew")
+        case ("process", _): return tr("Processes")
+        case ("port", _): return tr("Ports")
+        case ("disk", "ollama"): return tr("Ollama")
+        case ("disk", _): return tr("Storage")
+        case ("service", _): return tr("Startup")
+        case ("ssh", _): return tr("SSH")
+        case ("git", _): return tr("Git")
+        case ("env", _): return tr("Environment")
+        case ("macos", _): return tr("macOS")
+        case ("ai", _): return tr("AI tools")
         default: return Formatters.category(category)
         }
     }
 
     static func healthyTitle(for detectorId: String) -> String? {
         let titles: [String: String] = [
-            "shell.zsh.syntax": "Startup files parse correctly",
-            "shell.path.duplicate": "PATH has no duplicate entries",
-            "shell.path.missing_directory": "Every PATH entry exists",
-            "shell.path.suspicious_entry": "No empty, relative or world-writable PATH entry",
-            "shell.path.dangling_symlinks": "No broken command links in PATH",
-            "shell.source.missing_file": "Every sourced file exists",
-            "shell.source.recursive": "Startup files do not source each other in a loop",
-            "shell.source.duplicate": "No file is sourced twice at startup",
-            "shell.startup.errors": "Nothing prints an error when a terminal opens",
-            "shell.startup.slow": "New terminals start quickly",
-            "shell.alias.shadow": "No alias replaces a developer command",
-            "env.var.missing_path": "Tool variables point to existing folders",
-            "python.interpreter.multiple": "python and python3 agree",
-            "python.pip.mismatch": "pip installs into the Python you run",
-            "node.multiple_installations": "One Node.js installation method",
-            "node.npm.mismatch": "npm belongs to the active Node.js",
-            "node.npm.global_prefix_not_writable": "npm can install global packages without sudo",
-            "node.npm.stranded_globals": "Global npm packages follow the active Node.js version",
-            "ai.claude_code.duplicate_install": "Claude Code is installed once",
-            "rust.cargo_bin.not_in_path": "Rust tools are reachable",
-            "macos.xcode_clt": "Xcode Command Line Tools are installed",
-            "homebrew.health": "Homebrew installation is healthy",
-            "homebrew.doctor": "brew doctor reports no warnings",
-            "process.dev.stale": "No abandoned development process",
-            "port.dev.occupied": "No stale development server holds a port",
-            "disk.homebrew.cache": "Homebrew cache is small",
-            "disk.npm.cache": "npm cache is small",
-            "disk.pip.cache": "pip cache is small",
-            "disk.uv.cache": "uv cache is small",
-            "disk.ollama.models": "Ollama models take little space",
-            "disk.venv.broken": "Virtual environments are usable",
-            "disk.node_modules.stale": "No large node_modules in inactive projects",
-            "service.brew.running": "No Homebrew service starts at login",
-            "service.launchagent.broken": "Startup items point to existing programs",
-            "ssh.permissions": "SSH files have safe permissions",
-            "ssh.config": "SSH configuration is consistent",
-            "git.identity": "Git identity is configured",
+            "shell.zsh.syntax": tr("Startup files parse correctly"),
+            "shell.path.duplicate": tr("PATH has no duplicate entries"),
+            "shell.path.missing_directory": tr("Every PATH entry exists"),
+            "shell.path.suspicious_entry": tr("No empty, relative or world-writable PATH entry"),
+            "shell.path.dangling_symlinks": tr("No broken command links in PATH"),
+            "shell.source.missing_file": tr("Every sourced file exists"),
+            "shell.source.recursive": tr("Startup files do not source each other in a loop"),
+            "shell.source.duplicate": tr("No file is sourced twice at startup"),
+            "shell.startup.errors": tr("Nothing prints an error when a terminal opens"),
+            "shell.startup.slow": tr("New terminals start quickly"),
+            "shell.alias.shadow": tr("No alias replaces a developer command"),
+            "env.var.missing_path": tr("Tool variables point to existing folders"),
+            "python.interpreter.multiple": tr("python and python3 agree"),
+            "python.pip.mismatch": tr("pip installs into the Python you run"),
+            "node.multiple_installations": tr("One Node.js installation method"),
+            "node.npm.mismatch": tr("npm belongs to the active Node.js"),
+            "node.npm.global_prefix_not_writable": tr("npm can install global packages without sudo"),
+            "node.npm.stranded_globals": tr("Global npm packages follow the active Node.js version"),
+            "ai.claude_code.duplicate_install": tr("Claude Code is installed once"),
+            "rust.cargo_bin.not_in_path": tr("Rust tools are reachable"),
+            "macos.xcode_clt": tr("Xcode Command Line Tools are installed"),
+            "homebrew.health": tr("Homebrew installation is healthy"),
+            "homebrew.doctor": tr("brew doctor reports no warnings"),
+            "process.dev.stale": tr("No abandoned development process"),
+            "port.dev.occupied": tr("No stale development server holds a port"),
+            "disk.homebrew.cache": tr("Homebrew cache is small"),
+            "disk.npm.cache": tr("npm cache is small"),
+            "disk.pip.cache": tr("pip cache is small"),
+            "disk.uv.cache": tr("uv cache is small"),
+            "disk.ollama.models": tr("Ollama models take little space"),
+            "disk.venv.broken": tr("Virtual environments are usable"),
+            "disk.node_modules.stale": tr("No large node_modules in inactive projects"),
+            "service.brew.running": tr("No Homebrew service starts at login"),
+            "service.launchagent.broken": tr("Startup items point to existing programs"),
+            "ssh.permissions": tr("SSH files have safe permissions"),
+            "ssh.config": tr("SSH configuration is consistent"),
+            "git.identity": tr("Git identity is configured"),
         ]
         return titles[detectorId]
     }
@@ -260,9 +265,9 @@ enum ScanMode: String {
 
     var label: String {
         switch self {
-        case .quick: "quick check"
-        case .deep: "deep check"
-        case .storage: "disk space check"
+        case .quick: tr("quick check")
+        case .deep: tr("deep check")
+        case .storage: tr("disk space check")
         }
     }
 }
@@ -359,8 +364,8 @@ final class AppModel: ObservableObject {
         let query = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !query.isEmpty else { return [] }
         let sections = AppSection.allCases.compactMap { section -> SearchResult? in
-            guard section.rawValue.localizedCaseInsensitiveContains(query) || section.blurb.localizedCaseInsensitiveContains(query) else { return nil }
-            return SearchResult(id: "section:\(section.id)", title: section.rawValue, subtitle: "Open section", symbol: section.symbol, section: section, findingID: nil)
+            guard section.title.localizedCaseInsensitiveContains(query) || section.rawValue.localizedCaseInsensitiveContains(query) || section.blurb.localizedCaseInsensitiveContains(query) else { return nil }
+            return SearchResult(id: "section:\(section.id)", title: section.title, subtitle: tr("Open section"), symbol: section.symbol, section: section, findingID: nil)
         }
         let issues = findings.compactMap { finding -> SearchResult? in
             let corpus = [finding.title, finding.area, finding.summary, finding.source].joined(separator: " ")
@@ -369,7 +374,7 @@ final class AppModel: ObservableObject {
         }
         let checks = detectors.compactMap { detector -> SearchResult? in
             guard detector.name.localizedCaseInsensitiveContains(query) || detector.id.localizedCaseInsensitiveContains(query) else { return nil }
-            return SearchResult(id: "detector:\(detector.id)", title: detector.name, subtitle: "Check · \(detector.description)", symbol: "checklist", section: .settings, findingID: nil)
+            return SearchResult(id: "detector:\(detector.id)", title: detector.name, subtitle: tr("Check · %@", "\(detector.description)"), symbol: "checklist", section: .settings, findingID: nil)
         }
         return sections + issues + checks
     }
@@ -421,7 +426,7 @@ final class AppModel: ObservableObject {
         isScanning = true
         scanMode = mode
         scanProgress = 0.02
-        scanStatusText = "Starting \(mode.label)…"
+        scanStatusText = tr("Starting %@…", "\(mode.label)")
         do {
             let result = try await EngineClient.shared.scan(deep: mode == .deep, storage: mode == .storage) { [weak self] event in
                 Task { @MainActor in self?.handle(event) }
@@ -442,7 +447,7 @@ final class AppModel: ObservableObject {
         case "detector_started":
             if let index = event.index, let total = event.total, total > 0 {
                 scanProgress = max(scanProgress, Double(index) / Double(total))
-                scanStatusText = "Checking \(event.name ?? "")… (\(index + 1)/\(total))"
+                scanStatusText = tr("Checking %@… (%@/%@)", "\(event.name ?? "")", "\(index + 1)", "\(total)")
             }
         case "detector_finished":
             if let index = event.index, let total = event.total, total > 0 {
@@ -450,7 +455,7 @@ final class AppModel: ObservableObject {
             }
         case "finished":
             scanProgress = 1
-            scanStatusText = "Saving results…"
+            scanStatusText = tr("Saving results…")
         default:
             break
         }
@@ -480,12 +485,12 @@ final class AppModel: ObservableObject {
         pendingAction = .unschedule
         previewError = nil
         fixPreview = FixPreview(
-            fixerId: "schedule.snapshot_agent.remove", issueId: "snapshot_agent", title: "Stop taking daily snapshots",
-            summary: "Unloads the DevDoctor launch agent and removes its file. Snapshots already taken are kept.",
-            operations: ["launchctl bootout gui/<uid>/dev.devdoctor.snapshot", "Delete ~/Library/LaunchAgents/dev.devdoctor.snapshot.plist"],
+            fixerId: "schedule.snapshot_agent.remove", issueId: "snapshot_agent", title: tr("Stop taking daily snapshots"),
+            summary: tr("Unloads the DevDoctor launch agent and removes its file. Snapshots already taken are kept."),
+            operations: [tr("launchctl bootout gui/<uid>/dev.devdoctor.snapshot"), "Delete ~/Library/LaunchAgents/dev.devdoctor.snapshot.plist"],
             filesModified: [], filesDeleted: ["~/Library/LaunchAgents/dev.devdoctor.snapshot.plist"], directoriesDeleted: [], commandsExecuted: [],
             processesStopped: [], servicesStopped: [], estimatedDiskSpaceRecovered: 0, backupCreated: true, risk: "low", reversible: false,
-            requiresConfirmation: true, batchSafe: false, notes: [], validations: ["launchd no longer lists the agent and the file is gone."]
+            requiresConfirmation: true, batchSafe: false, notes: [], validations: [tr("launchd no longer lists the agent and the file is gone.")]
         )
         showingRepairPreview = true
     }

@@ -13,11 +13,11 @@ enum EngineError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .missingEngine:
-            "The DevDoctor engine (the `devdoctor` command line tool) could not be found. Rebuild the app with scripts/build-macos-app.sh or install the CLI."
+            tr("The DevDoctor engine (the `devdoctor` command line tool) could not be found. Rebuild the app with scripts/build-macos-app.sh or install the CLI.")
         case .commandFailed(let message):
             message
         case .invalidOutput(let message):
-            "The diagnostic engine returned unreadable data. \(message)"
+            tr("The diagnostic engine returned unreadable data. %@", "\(message)")
         }
     }
 }
@@ -60,10 +60,10 @@ enum IssueSeverity: String, Codable, Comparable, CaseIterable {
 
     var displayName: String {
         switch self {
-        case .critical: "Fix now"
-        case .high, .medium: "Needs attention"
-        case .low: "Recommendation"
-        case .info: "Good to know"
+        case .critical: tr("Fix now")
+        case .high, .medium: tr("Needs attention")
+        case .low: tr("Recommendation")
+        case .info: tr("Good to know")
         }
     }
 }
@@ -98,9 +98,9 @@ struct EngineIssue: Codable, Hashable, Identifiable {
 
     var confidenceLabel: String {
         switch confidence {
-        case "confirmed": "Verified"
-        case "likely": "Probable"
-        default: "Possible"
+        case "confirmed": tr("Verified")
+        case "likely": tr("Probable")
+        default: tr("Possible")
         }
     }
 }
@@ -236,11 +236,11 @@ struct TransactionOperation: Codable, Hashable {
     var summary: String {
         switch kind {
         case "file_write": "\(created == true ? "Created" : "Edited") \(path ?? "")\(created == true ? "" : " (backup kept)")"
-        case "file_delete": "Deleted file \(path ?? "") (backup kept)"
-        case "symlink_delete": "Removed broken link \(path ?? "") → \(target ?? "")"
-        case "dir_delete": "Deleted \(path ?? "") (\(Formatters.byteString(bytes)))"
-        case "process_stop": "Stopped \(name ?? "process") (pid \(pid ?? 0))\(force == true ? " forcefully" : "")"
-        case "command": "Ran \(program ?? "") \((args ?? []).joined(separator: " ")) (exit \(exitCode.map(String.init) ?? "?"))"
+        case "file_delete": tr("Deleted file %@ (backup kept)", "\(path ?? "")")
+        case "symlink_delete": tr("Removed broken link %@ → %@", "\(path ?? "")", "\(target ?? "")")
+        case "dir_delete": tr("Deleted %@ (%@)", "\(path ?? "")", "\(Formatters.byteString(bytes))")
+        case "process_stop": tr("Stopped %@ (pid %@)%@", "\(name ?? "process")", "\(pid ?? 0)", "\(force == true ? tr(" forcefully") : "")")
+        case "command": tr("Ran %@ %@ (exit %@)", "\(program ?? "")", "\((args ?? []).joined(separator: " "))", "\(exitCode.map(String.init) ?? "?")")
         default: kind
         }
     }
@@ -285,10 +285,10 @@ struct EngineTransaction: Codable, Identifiable, Hashable {
 
     var statusLabel: String {
         switch status {
-        case "applied": "Applied"
-        case "rolled_back": "Rolled back"
-        case "failed": "Failed"
-        case "rollback_failed": "Rollback failed"
+        case "applied": tr("Applied")
+        case "rolled_back": tr("Rolled back")
+        case "failed": tr("Failed")
+        case "rollback_failed": tr("Rollback failed")
         default: status.capitalized
         }
     }
@@ -424,10 +424,10 @@ struct ShellConfigFile: Codable, Hashable, Identifiable {
 
     var roleLabel: String {
         switch role {
-        case "env": "always (env)"
-        case "profile": "at login"
-        case "rc": "every terminal"
-        case "login": "after login"
+        case "env": tr("always (env)")
+        case "profile": tr("at login")
+        case "rc": tr("every terminal")
+        case "login": tr("after login")
         default: role
         }
     }
@@ -457,9 +457,9 @@ struct PathMutation: Codable, Hashable, Identifiable {
 
     var effectLabel: String {
         switch op {
-        case "prepend": "adds in front"
-        case "append": "adds at the end"
-        case "set": "replaces PATH"
+        case "prepend": tr("adds in front")
+        case "append": tr("adds at the end")
+        case "set": tr("replaces PATH")
         default: op
         }
     }
@@ -555,7 +555,7 @@ struct StartupProfile: Codable {
         case "fast": "instant"
         case "ok": "fine"
         case "slow": "slow"
-        default: "very slow"
+        default: tr("very slow")
         }
     }
 
@@ -835,19 +835,19 @@ struct ServiceInfo: Codable, Hashable, Identifiable {
 
     var originLabel: String {
         switch origin {
-        case "homebrew_services": "brew services"
-        case "developer": "developer tool"
-        case "third_party": "other app"
-        case "apple": "Apple"
+        case "homebrew_services": tr("brew services")
+        case "developer": tr("developer tool")
+        case "third_party": tr("other app")
+        case "apple": tr("Apple")
         default: origin
         }
     }
 
     var stateLabel: String {
-        if let runningPid { return "running · pid \(runningPid)" }
+        if let runningPid { return tr("running · pid %@", "\(runningPid)") }
         switch loaded {
         case .some(true): return "loaded"
-        case .some(false): return "not loaded"
+        case .some(false): return tr("not loaded")
         case .none: return "—"
         }
     }
@@ -1141,33 +1141,33 @@ enum Formatters {
     }
 
     static func shortDate(_ value: String?) -> String {
-        guard let value else { return "Never" }
+        guard let value else { return tr("Never") }
         guard let date = date(value) else { return value }
-        return date.formatted(date: .abbreviated, time: .shortened)
+        return date.formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).locale(L10n.locale))
     }
 
     static func duration(ms: Int) -> String {
         if ms < 1000 { return "\(ms) ms" }
         if ms < 60_000 { return String(format: "%.1f s", Double(ms) / 1000) }
         let seconds = ms / 1000
-        return "\(seconds / 60) min \(seconds % 60) s"
+        return tr("%@ min %@ s", "\(seconds / 60)", "\(seconds % 60)")
     }
 
     static func ago(seconds: Int?) -> String {
         guard let seconds else { return "" }
-        if seconds < 60 { return "just now" }
-        if seconds < 3600 { return "\(seconds / 60) min ago" }
-        if seconds < 86_400 { return "\(seconds / 3600) h ago" }
-        if seconds < 30 * 86_400 { return "\(seconds / 86_400) days ago" }
-        if seconds < 365 * 86_400 { return "\(seconds / (30 * 86_400)) months ago" }
-        return "\(seconds / (365 * 86_400)) years ago"
+        if seconds < 60 { return tr("just now") }
+        if seconds < 3600 { return tr("%@ min ago", "\(seconds / 60)") }
+        if seconds < 86_400 { return tr("%@ h ago", "\(seconds / 3600)") }
+        if seconds < 30 * 86_400 { return tr("%@ days ago", "\(seconds / 86_400)") }
+        if seconds < 365 * 86_400 { return tr("%@ months ago", "\(seconds / (30 * 86_400))") }
+        return tr("%@ years ago", "\(seconds / (365 * 86_400))")
     }
 
     static func category(_ value: String) -> String {
         switch value {
-        case "package_managers": "Packages"
-        case "ai_tools": "AI Tools"
-        case "ssh": "SSH"
+        case "package_managers": tr("Packages")
+        case "ai_tools": tr("AI Tools")
+        case "ssh": tr("SSH")
         default: value.replacingOccurrences(of: "_", with: " ").capitalized
         }
     }

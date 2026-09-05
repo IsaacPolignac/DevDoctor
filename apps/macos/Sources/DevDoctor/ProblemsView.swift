@@ -3,11 +3,13 @@ import SwiftUI
 struct ProblemsView: View {
     @EnvironmentObject private var model: AppModel
     @State private var level: LevelFilter = .all
-    @State private var area = "All areas"
+    /// Sentinel for the area filter; displayed as "All areas".
+    private static let allAreas = "*"
+    @State private var area = ProblemsView.allAreas
     @State private var showingSafeFixes = false
 
     private var areas: [String] {
-        ["All areas"] + Array(Set(model.findings.filter { $0.issue != nil }.map(\.area))).sorted()
+        [ProblemsView.allAreas] + Array(Set(model.findings.filter { $0.issue != nil }.map(\.area))).sorted()
     }
 
     private var rows: [FindingRow] {
@@ -18,7 +20,7 @@ struct ProblemsView: View {
             case .recommendation: finding.severity == .recommendation
             case .healthy: finding.severity == .healthy
             }
-            return levelOK && (area == "All areas" || finding.area == area)
+            return levelOK && (area == ProblemsView.allAreas || finding.area == area)
         }
     }
 
@@ -27,35 +29,35 @@ struct ProblemsView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            PageScaffold(title: "Problems", subtitle: AppSection.problems.blurb) {
+            PageScaffold(title: tr("Problems"), subtitle: AppSection.problems.blurb) {
                 HStack(spacing: 10) {
-                    StatusPill(text: "\(problemCount) need attention", symbol: "exclamationmark.triangle.fill", color: problemCount > 0 ? .orange : .green)
-                    StatusPill(text: "\(noteCount) recommendation\(noteCount == 1 ? "" : "s")", symbol: "info.circle.fill", color: .blue)
+                    StatusPill(text: tr("%@ need attention", "\(problemCount)"), symbol: "exclamationmark.triangle.fill", color: problemCount > 0 ? .orange : .green)
+                    StatusPill(text: noteCount == 1 ? tr("1 recommendation") : tr("%@ recommendations", "\(noteCount)"), symbol: "info.circle.fill", color: .blue)
                     if model.issueRecords.contains(where: \.ignored) {
-                        Toggle("Show ignored", isOn: $model.showIgnored).toggleStyle(.checkbox).font(.caption)
+                        Toggle(tr("Show ignored"), isOn: $model.showIgnored).toggleStyle(.checkbox).font(.caption)
                     }
                     Spacer()
                     if model.safeFixCount > 0 {
                         Button {
                             showingSafeFixes = true
                         } label: {
-                            Label("Fix \(model.safeFixCount) safely…", systemImage: "wand.and.stars")
+                            Label(tr("Fix %@ safely…", "\(model.safeFixCount)"), systemImage: "wand.and.stars")
                         }
                         .buttonStyle(.glassProminent)
-                        .help("Apply every reversible, verified, low-risk fix in one go, after a preview")
+                        .help(tr("Apply every reversible, verified, low-risk fix in one go, after a preview"))
                     }
                 }
 
                 HStack(spacing: 10) {
-                    Picker("Level", selection: $level) {
+                    Picker(tr("Level"), selection: $level) {
                         ForEach(LevelFilter.allCases) { item in Text(item.title(model)).tag(item) }
                     }
                     .labelsHidden()
                     .pickerStyle(.segmented)
                     .frame(maxWidth: 460)
                     Spacer(minLength: 8)
-                    Picker("Area", selection: $area) {
-                        ForEach(areas, id: \.self) { Text($0).tag($0) }
+                    Picker(tr("Area"), selection: $area) {
+                        ForEach(areas, id: \.self) { Text($0 == ProblemsView.allAreas ? tr("All areas") : $0).tag($0) }
                     }
                     .labelsHidden()
                     .frame(width: 150)
@@ -63,8 +65,8 @@ struct ProblemsView: View {
 
                 if rows.isEmpty {
                     DataUnavailableView(
-                        title: level == .healthy ? "No Passed Checks Yet" : "Nothing Here",
-                        detail: model.report == nil ? "Run a scan to check runtimes, shell configuration, and local developer tools." : "No result matches this filter.",
+                        title: level == .healthy ? tr("No Passed Checks Yet") : tr("Nothing Here"),
+                        detail: model.report == nil ? tr("Run a scan to check runtimes, shell configuration, and local developer tools.") : tr("No result matches this filter."),
                         symbol: "checkmark.circle"
                     )
                 } else {
@@ -93,10 +95,10 @@ private enum LevelFilter: String, CaseIterable, Identifiable {
     func title(_ model: AppModel) -> String {
         let count: (FindingSeverity) -> Int = { level in model.findings.filter { $0.severity == level }.count }
         switch self {
-        case .all: return "All"
-        case .attention: return "Attention \(count(.attention))"
-        case .recommendation: return "Advice \(count(.recommendation))"
-        case .healthy: return "Healthy \(count(.healthy))"
+        case .all: return tr("All")
+        case .attention: return tr("Attention %@", "\(count(.attention))")
+        case .recommendation: return tr("Advice %@", "\(count(.recommendation))")
+        case .healthy: return tr("Healthy %@", "\(count(.healthy))")
         }
     }
 }
@@ -116,8 +118,8 @@ struct SafeFixSheet: View {
             HStack(spacing: 12) {
                 Image(systemName: "wand.and.stars").font(.title2).foregroundStyle(.blue)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Fix safe issues").font(.headline)
-                    Text("Only reversible, verified, low-risk fixes. Each file is backed up and every change is validated; anything that fails is rolled back automatically.")
+                    Text(tr("Fix safe issues")).font(.headline)
+                    Text(tr("Only reversible, verified, low-risk fixes. Each file is backed up and every change is validated; anything that fails is rolled back automatically."))
                         .font(.caption).foregroundStyle(.secondary)
                 }
                 Spacer()
@@ -142,9 +144,9 @@ struct SafeFixSheet: View {
                             }
                         }
                     } else if isLoading {
-                        LoadingPanel(title: "Preparing previews…")
+                        LoadingPanel(title: tr("Preparing previews…"))
                     } else if previews.isEmpty {
-                        Text("No safe fixes are available right now.").foregroundStyle(.secondary)
+                        Text(tr("No safe fixes are available right now.")).foregroundStyle(.secondary)
                     } else {
                         ForEach(previews) { preview in
                             VStack(alignment: .leading, spacing: 8) {
@@ -166,12 +168,12 @@ struct SafeFixSheet: View {
             }
             Divider()
             HStack {
-                Button(results.isEmpty ? "Cancel" : "Done") { dismiss() }
+                Button(results.isEmpty ? tr("Cancel") : tr("Done")) { dismiss() }
                     .keyboardShortcut(.cancelAction)
                 Spacer()
                 if results.isEmpty {
                     if isApplying { ProgressView().controlSize(.small).padding(.trailing, 8) }
-                    Button("Apply \(previews.count) fix\(previews.count == 1 ? "" : "es")") {
+                    Button(previews.count == 1 ? tr("Apply 1 fix") : tr("Apply %@ fixes", "\(previews.count)")) {
                         Task { await apply() }
                     }
                     .buttonStyle(.glassProminent)
@@ -207,13 +209,13 @@ struct SearchResultsView: View {
 
     var body: some View {
         PageScaffold(
-            title: "Search",
-            subtitle: "Results for “\(model.searchQuery)”"
+            title: tr("Search"),
+            subtitle: tr("Results for “%@”", "\(model.searchQuery)")
         ) {
             if model.searchResults.isEmpty {
                 DataUnavailableView(
-                    title: "No Results",
-                    detail: "Try a tool name, problem, check, runtime, or section.",
+                    title: tr("No Results"),
+                    detail: tr("Try a tool name, problem, check, runtime, or section."),
                     symbol: "magnifyingglass"
                 )
             } else {

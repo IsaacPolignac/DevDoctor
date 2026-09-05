@@ -21,11 +21,13 @@ import { StoragePage } from "./pages/StoragePage";
 import { LocalAiPage } from "./pages/LocalAiPage";
 import { ChangesPage } from "./pages/ChangesPage";
 import { GitPage, HistoryPage, ServicesPage, SettingsPage, SshPage, ToolsPage } from "./pages/MiscPages";
+import { activeLanguage, adoptStoredLanguage, t } from "./lib/i18n";
 
 if (!inTauri) document.documentElement.classList.add("no-tauri");
 // The window is opaque with a regular title bar outside macOS: no traffic-light inset, no glass.
 const platform = navigator.userAgent.includes("Windows") ? "windows" : navigator.userAgent.includes("Mac") ? "macos" : "linux";
 document.documentElement.classList.add(`platform-${platform}`);
+document.documentElement.lang = activeLanguage;
 
 function applyAppearance(appearance: Appearance, glass: Glass) {
   const root = document.documentElement;
@@ -64,6 +66,7 @@ function Shell() {
     api.detectors().then(setDetectors).catch(() => {});
     api.settings().then((s) => {
       setTechnicalState(Boolean(s.technical_details));
+      adoptStoredLanguage(s.language);
       setAutoScanState(s.auto_scan_on_launch !== false);
       setOnboarding(!s.onboarding_done);
       const a = (s.appearance as Appearance) ?? "system";
@@ -97,10 +100,10 @@ function Shell() {
     try {
       const report = await api.runScan(mode);
       const n = report.issues.length;
-      toast.push({ title: n === 0 ? "Scan complete — all clear" : `Scan complete — ${n} finding${n > 1 ? "s" : ""}`, body: `${report.health.checks_passed} of ${report.health.checks_total} checks passed${report.detectors_failed ? ` · ${report.detectors_failed} check(s) could not run` : ""}`, tone: n === 0 ? "green" : undefined });
+      toast.push({ title: n === 0 ? t("Scan complete — all clear") : (n === 1 ? t("Scan complete — 1 finding") : t("Scan complete — {n} findings", { n })), body: t("{passed} of {total} checks passed", { passed: report.health.checks_passed, total: report.health.checks_total }) + (report.detectors_failed ? t(" · {n} check(s) could not run", { n: report.detectors_failed }) : ""), tone: n === 0 ? "green" : undefined });
       refresh();
     } catch (e) {
-      toast.push({ title: "The scan could not run", body: errorMessage(e), tone: "red" });
+      toast.push({ title: t("The scan could not run"), body: errorMessage(e), tone: "red" });
     } finally {
       setScanning(null);
       setProgress(null);
@@ -171,7 +174,7 @@ function Shell() {
         <div className={`window ${sidebarHidden ? "sidebar-hidden" : ""}`}>
           <nav className="sidebar">
             <div className="sidebar-head" data-tauri-drag-region>
-              <button className="icon-btn" onClick={() => setSidebarHidden(true)} title="Hide sidebar"><Icon name="sidebar-left" /></button>
+              <button className="icon-btn" onClick={() => setSidebarHidden(true)} title={t("Hide sidebar")}><Icon name="sidebar-left" /></button>
             </div>
             <div className="sidebar-list">
               {SECTIONS.map((group) => (
@@ -189,11 +192,11 @@ function Shell() {
             </div>
             <div className="sidebar-foot">
               <Icon name="lock-shield" className="icon" />
-              <div><div className="t">Local by default</div><div className="s">Nothing leaves this Mac</div></div>
+              <div><div className="t">{t("Local by default")}</div><div className="s">{t("Nothing leaves this Mac")}</div></div>
             </div>
           </nav>
           <div className="main">
-            <Toolbar title={page === "issue" ? "Problem" : section.label} status={null} tabs={tabs} scanning={!!scanning} onScan={() => runScan("quick")} inspector={hasInspector ? inspector : null} onToggleInspector={toggleInspector} sidebarHidden={sidebarHidden} onToggleSidebar={() => setSidebarHidden(false)} onSearch={() => setPalette(true)} />
+            <Toolbar title={page === "issue" ? t("Problem") : section.label} status={null} tabs={tabs} scanning={!!scanning} onScan={() => runScan("quick")} inspector={hasInspector ? inspector : null} onToggleInspector={toggleInspector} sidebarHidden={sidebarHidden} onToggleSidebar={() => setSidebarHidden(false)} onSearch={() => setPalette(true)} />
             <div className={`body ${hasInspector && inspector ? "with-inspector" : ""}`}>{content}</div>
             <StatusBar scanning={!!scanning} progress={progress} lastScanAt={lastScanAt} mode={scanning} />
           </div>

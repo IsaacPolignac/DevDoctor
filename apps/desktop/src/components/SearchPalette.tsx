@@ -5,6 +5,7 @@ import { useNav, ALL_PAGES, type PageId } from "../lib/nav";
 import { SEVERITY_PLAIN } from "../lib/plain";
 import { Pill } from "./Basics";
 import { Icon, type IconName } from "./Icons";
+import { t } from "../lib/i18n";
 
 interface Item { key: string; label: string; hint: string; icon: IconName; run: () => void }
 
@@ -47,11 +48,11 @@ export function SearchPalette({ onClose }: { onClose: () => void }) {
       <div className="sheet palette glass-strong" onClick={(e) => e.stopPropagation()} onKeyDown={onKey}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "0 8px" }}>
           <Icon name="search" size={18} className="faint" />
-          <input ref={input} placeholder="Search issues, commands, ports, pages… try “python”, “port 3000”, “zshrc”" value={query} onChange={(e) => setQuery(e.target.value)} />
+          <input ref={input} placeholder={t("Search issues, commands, ports, pages… try “python”, “port 3000”, “zshrc”")} value={query} onChange={(e) => setQuery(e.target.value)} />
         </div>
         <div className="hairline" style={{ margin: "4px 0" }} />
         <div className="results">
-          {items.length === 0 && query && results && <div className="muted" style={{ padding: 10 }}>No matches.</div>}
+          {items.length === 0 && query && results && <div className="muted" style={{ padding: 10 }}>{t("No matches.")}</div>}
           {items.map((it, idx) => {
             const s = sev(it.hint);
             return (
