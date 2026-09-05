@@ -52,7 +52,13 @@ pub struct CommandResolution {
 
 /// Validates a command name: a single word without path separators.
 pub fn validate_command_name(name: &str) -> Result<()> {
-    if name.is_empty() || name.len() > 128 || name.contains('/') || name.contains(char::is_whitespace) || name.starts_with('-') {
+    if name.is_empty()
+        || name.len() > 128
+        || name.contains('/')
+        || name.contains('\\')
+        || name.contains(char::is_whitespace)
+        || name.starts_with('-')
+    {
         return Err(Error::invalid(format!("`{name}` is not a valid command name")));
     }
     Ok(())
@@ -65,8 +71,7 @@ pub fn find_in_path(entries: &[String], name: &str) -> Vec<(usize, PathBuf)> {
         if dir.is_empty() {
             continue;
         }
-        let candidate = Path::new(dir).join(name);
-        if fs_util::is_executable_file(&candidate) {
+        if let Some(candidate) = crate::sys::command_candidates(Path::new(dir), name).into_iter().find(|c| fs_util::is_executable_file(c)) {
             found.push((i + 1, candidate));
         }
     }
@@ -241,10 +246,11 @@ mod tests {
         let b = dir.path().join("b");
         std::fs::create_dir_all(&a).unwrap();
         std::fs::create_dir_all(&b).unwrap();
+        let file_name = if cfg!(windows) { "tool.exe" } else { "tool" };
         for d in [&a, &b] {
-            let p = d.join("tool");
+            let p = d.join(file_name);
             std::fs::write(&p, "#!/bin/sh\necho hi\n").unwrap();
-            std::fs::set_permissions(&p, std::os::unix::fs::PermissionsExt::from_mode(0o755)).unwrap();
+            crate::sys::set_mode(&p, 0o755);
         }
         std::fs::write(b.join("notexec"), "x").unwrap();
         let entries = vec![b.to_string_lossy().into_owned(), a.to_string_lossy().into_owned()];
@@ -253,6 +259,6 @@ mod tests {
         assert_eq!(found[0].0, 1);
         assert!(found[0].1.starts_with(&b));
         assert!(find_in_path(&entries, "notexec").is_empty());
-        assert_eq!(read_shebang(&a.join("tool")).as_deref(), Some("/bin/sh"));
+        assert_eq!(read_shebang(&a.join(file_name)).as_deref(), Some("/bin/sh"));
     }
 }

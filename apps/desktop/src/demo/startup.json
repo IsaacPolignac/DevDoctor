@@ -1,0 +1,113 @@
+{
+  "hotspots": [
+    {
+      "file": "~/.zprofile",
+      "inclusive_ms": 14,
+      "line": 5,
+      "share_percent": 93,
+      "statement": "eval \"$(/opt/homebrew/bin/brew shellenv)\""
+    },
+    {
+      "file": "~/.zprofile",
+      "inclusive_ms": 0,
+      "line": 1,
+      "share_percent": 0,
+      "statement": "emulate sh"
+    },
+    {
+      "file": "~/.zshrc",
+      "inclusive_ms": 0,
+      "line": 1,
+      "share_percent": 0,
+      "statement": "export PATH=\"$HOME/.local/bin:$PATH\""
+    },
+    {
+      "file": "~/.zprofile",
+      "inclusive_ms": 0,
+      "line": 2,
+      "share_percent": 0,
+      "statement": "source ~/.profile"
+    },
+    {
+      "file": "~/.zshrc",
+      "inclusive_ms": 0,
+      "line": 2,
+      "share_percent": 0,
+      "statement": "export PATH=\"$HOME/.npm-global/bin:$PATH\""
+    },
+    {
+      "file": "~/.zprofile",
+      "inclusive_ms": 0,
+      "line": 3,
+      "share_percent": 2,
+      "statement": "emulate zsh"
+    },
+    {
+      "file": "~/.zshrc",
+      "inclusive_ms": 0,
+      "line": 4,
+      "share_percent": 0,
+      "statement": "alias pp='cd ~/Downloads/purepeptide-site && claude --model claude-fable-5-1 --effort ultracode'"
+    }
+  ],
+  "max_ms": 22,
+  "measured_at": "2026-09-05T01:19:12.229699Z",
+  "median_ms": 20,
+  "min_ms": 20,
+  "notes": [],
+  "rating": "fast",
+  "samples_ms": [
+    22,
+    20,
+    20
+  ],
+  "shell": "zsh",
+  "sources": [
+    {
+      "display": "~/.zprofile",
+      "kind": "file",
+      "lines": 5,
+      "name": "~/.zprofile",
+      "self_ms": 8
+    },
+    {
+      "display": "/etc/zshrc",
+      "kind": "file",
+      "lines": 50,
+      "name": "/etc/zshrc",
+      "self_ms": 4
+    },
+    {
+      "display": "(eval)",
+      "kind": "eval",
+      "lines": 13,
+      "name": "(eval)",
+      "self_ms": 2
+    },
+    {
+      "display": "/etc/zprofile",
+      "kind": "file",
+      "lines": 4,
+      "name": "/etc/zprofile",
+      "self_ms": 1
+    },
+    {
+      "display": "~/.zshrc",
+      "kind": "file",
+      "lines": 3,
+      "name": "~/.zshrc",
+      "self_ms": 0
+    },
+    {
+      "display": "zsh",
+      "kind": "function",
+      "lines": 1,
+      "name": "zsh",
+      "self_ms": 0
+    }
+  ],
+  "stderr_lines": [],
+  "trace_lines": 76,
+  "trace_total_ms": 15,
+  "traced": true
+}

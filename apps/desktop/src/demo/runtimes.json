@@ -1,39 +1,53 @@
 {
   "node": {
     "active_node": {
-      "directory": "/usr/local/bin",
-      "is_symlink": false,
-      "origin": "installer",
-      "origin_label": "Installer package (/usr/local/bin)",
-      "path": "/usr/local/bin/node",
-      "path_position": 5,
-      "version": "v24.18.0"
-    },
-    "active_node_prefix": "/usr/local",
-    "active_npm": {
-      "directory": "/usr/local/bin",
+      "directory": "/opt/homebrew/bin",
       "is_symlink": true,
-      "origin": "npm",
-      "origin_label": "npm",
-      "path": "/usr/local/bin/npm",
-      "path_position": 5,
-      "real_path": "/usr/local/lib/node_modules/npm/bin/npm-cli.js",
-      "shebang": "/usr/bin/env node",
-      "version": "11.16.0"
+      "origin": "homebrew",
+      "origin_label": "Homebrew",
+      "path": "/opt/homebrew/bin/node",
+      "path_position": 3,
+      "real_path": "/opt/homebrew/Cellar/node/26.8.1/bin/node",
+      "version": "v26.8.1"
     },
-    "active_npm_prefix": "/usr/local",
+    "active_node_prefix": "/opt/homebrew/Cellar/node/26.8.1",
+    "active_npm": {
+      "directory": "/opt/homebrew/bin",
+      "is_symlink": true,
+      "origin": "homebrew",
+      "origin_label": "Homebrew",
+      "path": "/opt/homebrew/bin/npm",
+      "path_position": 3,
+      "real_path": "/opt/homebrew/lib/node_modules/npm/bin/npm-cli.js",
+      "shebang": "/usr/bin/env node",
+      "version": "11.19.0"
+    },
+    "active_npm_prefix": "/opt/homebrew",
     "installations": [
       {
         "active": true,
+        "binary": "/opt/homebrew/Cellar/node/26.8.1/bin/node",
+        "label": "Homebrew",
+        "prefix": "/opt/homebrew/Cellar/node/26.8.1",
+        "source": "homebrew",
+        "version": "26.8.1"
+      },
+      {
+        "active": false,
         "binary": "/usr/local/bin/node",
         "label": "nodejs.org installer",
         "prefix": "/usr/local",
-        "source": "pkg_installer",
-        "version": "24.18.0"
+        "source": "pkg_installer"
       }
     ],
     "managers": [],
-    "notes": []
+    "notes": [],
+    "npm_mismatch": {
+      "node_prefix": "/opt/homebrew/Cellar/node/26.8.1",
+      "node_version": "v26.8.1",
+      "npm_prefix": "/opt/homebrew",
+      "npm_version": "11.19.0"
+    }
   },
   "python": {
     "broken_links": [],
@@ -68,7 +82,7 @@
       "origin_label": "System",
       "path": "/usr/bin/pip3",
       "path_position": 7,
-      "version": "pip 21.2.4 from /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3"
+      "version": "pip 26.0.1 from ~/Library/Python/3.9/lib/python/site-packages/pip (python 3.9)"
     },
     "pip_mismatches": [],
     "python3": {

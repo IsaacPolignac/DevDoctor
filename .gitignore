@@ -9,6 +9,10 @@ dist
 .vite
 *.tsbuildinfo
 
+# Swift Package Manager (native app)
+apps/macos/.build
+.swiftpm
+
 # Tauri
 apps/desktop/src-tauri/gen
 apps/desktop/src-tauri/target

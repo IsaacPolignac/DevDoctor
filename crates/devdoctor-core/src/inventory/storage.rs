@@ -111,6 +111,64 @@ pub enum StorageProgress {
     Finished { duration_ms: u64 },
 }
 
+/// Where pip keeps its cache on this OS, most specific first: `PIP_CACHE_DIR`, then the
+/// platform default(s). The first existing directory is the one DevDoctor measures and clears.
+pub fn pip_cache_candidates(ctx: &SystemContext) -> Vec<PathBuf> {
+    if let Some(c) = ctx.env.get("PIP_CACHE_DIR").filter(|c| !c.is_empty()) {
+        return vec![PathBuf::from(c)];
+    }
+    let mut v = Vec::new();
+    if cfg!(target_os = "macos") {
+        v.push(ctx.home.join("Library/Caches/pip"));
+    }
+    if let Some(local) = crate::sys::local_app_data() {
+        v.push(local.join("pip").join("cache"));
+    }
+    v.push(ctx.home.join(".cache/pip"));
+    v
+}
+
+pub fn pip_cache_dir(ctx: &SystemContext) -> PathBuf {
+    let candidates = pip_cache_candidates(ctx);
+    candidates.iter().find(|p| p.exists()).cloned().unwrap_or_else(|| candidates[0].clone())
+}
+
+/// uv's cache directory candidates (`UV_CACHE_DIR`, then the platform defaults).
+pub fn uv_cache_candidates(ctx: &SystemContext) -> Vec<PathBuf> {
+    if let Some(c) = ctx.env.get("UV_CACHE_DIR").filter(|c| !c.is_empty()) {
+        return vec![PathBuf::from(c)];
+    }
+    let mut v = Vec::new();
+    if cfg!(target_os = "macos") {
+        v.push(ctx.home.join("Library/Caches/uv"));
+    }
+    if let Some(local) = crate::sys::local_app_data() {
+        v.push(local.join("uv").join("cache"));
+    }
+    v.push(ctx.home.join(".cache/uv"));
+    v
+}
+
+pub fn uv_cache_dir(ctx: &SystemContext) -> PathBuf {
+    let candidates = uv_cache_candidates(ctx);
+    candidates.iter().find(|p| p.exists()).cloned().unwrap_or_else(|| candidates.last().cloned().unwrap_or_default())
+}
+
+/// npm's content-addressed cache (`_cacache`) for this OS: `npm_config_cache`, then
+/// `%LOCALAPPDATA%\npm-cache` on Windows, `~/.npm` elsewhere.
+pub fn npm_cache_dir(ctx: &SystemContext) -> PathBuf {
+    if let Some(c) = ctx.env.get("npm_config_cache").or(ctx.env.get("NPM_CONFIG_CACHE")).filter(|c| !c.is_empty()) {
+        return PathBuf::from(c).join("_cacache");
+    }
+    match crate::sys::local_app_data() {
+        Some(local) => local.join("npm-cache").join("_cacache"),
+        None => ctx.home.join(".npm/_cacache"),
+    }
+}
+
+/// Categories that only make sense on macOS.
+const MACOS_ONLY_CATEGORIES: &[&str] = &["homebrew_cache", "xcode", "mlx"];
+
 struct CategorySpec {
     id: &'static str,
     label: &'static str,
@@ -143,7 +201,7 @@ fn categories(ctx: &SystemContext) -> Vec<(CategorySpec, Vec<PathBuf>)> {
                 recreatable: true,
                 description: "Content-addressed package cache (~/.npm/_cacache). npm re-downloads packages when needed.",
             },
-            existing(vec![h(".npm/_cacache")]),
+            existing(vec![npm_cache_dir(ctx)]),
         ),
         (
             CategorySpec {
@@ -155,6 +213,7 @@ fn categories(ctx: &SystemContext) -> Vec<(CategorySpec, Vec<PathBuf>)> {
             },
             existing(vec![
                 vars.get("PNPM_HOME").map(|p| PathBuf::from(p).join("store")).unwrap_or_else(|| h("Library/pnpm/store")),
+                crate::sys::local_app_data().map(|l| l.join("pnpm").join("store")).unwrap_or_else(|| h(".local/share/pnpm/store")),
                 h(".local/share/pnpm/store"),
                 h(".pnpm-store"),
             ]),
@@ -167,7 +226,12 @@ fn categories(ctx: &SystemContext) -> Vec<(CategorySpec, Vec<PathBuf>)> {
                 recreatable: true,
                 description: "Yarn package cache.",
             },
-            existing(vec![h("Library/Caches/Yarn"), h(".yarn/berry/cache"), h(".cache/yarn")]),
+            existing(vec![
+                h("Library/Caches/Yarn"),
+                crate::sys::local_app_data().map(|l| l.join("Yarn").join("Cache")).unwrap_or_else(|| h(".cache/yarn")),
+                h(".yarn/berry/cache"),
+                h(".cache/yarn"),
+            ]),
         ),
         (
             CategorySpec {
@@ -177,7 +241,7 @@ fn categories(ctx: &SystemContext) -> Vec<(CategorySpec, Vec<PathBuf>)> {
                 recreatable: true,
                 description: "Downloaded wheels and HTTP cache used by pip.",
             },
-            existing(vec![h("Library/Caches/pip"), h(".cache/pip")]),
+            existing(pip_cache_candidates(ctx)),
         ),
         (
             CategorySpec {
@@ -187,7 +251,7 @@ fn categories(ctx: &SystemContext) -> Vec<(CategorySpec, Vec<PathBuf>)> {
                 recreatable: true,
                 description: "uv's package and build cache.",
             },
-            existing(vec![h("Library/Caches/uv"), h(".cache/uv")]),
+            existing(uv_cache_candidates(ctx)),
         ),
         (
             CategorySpec {
@@ -211,7 +275,11 @@ fn categories(ctx: &SystemContext) -> Vec<(CategorySpec, Vec<PathBuf>)> {
                 description:
                     "Docker Desktop virtual disk (images, containers, volumes). Manage it with `docker system prune` or Docker Desktop.",
             },
-            existing(vec![h("Library/Containers/com.docker.docker/Data"), h(".orbstack")]),
+            existing(vec![
+                h("Library/Containers/com.docker.docker/Data"),
+                crate::sys::local_app_data().map(|l| l.join("Docker").join("wsl")).unwrap_or_else(|| h(".orbstack")),
+                h(".orbstack"),
+            ]),
         ),
         (
             CategorySpec {
@@ -261,7 +329,11 @@ fn categories(ctx: &SystemContext) -> Vec<(CategorySpec, Vec<PathBuf>)> {
                 recreatable: true,
                 description: "Browser builds installed by `npx playwright install`.",
             },
-            existing(vec![h("Library/Caches/ms-playwright")]),
+            existing(vec![
+                h("Library/Caches/ms-playwright"),
+                crate::sys::local_app_data().map(|l| l.join("ms-playwright")).unwrap_or_else(|| h(".cache/ms-playwright")),
+                h(".cache/ms-playwright"),
+            ]),
         ),
         (
             CategorySpec {
@@ -306,9 +378,27 @@ fn categories(ctx: &SystemContext) -> Vec<(CategorySpec, Vec<PathBuf>)> {
                 recreatable: true,
                 description: "Go module and build caches.",
             },
-            existing(vec![h("go/pkg/mod"), h("Library/Caches/go-build")]),
+            existing(vec![
+                h("go/pkg/mod"),
+                h("Library/Caches/go-build"),
+                crate::sys::local_app_data().map(|l| l.join("go-build")).unwrap_or_else(|| h(".cache/go-build")),
+                h(".cache/go-build"),
+            ]),
+        ),
+        (
+            CategorySpec {
+                id: "nuget",
+                label: "NuGet packages",
+                kind: StorageKind::Cache,
+                recreatable: true,
+                description: ".NET package cache; `dotnet restore` downloads packages again when needed.",
+            },
+            existing(vec![h(".nuget/packages")]),
         ),
     ]
+    .into_iter()
+    .filter(|(spec, _)| cfg!(target_os = "macos") || !MACOS_ONLY_CATEGORIES.contains(&spec.id))
+    .collect()
 }
 
 /// Likely project locations. Hidden folders and macOS system folders are excluded.
@@ -326,6 +416,8 @@ pub fn project_roots(home: &Path, extra: &[PathBuf]) -> Vec<PathBuf> {
         "work",
         "Work",
         "repos",
+        "source",
+        "source/repos",
         "git",
         "github",
         "Sites",
@@ -386,13 +478,11 @@ fn project_activity(project: &Path) -> Option<i64> {
             if matches!(name.as_str(), "node_modules" | ".git" | "target" | ".next" | "dist" | "build" | ".venv" | "venv") {
                 continue;
             }
-            use std::os::unix::fs::MetadataExt;
-            consider(entry.metadata().ok().map(|m| m.mtime()));
+            consider(entry.metadata().ok().map(|m| crate::sys::mtime_secs(&m)));
         }
     }
     for marker in [".git/index", ".git/FETCH_HEAD", ".git/HEAD"] {
-        use std::os::unix::fs::MetadataExt;
-        consider(std::fs::metadata(project.join(marker)).ok().map(|m| m.mtime()));
+        consider(std::fs::metadata(project.join(marker)).ok().map(|m| crate::sys::mtime_secs(&m)));
     }
     latest
 }

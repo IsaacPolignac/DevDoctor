@@ -11,7 +11,7 @@
       "batch_safe": false,
       "category": "runtimes",
       "confidence": "confirmed",
-      "created_at": "2026-09-04T09:42:29.044362Z",
+      "created_at": "2026-09-04T21:19:38.730624Z",
       "description": "rustup keeps its toolchains under ~/.rustup and its command shims under ~/.cargo/bin, but that directory is not part of the PATH of a fresh login shell. `cargo` and `rustc` are therefore not found.",
       "detector_id": "rust.cargo_bin.not_in_path",
       "evidence": [
@@ -42,7 +42,7 @@
       "technical_description": "",
       "title": "Rust is installed but `cargo` and `rustc` are not in PATH"
     },
-    "last_seen_at": "2026-09-04T09:42:29.302239Z"
+    "last_seen_at": "2026-09-04T21:19:39.179524Z"
   },
   {
     "first_seen_at": "2026-09-04T09:42:29.302239Z",
@@ -53,7 +53,7 @@
       "batch_safe": false,
       "category": "runtimes",
       "confidence": "confirmed",
-      "created_at": "2026-09-04T09:42:28.980742Z",
+      "created_at": "2026-09-04T21:19:38.621182Z",
       "description": "Python is installed through Homebrew, macOS / Command Line Tools, uv. Each installation has its own packages; which one runs depends on PATH order.",
       "detector_id": "python.interpreter.multiple",
       "evidence": [
@@ -96,7 +96,7 @@
       "technical_description": "",
       "title": "3 Python installations from 3 different sources"
     },
-    "last_seen_at": "2026-09-04T09:42:29.302239Z"
+    "last_seen_at": "2026-09-04T21:19:39.179524Z"
   },
   {
     "first_seen_at": "2026-09-04T09:42:29.302239Z",
@@ -111,7 +111,7 @@
       "batch_safe": false,
       "category": "shell",
       "confidence": "confirmed",
-      "created_at": "2026-09-04T09:42:28.760557Z",
+      "created_at": "2026-09-04T21:19:38.384169Z",
       "current_state": "PATH position 14: /pkg/env/global/bin",
       "description": "/etc/paths.d/10-pmk-global adds /pkg/env/global/bin to every user's PATH, but the directory does not exist. It was left behind by an installer whose package has since been removed.",
       "detector_id": "shell.path.missing_directory",
@@ -135,6 +135,6 @@
       "technical_description": "",
       "title": "System PATH entry does not exist: /pkg/env/global/bin"
     },
-    "last_seen_at": "2026-09-04T09:42:29.302239Z"
+    "last_seen_at": "2026-09-04T21:19:39.179524Z"
   }
 ]

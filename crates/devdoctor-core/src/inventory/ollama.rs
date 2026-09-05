@@ -121,11 +121,16 @@ fn read_model_config(models_dir: &Path, config: &ManifestLayer) -> (Option<Strin
 
 pub fn inventory(ctx: &SystemContext) -> OllamaInventory {
     let models_dir = models_dir(ctx);
+    let app_dir = if cfg!(windows) {
+        crate::sys::local_app_data().map(|l| l.join("Programs").join("Ollama")).unwrap_or_default()
+    } else {
+        PathBuf::from("/Applications/Ollama.app")
+    };
     let binary = ctx.find_program("ollama").or_else(|| {
-        let app = PathBuf::from("/Applications/Ollama.app/Contents/Resources/ollama");
+        let app = if cfg!(windows) { app_dir.join("ollama.exe") } else { app_dir.join("Contents/Resources/ollama") };
         app.exists().then_some(app)
     });
-    let app_bundle_present = Path::new("/Applications/Ollama.app").exists();
+    let app_bundle_present = app_dir.exists();
     let manifests_root = models_dir.join("manifests");
     let mut manifest_files = Vec::new();
     walk_manifests(&manifests_root, &mut manifest_files);

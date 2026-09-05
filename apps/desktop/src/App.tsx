@@ -23,6 +23,9 @@ import { ChangesPage } from "./pages/ChangesPage";
 import { GitPage, HistoryPage, ServicesPage, SettingsPage, SshPage, ToolsPage } from "./pages/MiscPages";
 
 if (!inTauri) document.documentElement.classList.add("no-tauri");
+// The window is opaque with a regular title bar outside macOS: no traffic-light inset, no glass.
+const platform = navigator.userAgent.includes("Windows") ? "windows" : navigator.userAgent.includes("Mac") ? "macos" : "linux";
+document.documentElement.classList.add(`platform-${platform}`);
 
 function applyAppearance(appearance: Appearance, glass: Glass) {
   const root = document.documentElement;

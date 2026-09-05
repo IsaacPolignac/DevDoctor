@@ -79,9 +79,13 @@ pub struct PythonInventory {
 }
 
 fn version_from_path(path: &Path) -> Option<String> {
-    let s = path.to_string_lossy();
-    // /opt/homebrew/Cellar/python@3.12/3.12.4/... , ~/.pyenv/versions/3.11.9/..., uv cpython-3.12.4-...
+    let s = path.to_string_lossy().replace('\\', "/");
+    // /opt/homebrew/Cellar/python@3.12/3.12.4/... , ~/.pyenv/versions/3.11.9/..., uv cpython-3.12.4-...,
+    // C:\\Users\\me\\AppData\\Local\\Programs\\Python\\Python312\\python.exe
     for part in s.split('/') {
+        if let Some(digits) = part.strip_prefix("Python").filter(|d| d.len() >= 2 && d.chars().all(|c| c.is_ascii_digit())) {
+            return Some(format!("{}.{}", &digits[..1], &digits[1..]));
+        }
         if let Some(rest) = part.strip_prefix("cpython-") {
             let v: String = rest.chars().take_while(|c| c.is_ascii_digit() || *c == '.').collect();
             if v.contains('.') {
@@ -179,13 +183,67 @@ pub fn inventory(ctx: &SystemContext) -> PythonInventory {
         }
         push_install(&mut installs, PythonSource::PythonOrg, ver.join("bin/python3"), Some(vname));
     }
-    push_install(&mut installs, PythonSource::System, PathBuf::from("/usr/bin/python3"), None);
+    if cfg!(windows) {
+        // python.org installer (per-user and all-users), pyenv-win, uv and conda on Windows.
+        let mut roots: Vec<PathBuf> = Vec::new();
+        if let Some(local) = crate::sys::local_app_data() {
+            roots.push(local.join("Programs").join("Python"));
+        }
+        for var in ["ProgramFiles", "ProgramFiles(x86)"] {
+            if let Some(pf) = ctx.env.get(var) {
+                roots.push(PathBuf::from(pf));
+            }
+        }
+        for root in roots {
+            for dir in fs_util::list_dir(&root) {
+                let name = dir.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
+                if name.starts_with("Python") && dir.join("python.exe").exists() {
+                    push_install(&mut installs, PythonSource::PythonOrg, dir.join("python.exe"), version_from_path(&dir));
+                }
+            }
+        }
+        for ver in fs_util::list_dir(&pyenv_root.join("pyenv-win").join("versions")) {
+            let vname = ver.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
+            push_install(&mut installs, PythonSource::Pyenv, ver.join("python.exe"), Some(vname));
+        }
+        if let Some(appdata) = ctx.env.get("APPDATA") {
+            for ver in fs_util::list_dir(&Path::new(appdata).join("uv").join("python")) {
+                push_install(&mut installs, PythonSource::Uv, ver.join("python.exe"), version_from_path(&ver));
+            }
+        }
+        let mut conda_roots = vec![home.join("miniconda3"), home.join("anaconda3"), home.join("miniforge3")];
+        if let Some(local) = crate::sys::local_app_data() {
+            conda_roots.push(local.join("miniconda3"));
+            conda_roots.push(local.join("anaconda3"));
+        }
+        for root in conda_roots {
+            if root.join("python.exe").exists() {
+                push_install(&mut installs, PythonSource::Conda, root.join("python.exe"), None);
+                for env in fs_util::list_dir(&root.join("envs")) {
+                    push_install(&mut installs, PythonSource::Conda, env.join("python.exe"), None);
+                }
+            }
+        }
+    } else {
+        push_install(&mut installs, PythonSource::System, PathBuf::from("/usr/bin/python3"), None);
+    }
 
     let python = resolve_command(ctx, "python", true).ok();
     let python3 = resolve_command(ctx, "python3", true).ok();
     let pip = resolve_command(ctx, "pip", true).ok();
     let pip3 = resolve_command(ctx, "pip3", true).ok();
     let python_alias = python.as_ref().and_then(|r| r.alias.clone());
+    if cfg!(windows) {
+        for (cmd, res) in [("python", &python), ("python3", &python3)] {
+            if let Some(active) = res.as_ref().and_then(|r| r.active.as_ref()) {
+                let s = active.path.to_string_lossy();
+                let stub = s.contains("WindowsApps") && std::fs::metadata(&active.path).map(|m| m.len() == 0).unwrap_or(false);
+                if stub {
+                    notes.push(format!("`{cmd}` resolves to the Microsoft Store app execution alias ({s}), not to an installed interpreter: running it opens the Store. Install Python or disable the alias in Settings > Apps > Advanced app settings > App execution aliases."));
+                }
+            }
+        }
+    }
 
     for r in [&python, &python3] {
         if let Some(active) = r.as_ref().and_then(|r| r.active.as_ref()) {

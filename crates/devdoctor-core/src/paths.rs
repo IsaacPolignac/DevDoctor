@@ -21,9 +21,30 @@ impl DevDoctorDirs {
             }
         }
         let home = dirs::home_dir().ok_or_else(|| Error::other("cannot determine home directory"))?;
-        let data_dir = home.join("Library").join("Application Support").join("DevDoctor");
-        let logs_dir = home.join("Library").join("Logs").join("DevDoctor");
+        let data_dir = Self::default_data_dir(&home);
+        let logs_dir = Self::default_logs_dir(&home);
         Ok(Self { db_path: data_dir.join("devdoctor.db"), backups_dir: data_dir.join("backups"), data_dir, logs_dir })
+    }
+
+    /// Where DevDoctor keeps its data by default: `~/Library/Application Support/DevDoctor` on
+    /// macOS, `%LOCALAPPDATA%\DevDoctor` on Windows, `~/.local/share/devdoctor` elsewhere.
+    pub fn default_data_dir(home: &Path) -> PathBuf {
+        if cfg!(target_os = "macos") {
+            home.join("Library").join("Application Support").join("DevDoctor")
+        } else if cfg!(windows) {
+            crate::sys::local_app_data().unwrap_or_else(|| home.join("AppData").join("Local")).join("DevDoctor")
+        } else {
+            home.join(".local").join("share").join("devdoctor")
+        }
+    }
+
+    /// Where DevDoctor writes its log files by default.
+    pub fn default_logs_dir(home: &Path) -> PathBuf {
+        if cfg!(target_os = "macos") {
+            home.join("Library").join("Logs").join("DevDoctor")
+        } else {
+            Self::default_data_dir(home).join("logs")
+        }
     }
 
     /// All directories under a single root (used for tests and custom homes).

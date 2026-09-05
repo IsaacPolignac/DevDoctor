@@ -3,14 +3,134 @@
     "brew_binary": "/opt/homebrew/bin/brew",
     "broken_links": [],
     "cache_dir": "~/Library/Caches/Homebrew",
-    "casks": [],
+    "casks": [
+      {
+        "name": "ngrok",
+        "versions": [
+          ".metadata",
+          "3.39.11,dy27whJwwmb,a"
+        ]
+      }
+    ],
     "expected_prefix": "/opt/homebrew",
     "formulae": [
+      {
+        "linked": true,
+        "name": "ada-url",
+        "versions": [
+          "4.0.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "aom",
+        "versions": [
+          "3.15.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "apr",
+        "versions": [
+          "1.7.6"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "apr-util",
+        "versions": [
+          "1.6.5"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "argon2",
+        "versions": [
+          "20190702_1"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "autoconf",
+        "versions": [
+          "2.73"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "brotli",
+        "versions": [
+          "1.2.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "c-ares",
+        "versions": [
+          "1.34.8"
+        ]
+      },
       {
         "linked": true,
         "name": "ca-certificates",
         "versions": [
           "2026-08-13"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "curl",
+        "versions": [
+          "8.22.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "dav1d",
+        "versions": [
+          "1.5.4"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "fmt",
+        "versions": [
+          "12.2.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "fontconfig",
+        "versions": [
+          "2.18.3"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "freetds",
+        "versions": [
+          "1.5.19"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "freetype",
+        "versions": [
+          "2.14.3"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "gd",
+        "versions": [
+          "2.3.3_6"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "gettext",
+        "versions": [
+          "1.0"
         ]
       },
       {
@@ -22,6 +142,195 @@
       },
       {
         "linked": true,
+        "name": "giflib",
+        "versions": [
+          "6.1.3"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "gmp",
+        "versions": [
+          "6.3.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "hdrhistogram_c",
+        "versions": [
+          "0.11.10"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "icu4c@78",
+        "versions": [
+          "78.3"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "jpeg-turbo",
+        "versions": [
+          "3.2.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "json-c",
+        "versions": [
+          "0.19"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "krb5",
+        "versions": [
+          "1.22.2"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libavif",
+        "versions": [
+          "1.4.2"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libffi",
+        "versions": [
+          "3.8.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libnghttp2",
+        "versions": [
+          "1.70.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libnghttp3",
+        "versions": [
+          "1.18.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libngtcp2",
+        "versions": [
+          "1.25.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libpng",
+        "versions": [
+          "1.6.58"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libpq",
+        "versions": [
+          "18.6"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libpsl",
+        "versions": [
+          "0.23.3"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libsodium",
+        "versions": [
+          "1.0.22"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libssh2",
+        "versions": [
+          "1.11.1_4"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libtiff",
+        "versions": [
+          "4.7.2"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libtool",
+        "versions": [
+          "2.6.2"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libunistring",
+        "versions": [
+          "1.4.2"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libuv",
+        "versions": [
+          "1.52.1"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libvmaf",
+        "versions": [
+          "3.2.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "libzip",
+        "versions": [
+          "1.11.4_1"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "llhttp",
+        "versions": [
+          "9.4.3"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "lz4",
+        "versions": [
+          "1.10.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "m4",
+        "versions": [
+          "1.4.21"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "merve",
+        "versions": [
+          "1.2.2_2"
+        ]
+      },
+      {
+        "linked": true,
         "name": "mpdecimal",
         "versions": [
           "4.0.1"
@@ -29,9 +338,66 @@
       },
       {
         "linked": true,
+        "name": "nbytes",
+        "versions": [
+          "0.1.4"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "net-snmp",
+        "versions": [
+          "5.9.5.2"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "node",
+        "versions": [
+          "26.8.1"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "oniguruma",
+        "versions": [
+          "6.9.10"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "openldap",
+        "versions": [
+          "2.7.0"
+        ]
+      },
+      {
+        "linked": true,
         "name": "openssl@3",
         "versions": [
-          "3.6.3"
+          "3.6.3",
+          "3.6.4"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "pcre2",
+        "versions": [
+          "10.48"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "phoneinfoga",
+        "versions": [
+          "2.11.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "php",
+        "versions": [
+          "8.5.10"
         ]
       },
       {
@@ -50,6 +416,20 @@
       },
       {
         "linked": true,
+        "name": "simdjson",
+        "versions": [
+          "4.6.10"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "simdutf",
+        "versions": [
+          "9.1.0"
+        ]
+      },
+      {
+        "linked": true,
         "name": "sqlite",
         "versions": [
           "3.53.4"
@@ -64,6 +444,20 @@
       },
       {
         "linked": true,
+        "name": "tidy-html5",
+        "versions": [
+          "5.8.0"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "unixodbc",
+        "versions": [
+          "2.3.14"
+        ]
+      },
+      {
+        "linked": true,
         "name": "uv",
         "versions": [
           "0.12.5"
@@ -71,9 +465,30 @@
       },
       {
         "linked": true,
+        "name": "uvwasi",
+        "versions": [
+          "0.0.23"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "webp",
+        "versions": [
+          "1.6.0"
+        ]
+      },
+      {
+        "linked": true,
         "name": "xz",
         "versions": [
           "5.8.3"
+        ]
+      },
+      {
+        "linked": true,
+        "name": "zstd",
+        "versions": [
+          "1.5.7_1"
         ]
       }
     ],
@@ -92,13 +507,13 @@
       "location": "/opt/homebrew",
       "name": "Homebrew",
       "notes": [
-        "10 formulae, 0 casks"
+        "68 formulae, 1 casks"
       ],
-      "package_count": 10,
+      "package_count": 69,
       "version": "Homebrew 6.0.21"
     },
     {
-      "binary": "/usr/local/bin/npm",
+      "binary": "/opt/homebrew/bin/npm",
       "cache_path": "~/.npm/_cacache",
       "id": "npm",
       "installed": true,
@@ -106,7 +521,7 @@
       "name": "npm",
       "notes": [],
       "package_count": 1,
-      "version": "11.16.0"
+      "version": "11.19.0"
     },
     {
       "id": "pnpm",
@@ -127,7 +542,7 @@
       "installed": true,
       "name": "pip",
       "notes": [],
-      "version": "pip 21.2.4 from /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3"
+      "version": "pip 26.0.1 from ~/Library/Python/3.9/lib/python/site-packages/pip (python 3.9)"
     },
     {
       "id": "pipx",

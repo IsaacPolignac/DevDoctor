@@ -67,6 +67,9 @@ pub enum PathSource {
     ProcessEnvironment,
     /// Explicit override (tests, `--path`).
     Override,
+    /// Windows: the machine PATH followed by the user PATH, read from the registry through
+    /// PowerShell. This is what a newly opened terminal sees.
+    Registry,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -79,7 +82,7 @@ pub struct EffectivePath {
 
 impl EffectivePath {
     pub fn parse(raw: &str, source: PathSource) -> Self {
-        let entries = if raw.is_empty() { Vec::new() } else { raw.split(':').map(|s| s.to_string()).collect() };
+        let entries = crate::sys::split_path_list(raw);
         Self { raw: raw.to_string(), entries, source, captured_at: Utc::now() }
     }
 
@@ -113,6 +116,43 @@ pub struct ShellCapture {
     pub env_names: Vec<String>,
     pub duration_ms: u64,
     pub warnings: Vec<String>,
+    /// What the shell printed to stderr while starting (errors from startup files), redacted
+    /// and capped. Empty when the shell started silently.
+    #[serde(default)]
+    pub stderr_lines: Vec<String>,
+}
+
+/// Maximum number of stderr lines kept from a login shell start.
+pub const MAX_STDERR_LINES: usize = 40;
+
+/// Builds the command that starts the user's login shell in the controlled environment DevDoctor
+/// uses for every observation: minimal PATH, `TERM=dumb`, no inherited secrets. Used by the PATH
+/// capture, the startup profiler and fix validation so they all see the same shell.
+pub fn login_shell_spec(ctx: &SystemContext, args: &[&str]) -> CommandSpec {
+    let mut spec = CommandSpec::new(ctx.shell_path.to_string_lossy().into_owned())
+        .args(args.iter().map(|a| a.to_string()))
+        .clear_env()
+        .env("HOME", ctx.home.to_string_lossy().into_owned())
+        .env("USER", ctx.user.clone())
+        .env("LOGNAME", ctx.user.clone())
+        .env("SHELL", ctx.shell_path.to_string_lossy().into_owned())
+        .env("TERM", "dumb")
+        .env("PATH", "/usr/bin:/bin:/usr/sbin:/sbin")
+        .env("DEVDOCTOR", "1")
+        .env("LANG", ctx.env.get("LANG").unwrap_or("en_US.UTF-8").to_string())
+        .timeout_ms(ctx.options.shell_timeout_ms);
+    for passthrough in ["TMPDIR", "ZDOTDIR", "XDG_CONFIG_HOME"] {
+        if let Some(v) = ctx.env.get(passthrough) {
+            spec = spec.env(passthrough, v.to_string());
+        }
+    }
+    spec
+}
+
+/// Keeps the meaningful stderr lines of a shell start: trimmed, non-empty, secrets redacted,
+/// capped at [`MAX_STDERR_LINES`].
+pub fn collect_stderr_lines(stderr: &str) -> Vec<String> {
+    stderr.lines().map(str::trim).filter(|l| !l.is_empty()).take(MAX_STDERR_LINES).map(crate::redact::redact_text).collect()
 }
 
 const MARK_PATH: &str = "__DD_PATH__=";
@@ -210,6 +250,7 @@ pub fn capture_shell(ctx: &SystemContext) -> ShellCapture {
             env_names: ctx.env.names(),
             duration_ms: 0,
             warnings: Vec::new(),
+            stderr_lines: Vec::new(),
         };
     }
     let fallback = |warning: String| ShellCapture {
@@ -220,31 +261,31 @@ pub fn capture_shell(ctx: &SystemContext) -> ShellCapture {
         env_names: ctx.env.names(),
         duration_ms: start.elapsed().as_millis() as u64,
         warnings: vec![warning],
+        stderr_lines: Vec::new(),
     };
     if !ctx.options.capture_shell {
         return fallback("shell capture disabled; using the DevDoctor process PATH".into());
+    }
+    if cfg!(windows) {
+        return match capture_registry_path(ctx) {
+            Ok(path) => ShellCapture {
+                path,
+                aliases: BTreeMap::new(),
+                functions: Vec::new(),
+                vars: seed_vars_from_env(ctx),
+                env_names: ctx.env.names(),
+                duration_ms: start.elapsed().as_millis() as u64,
+                warnings: Vec::new(),
+                stderr_lines: Vec::new(),
+            },
+            Err(reason) => fallback(format!("could not read PATH from the registry ({reason}); using the process PATH")),
+        };
     }
     if !matches!(ctx.shell, ShellKind::Zsh | ShellKind::Bash) {
         return fallback(format!("unsupported login shell {}; using the process PATH", ctx.shell_path.display()));
     }
     let script = capture_script(ctx.shell);
-    let mut spec = CommandSpec::new(ctx.shell_path.to_string_lossy().into_owned())
-        .args(["-l", "-i", "-c", &script])
-        .clear_env()
-        .env("HOME", ctx.home.to_string_lossy().into_owned())
-        .env("USER", ctx.user.clone())
-        .env("LOGNAME", ctx.user.clone())
-        .env("SHELL", ctx.shell_path.to_string_lossy().into_owned())
-        .env("TERM", "dumb")
-        .env("PATH", "/usr/bin:/bin:/usr/sbin:/sbin")
-        .env("DEVDOCTOR", "1")
-        .env("LANG", ctx.env.get("LANG").unwrap_or("en_US.UTF-8").to_string())
-        .timeout_ms(ctx.options.shell_timeout_ms);
-    for passthrough in ["TMPDIR", "ZDOTDIR", "XDG_CONFIG_HOME"] {
-        if let Some(v) = ctx.env.get(passthrough) {
-            spec = spec.env(passthrough, v.to_string());
-        }
-    }
+    let spec = login_shell_spec(ctx, &["-l", "-i", "-c", &script]);
     match ctx.run(&spec) {
         Ok(out) if !out.timed_out => {
             let CaptureOutput { path, vars, aliases, functions, env_names } = parse_capture_output(&out.stdout, ctx.shell.name());
@@ -252,23 +293,64 @@ pub fn capture_shell(ctx: &SystemContext) -> ShellCapture {
             if path.entries.is_empty() {
                 return fallback("login shell did not report a PATH; using the process PATH".into());
             }
-            if !out.stderr.trim().is_empty() {
-                let first = out.stderr.lines().find(|l| !l.trim().is_empty()).unwrap_or("").to_string();
-                warnings.push(format!("shell startup printed to stderr: {}", crate::redact::redact_text(&first)));
+            let stderr_lines = collect_stderr_lines(&out.stderr);
+            if let Some(first) = stderr_lines.first() {
+                warnings.push(format!("shell startup printed to stderr: {first}"));
             }
             let mut all_vars = seed_vars_from_env(ctx);
             all_vars.extend(vars);
-            ShellCapture { path, aliases, functions, vars: all_vars, env_names, duration_ms: start.elapsed().as_millis() as u64, warnings }
+            ShellCapture {
+                path,
+                aliases,
+                functions,
+                vars: all_vars,
+                env_names,
+                duration_ms: start.elapsed().as_millis() as u64,
+                warnings,
+                stderr_lines,
+            }
         }
         Ok(_) => fallback(format!("login shell timed out after {} ms; using the process PATH", ctx.options.shell_timeout_ms)),
         Err(e) => fallback(format!("could not run the login shell: {e}")),
     }
 }
 
+/// Reads the PATH a new Windows terminal receives: the machine value then the user value, as
+/// stored in the registry (expanded). Runs Windows PowerShell without a profile.
+pub fn capture_registry_path(ctx: &SystemContext) -> std::result::Result<EffectivePath, String> {
+    const MARK: &str = "__DD_PATH__=";
+    let script = format!(
+        "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; \
+         $m = [Environment]::GetEnvironmentVariable('Path', 'Machine'); \
+         $u = [Environment]::GetEnvironmentVariable('Path', 'User'); \
+         Write-Output ('{MARK}' + (@($m, $u) | Where-Object {{ $_ }} | ForEach-Object {{ $_.Trim(';') }}) -join ';')"
+    );
+    let spec = CommandSpec::new(crate::sys::default_shell_path().to_string_lossy().into_owned())
+        .args(["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-Command", &script])
+        .timeout_ms(ctx.options.shell_timeout_ms);
+    let out = ctx.run(&spec).map_err(|e| e.to_string())?;
+    if out.timed_out {
+        return Err(format!("PowerShell timed out after {} ms", ctx.options.shell_timeout_ms));
+    }
+    let line = out.stdout.lines().rev().find_map(|l| l.strip_prefix(MARK)).ok_or_else(|| {
+        let err = out.stderr.lines().next().unwrap_or("no output").trim().to_string();
+        format!("PowerShell did not report a PATH: {err}")
+    })?;
+    let path = EffectivePath::parse(line.trim(), PathSource::Registry);
+    if path.entries.is_empty() {
+        return Err("the registry PATH is empty".into());
+    }
+    Ok(path)
+}
+
 /// System PATH entries with the file that declares them (`/etc/paths`, `/etc/paths.d/<name>`
-/// or `launchd` for the built-in defaults).
+/// or `launchd` for the built-in defaults). Empty on Windows, where the system PATH lives in
+/// the registry and is already part of the capture.
 pub fn system_path_sources() -> Vec<(String, String)> {
     let mut entries: Vec<(String, String)> = Vec::new();
+    if cfg!(windows) {
+        return entries;
+    }
     let mut push = |e: &str, source: &str| {
         let e = e.trim();
         if !e.is_empty() && !entries.iter().any(|(x, _)| x == e) {
@@ -294,9 +376,12 @@ pub fn system_path_sources() -> Vec<(String, String)> {
 }
 
 /// PATH before any user file runs on macOS: `/etc/paths` and `/etc/paths.d/*` as assembled by
-/// `path_helper`, followed by the launchd defaults not already present.
+/// `path_helper`, followed by the launchd defaults not already present. Empty on Windows.
 pub fn system_path_entries() -> Vec<String> {
     let mut entries: Vec<String> = Vec::new();
+    if cfg!(windows) {
+        return entries;
+    }
     let mut push = |e: &str| {
         let e = e.trim();
         if !e.is_empty() && !entries.iter().any(|x| x == e) {
@@ -561,13 +646,6 @@ fn count_executables(dir: &Path) -> Option<u32> {
     Some(n)
 }
 
-fn is_writable(dir: &Path) -> Option<bool> {
-    let c = std::ffi::CString::new(dir.as_os_str().as_encoded_bytes()).ok()?;
-    // SAFETY: access(2) with a valid NUL-terminated path; no memory is retained.
-    let rc = unsafe { libc::access(c.as_ptr(), libc::W_OK) };
-    Some(rc == 0)
-}
-
 fn opaque_hint(key: &str, ctx: &SystemContext) -> Option<String> {
     let analysis = ctx.shell_analysis();
     let home = ctx.home.to_string_lossy().into_owned();
@@ -649,15 +727,15 @@ pub fn build_path_report(ctx: &SystemContext) -> PathReport {
         let origin = if raw.is_empty() { PathOrigin::Unknown } else { classify_origin(&dir, &ctx.home, brew_prefix.as_deref()) };
         let suspicious = if raw.is_empty() {
             Some("empty entry: the current directory is searched for commands".to_string())
-        } else if !raw.starts_with('/') && !raw.starts_with('~') {
+        } else if !crate::sys::is_absolute_entry(raw) {
             Some("relative entry: resolves differently depending on the current directory".to_string())
         } else if !exists {
             None
         } else if !is_dir {
             Some("not a directory".to_string())
         } else {
-            let mode = meta.as_ref().map(|m| std::os::unix::fs::PermissionsExt::mode(&m.permissions())).unwrap_or(0);
-            if mode & 0o002 != 0 && !key.starts_with("/private/tmp") {
+            let world_writable = meta.as_ref().is_some_and(crate::sys::is_world_writable);
+            if world_writable && !key.starts_with("/private/tmp") {
                 Some("world-writable directory in PATH".to_string())
             } else {
                 None
@@ -671,7 +749,7 @@ pub fn build_path_report(ctx: &SystemContext) -> PathReport {
             is_duplicate: duplicate_of.is_some(),
             duplicate_of,
             executables: if is_dir { count_executables(&dir) } else { None },
-            writable: if exists { is_writable(&dir) } else { None },
+            writable: if exists { fs_util::is_writable(&dir) } else { None },
             origin,
             origin_label: origin.label().to_string(),
             sources,
@@ -720,6 +798,17 @@ mod tests {
         assert_eq!(classify_origin(Path::new("/Users/me/.local/bin"), home, Some(brew)), PathOrigin::UserLocalBin);
         assert_eq!(classify_origin(Path::new("/Users/me/bin"), home, Some(brew)), PathOrigin::Manual);
         assert_eq!(classify_origin(Path::new("/Users/me/.pyenv/shims"), home, Some(brew)), PathOrigin::Pyenv);
+    }
+
+    #[test]
+    fn stderr_lines_are_trimmed_redacted_and_capped() {
+        let text = "\n/Users/me/.zshrc:12: command not found: pyenv\n  \nexport TOKEN=abc123\n";
+        let lines = collect_stderr_lines(text);
+        assert_eq!(lines.len(), 2);
+        assert_eq!(lines[0], "/Users/me/.zshrc:12: command not found: pyenv");
+        assert!(!lines[1].contains("abc123"));
+        let many: String = (0..100).map(|i| format!("line {i}\n")).collect();
+        assert_eq!(collect_stderr_lines(&many).len(), MAX_STDERR_LINES);
     }
 
     #[test]

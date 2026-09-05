@@ -36,7 +36,10 @@ struct ToolSpec {
     id: &'static str,
     name: &'static str,
     binaries: &'static [&'static str],
+    /// macOS application bundles.
     apps: &'static [&'static str],
+    /// Windows executables; `%VAR%` references are expanded from the environment.
+    win_apps: &'static [&'static str],
     configs: &'static [&'static str],
     data: &'static [&'static str],
 }
@@ -47,6 +50,7 @@ const TOOLS: &[ToolSpec] = &[
         name: "Claude Code",
         binaries: &["claude"],
         apps: &[],
+        win_apps: &[],
         configs: &["~/.claude.json", "~/.claude/settings.json", "~/.claude/CLAUDE.md"],
         data: &["~/.claude"],
     },
@@ -55,6 +59,7 @@ const TOOLS: &[ToolSpec] = &[
         name: "OpenAI Codex CLI",
         binaries: &["codex"],
         apps: &[],
+        win_apps: &[],
         configs: &["~/.codex/config.toml", "~/.codex/config.json"],
         data: &["~/.codex"],
     },
@@ -63,6 +68,7 @@ const TOOLS: &[ToolSpec] = &[
         name: "Gemini CLI",
         binaries: &["gemini"],
         apps: &[],
+        win_apps: &[],
         configs: &["~/.gemini/settings.json"],
         data: &["~/.gemini"],
     },
@@ -71,15 +77,25 @@ const TOOLS: &[ToolSpec] = &[
         name: "OpenCode",
         binaries: &["opencode"],
         apps: &[],
+        win_apps: &[],
         configs: &["~/.config/opencode"],
         data: &["~/.local/share/opencode", "~/.opencode"],
     },
-    ToolSpec { id: "aider", name: "Aider", binaries: &["aider"], apps: &[], configs: &["~/.aider.conf.yml"], data: &["~/.aider"] },
+    ToolSpec {
+        id: "aider",
+        name: "Aider",
+        binaries: &["aider"],
+        apps: &[],
+        win_apps: &[],
+        configs: &["~/.aider.conf.yml"],
+        data: &["~/.aider"],
+    },
     ToolSpec {
         id: "ollama",
         name: "Ollama",
         binaries: &["ollama"],
         apps: &["/Applications/Ollama.app"],
+        win_apps: &["%LOCALAPPDATA%\\Programs\\Ollama\\ollama app.exe", "%LOCALAPPDATA%\\Programs\\Ollama\\ollama.exe"],
         configs: &[],
         data: &["~/.ollama"],
     },
@@ -88,6 +104,7 @@ const TOOLS: &[ToolSpec] = &[
         name: "Docker",
         binaries: &["docker"],
         apps: &["/Applications/Docker.app", "/Applications/OrbStack.app"],
+        win_apps: &["%ProgramFiles%\\Docker\\Docker\\Docker Desktop.exe"],
         configs: &["~/.docker/config.json", "~/.docker/daemon.json"],
         data: &["~/Library/Containers/com.docker.docker", "~/.orbstack"],
     },
@@ -96,6 +113,7 @@ const TOOLS: &[ToolSpec] = &[
         name: "Visual Studio Code",
         binaries: &["code"],
         apps: &["/Applications/Visual Studio Code.app"],
+        win_apps: &["%LOCALAPPDATA%\\Programs\\Microsoft VS Code\\Code.exe", "%ProgramFiles%\\Microsoft VS Code\\Code.exe"],
         configs: &["~/Library/Application Support/Code/User/settings.json"],
         data: &["~/.vscode/extensions"],
     },
@@ -104,6 +122,7 @@ const TOOLS: &[ToolSpec] = &[
         name: "Cursor",
         binaries: &["cursor"],
         apps: &["/Applications/Cursor.app"],
+        win_apps: &["%LOCALAPPDATA%\\Programs\\cursor\\Cursor.exe"],
         configs: &["~/Library/Application Support/Cursor/User/settings.json"],
         data: &["~/.cursor/extensions"],
     },
@@ -112,22 +131,69 @@ const TOOLS: &[ToolSpec] = &[
         name: "Git",
         binaries: &["git"],
         apps: &[],
+        win_apps: &[],
         configs: &["~/.gitconfig", "~/.config/git/config", "~/.gitignore_global"],
         data: &[],
     },
-    ToolSpec { id: "gh", name: "GitHub CLI", binaries: &["gh"], apps: &[], configs: &["~/.config/gh/config.yml"], data: &["~/.config/gh"] },
+    ToolSpec {
+        id: "gh",
+        name: "GitHub CLI",
+        binaries: &["gh"],
+        apps: &[],
+        win_apps: &[],
+        configs: &["~/.config/gh/config.yml"],
+        data: &["~/.config/gh"],
+    },
 ];
 
 fn expand(p: &str, home: &Path) -> PathBuf {
     fs_util::expand_home(p, home)
 }
 
+/// Expands `%VAR%` references from the DevDoctor environment (Windows application paths).
+fn expand_percent(raw: &str, ctx: &SystemContext) -> PathBuf {
+    let mut out = String::new();
+    let mut rest = raw;
+    while let Some(start) = rest.find('%') {
+        out.push_str(&rest[..start]);
+        let after = &rest[start + 1..];
+        match after.find('%') {
+            Some(end) => {
+                let var = &after[..end];
+                match ctx.env.get(var) {
+                    Some(v) => out.push_str(v),
+                    None => out.push_str(&format!("%{var}%")),
+                }
+                rest = &after[end + 1..];
+            }
+            None => {
+                out.push_str(&rest[start..]);
+                rest = "";
+            }
+        }
+    }
+    out.push_str(rest);
+    PathBuf::from(out)
+}
+
 fn install_method(ctx: &SystemContext, binary: &Path) -> String {
     let real = std::fs::canonicalize(binary).unwrap_or(binary.to_path_buf());
     let origin = classify_origin(&real, &ctx.home, ctx.brew_prefix().as_deref());
-    let s = real.to_string_lossy();
-    if s.contains("/lib/node_modules/") || s.contains("/.npm-global/") {
+    let s = real.to_string_lossy().replace('\\', "/");
+    if s.contains("/lib/node_modules/") || s.contains("/.npm-global/") || s.contains("/AppData/Roaming/npm/") {
         return "npm global package".into();
+    }
+    if s.contains("/scoop/apps/") || s.contains("/scoop/shims/") {
+        return "Scoop".into();
+    }
+    if s.to_ascii_lowercase().contains("/chocolatey/") {
+        return "Chocolatey".into();
+    }
+    if s.contains("/Microsoft/WindowsApps/") {
+        return "Microsoft Store / app execution alias".into();
+    }
+    if s.contains("/AppData/Local/Programs/") || s.contains("/Program Files") {
+        return "installer".into();
     }
     if s.contains("/.local/share/uv/tools/") {
         return "uv tool".into();
@@ -156,7 +222,11 @@ pub fn inventory(ctx: &SystemContext, with_sizes: bool) -> Vec<DevTool> {
         .iter()
         .map(|spec| {
             let binary = spec.binaries.iter().find_map(|b| resolve_command(ctx, b, false).ok().and_then(|r| r.active).map(|e| e.path));
-            let app_bundle = spec.apps.iter().map(PathBuf::from).find(|p| p.exists());
+            let app_bundle = if cfg!(windows) {
+                spec.win_apps.iter().map(|a| expand_percent(a, ctx)).find(|p| p.exists())
+            } else {
+                spec.apps.iter().map(PathBuf::from).find(|p| p.exists())
+            };
             let config_paths: Vec<PathBuf> = spec.configs.iter().map(|c| expand(c, home)).filter(|p| p.exists()).collect();
             let data_paths: Vec<PathBuf> = spec.data.iter().map(|c| expand(c, home)).filter(|p| p.exists()).collect();
             let installed = binary.is_some() || app_bundle.is_some();
@@ -227,19 +297,27 @@ fn count_entries(dir: &Path, skip: &[&str]) -> Option<usize> {
 /// Global npm package directory for the active npm (honours `prefix` in ~/.npmrc).
 pub fn npm_global_dir(ctx: &SystemContext, npm_binary: &Path) -> Option<PathBuf> {
     if let Some(p) = ctx.env.get("NPM_CONFIG_PREFIX") {
-        return Some(PathBuf::from(p).join("lib/node_modules"));
+        return Some(node::global_node_modules(Path::new(p)));
     }
     if let Ok(Some(rc)) = fs_util::read_to_string_opt(&ctx.home.join(".npmrc")) {
         for line in rc.lines() {
             if let Some(v) = line.trim().strip_prefix("prefix") {
                 let v = v.trim_start_matches([' ', '=']).trim();
                 if !v.is_empty() {
-                    return Some(fs_util::expand_home(v, &ctx.home).join("lib/node_modules"));
+                    return Some(node::global_node_modules(&fs_util::expand_home(v, &ctx.home)));
                 }
             }
         }
     }
-    node::npm_owner_prefix(npm_binary).map(|p| p.join("lib/node_modules"))
+    if cfg!(windows) {
+        if let Some(appdata) = ctx.env.get("APPDATA") {
+            let roaming = Path::new(appdata).join("npm").join("node_modules");
+            if roaming.exists() {
+                return Some(roaming);
+            }
+        }
+    }
+    node::npm_owner_prefix(npm_binary).map(|p| node::global_node_modules(&p))
 }
 
 pub fn package_managers(ctx: &SystemContext, with_sizes: bool) -> Vec<PackageManager> {
@@ -248,6 +326,9 @@ pub fn package_managers(ctx: &SystemContext, with_sizes: bool) -> Vec<PackageMan
     let mut out = Vec::new();
 
     let brew = homebrew::inventory(ctx, homebrew::HomebrewOptions { with_version: true, with_cache_size: false, with_doctor: false });
+    if cfg!(windows) {
+        out.extend(windows_package_managers(ctx, with_sizes));
+    }
     out.push(PackageManager {
         id: "homebrew".into(),
         name: "Homebrew".into(),
@@ -263,7 +344,7 @@ pub fn package_managers(ctx: &SystemContext, with_sizes: bool) -> Vec<PackageMan
 
     let npm = resolve_command(ctx, "npm", true).ok().and_then(|r| r.active);
     let npm_dir = npm.as_ref().and_then(|e| npm_global_dir(ctx, &e.path));
-    let npm_cache = home.join(".npm/_cacache");
+    let npm_cache = super::storage::npm_cache_dir(ctx);
     out.push(PackageManager {
         id: "npm".into(),
         name: "npm".into(),
@@ -278,7 +359,13 @@ pub fn package_managers(ctx: &SystemContext, with_sizes: bool) -> Vec<PackageMan
     });
 
     let pnpm = resolve_command(ctx, "pnpm", true).ok().and_then(|r| r.active);
-    let pnpm_home = ctx.shell_capture().vars.get("PNPM_HOME").map(PathBuf::from).unwrap_or_else(|| home.join("Library/pnpm"));
+    let pnpm_home = ctx
+        .shell_capture()
+        .vars
+        .get("PNPM_HOME")
+        .map(PathBuf::from)
+        .or_else(|| crate::sys::local_app_data().map(|l| l.join("pnpm")))
+        .unwrap_or_else(|| home.join("Library/pnpm"));
     let pnpm_store =
         [pnpm_home.join("store"), home.join("Library/pnpm/store"), home.join(".local/share/pnpm/store"), home.join(".pnpm-store")]
             .into_iter()
@@ -297,8 +384,14 @@ pub fn package_managers(ctx: &SystemContext, with_sizes: bool) -> Vec<PackageMan
     });
 
     let yarn = resolve_command(ctx, "yarn", true).ok().and_then(|r| r.active);
-    let yarn_cache =
-        [home.join("Library/Caches/Yarn"), home.join(".yarn/berry/cache"), home.join(".cache/yarn")].into_iter().find(|p| p.exists());
+    let yarn_cache = [
+        home.join("Library/Caches/Yarn"),
+        crate::sys::local_app_data().map(|l| l.join("Yarn").join("Cache")).unwrap_or_else(|| home.join(".cache/yarn")),
+        home.join(".yarn/berry/cache"),
+        home.join(".cache/yarn"),
+    ]
+    .into_iter()
+    .find(|p| p.exists());
     out.push(PackageManager {
         id: "yarn".into(),
         name: "Yarn".into(),
@@ -322,10 +415,7 @@ pub fn package_managers(ctx: &SystemContext, with_sizes: bool) -> Vec<PackageMan
             .find(|d| d.file_name().is_some_and(|n| n.to_string_lossy().starts_with("python3")))
             .map(|d| d.join("site-packages"))
     });
-    let pip_cache = [home.join("Library/Caches/pip"), home.join(".cache/pip")]
-        .into_iter()
-        .find(|p| p.exists())
-        .unwrap_or_else(|| home.join("Library/Caches/pip"));
+    let pip_cache = super::storage::pip_cache_dir(ctx);
     out.push(PackageManager {
         id: "pip".into(),
         name: "pip".into(),
@@ -363,7 +453,7 @@ pub fn package_managers(ctx: &SystemContext, with_sizes: bool) -> Vec<PackageMan
     });
 
     let uv = resolve_command(ctx, "uv", true).ok().and_then(|r| r.active);
-    let uv_cache = [home.join("Library/Caches/uv"), home.join(".cache/uv")].into_iter().find(|p| p.exists());
+    let uv_cache = super::storage::uv_cache_candidates(ctx).into_iter().find(|p| p.exists());
     let uv_tools = home.join(".local/share/uv/tools");
     out.push(PackageManager {
         id: "uv".into(),
@@ -411,5 +501,64 @@ pub fn package_managers(ctx: &SystemContext, with_sizes: bool) -> Vec<PackageMan
         notes: vec!["Package count covers user-installed gems under ~/.gem only.".into()],
     });
 
+    out
+}
+
+/// winget, Scoop and Chocolatey (Windows only; the functions compile everywhere so the
+/// inventory stays testable on every OS).
+fn windows_package_managers(ctx: &SystemContext, with_sizes: bool) -> Vec<PackageManager> {
+    let home = &ctx.home;
+    let size = |p: &Path| if with_sizes && p.exists() { Some(fs_util::dir_size(p).allocated) } else { None };
+    let mut out = Vec::new();
+
+    let winget = resolve_command(ctx, "winget", true).ok().and_then(|r| r.active);
+    out.push(PackageManager {
+        id: "winget".into(),
+        name: "winget".into(),
+        installed: winget.is_some(),
+        version: winget.as_ref().and_then(|e| e.version.clone()),
+        binary: winget.as_ref().map(|e| e.path.clone()),
+        location: None,
+        package_count: None,
+        cache_path: None,
+        cache_size: None,
+        notes: vec!["Windows Package Manager (App Installer).".into()],
+    });
+
+    let scoop_root = ctx.env.get("SCOOP").map(PathBuf::from).unwrap_or_else(|| home.join("scoop"));
+    let scoop = resolve_command(ctx, "scoop", true).ok().and_then(|r| r.active);
+    let scoop_cache = scoop_root.join("cache");
+    out.push(PackageManager {
+        id: "scoop".into(),
+        name: "Scoop".into(),
+        installed: scoop.is_some() || scoop_root.join("apps").is_dir(),
+        version: scoop.as_ref().and_then(|e| e.version.clone()),
+        binary: scoop.as_ref().map(|e| e.path.clone()),
+        package_count: count_entries(&scoop_root.join("apps"), &["scoop"]),
+        location: if scoop_root.exists() { Some(scoop_root.clone()) } else { None },
+        cache_size: size(&scoop_cache),
+        cache_path: if scoop_cache.exists() { Some(scoop_cache) } else { None },
+        notes: Vec::new(),
+    });
+
+    let choco_root = ctx
+        .env
+        .get("ChocolateyInstall")
+        .map(PathBuf::from)
+        .or_else(|| ctx.env.get("ProgramData").map(|p| PathBuf::from(p).join("chocolatey")))
+        .unwrap_or_else(|| PathBuf::from(r"C:\ProgramData\chocolatey"));
+    let choco = resolve_command(ctx, "choco", true).ok().and_then(|r| r.active);
+    out.push(PackageManager {
+        id: "chocolatey".into(),
+        name: "Chocolatey".into(),
+        installed: choco.is_some() || choco_root.join("lib").is_dir(),
+        version: choco.as_ref().and_then(|e| e.version.clone()),
+        binary: choco.as_ref().map(|e| e.path.clone()),
+        package_count: count_entries(&choco_root.join("lib"), &["chocolatey"]),
+        location: if choco_root.exists() { Some(choco_root.clone()) } else { None },
+        cache_path: None,
+        cache_size: None,
+        notes: Vec::new(),
+    });
     out
 }

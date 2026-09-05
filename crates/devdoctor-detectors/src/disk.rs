@@ -110,7 +110,7 @@ impl Detector for NpmCacheDetector {
     }
 
     fn scan(&self, ctx: &SystemContext) -> Result<Vec<Issue>> {
-        let path = ctx.home.join(".npm/_cacache");
+        let path = devdoctor_core::inventory::storage::npm_cache_dir(ctx);
         Ok(cache_issue(
             ctx,
             NPM_ID,
@@ -139,10 +139,7 @@ impl Detector for PipCacheDetector {
     }
 
     fn scan(&self, ctx: &SystemContext) -> Result<Vec<Issue>> {
-        let path: PathBuf = [ctx.home.join("Library/Caches/pip"), ctx.home.join(".cache/pip")]
-            .into_iter()
-            .find(|p| p.exists())
-            .unwrap_or_else(|| ctx.home.join("Library/Caches/pip"));
+        let path: PathBuf = devdoctor_core::inventory::storage::pip_cache_dir(ctx);
         Ok(cache_issue(
             ctx,
             PIP_ID,
@@ -227,10 +224,7 @@ impl Detector for UvCacheDetector {
     }
 
     fn scan(&self, ctx: &SystemContext) -> Result<Vec<Issue>> {
-        let path: PathBuf = [ctx.home.join("Library/Caches/uv"), ctx.home.join(".cache/uv")]
-            .into_iter()
-            .find(|p| p.exists())
-            .unwrap_or_else(|| ctx.home.join(".cache/uv"));
+        let path: PathBuf = devdoctor_core::inventory::storage::uv_cache_dir(ctx);
         Ok(cache_issue(
             ctx,
             UV_ID,

@@ -5,7 +5,6 @@ use super::path_model::{extract_path_mutation, PathMutation};
 use crate::fs_util;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
-use std::os::unix::fs::MetadataExt;
 use std::path::{Path, PathBuf};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -15,6 +14,9 @@ pub enum ShellKind {
     Bash,
     Fish,
     Sh,
+    /// Windows PowerShell or PowerShell 7. Its profiles are not POSIX scripts, so DevDoctor
+    /// does not parse them; PATH comes from the registry instead of a login shell.
+    PowerShell,
     Other,
 }
 
@@ -25,6 +27,7 @@ impl ShellKind {
             "bash" => ShellKind::Bash,
             "fish" => ShellKind::Fish,
             "sh" | "dash" => ShellKind::Sh,
+            "powershell" | "powershell.exe" | "pwsh" | "pwsh.exe" => ShellKind::PowerShell,
             _ => ShellKind::Other,
         }
     }
@@ -35,6 +38,7 @@ impl ShellKind {
             ShellKind::Bash => "bash",
             ShellKind::Fish => "fish",
             ShellKind::Sh => "sh",
+            ShellKind::PowerShell => "powershell",
             ShellKind::Other => "unknown",
         }
     }
@@ -55,6 +59,7 @@ pub fn startup_files(shell: ShellKind, home: &Path) -> Vec<(PathBuf, &'static st
             (home.join(".profile"), "profile"),
             (home.join(".bashrc"), "rc"),
         ],
+        ShellKind::PowerShell => Vec::new(),
         _ => vec![(home.join(".profile"), "profile")],
     }
 }
@@ -257,7 +262,13 @@ pub fn analyze_contents(
             Some(c) => {
                 let parsed = parse_shell_file(&path, c);
                 let meta = std::fs::symlink_metadata(&path).ok();
-                (parsed.statements, parsed.warnings, Some(crate::ids::sha256_hex(c.as_bytes())), c.len() as u64, meta.map(|m| m.mtime()))
+                (
+                    parsed.statements,
+                    parsed.warnings,
+                    Some(crate::ids::sha256_hex(c.as_bytes())),
+                    c.len() as u64,
+                    meta.map(|m| crate::sys::mtime_secs(&m)),
+                )
             }
             None => (Vec::new(), Vec::new(), None, 0, None),
         };

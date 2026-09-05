@@ -12,6 +12,7 @@ function describe(op: Operation, home: string): string {
     case "dir_delete": return `Deleted ${shortenHome(op.path, home)} (${formatBytes(op.bytes)})`;
     case "process_stop": return `Stopped ${op.name} (pid ${op.pid})${op.force ? " forcefully" : ""}`;
     case "command": return `Ran ${op.program} ${op.args.join(" ")} (exit ${op.exit_code ?? "?"})`;
+    case "symlink_delete": return `Removed broken link ${shortenHome(op.path, home)} (pointed to ${shortenHome(op.target, home)})`;
   }
 }
 
@@ -21,7 +22,7 @@ export function TransactionView({ tx, onChanged }: { tx: Transaction; onChanged?
   const [confirm, setConfirm] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const reversible = tx.operations.length > 0 && tx.operations.every((o) => o.kind === "file_write" || o.kind === "file_delete");
+  const reversible = tx.operations.length > 0 && tx.operations.every((o) => o.kind === "file_write" || o.kind === "file_delete" || o.kind === "symlink_delete");
   const canRollback = tx.status === "applied" && reversible;
   const rollback = async () => {
     setBusy(true);
@@ -51,8 +52,9 @@ export function TransactionView({ tx, onChanged }: { tx: Transaction; onChanged?
       {canRollback && <Button size="small" icon="undo" onClick={() => setConfirm(true)}>Undo this fix</Button>}
       {confirm && (
         <ConfirmDialog title="Undo this fix?" confirmLabel="Restore files" busy={busy} onConfirm={rollback} onCancel={() => setConfirm(false)}>
-          <p>DevDoctor puts back the {tx.backups.length} file(s) it saved before this fix:</p>
-          <ul className="section-list">{tx.backups.map((b) => <li key={b.id} className="mono">{shortenHome(b.original_path, home)}</li>)}</ul>
+          {tx.backups.length > 0 && <><p>DevDoctor puts back the {tx.backups.length} file(s) it saved before this fix:</p>
+          <ul className="section-list">{tx.backups.map((b) => <li key={b.id} className="mono">{shortenHome(b.original_path, home)}</li>)}</ul></>}
+          {tx.operations.some((o) => o.kind === "symlink_delete") && <p>The removed links are recreated with their original targets.</p>}
           <p className="muted small">If a file changed after the fix, the restore is refused to protect your edits; the CLI can force it with <span className="inline-code">devdoctor rollback {tx.id} --force</span>.</p>
         </ConfirmDialog>
       )}

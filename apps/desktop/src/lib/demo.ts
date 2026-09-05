@@ -26,9 +26,13 @@ import detectors from "../demo/detectors.json";
 import settings from "../demo/settings.json";
 import resolve from "../demo/resolve.json";
 import previews from "../demo/previews.json";
+import startup from "../demo/startup.json";
+import runs from "../demo/runs.json";
+import schedule from "../demo/schedule.json";
 import type { DetectorRun, IssueRecord, Transaction } from "./types";
 
 const state = {
+  schedule: JSON.parse(JSON.stringify(schedule)) as { installed: boolean; loaded: boolean; hour?: number; minute?: number; [k: string]: unknown },
   issues: issues as unknown as IssueRecord[],
   transactions: transactions as unknown as Transaction[],
   settings: { ...(settings as Record<string, unknown>) },
@@ -165,6 +169,14 @@ export async function mockInvoke<T>(cmd: string, args: Record<string, unknown> =
     case "get_detectors": return r(detectors);
     case "reveal_path": return r(null);
     case "set_window_theme": return r(null);
+    case "export_markdown_report": return r("## DevDoctor report\n\n_Demo mode: the Markdown report is generated from live data inside the app._\n");
+    case "get_startup_profile": await sleep(700); return r(startup);
+    case "list_runs": return r(runs);
+    case "get_snapshot_schedule": return r(state.schedule);
+    case "preview_schedule_snapshots": return r({ fixer_id: "schedule.snapshot_agent.install", issue_id: "demo", title: `Take a snapshot every day at ${String(args.hour).padStart(2, "0")}:00`, summary: "macOS will run `devdoctor snapshot create` every day (or as soon as the Mac wakes up afterwards), so \"what changed since yesterday\" always has a reference point.", operations: ["Create ~/Library/LaunchAgents/dev.devdoctor.snapshot.plist", "launchctl bootstrap gui/501 ~/Library/LaunchAgents/dev.devdoctor.snapshot.plist"], files_modified: [], files_deleted: [], directories_deleted: [], commands_executed: [], processes_stopped: [], services_stopped: [], estimated_disk_space_recovered: 0, backup_created: false, risk: "low", reversible: false, requires_confirmation: true, batch_safe: false, notes: ["Remove it at any time with `devdoctor snapshot unschedule` (or this switch)."], validations: ["launchd reports dev.devdoctor.snapshot as loaded."] });
+    case "schedule_snapshots": await sleep(400); state.schedule = { ...state.schedule, installed: true, loaded: true, hour: Number(args.hour), minute: Number(args.minute) }; return r(fakeTransaction("demo", "Take a snapshot every day", false));
+    case "preview_unschedule_snapshots": return r({ fixer_id: "schedule.snapshot_agent.remove", issue_id: "demo", title: "Stop taking daily snapshots", summary: "Unloads the DevDoctor agent from launchd and removes its file. Snapshots already taken are kept.", operations: ["launchctl bootout gui/501/dev.devdoctor.snapshot", "Delete ~/Library/LaunchAgents/dev.devdoctor.snapshot.plist"], files_modified: [], files_deleted: ["~/Library/LaunchAgents/dev.devdoctor.snapshot.plist"], directories_deleted: [], commands_executed: [], processes_stopped: [], services_stopped: [], estimated_disk_space_recovered: 0, backup_created: true, risk: "low", reversible: false, requires_confirmation: true, batch_safe: false, notes: [], validations: ["launchd no longer lists the agent and the file is gone."] });
+    case "unschedule_snapshots": await sleep(400); state.schedule = { ...state.schedule, installed: false, loaded: false }; return r(fakeTransaction("demo", "Stop taking daily snapshots", false));
     case "export_report": return r({ generated_at: new Date().toISOString(), devdoctor_version: "0.1.0", sanitized: true, included: ["system information", "last scan results", "PATH", "shell startup files", "runtimes and tools", "startup services"], system, last_scan: state.report, path, shell, runtimes, packages, tools, services });
     default: throw new Error(`demo mode: unknown command ${cmd}`);
   }

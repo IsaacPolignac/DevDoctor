@@ -35,6 +35,14 @@
     {
       "category": "shell",
       "duration_ms": 0,
+      "id": "shell.path.dangling_symlinks",
+      "issues": 0,
+      "name": "Broken command links in PATH",
+      "status": "ok"
+    },
+    {
+      "category": "shell",
+      "duration_ms": 0,
       "id": "shell.source.missing_file",
       "issues": 0,
       "name": "Sourced files that do not exist",
@@ -73,8 +81,24 @@
       "status": "ok"
     },
     {
+      "category": "shell",
+      "duration_ms": 0,
+      "id": "shell.startup.errors",
+      "issues": 0,
+      "name": "Errors printed at terminal startup",
+      "status": "ok"
+    },
+    {
+      "category": "shell",
+      "duration_ms": 0,
+      "id": "shell.startup.slow",
+      "issues": 0,
+      "name": "Terminal startup time",
+      "status": "ok"
+    },
+    {
       "category": "runtimes",
-      "duration_ms": 220,
+      "duration_ms": 236,
       "id": "python.interpreter.multiple",
       "issues": 1,
       "name": "Python interpreters",
@@ -90,7 +114,7 @@
     },
     {
       "category": "runtimes",
-      "duration_ms": 62,
+      "duration_ms": 106,
       "id": "node.multiple_installations",
       "issues": 0,
       "name": "Node.js installations",
@@ -106,15 +130,23 @@
     },
     {
       "category": "runtimes",
-      "duration_ms": 0,
+      "duration_ms": 1,
       "id": "rust.cargo_bin.not_in_path",
       "issues": 1,
       "name": "Cargo bin directory in PATH",
       "status": "ok"
     },
     {
+      "category": "runtimes",
+      "duration_ms": 7,
+      "id": "macos.xcode_clt",
+      "issues": 0,
+      "name": "Xcode Command Line Tools",
+      "status": "ok"
+    },
+    {
       "category": "package_managers",
-      "duration_ms": 1,
+      "duration_ms": 3,
       "id": "homebrew.health",
       "issues": 0,
       "name": "Homebrew health",
@@ -122,7 +154,7 @@
     },
     {
       "category": "processes",
-      "duration_ms": 65,
+      "duration_ms": 114,
       "id": "process.dev.stale",
       "issues": 0,
       "name": "Stale development processes",
@@ -130,7 +162,7 @@
     },
     {
       "category": "ports",
-      "duration_ms": 57,
+      "duration_ms": 87,
       "id": "port.dev.occupied",
       "issues": 0,
       "name": "Occupied development ports",
@@ -138,7 +170,7 @@
     },
     {
       "category": "ssh",
-      "duration_ms": 11,
+      "duration_ms": 15,
       "id": "ssh.permissions",
       "issues": 0,
       "name": "SSH file permissions",
@@ -146,7 +178,7 @@
     },
     {
       "category": "ssh",
-      "duration_ms": 6,
+      "duration_ms": 13,
       "id": "ssh.config",
       "issues": 0,
       "name": "SSH configuration",
@@ -154,7 +186,7 @@
     },
     {
       "category": "git",
-      "duration_ms": 99,
+      "duration_ms": 189,
       "id": "git.identity",
       "issues": 0,
       "name": "Git identity and global config",
@@ -162,7 +194,7 @@
     },
     {
       "category": "services",
-      "duration_ms": 7,
+      "duration_ms": 9,
       "id": "service.brew.running",
       "issues": 0,
       "name": "Homebrew services",
@@ -170,7 +202,7 @@
     },
     {
       "category": "services",
-      "duration_ms": 7,
+      "duration_ms": 6,
       "id": "service.launchagent.broken",
       "issues": 0,
       "name": "Broken launch agents",
@@ -178,15 +210,15 @@
     }
   ],
   "detectors_failed": 0,
-  "detectors_run": 22,
-  "duration_ms": 555,
-  "finished_at": "2026-09-04T09:42:29.301854Z",
+  "detectors_run": 26,
+  "duration_ms": 808,
+  "finished_at": "2026-09-04T21:19:39.179414Z",
   "health": {
     "categories": [
       {
         "capped": false,
         "category": "shell",
-        "checks_run": 8,
+        "checks_run": 11,
         "issues": 1,
         "label": "Shell",
         "max_severity": "info",
@@ -197,7 +229,7 @@
       {
         "capped": false,
         "category": "runtimes",
-        "checks_run": 5,
+        "checks_run": 6,
         "issues": 2,
         "label": "Runtimes",
         "max_severity": "medium",
@@ -306,8 +338,8 @@
         "warnings": 0
       }
     ],
-    "checks_passed": 21,
-    "checks_total": 22,
+    "checks_passed": 25,
+    "checks_total": 26,
     "contributions": [
       {
         "category": "runtimes",
@@ -340,7 +372,7 @@
     "score": 94,
     "warnings": 0
   },
-  "id": "scan_24c5cce7e2b9",
+  "id": "scan_9f15a5428d98",
   "ignored": [],
   "issues": [
     {
@@ -352,7 +384,7 @@
       "batch_safe": false,
       "category": "runtimes",
       "confidence": "confirmed",
-      "created_at": "2026-09-04T09:42:29.044362Z",
+      "created_at": "2026-09-04T21:19:38.730624Z",
       "description": "rustup keeps its toolchains under ~/.rustup and its command shims under ~/.cargo/bin, but that directory is not part of the PATH of a fresh login shell. `cargo` and `rustc` are therefore not found.",
       "detector_id": "rust.cargo_bin.not_in_path",
       "evidence": [
@@ -393,7 +425,7 @@
       "batch_safe": false,
       "category": "shell",
       "confidence": "confirmed",
-      "created_at": "2026-09-04T09:42:28.760557Z",
+      "created_at": "2026-09-04T21:19:38.384169Z",
       "current_state": "PATH position 14: /pkg/env/global/bin",
       "description": "/etc/paths.d/10-pmk-global adds /pkg/env/global/bin to every user's PATH, but the directory does not exist. It was left behind by an installer whose package has since been removed.",
       "detector_id": "shell.path.missing_directory",
@@ -423,7 +455,7 @@
       "batch_safe": false,
       "category": "runtimes",
       "confidence": "confirmed",
-      "created_at": "2026-09-04T09:42:28.980742Z",
+      "created_at": "2026-09-04T21:19:38.621182Z",
       "description": "Python is installed through Homebrew, macOS / Command Line Tools, uv. Each installation has its own packages; which one runs depends on PATH order.",
       "detector_id": "python.interpreter.multiple",
       "evidence": [
@@ -468,6 +500,6 @@
     }
   ],
   "mode": "quick",
-  "started_at": "2026-09-04T09:42:28.746655Z",
+  "started_at": "2026-09-04T21:19:38.370775Z",
   "warnings": []
 }

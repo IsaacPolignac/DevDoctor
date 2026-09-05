@@ -68,7 +68,8 @@ export type Operation =
   | { kind: "file_delete"; path: string; backup_id: string }
   | { kind: "dir_delete"; path: string; bytes: number; entries: number }
   | { kind: "process_stop"; pid: number; name: string; force: boolean }
-  | { kind: "command"; program: string; args: string[]; exit_code?: number; description: string };
+  | { kind: "command"; program: string; args: string[]; exit_code?: number; description: string }
+  | { kind: "symlink_delete"; path: string; target: string };
 export interface BackupRecord { id: string; transaction_id?: string; original_path: string; stored_path: string; sha256: string; size: number; mode?: number; created_at: string }
 export interface Transaction {
   id: string; issue_id?: string; fixer_id: string; title: string; status: "pending" | "applied" | "failed" | "rolled_back" | "rollback_failed";
@@ -78,7 +79,7 @@ export interface Transaction {
 
 export interface IssueDetail { record: IssueRecord; fixer_name?: string; preview?: FixPreview; preview_error?: string; transactions: Transaction[] }
 
-export type PathSource = { kind: "login_shell"; shell: string } | { kind: "process_environment" } | { kind: "override" };
+export type PathSource = { kind: "login_shell"; shell: string } | { kind: "process_environment" } | { kind: "override" } | { kind: "registry" };
 export interface PathAttribution { file: string; line: number; statement: string; op: string; conditional: boolean }
 export interface PathEntry {
   position: number; raw: string; exists: boolean; is_dir: boolean; is_duplicate: boolean; duplicate_of?: number; executables?: number;
@@ -152,3 +153,25 @@ export interface Overview {
 export interface SearchResults { issues: Issue[]; commands: string[]; pages: { id: string; label: string }[]; ports: PortEntry[]; detectors: DetectorMeta[] }
 export interface DiagnosticReport { generated_at: string; devdoctor_version: string; sanitized: boolean; included: string[]; [key: string]: unknown }
 export interface BatchFixResult { issue_id: string; title: string; ok: boolean; transaction?: Transaction; error?: string }
+
+export type StartupRating = "fast" | "ok" | "slow" | "very_slow";
+export interface StartupHotspot { file: string; line: number; statement: string; inclusive_ms: number; share_percent: number; hint?: string }
+export interface StartupSource { name: string; display: string; kind: "file" | "function" | "eval"; self_ms: number; lines: number }
+export interface StartupProfile {
+  shell: string; measured_at: string; samples_ms: number[]; median_ms: number; min_ms: number; max_ms: number; rating: StartupRating;
+  traced: boolean; trace_total_ms?: number; trace_lines: number; hotspots: StartupHotspot[]; sources: StartupSource[]; stderr_lines: string[]; notes: string[];
+}
+
+export interface TrackedFileDiff { path: string; kind: "created" | "modified" | "deleted"; diff: string; lines_added: number; lines_removed: number }
+export interface DirectoryChanges { dir: string; added: string[]; removed: string[] }
+export interface VersionChange { command: string; before?: string; after?: string; path?: string }
+export interface SnapshotSchedule {
+  installed: boolean; loaded: boolean; plist_path: string; program?: string; program_exists: boolean; hour?: number; minute?: number;
+  last_run?: string; log_path: string; available_program?: string; notes: string[];
+}
+
+export interface RunRecord {
+  id: string; command: string[]; label: string; cwd?: string; started_at: string; finished_at: string; duration_ms: number; exit_code?: number;
+  before_snapshot_id: string; after_snapshot_id: string; diff: SnapshotDiff; file_diffs: TrackedFileDiff[]; directory_changes: DirectoryChanges[];
+  version_changes: VersionChange[]; headline: string[];
+}

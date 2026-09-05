@@ -2,6 +2,7 @@ import type { Overview } from "../lib/types";
 import { formatBytes } from "../lib/format";
 import { Icon, type IconName } from "./Icons";
 import { Logo } from "./Logo";
+import { Sparkline } from "./Basics";
 
 function Metric({ value, label, icon, tint }: { value: string; label: string; icon: IconName; tint?: string }) {
   return (
@@ -12,7 +13,7 @@ function Metric({ value, label, icon, tint }: { value: string; label: string; ic
   );
 }
 
-export function EnvironmentHeader({ overview, reclaimable }: { overview: Overview; reclaimable: number | null }) {
+export function EnvironmentHeader({ overview, reclaimable, trend = [] }: { overview: Overview; reclaimable: number | null; trend?: number[] }) {
   const h = overview.health;
   const sys = overview.system;
   const attention = overview.issues.problems;
@@ -38,6 +39,12 @@ export function EnvironmentHeader({ overview, reclaimable }: { overview: Overvie
         <Metric value={String(attention)} label="Need attention" icon="triangle" tint="var(--orange)" />
         <Metric value={String(recommendations)} label={recommendations === 1 ? "Recommendation" : "Recommendations"} icon="info" tint="var(--blue)" />
         <Metric value={reclaimable != null ? formatBytes(reclaimable) : "—"} label="Reclaimable" icon="internaldrive" />
+        {trend.length >= 2 && (
+          <div className="metric" title={`Health score of your last ${trend.length} checks: ${trend.join(" → ")}`}>
+            <div style={{ width: 84, height: 26, flex: "none" }}><Sparkline values={trend} /></div>
+            <div><div className="v">{trend[trend.length - 1]}{trend[trend.length - 1] > trend[0] ? " ↑" : trend[trend.length - 1] < trend[0] ? " ↓" : ""}</div><div className="l">Health, last {trend.length} checks</div></div>
+          </div>
+        )}
       </div>
     </div>
   );

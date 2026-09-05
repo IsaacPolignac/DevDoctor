@@ -1,0 +1,9 @@
+{
+  "installed": false,
+  "loaded": false,
+  "plist_path": "~/Library/LaunchAgents/dev.devdoctor.snapshot.plist",
+  "program_exists": false,
+  "log_path": "~/Library/Logs/DevDoctor/scheduled-snapshot.log",
+  "available_program": "~/.cargo/bin/devdoctor",
+  "notes": []
+}

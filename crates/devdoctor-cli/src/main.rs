@@ -4,13 +4,16 @@
 mod output;
 
 use chrono::{Duration, Utc};
-use clap::{Args, Parser, Subcommand};
+use clap::{Args, CommandFactory, Parser, Subcommand};
 use devdoctor::devdoctor_core::context::ContextOptions;
 use devdoctor::devdoctor_core::detector::ScanMode;
 use devdoctor::devdoctor_core::engine::{ScanProgress, ScanReport};
 use devdoctor::devdoctor_core::fixer::FixPreview;
 use devdoctor::devdoctor_core::issue::Severity;
 use devdoctor::devdoctor_core::paths::DevDoctorDirs;
+use devdoctor::devdoctor_core::snapshot::{ChangeKind, SnapshotDiff};
+use devdoctor::devdoctor_core::startup::StartupProfile;
+use devdoctor::devdoctor_core::tracking::{display_command, RunRecord};
 use devdoctor::devdoctor_core::transaction::Transaction;
 use devdoctor::devdoctor_core::units::format_age_secs;
 use devdoctor::{DevDoctor, OpenOptions};
@@ -30,7 +33,7 @@ struct Cli {
     /// Print machine-readable JSON instead of text.
     #[arg(long, global = true)]
     json: bool,
-    /// DevDoctor data directory (database, backups, logs). Defaults to ~/Library/Application Support/DevDoctor.
+    /// DevDoctor data directory (database, backups, logs). Defaults to ~/Library/Application Support/DevDoctor on macOS and %LOCALAPPDATA%\DevDoctor on Windows.
     #[arg(long, global = true, value_name = "DIR", env = "DEVDOCTOR_HOME")]
     data_dir: Option<PathBuf>,
     /// Do not start a login shell to capture PATH; use this process's PATH instead.
@@ -63,6 +66,9 @@ enum Command {
         /// Exit with status 2 when an issue of this severity or higher exists (info, low, medium, high, critical).
         #[arg(long, value_name = "SEVERITY")]
         fail_on: Option<String>,
+        /// Print one JSON object per progress event on stderr (used by the desktop app).
+        #[arg(long)]
+        progress: bool,
     },
     /// Quick scan with a health summary; exits 2 when problems are found.
     Doctor,
@@ -131,6 +137,13 @@ enum Command {
     },
     /// Local AI models and caches (Ollama, Hugging Face, MLX, LM Studio).
     Ai,
+    /// Node.js, Python and Rust installations, and whether node/npm and python/pip agree.
+    Runtimes,
+    /// Remove re-creatable developer data found by the last storage scan (preview, confirmation).
+    Clean {
+        #[command(subcommand)]
+        target: CleanCmd,
+    },
     /// Installed developer tools and how they were installed.
     Tools,
     /// Package managers and Homebrew inventory.
@@ -155,17 +168,81 @@ enum Command {
         #[arg(long)]
         to: Option<String>,
     },
-    /// Fix history (transactions) and past scans.
+    /// Fix history (transactions), recorded runs and past scans.
     History,
-    /// Export a sanitized diagnostic report as JSON.
-    Report,
+    /// Export a sanitized diagnostic report (JSON by default, or Markdown to paste in a bug report).
+    Report {
+        /// Print a Markdown summary instead of JSON.
+        #[arg(long)]
+        markdown: bool,
+    },
+    /// Run a command (an installer, `brew install`, `curl ... | sh`) and report exactly what it changed.
+    Run {
+        /// The command and its arguments. Put `--` before it if it starts with a dash.
+        #[arg(trailing_var_arg = true, allow_hyphen_values = true, required = true, num_args = 1..)]
+        command: Vec<String>,
+    },
+    /// Watch your environment live: prints every change as it happens (install things in
+    /// another terminal), and saves a summary when you press Ctrl-C.
+    Watch {
+        /// Seconds between two checks.
+        #[arg(long, default_value_t = 5)]
+        interval: u64,
+    },
+    /// Recorded runs (`devdoctor run`) and what each one changed.
+    Runs {
+        /// Show one run in detail (id or unique prefix).
+        id: Option<String>,
+    },
+    /// Measure terminal startup time and find the slow lines in your startup files.
+    Startup {
+        /// Number of complete shell starts to time.
+        #[arg(long, default_value_t = 3)]
+        samples: usize,
+        /// Skip the line-level trace (zsh only).
+        #[arg(long)]
+        no_trace: bool,
+    },
+    /// Print shell completions (zsh, bash, fish, elvish, powershell).
+    Completions { shell: clap_complete::Shell },
     /// List available detectors.
     Detectors,
+    /// Print the last scan report (used by the desktop app at launch).
+    #[command(hide = true)]
+    LastReport,
     /// Write sanitized JSON fixtures for the desktop UI's browser demo mode (development).
     #[command(hide = true)]
     DemoExport {
         /// Output directory (default: apps/desktop/src/demo).
         dir: Option<PathBuf>,
+    },
+}
+
+#[derive(Subcommand)]
+enum CleanCmd {
+    /// Delete a project's node_modules folder found by the last `devdoctor storage` scan.
+    NodeModules {
+        path: PathBuf,
+        #[arg(long)]
+        dry_run: bool,
+        #[command(flatten)]
+        confirm: Confirm,
+    },
+    /// Delete a Python virtual environment found by the last storage scan.
+    Venv {
+        path: PathBuf,
+        #[arg(long)]
+        dry_run: bool,
+        #[command(flatten)]
+        confirm: Confirm,
+    },
+    /// Remove an Ollama model with `ollama rm`.
+    OllamaModel {
+        name: String,
+        #[arg(long)]
+        dry_run: bool,
+        #[command(flatten)]
+        confirm: Confirm,
     },
 }
 
@@ -186,6 +263,27 @@ enum SnapshotCmd {
     },
     /// Show the items of a snapshot.
     Show { id: String },
+    /// Take a snapshot automatically every day (a user LaunchAgent; no sudo).
+    Schedule {
+        /// Hour of the day (0-23).
+        #[arg(long, default_value_t = 12)]
+        hour: u8,
+        /// Minute (0-59).
+        #[arg(long, default_value_t = 0)]
+        minute: u8,
+        /// Show what would be installed; change nothing.
+        #[arg(long)]
+        dry_run: bool,
+        #[command(flatten)]
+        confirm: Confirm,
+    },
+    /// Remove the daily snapshot agent.
+    Unschedule {
+        #[command(flatten)]
+        confirm: Confirm,
+    },
+    /// Whether daily snapshots are scheduled, and when they last ran.
+    Status,
 }
 
 fn main() -> ExitCode {
@@ -231,9 +329,14 @@ fn confirm(prompt: &str, yes: bool) -> Result<bool, devdoctor::devdoctor_core::E
 
 fn run(cli: Cli) -> Result<u8, devdoctor::devdoctor_core::Error> {
     let json = cli.json;
+    if let Command::Completions { shell } = &cli.command {
+        let mut cmd = Cli::command();
+        clap_complete::generate(*shell, &mut cmd, "devdoctor", &mut std::io::stdout());
+        return Ok(EXIT_OK);
+    }
     let app = open(&cli)?;
     match &cli.command {
-        Command::Scan { deep, storage, fail_on } => {
+        Command::Scan { deep, storage, fail_on, progress } => {
             let mode = if *deep {
                 ScanMode::Deep
             } else if *storage {
@@ -241,7 +344,7 @@ fn run(cli: Cli) -> Result<u8, devdoctor::devdoctor_core::Error> {
             } else {
                 ScanMode::Quick
             };
-            let report = run_scan(&app, mode, json)?;
+            let report = if *progress { run_scan_with_json_progress(&app, mode)? } else { run_scan(&app, mode, json)? };
             if json {
                 print_json(&report);
             } else {
@@ -666,6 +769,91 @@ fn run(cli: Cli) -> Result<u8, devdoctor::devdoctor_core::Error> {
             }
             Ok(EXIT_OK)
         }
+        Command::Runtimes => {
+            let r = app.runtimes();
+            if json {
+                print_json(&r);
+            } else {
+                println!("{}", heading("Node.js"));
+                for i in &r.node.installations {
+                    println!(
+                        "  {}{:<22} {:<10} {}",
+                        if i.active { "* " } else { "  " },
+                        i.label,
+                        i.version.clone().unwrap_or_default(),
+                        i.binary.display()
+                    );
+                }
+                if let Some(m) = &r.node.npm_mismatch {
+                    println!("  npm mismatch: node in {} but npm in {}", m.node_prefix.display(), m.npm_prefix.display());
+                }
+                println!("{}", heading("Python"));
+                for i in &r.python.installations {
+                    println!(
+                        "  {}{:<22} {:<10} {}",
+                        if i.active { "* " } else { "  " },
+                        i.label,
+                        i.version.clone().unwrap_or_default(),
+                        i.binary.display()
+                    );
+                }
+                for m in &r.python.pip_mismatches {
+                    println!(
+                        "  pip mismatch: {} installs into {} but {} is {}",
+                        m.pip_command,
+                        m.pip_interpreter.display(),
+                        m.python_command,
+                        m.python_path.display()
+                    );
+                }
+                println!("{}", heading("Rust"));
+                println!(
+                    "  rustup: {}   cargo in PATH: {}   default toolchain: {}",
+                    if r.rust.rustup_installed { "installed" } else { "not found" },
+                    if r.rust.cargo_bin_in_path { "yes" } else { "no" },
+                    r.rust.default_toolchain.clone().unwrap_or_else(|| "-".into())
+                );
+                println!("  (* = active in a fresh login shell)");
+            }
+            Ok(EXIT_OK)
+        }
+        Command::Clean { target } => {
+            let (preview, dry_run, yes, prompt): (FixPreview, bool, bool, &str) = match target {
+                CleanCmd::NodeModules { path, dry_run, confirm } => {
+                    (app.preview_delete_node_modules(path)?, *dry_run, confirm.yes, "Delete this node_modules folder?")
+                }
+                CleanCmd::Venv { path, dry_run, confirm } => {
+                    (app.preview_delete_venv(path)?, *dry_run, confirm.yes, "Delete this virtual environment?")
+                }
+                CleanCmd::OllamaModel { name, dry_run, confirm } => {
+                    (app.preview_remove_ollama_model(name)?, *dry_run, confirm.yes, "Remove this Ollama model?")
+                }
+            };
+            if json && dry_run {
+                print_json(&preview);
+                return Ok(EXIT_OK);
+            }
+            if !json {
+                print_preview(&app, &preview);
+            }
+            if dry_run {
+                return Ok(EXIT_OK);
+            }
+            if !confirm(prompt, yes)? {
+                return Ok(EXIT_ABORTED);
+            }
+            let tx = match target {
+                CleanCmd::NodeModules { path, .. } => app.delete_node_modules(path)?,
+                CleanCmd::Venv { path, .. } => app.delete_venv(path)?,
+                CleanCmd::OllamaModel { name, .. } => app.remove_ollama_model(name)?,
+            };
+            if json {
+                print_json(&tx);
+            } else {
+                print_transaction(&app, &tx);
+            }
+            Ok(EXIT_OK)
+        }
         Command::Tools => {
             let tools = app.tools(false);
             if json {
@@ -855,6 +1043,55 @@ fn run(cli: Cli) -> Result<u8, devdoctor::devdoctor_core::Error> {
                 }
                 Ok(EXIT_OK)
             }
+            SnapshotCmd::Status => {
+                let st = app.snapshot_schedule();
+                if json {
+                    print_json(&st);
+                } else {
+                    print_schedule(&app, &st);
+                }
+                Ok(EXIT_OK)
+            }
+            SnapshotCmd::Schedule { hour, minute, dry_run, confirm: c } => {
+                let preview = app.preview_schedule_snapshots(*hour, *minute)?;
+                if json && *dry_run {
+                    print_json(&preview);
+                    return Ok(EXIT_OK);
+                }
+                if !json {
+                    print_preview(&app, &preview);
+                }
+                if *dry_run {
+                    return Ok(EXIT_OK);
+                }
+                if !confirm("Install the daily snapshot agent?", c.yes)? {
+                    return Ok(EXIT_ABORTED);
+                }
+                let tx = app.schedule_snapshots(*hour, *minute)?;
+                if json {
+                    print_json(&tx);
+                } else {
+                    print_transaction(&app, &tx);
+                    println!("\nDaily snapshots are scheduled. Check with `devdoctor snapshot status`, remove with `devdoctor snapshot unschedule`.");
+                }
+                Ok(EXIT_OK)
+            }
+            SnapshotCmd::Unschedule { confirm: c } => {
+                let preview = app.preview_unschedule_snapshots()?;
+                if !json {
+                    print_preview(&app, &preview);
+                }
+                if !confirm("Remove the daily snapshot agent?", c.yes)? {
+                    return Ok(EXIT_ABORTED);
+                }
+                let tx = app.unschedule_snapshots()?;
+                if json {
+                    print_json(&tx);
+                } else {
+                    print_transaction(&app, &tx);
+                }
+                Ok(EXIT_OK)
+            }
             SnapshotCmd::Show { id } => {
                 let snap = app.snapshot(id)?;
                 if json {
@@ -900,14 +1137,7 @@ fn run(cli: Cli) -> Result<u8, devdoctor::devdoctor_core::Error> {
                         for h in &d.headline {
                             println!("  • {h}");
                         }
-                        let mut current = String::new();
-                        for c in &d.changes {
-                            if c.category != current {
-                                current = c.category.clone();
-                                println!("{}", subheading(devdoctor::devdoctor_core::snapshot::category_label(&current)));
-                            }
-                            println!("  {} {}", match c.kind { devdoctor::devdoctor_core::snapshot::ChangeKind::Added => "+", devdoctor::devdoctor_core::snapshot::ChangeKind::Removed => "-", devdoctor::devdoctor_core::snapshot::ChangeKind::Changed => "~" }, c.description);
-                        }
+                        print_snapshot_diff(&d);
                     }
                 }
             }
@@ -916,8 +1146,9 @@ fn run(cli: Cli) -> Result<u8, devdoctor::devdoctor_core::Error> {
         Command::History => {
             let txs = app.transactions(50)?;
             let scans = app.scans(20)?;
+            let runs = app.runs(20)?;
             if json {
-                print_json(&serde_json::json!({ "transactions": txs, "scans": scans }));
+                print_json(&serde_json::json!({ "transactions": txs, "runs": runs, "scans": scans }));
             } else {
                 println!("{}", heading("Fix history"));
                 if txs.is_empty() {
@@ -932,6 +1163,18 @@ fn run(cli: Cli) -> Result<u8, devdoctor::devdoctor_core::Error> {
                         t.title,
                         if t.disk_space_recovered > 0 { format!("  (recovered {})", bytes(t.disk_space_recovered)) } else { String::new() }
                     );
+                }
+                if !runs.is_empty() {
+                    println!("{}", heading("Recorded runs"));
+                    for r in &runs {
+                        println!(
+                            "{}  {}  {}  {}",
+                            r.started_at.with_timezone(&chrono::Local).format("%Y-%m-%d %H:%M"),
+                            r.id,
+                            truncate(&r.label, 50),
+                            if r.headline.is_empty() { "no tracked change".to_string() } else { r.headline.join("; ") }
+                        );
+                    }
                 }
                 println!("{}", heading("Scans"));
                 for s in &scans {
@@ -949,7 +1192,11 @@ fn run(cli: Cli) -> Result<u8, devdoctor::devdoctor_core::Error> {
             }
             Ok(EXIT_OK)
         }
-        Command::Report => {
+        Command::Report { markdown } => {
+            if *markdown {
+                print!("{}", app.markdown_report()?);
+                return Ok(EXIT_OK);
+            }
             let report = app.diagnostic_report()?;
             if !json {
                 eprintln!("Included in this report: {}", report.included.join("; "));
@@ -958,6 +1205,128 @@ fn run(cli: Cli) -> Result<u8, devdoctor::devdoctor_core::Error> {
             print_json(&report);
             Ok(EXIT_OK)
         }
+        Command::Run { command } => {
+            let display = display_command(command);
+            if !json {
+                eprintln!("Recording your environment before running {display} ...");
+            }
+            let t0 = std::time::Instant::now();
+            let state = app.begin_tracking(&display)?;
+            if !json {
+                eprintln!("  snapshot {} recorded in {}\n", state.before.id, ms(t0.elapsed().as_millis() as u64));
+            }
+            let cwd = std::env::current_dir().ok();
+            let status = match run_foreground(command) {
+                Ok(s) => s,
+                Err(e) => {
+                    eprintln!("error: could not start `{}`: {e}", command[0]);
+                    return Ok(EXIT_ERROR);
+                }
+            };
+            if !json {
+                eprintln!("\nRecording your environment after the command ...");
+            }
+            let record = app.finish_tracking(state, command.clone(), cwd, status.code())?;
+            if json {
+                print_json(&record);
+            } else {
+                print_run(&app, &record);
+            }
+            Ok(match status.code() {
+                Some(c) if (0..=255).contains(&c) => c as u8,
+                _ => EXIT_ERROR,
+            })
+        }
+        Command::Watch { interval } => {
+            let interval = (*interval).clamp(1, 3600);
+            eprintln!("Watching your environment every {interval} s. Install or change things in another terminal; press Ctrl-C to stop and save a summary.");
+            let state = app.begin_tracking("devdoctor watch")?;
+            eprintln!("  reference snapshot {} recorded\n", state.before.id);
+            let mut last = state.before.clone();
+            let cwd = std::env::current_dir().ok();
+            install_stop_handler();
+            while !stop_requested() {
+                for _ in 0..(interval * 10) {
+                    if stop_requested() {
+                        break;
+                    }
+                    std::thread::sleep(std::time::Duration::from_millis(100));
+                }
+                if stop_requested() {
+                    break;
+                }
+                let now = app.snapshot_now(true);
+                let diff = app.diff_snapshots(&last, &now);
+                if !diff.changes.is_empty() {
+                    let stamp = chrono::Local::now().format("%H:%M:%S");
+                    for c in &diff.changes {
+                        println!(
+                            "{stamp}  {} {}",
+                            match c.kind {
+                                ChangeKind::Added => "+",
+                                ChangeKind::Removed => "-",
+                                ChangeKind::Changed => "~",
+                            },
+                            c.description
+                        );
+                    }
+                }
+                last = now;
+            }
+            restore_stop_handler();
+            eprintln!("\nStopping; recording what changed since the watch started ...");
+            let record = app.finish_tracking(state, vec!["devdoctor".into(), "watch".into()], cwd, None)?;
+            if json {
+                print_json(&record);
+            } else {
+                print_run(&app, &record);
+            }
+            Ok(EXIT_OK)
+        }
+        Command::Runs { id } => {
+            if let Some(id) = id {
+                let r = app.run_record(id)?;
+                if json {
+                    print_json(&r);
+                } else {
+                    print_run(&app, &r);
+                }
+                return Ok(EXIT_OK);
+            }
+            let runs = app.runs(50)?;
+            if json {
+                print_json(&runs);
+            } else if runs.is_empty() {
+                println!("No recorded runs. Wrap an installer with `devdoctor run <command...>` to record exactly what it changes.");
+            } else {
+                let mut rows = vec![vec!["WHEN".into(), "ID".into(), "EXIT".into(), "COMMAND".into(), "WHAT CHANGED".into()]];
+                for r in &runs {
+                    rows.push(vec![
+                        r.started_at.with_timezone(&chrono::Local).format("%Y-%m-%d %H:%M").to_string(),
+                        r.id.clone(),
+                        r.exit_code.map(|c| c.to_string()).unwrap_or_else(|| "signal".into()),
+                        truncate(&r.label, 40),
+                        if r.headline.is_empty() { "nothing tracked".to_string() } else { r.headline.join("; ") },
+                    ]);
+                }
+                print!("{}", table(&rows));
+                println!("\nDetails: devdoctor runs <id>");
+            }
+            Ok(EXIT_OK)
+        }
+        Command::Startup { samples, no_trace } => {
+            if !json {
+                eprintln!("Starting your login shell {} time(s){} ...", samples, if *no_trace { "" } else { " and tracing one start" });
+            }
+            let profile = app.startup_profile(*samples, !*no_trace);
+            if json {
+                print_json(&profile);
+            } else {
+                print_startup(&app, &profile);
+            }
+            Ok(EXIT_OK)
+        }
+        Command::Completions { .. } => Ok(EXIT_OK),
         Command::DemoExport { dir } => {
             let dir = dir.clone().unwrap_or_else(|| PathBuf::from("apps/desktop/src/demo"));
             let files = app.export_demo(&dir)?;
@@ -965,6 +1334,18 @@ fn run(cli: Cli) -> Result<u8, devdoctor::devdoctor_core::Error> {
                 print_json(&files);
             } else {
                 println!("Wrote {} fixture files to {}", files.len(), dir.display());
+            }
+            Ok(EXIT_OK)
+        }
+        Command::LastReport => {
+            let report = app.last_report()?;
+            if json {
+                print_json(&report);
+            } else {
+                match report {
+                    Some(r) => print_scan(&r),
+                    None => println!("No scan yet."),
+                }
             }
             Ok(EXIT_OK)
         }
@@ -1001,6 +1382,307 @@ fn run_scan(app: &DevDoctor, mode: ScanMode, quiet: bool) -> Result<ScanReport, 
                 eprintln!("  {} {:<38} {:>3} issue(s)  {}", if failed { "x" } else { "✓" }, name, issues, ms(duration_ms));
             }
             _ => {}
+        }
+    })
+}
+
+/// Runs the user's command in the foreground with inherited stdin/stdout/stderr. Ctrl-C reaches
+/// the command (it is in the foreground process group) but not DevDoctor, so the "after"
+/// snapshot is still recorded when an installer is interrupted.
+#[cfg(unix)]
+fn run_foreground(command: &[String]) -> std::io::Result<std::process::ExitStatus> {
+    extern "C" fn on_sigint(_: libc::c_int) {}
+    let handler: extern "C" fn(libc::c_int) = on_sigint;
+    // SAFETY: installing an empty, async-signal-safe handler for SIGINT and restoring the
+    // previous disposition afterwards. Handlers (unlike SIG_IGN) are reset on exec, so the child
+    // keeps the default Ctrl-C behaviour.
+    let previous = unsafe { libc::signal(libc::SIGINT, handler as libc::sighandler_t) };
+    let status = std::process::Command::new(&command[0]).args(&command[1..]).status();
+    // SAFETY: restoring the disposition captured above.
+    unsafe {
+        libc::signal(libc::SIGINT, previous);
+    }
+    status
+}
+
+/// Windows: a console control handler that swallows Ctrl-C in DevDoctor only. Handler routines
+/// are per process (unlike the "ignore" flag, which children inherit), so the installer still
+/// receives Ctrl-C. `npm`, `pip` and friends are `.cmd` scripts on Windows; they are launched
+/// through `cmd.exe /C` because `CreateProcess` only resolves `.exe` files.
+#[cfg(windows)]
+fn run_foreground(command: &[String]) -> std::io::Result<std::process::ExitStatus> {
+    use windows_sys::Win32::System::Console::SetConsoleCtrlHandler;
+    unsafe extern "system" fn swallow(_: u32) -> i32 {
+        1
+    }
+    // SAFETY: registering a handler that only returns TRUE; removed before returning.
+    unsafe {
+        SetConsoleCtrlHandler(Some(swallow), 1);
+    }
+    let status = windows_command(command).status();
+    // SAFETY: removing the handler registered above.
+    unsafe {
+        SetConsoleCtrlHandler(Some(swallow), 0);
+    }
+    status
+}
+
+#[cfg(windows)]
+fn windows_command(command: &[String]) -> std::process::Command {
+    use std::os::windows::process::CommandExt;
+    let program = &command[0];
+    let resolved = std::env::var_os("PATH").and_then(|p| {
+        std::env::split_paths(&p).flat_map(|d| devdoctor::devdoctor_core::sys::command_candidates(&d, program)).find(|c| c.is_file())
+    });
+    let is_script = resolved
+        .as_ref()
+        .and_then(|p| p.extension())
+        .map(|e| {
+            let e = e.to_string_lossy().to_ascii_lowercase();
+            e == "cmd" || e == "bat"
+        })
+        .unwrap_or(false);
+    if let (true, Some(script)) = (is_script, resolved) {
+        let quote = |a: &str| if a.contains(' ') && !a.starts_with('"') { format!("\"{a}\"") } else { a.to_string() };
+        let mut line = quote(&script.to_string_lossy());
+        for a in &command[1..] {
+            line.push(' ');
+            line.push_str(&quote(a));
+        }
+        let mut c = std::process::Command::new("cmd.exe");
+        c.arg("/C");
+        c.raw_arg(format!("\"{line}\""));
+        return c;
+    }
+    let mut c = std::process::Command::new(program);
+    c.args(&command[1..]);
+    c
+}
+
+static STOP: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+
+#[cfg(unix)]
+extern "C" fn on_stop_signal(_: libc::c_int) {
+    STOP.store(true, std::sync::atomic::Ordering::SeqCst);
+}
+
+/// Turns Ctrl-C into a flag so `devdoctor watch` can finish its summary before exiting.
+#[cfg(unix)]
+fn install_stop_handler() {
+    STOP.store(false, std::sync::atomic::Ordering::SeqCst);
+    let handler: extern "C" fn(libc::c_int) = on_stop_signal;
+    // SAFETY: the handler only stores to an atomic, which is async-signal-safe.
+    unsafe {
+        libc::signal(libc::SIGINT, handler as libc::sighandler_t);
+        libc::signal(libc::SIGTERM, handler as libc::sighandler_t);
+    }
+}
+
+#[cfg(unix)]
+fn restore_stop_handler() {
+    // SAFETY: restoring the default dispositions.
+    unsafe {
+        libc::signal(libc::SIGINT, libc::SIG_DFL);
+        libc::signal(libc::SIGTERM, libc::SIG_DFL);
+    }
+}
+
+#[cfg(windows)]
+unsafe extern "system" fn on_console_ctrl(_: u32) -> i32 {
+    STOP.store(true, std::sync::atomic::Ordering::SeqCst);
+    1
+}
+
+#[cfg(windows)]
+fn install_stop_handler() {
+    STOP.store(false, std::sync::atomic::Ordering::SeqCst);
+    // SAFETY: the handler only stores to an atomic.
+    unsafe {
+        windows_sys::Win32::System::Console::SetConsoleCtrlHandler(Some(on_console_ctrl), 1);
+    }
+}
+
+#[cfg(windows)]
+fn restore_stop_handler() {
+    // SAFETY: removing the handler registered by `install_stop_handler`.
+    unsafe {
+        windows_sys::Win32::System::Console::SetConsoleCtrlHandler(Some(on_console_ctrl), 0);
+    }
+}
+
+fn stop_requested() -> bool {
+    STOP.load(std::sync::atomic::Ordering::SeqCst)
+}
+
+fn print_schedule(app: &DevDoctor, st: &devdoctor::devdoctor_core::schedule::SnapshotSchedule) {
+    println!("{}", heading("Daily snapshots"));
+    if st.installed {
+        println!(
+            "scheduled: yes, every day at {:02}:{:02}   active in {}: {}",
+            st.hour.unwrap_or(0),
+            st.minute.unwrap_or(0),
+            devdoctor::devdoctor_core::schedule::scheduler_name(),
+            if st.loaded { "yes" } else { "no" }
+        );
+        println!(
+            "command:   {}{}",
+            st.program.as_ref().map(|p| app.ctx.display_path(p)).unwrap_or_else(|| "?".into()),
+            if st.program_exists { "" } else { "   (MISSING)" }
+        );
+        println!("{:<10} {}", if cfg!(windows) { "task:" } else { "agent:" }, app.ctx.display_path(&st.plist_path));
+        println!(
+            "last run:  {}",
+            st.last_run
+                .map(|t| t.with_timezone(&chrono::Local).format("%Y-%m-%d %H:%M").to_string())
+                .unwrap_or_else(|| "never (or no output yet)".into())
+        );
+        println!("log:       {}", app.ctx.display_path(&st.log_path));
+    } else {
+        println!("scheduled: no. Enable with `devdoctor snapshot schedule [--hour 12 --minute 0]`.");
+        match &st.available_program {
+            Some(p) => println!("command:   {} would be used", app.ctx.display_path(p)),
+            None => println!("command:   no `devdoctor` binary found in PATH; install the CLI first"),
+        }
+    }
+    for n in &st.notes {
+        println!("note: {n}");
+    }
+}
+
+fn print_snapshot_diff(d: &SnapshotDiff) {
+    let mut current = String::new();
+    for c in &d.changes {
+        if c.category != current {
+            current = c.category.clone();
+            println!("{}", subheading(devdoctor::devdoctor_core::snapshot::category_label(&current)));
+        }
+        println!(
+            "  {} {}",
+            match c.kind {
+                ChangeKind::Added => "+",
+                ChangeKind::Removed => "-",
+                ChangeKind::Changed => "~",
+            },
+            c.description
+        );
+    }
+}
+
+fn print_run(app: &DevDoctor, r: &RunRecord) {
+    println!("{}", heading(&format!("What `{}` changed", r.label)));
+    println!(
+        "exit status: {}   duration: {}   run id: {}",
+        r.exit_code.map(|c| c.to_string()).unwrap_or_else(|| "terminated by a signal".into()),
+        ms(r.duration_ms),
+        r.id
+    );
+    if !r.changed_anything() {
+        println!("\nNothing changed among what DevDoctor tracks: PATH, startup files, packages, runtimes, startup services, listening ports and the watched folders.");
+        return;
+    }
+    println!();
+    for h in &r.headline {
+        println!("  • {h}");
+    }
+    print_snapshot_diff(&r.diff);
+    for f in &r.file_diffs {
+        println!("{}", subheading(&format!("{} ({})", app.ctx.display_path(&f.path), format!("{:?}", f.kind).to_ascii_lowercase())));
+        println!("{}", f.diff.trim_end());
+    }
+    for d in &r.directory_changes {
+        println!("{}", subheading(&format!("Folder {}", app.ctx.display_path(&d.dir))));
+        for a in &d.added {
+            println!("  + {a}");
+        }
+        for x in &d.removed {
+            println!("  - {x}");
+        }
+    }
+    if !r.version_changes.is_empty() {
+        println!("{}", subheading("Version changes"));
+        for v in &r.version_changes {
+            println!(
+                "  {}: {} → {}{}",
+                v.command,
+                v.before.clone().unwrap_or_else(|| "?".into()),
+                v.after.clone().unwrap_or_else(|| "?".into()),
+                v.path.as_ref().map(|p| format!("  ({p})")).unwrap_or_default()
+            );
+        }
+    }
+    println!("\nSaved as run {}. Undoing is up to the installer; DevDoctor recorded what it did (`devdoctor runs {}`).", r.id, r.id);
+}
+
+fn print_startup(app: &DevDoctor, p: &StartupProfile) {
+    println!("{}", heading(&format!("Terminal startup: {} ms ({})", p.median_ms, p.rating.label())));
+    if p.samples_ms.is_empty() {
+        println!("The login shell could not be timed.");
+    } else {
+        println!(
+            "{} complete {} start(s): {} ms — median {} ms, best {} ms, worst {} ms",
+            p.samples_ms.len(),
+            p.shell,
+            p.samples_ms.iter().map(|s| s.to_string()).collect::<Vec<_>>().join(", "),
+            p.median_ms,
+            p.min_ms,
+            p.max_ms
+        );
+    }
+    println!("Under 150 ms feels instant; above 500 ms every new tab or window waits; above 1.5 s it hurts.");
+    for n in &p.notes {
+        println!("note: {n}");
+    }
+    if p.traced {
+        println!(
+            "{}",
+            subheading(&format!("Slowest startup lines (one traced start: {} ms, {} lines)", p.trace_total_ms.unwrap_or(0), p.trace_lines))
+        );
+        let mut rows = vec![vec!["MS".into(), "SHARE".into(), "WHERE".into(), "STATEMENT".into()]];
+        for h in &p.hotspots {
+            rows.push(vec![
+                h.inclusive_ms.to_string(),
+                format!("{}%", h.share_percent),
+                format!("{}:{}", app.ctx.display_path(&h.file), h.line),
+                truncate(&h.statement, 60),
+            ]);
+        }
+        print!("{}", table(&rows));
+        let mut printed = Vec::new();
+        for h in p.hotspots.iter().filter(|h| h.hint.is_some()) {
+            let hint = h.hint.clone().unwrap_or_default();
+            if printed.contains(&hint) {
+                continue;
+            }
+            printed.push(hint.clone());
+            println!("\n→ {}:{}", app.ctx.display_path(&h.file), h.line);
+            print!("{}", wrap(&hint, 2, 90));
+        }
+        println!("{}", subheading("Time spent per file or function (self time)"));
+        let mut rows = vec![vec!["MS".into(), "KIND".into(), "LINES".into(), "SOURCE".into()]];
+        for s in &p.sources {
+            rows.push(vec![
+                s.self_ms.to_string(),
+                format!("{:?}", s.kind).to_ascii_lowercase(),
+                s.lines.to_string(),
+                truncate(&s.display, 70),
+            ]);
+        }
+        print!("{}", table(&rows));
+    }
+    if !p.stderr_lines.is_empty() {
+        println!("{}", subheading("Printed at startup (stderr)"));
+        for l in &p.stderr_lines {
+            println!("  {l}");
+        }
+    }
+}
+
+/// Scan with machine-readable progress: one JSON object per event on stderr, so a graphical
+/// front end can show which detector is running while the report is being produced.
+fn run_scan_with_json_progress(app: &DevDoctor, mode: ScanMode) -> Result<ScanReport, devdoctor::devdoctor_core::Error> {
+    app.scan(mode, &mut |p| {
+        if let Ok(line) = serde_json::to_string(&p) {
+            eprintln!("{line}");
         }
     })
 }
@@ -1196,6 +1878,7 @@ fn print_path(app: &DevDoctor, report: &devdoctor::devdoctor_core::path_env::Pat
                 format!("fresh {shell} login shell ({})", ms(report.capture_duration_ms)),
             devdoctor::devdoctor_core::path_env::PathSource::ProcessEnvironment => "process environment".into(),
             devdoctor::devdoctor_core::path_env::PathSource::Override => "override".into(),
+            devdoctor::devdoctor_core::path_env::PathSource::Registry => "Windows registry (machine + user PATH)".into(),
         },
         report.duplicate_count,
         report.missing_count

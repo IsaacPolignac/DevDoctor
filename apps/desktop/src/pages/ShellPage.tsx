@@ -3,7 +3,70 @@ import { api, errorMessage } from "../lib/api";
 import { useAsync } from "../lib/useAsync";
 import { useNav } from "../lib/nav";
 import { formatMs, shortenHome } from "../lib/format";
-import { Button, Card, DataTable, ErrorBox, Loading, PageHeader, PathLink, Pill, Term } from "../components/Basics";
+import type { StartupProfile } from "../lib/types";
+import { Button, Card, DataTable, ErrorBox, Loading, PageHeader, PathLink, Pill, Stat, Term } from "../components/Basics";
+
+const RATING: Record<StartupProfile["rating"], { label: string; tone: "green" | "blue" | "orange" | "red" }> = {
+  fast: { label: "instant", tone: "green" }, ok: { label: "fine", tone: "blue" }, slow: { label: "slow", tone: "orange" }, very_slow: { label: "very slow", tone: "red" },
+};
+
+function StartupSection() {
+  const { home } = useNav();
+  const [profile, setProfile] = useState<StartupProfile | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const measure = async () => {
+    setBusy(true); setError(null);
+    try { setProfile(await api.startupProfile(3, true)); } catch (e) { setError(errorMessage(e)); } finally { setBusy(false); }
+  };
+  const h3 = { fontSize: 13, fontWeight: 600, margin: "16px 0 6px" } as const;
+  return (
+    <Card title="Startup time" actions={<Button icon={profile ? "refresh" : "play"} onClick={measure} disabled={busy}>{busy ? "Measuring…" : profile ? "Measure again" : "Measure"}</Button>}>
+      <ErrorBox error={error} />
+      {!profile ? (
+        <p className="muted small" style={{ margin: 0 }}>How long does a new terminal take to become usable? DevDoctor starts your <Term k="login shell">login shell</Term> three times and, for zsh, traces one start line by line to show which lines of your startup files cost the most. Nothing is changed.</p>
+      ) : (
+        <>
+          <div style={{ display: "flex", gap: 36, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 6 }}>
+            <Stat value={<>{profile.median_ms} ms <Pill tone={RATING[profile.rating].tone}>{RATING[profile.rating].label}</Pill></>} label="typical start" />
+            <Stat value={`${profile.min_ms}–${profile.max_ms} ms`} label={`${profile.samples_ms.length} complete starts`} />
+            {profile.traced && <Stat value={String(profile.trace_lines)} label="lines traced" />}
+          </div>
+          <p className="muted small">Under 150 ms feels instant; above 500 ms every new tab waits; above 1.5 s it hurts.</p>
+          {profile.notes.map((n, i) => <div key={i} className="notice">{n}</div>)}
+          {profile.traced && (
+            <>
+              <div style={h3}>Slowest lines of your startup files</div>
+              <DataTable
+                columns={[
+                  { key: "ms", label: "Time", className: "num", render: (h) => `${h.inclusive_ms} ms` },
+                  { key: "share", label: "Share", className: "num", render: (h) => `${h.share_percent}%` },
+                  { key: "where", label: "Where", render: (h) => <PathLink path={h.file} line={h.line} /> },
+                  { key: "statement", label: "Statement", render: (h) => <><span className="mono selectable">{h.statement}</span>{h.hint && <div className="muted small" style={{ marginTop: 4 }}>{h.hint}</div>}</> },
+                ]}
+                rows={profile.hotspots}
+                rowKey={(h) => `${h.file}:${h.line}`}
+                empty="No lines of your own startup files were traced."
+              />
+              <div style={h3}>Time spent per file or function</div>
+              <DataTable
+                columns={[
+                  { key: "ms", label: "Own time", className: "num", render: (s) => `${s.self_ms} ms` },
+                  { key: "kind", label: "Kind", render: (s) => s.kind },
+                  { key: "lines", label: "Lines run", className: "num", render: (s) => String(s.lines) },
+                  { key: "display", label: "Source", render: (s) => <span className="mono">{shortenHome(s.display, home)}</span> },
+                ]}
+                rows={profile.sources}
+                rowKey={(s) => s.name}
+              />
+            </>
+          )}
+          {profile.stderr_lines.length > 0 && (<><div style={h3}>Printed when a terminal opens</div><pre className="selectable">{profile.stderr_lines.join("\n")}</pre></>)}
+        </>
+      )}
+    </Card>
+  );
+}
 
 export function ShellPage({ refreshKey }: { refreshKey: number }) {
   const { home } = useNav();
@@ -19,6 +82,7 @@ export function ShellPage({ refreshKey }: { refreshKey: number }) {
       <PageHeader title="Terminal setup" subtitle={<>Your shell is <b>{d.shell}</b>. Each time a terminal opens it runs these <Term k="startup file">startup files</Term> in order; installers add lines to them, which is how setups get messy. DevDoctor read the result from a fresh <Term k="login shell">login shell</Term> in {formatMs(d.capture_duration_ms)}.</>} />
       {d.capture_warnings.map((w, i) => <div key={i} className="notice">{w}</div>)}
       <ErrorBox error={error} />
+      <StartupSection />
       <h2>Startup files, in the order they run</h2>
       <DataTable
         columns={[

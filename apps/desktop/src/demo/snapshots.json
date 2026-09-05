@@ -1,5 +1,68 @@
 [
   {
+    "created_at": "2026-09-04T21:19:39.219783Z",
+    "id": "snap_96a9ee4a8a0e",
+    "kind": "scan",
+    "summary": {
+      "counts": {
+        "brew_formula": 10,
+        "env_var": 18,
+        "node_install": 1,
+        "npm_global": 1,
+        "path": 1,
+        "port": 9,
+        "python_install": 3,
+        "runtime": 9,
+        "service": 5,
+        "shell_file": 2,
+        "uv_tool": 3
+      },
+      "path_entries": 15
+    }
+  },
+  {
+    "created_at": "2026-09-04T15:05:29.762133Z",
+    "id": "snap_2545ec3cd369",
+    "kind": "scan",
+    "summary": {
+      "counts": {
+        "brew_formula": 10,
+        "env_var": 18,
+        "node_install": 1,
+        "npm_global": 1,
+        "path": 1,
+        "port": 9,
+        "python_install": 3,
+        "runtime": 9,
+        "service": 5,
+        "shell_file": 2,
+        "uv_tool": 3
+      },
+      "path_entries": 15
+    }
+  },
+  {
+    "created_at": "2026-09-04T14:36:08.031574Z",
+    "id": "snap_74f8686c3c03",
+    "kind": "scan",
+    "summary": {
+      "counts": {
+        "brew_formula": 10,
+        "env_var": 18,
+        "node_install": 1,
+        "npm_global": 1,
+        "path": 1,
+        "port": 10,
+        "python_install": 3,
+        "runtime": 9,
+        "service": 5,
+        "shell_file": 2,
+        "uv_tool": 3
+      },
+      "path_entries": 15
+    }
+  },
+  {
     "created_at": "2026-09-04T09:42:29.354267Z",
     "id": "snap_af723be0e831",
     "kind": "scan",

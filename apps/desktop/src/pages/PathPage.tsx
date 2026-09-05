@@ -10,7 +10,7 @@ export function PathPage({ refreshKey }: { refreshKey: number }) {
   if (r.loading && !r.data) return <Loading what="PATH" />;
   if (r.error || !r.data) return <ErrorBox error={r.error} />;
   const d = r.data;
-  const source = d.source.kind === "login_shell" ? `a fresh ${d.source.shell} login shell (${formatMs(d.capture_duration_ms)})` : d.source.kind === "process_environment" ? "DevDoctor's own environment (the login shell could not be started)" : "an override";
+  const source = d.source.kind === "login_shell" ? `a fresh ${d.source.shell} login shell (${formatMs(d.capture_duration_ms)})` : d.source.kind === "process_environment" ? "DevDoctor's own environment (the login shell could not be started)" : d.source.kind === "registry" ? "the Windows registry (system PATH, then user PATH), what a new terminal sees" : "an override";
   return (
     <div className="page">
       <PageHeader title="PATH" subtitle={<>When you type a command, your terminal looks through these folders <b>in this order</b> and runs the first match. Captured from {source}. {d.duplicate_count} duplicate{d.duplicate_count === 1 ? "" : "s"}, {d.missing_count} missing folder{d.missing_count === 1 ? "" : "s"}. <Term k="PATH">What is PATH?</Term></>} />

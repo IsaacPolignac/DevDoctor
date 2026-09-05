@@ -1,11 +1,11 @@
 {
-  "detector_count": 30,
+  "detector_count": 37,
   "health": {
     "categories": [
       {
         "capped": false,
         "category": "shell",
-        "checks_run": 8,
+        "checks_run": 11,
         "issues": 1,
         "label": "Shell",
         "max_severity": "info",
@@ -16,7 +16,7 @@
       {
         "capped": false,
         "category": "runtimes",
-        "checks_run": 5,
+        "checks_run": 6,
         "issues": 2,
         "label": "Runtimes",
         "max_severity": "medium",
@@ -125,8 +125,8 @@
         "warnings": 0
       }
     ],
-    "checks_passed": 21,
-    "checks_total": 22,
+    "checks_passed": 25,
+    "checks_total": 26,
     "contributions": [
       {
         "category": "runtimes",
@@ -170,18 +170,18 @@
   },
   "last_scan": {
     "detectors_failed": 0,
-    "detectors_run": 22,
-    "duration_ms": 555,
-    "finished_at": "2026-09-04T09:42:29.301854Z",
+    "detectors_run": 26,
+    "duration_ms": 808,
+    "finished_at": "2026-09-04T21:19:39.179414Z",
     "health_score": 94,
-    "id": "scan_24c5cce7e2b9",
+    "id": "scan_9f15a5428d98",
     "issue_count": 3,
     "mode": "quick",
-    "started_at": "2026-09-04T09:42:28.746655Z"
+    "started_at": "2026-09-04T21:19:38.370775Z"
   },
   "latest_snapshot": {
-    "created_at": "2026-09-04T09:42:29.354267Z",
-    "id": "snap_af723be0e831",
+    "created_at": "2026-09-04T21:19:39.219783Z",
+    "id": "snap_96a9ee4a8a0e",
     "kind": "scan",
     "summary": {
       "counts": {
@@ -190,7 +190,7 @@
         "node_install": 1,
         "npm_global": 1,
         "path": 1,
-        "port": 10,
+        "port": 9,
         "python_install": 3,
         "runtime": 9,
         "service": 5,
@@ -204,12 +204,110 @@
     "kind": "login_shell",
     "shell": "zsh"
   },
+  "recent_changes": {
+    "categories": [
+      {
+        "added": 3,
+        "category": "port",
+        "changed": 0,
+        "label": "Listening ports",
+        "removed": 3
+      },
+      {
+        "added": 0,
+        "category": "runtime",
+        "changed": 1,
+        "label": "Command resolution",
+        "removed": 0
+      }
+    ],
+    "changes": [
+      {
+        "before": {
+          "process": "rapportd"
+        },
+        "category": "port",
+        "description": "Port 61473 no longer in use",
+        "key": "61473",
+        "kind": "removed"
+      },
+      {
+        "before": {
+          "process": "rapportd"
+        },
+        "category": "port",
+        "description": "Port 61474 no longer in use",
+        "key": "61474",
+        "kind": "removed"
+      },
+      {
+        "after": {
+          "process": "rapportd"
+        },
+        "category": "port",
+        "description": "Port 61475 now listened by rapportd",
+        "key": "61475",
+        "kind": "added"
+      },
+      {
+        "after": {
+          "process": "rapportd"
+        },
+        "category": "port",
+        "description": "Port 61476 now listened by rapportd",
+        "key": "61476",
+        "kind": "added"
+      },
+      {
+        "before": {
+          "process": "rapportd"
+        },
+        "category": "port",
+        "description": "Port 61928 no longer in use",
+        "key": "61928",
+        "kind": "removed"
+      },
+      {
+        "after": {
+          "process": "rapportd"
+        },
+        "category": "port",
+        "description": "Port 64439 now listened by rapportd",
+        "key": "64439",
+        "kind": "added"
+      },
+      {
+        "after": {
+          "path": "~/.local/bin/claude",
+          "real_path": "~/.local/share/claude/versions/2.1.261",
+          "version": null
+        },
+        "before": {
+          "path": "~/.local/bin/claude",
+          "real_path": "~/.local/share/claude/versions/2.1.260",
+          "version": null
+        },
+        "category": "runtime",
+        "description": "`claude` now resolves to ~/.local/bin/claude (unknown version)",
+        "key": "claude",
+        "kind": "changed"
+      }
+    ],
+    "from_at": "2026-09-04T15:05:29.762133Z",
+    "from_id": "snap_2545ec3cd369",
+    "headline": [
+      "1 runtime change",
+      "3 listening ports added"
+    ],
+    "to_at": "2026-09-04T21:19:39.219783Z",
+    "to_id": "snap_96a9ee4a8a0e"
+  },
   "recent_transactions": [],
   "storage_scanned_at": "2026-09-04T09:42:29.855029Z",
   "storage_total_bytes": 4083326976,
   "system": {
     "data_dir": "~/Library/Application Support/DevDoctor",
-    "devdoctor_version": "0.1.0",
+    "devdoctor_version": "0.2.0",
     "home": "~",
     "os": {
       "arch": "arm64",
@@ -220,7 +318,7 @@
     },
     "shell": "zsh",
     "shell_path": "/bin/zsh",
-    "user": "demo"
+    "user": "<user>"
   },
   "top_issues": [
     {
@@ -232,7 +330,7 @@
       "batch_safe": false,
       "category": "runtimes",
       "confidence": "confirmed",
-      "created_at": "2026-09-04T09:42:29.044362Z",
+      "created_at": "2026-09-04T21:19:38.730624Z",
       "description": "rustup keeps its toolchains under ~/.rustup and its command shims under ~/.cargo/bin, but that directory is not part of the PATH of a fresh login shell. `cargo` and `rustc` are therefore not found.",
       "detector_id": "rust.cargo_bin.not_in_path",
       "evidence": [
@@ -269,7 +367,7 @@
       "batch_safe": false,
       "category": "runtimes",
       "confidence": "confirmed",
-      "created_at": "2026-09-04T09:42:28.980742Z",
+      "created_at": "2026-09-04T21:19:38.621182Z",
       "description": "Python is installed through Homebrew, macOS / Command Line Tools, uv. Each installation has its own packages; which one runs depends on PATH order.",
       "detector_id": "python.interpreter.multiple",
       "evidence": [
@@ -322,7 +420,7 @@
       "batch_safe": false,
       "category": "shell",
       "confidence": "confirmed",
-      "created_at": "2026-09-04T09:42:28.760557Z",
+      "created_at": "2026-09-04T21:19:38.384169Z",
       "current_state": "PATH position 14: /pkg/env/global/bin",
       "description": "/etc/paths.d/10-pmk-global adds /pkg/env/global/bin to every user's PATH, but the directory does not exist. It was left behind by an installer whose package has since been removed.",
       "detector_id": "shell.path.missing_directory",

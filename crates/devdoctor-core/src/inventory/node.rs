@@ -95,13 +95,22 @@ fn push_install(list: &mut Vec<NodeInstallation>, source: NodeSource, binary: Pa
     if list.iter().any(|i| std::fs::canonicalize(&i.binary).map(|r| r == real).unwrap_or(false)) {
         return;
     }
-    let prefix = real.parent().and_then(Path::parent).map(Path::to_path_buf).unwrap_or_default();
+    // Unix layouts put node in <prefix>/bin; Windows layouts put node.exe directly in <prefix>.
+    let prefix = if real.parent().is_some_and(|p| p.file_name().is_some_and(|n| n == "bin")) {
+        real.parent().and_then(Path::parent).map(Path::to_path_buf).unwrap_or_default()
+    } else {
+        real.parent().map(Path::to_path_buf).unwrap_or_default()
+    };
     list.push(NodeInstallation { label: source.label().to_string(), source, binary, prefix, version, active: false });
 }
 
 /// Prefix (directory containing `bin/` and `lib/`) of the node that owns an npm executable.
 pub fn npm_owner_prefix(npm: &Path) -> Option<PathBuf> {
     let real = std::fs::canonicalize(npm).ok()?;
+    if real.extension().is_some_and(|e| e.eq_ignore_ascii_case("cmd") || e.eq_ignore_ascii_case("exe")) {
+        // Windows: npm.cmd sits in the prefix itself, next to node.exe and node_modules\\npm.
+        return real.parent().map(Path::to_path_buf);
+    }
     // .../lib/node_modules/npm/bin/npm-cli.js
     let mut cur = real.as_path();
     while let Some(parent) = cur.parent() {
@@ -114,10 +123,21 @@ pub fn npm_owner_prefix(npm: &Path) -> Option<PathBuf> {
     real.parent().and_then(Path::parent).map(Path::to_path_buf)
 }
 
+/// Global `node_modules` directory for an npm prefix: `<prefix>/lib/node_modules` on Unix,
+/// `<prefix>\\node_modules` on Windows.
+pub fn global_node_modules(prefix: &Path) -> PathBuf {
+    if cfg!(windows) {
+        prefix.join("node_modules")
+    } else {
+        prefix.join("lib").join("node_modules")
+    }
+}
+
 pub fn inventory(ctx: &SystemContext) -> NodeInventory {
     let home = &ctx.home;
     let mut installs: Vec<NodeInstallation> = Vec::new();
     let mut managers = Vec::new();
+    let node_bin = if cfg!(windows) { "node.exe" } else { "bin/node" };
 
     if let Some(prefix) = ctx.brew_prefix() {
         for entry in fs_util::list_dir(&prefix.join("Cellar")) {
@@ -138,22 +158,42 @@ pub fn inventory(ctx: &SystemContext) -> NodeInventory {
             push_install(&mut installs, NodeSource::Nvm, ver.join("bin/node"), version_from_dir_name(&vname));
         }
     }
-    for fnm_root in [home.join("Library/Application Support/fnm"), home.join(".fnm"), home.join(".local/share/fnm")] {
+    // nvm-windows: NVM_HOME\\v22.1.0\\node.exe
+    if let Some(nvm_home) = ctx.env.get("NVM_HOME").map(PathBuf::from).filter(|p| p.join("nvm.exe").exists()) {
+        managers.push("nvm-windows".to_string());
+        for ver in fs_util::list_dir(&nvm_home) {
+            let vname = ver.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
+            if ver.is_dir() && vname.starts_with('v') {
+                push_install(&mut installs, NodeSource::Nvm, ver.join("node.exe"), version_from_dir_name(&vname));
+            }
+        }
+    }
+    let mut fnm_roots = vec![home.join("Library/Application Support/fnm"), home.join(".fnm"), home.join(".local/share/fnm")];
+    if let Some(appdata) = ctx.env.get("APPDATA") {
+        fnm_roots.insert(0, PathBuf::from(appdata).join("fnm"));
+    }
+    for fnm_root in fnm_roots {
         if fnm_root.exists() {
             managers.push("fnm".to_string());
             for ver in fs_util::list_dir(&fnm_root.join("node-versions")) {
                 let vname = ver.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
-                push_install(&mut installs, NodeSource::Fnm, ver.join("installation/bin/node"), version_from_dir_name(&vname));
+                push_install(&mut installs, NodeSource::Fnm, ver.join("installation").join(node_bin), version_from_dir_name(&vname));
             }
             break;
         }
     }
-    let volta = ctx.shell_capture().vars.get("VOLTA_HOME").map(PathBuf::from).unwrap_or_else(|| home.join(".volta"));
+    let volta = ctx
+        .shell_capture()
+        .vars
+        .get("VOLTA_HOME")
+        .map(PathBuf::from)
+        .or_else(|| crate::sys::local_app_data().map(|l| l.join("Volta")))
+        .unwrap_or_else(|| home.join(".volta"));
     if volta.exists() {
         managers.push("volta".to_string());
         for ver in fs_util::list_dir(&volta.join("tools/image/node")) {
             let vname = ver.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
-            push_install(&mut installs, NodeSource::Volta, ver.join("bin/node"), version_from_dir_name(&vname));
+            push_install(&mut installs, NodeSource::Volta, ver.join(node_bin), version_from_dir_name(&vname));
         }
     }
     let asdf = ctx.shell_capture().vars.get("ASDF_DATA_DIR").map(PathBuf::from).unwrap_or_else(|| home.join(".asdf"));
@@ -172,10 +212,19 @@ pub fn inventory(ctx: &SystemContext) -> NodeInventory {
             push_install(&mut installs, NodeSource::Mise, ver.join("bin/node"), version_from_dir_name(&vname));
         }
     }
-    // Official installer: /usr/local/bin/node as a real file (not a Homebrew symlink).
-    let usr_local = PathBuf::from("/usr/local/bin/node");
-    if usr_local.exists() && !fs_util::is_symlink(&usr_local) {
-        push_install(&mut installs, NodeSource::PkgInstaller, usr_local, None);
+    // Official installer: /usr/local/bin/node as a real file (not a Homebrew symlink) on macOS,
+    // %ProgramFiles%\\nodejs\\node.exe on Windows.
+    if cfg!(windows) {
+        for var in ["ProgramFiles", "ProgramFiles(x86)"] {
+            if let Some(pf) = ctx.env.get(var) {
+                push_install(&mut installs, NodeSource::PkgInstaller, Path::new(pf).join("nodejs").join("node.exe"), None);
+            }
+        }
+    } else {
+        let usr_local = PathBuf::from("/usr/local/bin/node");
+        if usr_local.exists() && !fs_util::is_symlink(&usr_local) {
+            push_install(&mut installs, NodeSource::PkgInstaller, usr_local, None);
+        }
     }
     // Anything else reachable from PATH.
     let resolution = resolve_command(ctx, "node", true).ok();
@@ -237,6 +286,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)]
     fn finds_npm_owner_prefix() {
         let dir = tempfile::tempdir().unwrap();
         let prefix = dir.path().join("node-22");

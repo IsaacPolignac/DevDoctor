@@ -218,7 +218,7 @@ pub fn normalize_key(entry: &str) -> String {
     if trimmed.is_empty() {
         return String::new();
     }
-    normalize_lexical(Path::new(trimmed)).to_string_lossy().into_owned()
+    crate::sys::fold_case(&normalize_lexical(Path::new(trimmed)).to_string_lossy())
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

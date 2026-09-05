@@ -1,0 +1,198 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  cli:
+    name: CLI ${{ matrix.target }}
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        target: [aarch64-apple-darwin, x86_64-apple-darwin]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Build
+        run: cargo build --release -p devdoctor-cli --target ${{ matrix.target }}
+      - name: Sign the CLI (Developer ID, when configured)
+        if: env.HAS_APPLE_CERT == 'true'
+        env:
+          HAS_APPLE_CERT: ${{ secrets.APPLE_CERTIFICATE_P12 != '' }}
+          APPLE_CERTIFICATE_P12: ${{ secrets.APPLE_CERTIFICATE_P12 }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+        run: |
+          scripts/ci/import-apple-cert.sh
+          codesign --force --options runtime --timestamp --sign "$APPLE_SIGNING_IDENTITY" "target/${{ matrix.target }}/release/devdoctor"
+      - name: Package
+        run: |
+          set -euo pipefail
+          name="devdoctor-${GITHUB_REF_NAME}-${{ matrix.target }}"
+          mkdir -p dist
+          tar -czf "dist/${name}.tar.gz" -C "target/${{ matrix.target }}/release" devdoctor
+          (cd dist && shasum -a 256 "${name}.tar.gz" > "${name}.tar.gz.sha256")
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cli-${{ matrix.target }}
+          path: dist/*
+
+  cli-windows:
+    name: CLI x86_64-pc-windows-msvc
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Build
+        run: cargo build --release -p devdoctor-cli
+      - name: Package
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $name = "devdoctor-$env:GITHUB_REF_NAME-x86_64-pc-windows-msvc"
+          New-Item -ItemType Directory -Path dist | Out-Null
+          Compress-Archive -Path target\release\devdoctor.exe -DestinationPath "dist\$name.zip"
+          $hash = (Get-FileHash "dist\$name.zip" -Algorithm SHA256).Hash.ToLower()
+          "$hash  $name.zip" | Out-File -Encoding ascii -NoNewline "dist\$name.zip.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cli-windows
+          path: dist/*
+
+  app:
+    name: Web-technology app (Tauri, Apple Silicon)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: apps/desktop/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: apps/desktop
+        run: npm ci
+      - name: Build the app bundle
+        working-directory: apps/desktop
+        run: npm run tauri build -- --bundles app
+      - name: Package
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          ditto -c -k --keepParent target/release/bundle/macos/DevDoctor.app "dist/DevDoctor-Web-${GITHUB_REF_NAME}-macos-arm64.zip"
+          (cd dist && shasum -a 256 *.zip > "DevDoctor-Web-${GITHUB_REF_NAME}-macos-arm64.zip.sha256")
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app
+          path: dist/*
+
+  app-windows:
+    name: Windows app (Tauri, x64 installers)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: apps/desktop/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: apps/desktop
+        run: npm ci
+      - name: Build the installers
+        working-directory: apps/desktop
+        run: npm run tauri build -- --bundles msi,nsis
+      - name: Package
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          New-Item -ItemType Directory -Path dist | Out-Null
+          $msi = Get-ChildItem target\release\bundle\msi\*.msi | Select-Object -First 1
+          $exe = Get-ChildItem target\release\bundle\nsis\*-setup.exe | Select-Object -First 1
+          Copy-Item $msi.FullName "dist\DevDoctor-$env:GITHUB_REF_NAME-windows-x64.msi"
+          Copy-Item $exe.FullName "dist\DevDoctor-$env:GITHUB_REF_NAME-windows-x64-setup.exe"
+          Get-ChildItem dist | ForEach-Object {
+            $hash = (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()
+            "$hash  $($_.Name)" | Out-File -Encoding ascii -NoNewline "$($_.FullName).sha256"
+          }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-windows
+          path: dist/*
+
+  native-app:
+    name: Native app (macOS 26, Apple Silicon)
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Import the Developer ID certificate (when configured)
+        if: env.HAS_APPLE_CERT == 'true'
+        env:
+          HAS_APPLE_CERT: ${{ secrets.APPLE_CERTIFICATE_P12 != '' }}
+          APPLE_CERTIFICATE_P12: ${{ secrets.APPLE_CERTIFICATE_P12 }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        run: scripts/ci/import-apple-cert.sh
+      - name: Build and sign the bundle
+        env:
+          # Empty when the secret is not set: the script falls back to ad-hoc signing.
+          DEVDOCTOR_SIGN_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+        run: scripts/build-macos-app.sh
+      - name: Notarize and staple (when configured)
+        if: env.HAS_NOTARY == 'true'
+        env:
+          HAS_NOTARY: ${{ secrets.APPLE_NOTARY_KEY_P8 != '' }}
+          APPLE_NOTARY_KEY_P8: ${{ secrets.APPLE_NOTARY_KEY_P8 }}
+          APPLE_NOTARY_KEY_ID: ${{ secrets.APPLE_NOTARY_KEY_ID }}
+          APPLE_NOTARY_ISSUER_ID: ${{ secrets.APPLE_NOTARY_ISSUER_ID }}
+        run: scripts/ci/notarize.sh target/macos/DevDoctor.app
+      - name: Package
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          ditto -c -k --keepParent target/macos/DevDoctor.app "dist/DevDoctor-${GITHUB_REF_NAME}-macos26-arm64.zip"
+          (cd dist && shasum -a 256 *.zip > "DevDoctor-${GITHUB_REF_NAME}-macos26-arm64.zip.sha256")
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-app
+          path: dist/*
+
+  release:
+    name: Publish GitHub release
+    needs: [cli, cli-windows, app, app-windows, native-app]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
+          generate_release_notes: true
+          body: |
+            **macOS**: `DevDoctor-<tag>-macos26-arm64.zip` is the native app (macOS 26 or later);
+            `DevDoctor-Web-<tag>-macos-arm64.zip` is the web-technology app for macOS 12–15;
+            `devdoctor-<tag>-{aarch64,x86_64}-apple-darwin.tar.gz` contain the `devdoctor` CLI.
+            Unless this release is notarized, the first launch of an app needs a right-click → Open
+            (or `xattr -d com.apple.quarantine DevDoctor.app`).
+
+            **Windows (beta)**: `DevDoctor-<tag>-windows-x64-setup.exe` (per-user installer) and
+            `DevDoctor-<tag>-windows-x64.msi` install the desktop app;
+            `devdoctor-<tag>-x86_64-pc-windows-msvc.zip` contains `devdoctor.exe`. The binaries are
+            not code-signed: SmartScreen shows "Windows protected your PC" → More info → Run anyway.
+
+            Verify any download with its `.sha256` file.

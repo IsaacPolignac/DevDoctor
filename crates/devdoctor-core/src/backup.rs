@@ -6,7 +6,6 @@ use crate::ids::{random_id, sha256_hex};
 use crate::{Error, Result};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -50,7 +49,7 @@ impl BackupStore {
         let file_name = original.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_else(|| "file".into());
         let stored = dir.join(format!("{id}-{file_name}"));
         std::fs::write(&stored, &data).map_err(|e| Error::io(&stored, e))?;
-        let _ = std::fs::set_permissions(&stored, std::fs::Permissions::from_mode(0o600));
+        crate::sys::set_mode(&stored, 0o600);
         let record = BackupRecord {
             id,
             transaction_id: transaction_id.map(str::to_string),
@@ -58,7 +57,7 @@ impl BackupStore {
             stored_path: stored,
             sha256: sha256_hex(&data),
             size: data.len() as u64,
-            mode: Some(meta.permissions().mode() & 0o7777),
+            mode: crate::sys::mode_of(&meta),
             created_at: Utc::now(),
         };
         tracing::info!(path = %original.display(), backup = %record.id, "backup created");

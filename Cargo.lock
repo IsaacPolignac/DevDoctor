@@ -396,6 +396,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "clap_complete"
+version = "4.6.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3be2ad0423bdbbb0e25bc89add796f3559706d4a95e1bc98e4d9662a957b6a19"
+dependencies = [
+ "clap",
+]
+
+[[package]]
 name = "clap_derive"
 version = "4.6.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -710,13 +719,15 @@ dependencies = [
 
 [[package]]
 name = "devdoctor"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "chrono",
  "devdoctor-core",
  "devdoctor-detectors",
  "devdoctor-fixers",
  "devdoctor-platform-macos",
+ "devdoctor-platform-windows",
+ "regex",
  "serde",
  "serde_json",
  "tempfile",
@@ -725,19 +736,22 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-cli"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "chrono",
  "clap",
+ "clap_complete",
  "devdoctor",
+ "libc",
  "serde",
  "serde_json",
  "tracing",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
 name = "devdoctor-core"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "chrono",
  "dirs",
@@ -760,7 +774,7 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-desktop"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "devdoctor",
  "serde",
@@ -773,10 +787,11 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-detectors"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "chrono",
  "devdoctor-core",
+ "regex",
  "serde",
  "serde_json",
  "tempfile",
@@ -785,7 +800,7 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-fixers"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "chrono",
  "devdoctor-core",
@@ -797,7 +812,7 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-platform-macos"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "chrono",
  "devdoctor-core",
@@ -805,6 +820,16 @@ dependencies = [
  "plist",
  "serde",
  "serde_json",
+ "sysinfo",
+ "tracing",
+]
+
+[[package]]
+name = "devdoctor-platform-windows"
+version = "0.2.0"
+dependencies = [
+ "chrono",
+ "devdoctor-core",
  "sysinfo",
  "tracing",
 ]

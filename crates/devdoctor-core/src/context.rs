@@ -101,11 +101,12 @@ impl SystemContext {
         let env = EnvVars::from_process();
         let home = env
             .get("HOME")
+            .filter(|h| !h.trim().is_empty())
             .map(PathBuf::from)
             .or_else(dirs::home_dir)
             .ok_or_else(|| crate::Error::other("cannot determine home directory"))?;
-        let user = env.get("USER").or(env.get("LOGNAME")).unwrap_or("unknown").to_string();
-        let shell_path = env.get("SHELL").map(PathBuf::from).unwrap_or_else(|| PathBuf::from("/bin/zsh"));
+        let user = env.get("USER").or(env.get("LOGNAME")).or(env.get("USERNAME")).unwrap_or("unknown").to_string();
+        let shell_path = env.get("SHELL").map(PathBuf::from).unwrap_or_else(crate::sys::default_shell_path);
         let shell = ShellKind::from_path(&shell_path);
         let os = platform.os_info();
         Ok(Self {
@@ -199,13 +200,9 @@ impl SystemContext {
         if let Some(cached) = self.program_cache.lock().expect("program cache").get(name) {
             return cached.clone();
         }
-        let mut candidates: Vec<PathBuf> = self.effective_path().entries.iter().map(|d| Path::new(d).join(name)).collect();
-        for dir in ["/opt/homebrew/bin", "/usr/local/bin", "/usr/bin", "/bin", "/usr/sbin", "/sbin"] {
-            candidates.push(Path::new(dir).join(name));
-        }
-        candidates.push(self.home.join(".local/bin").join(name));
-        candidates.push(self.home.join(".cargo/bin").join(name));
-        let found = candidates.into_iter().find(|p| crate::fs_util::is_executable_file(p));
+        let mut dirs: Vec<PathBuf> = self.effective_path().entries.iter().filter(|d| !d.is_empty()).map(PathBuf::from).collect();
+        dirs.extend(crate::sys::well_known_bin_dirs(&self.home));
+        let found = dirs.iter().flat_map(|dir| crate::sys::command_candidates(dir, name)).find(|p| crate::fs_util::is_executable_file(p));
         self.program_cache.lock().expect("program cache").insert(name.to_string(), found.clone());
         found
     }

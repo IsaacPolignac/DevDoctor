@@ -1,0 +1,45 @@
+name: Bug report
+description: DevDoctor got something wrong, crashed, or a fix did not do what it promised.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. A sanitized report makes most bugs reproducible in minutes:
+        run `devdoctor report --markdown` (or Settings → "Markdown for a bug report" in the app),
+        check it for anything you do not want to share, and paste it below.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did DevDoctor say or do, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: report
+    attributes:
+      label: DevDoctor report
+      description: Output of `devdoctor report --markdown`. Home paths, username and likely secrets are already redacted; double-check anyway.
+      render: markdown
+  - type: input
+    id: version
+    attributes:
+      label: DevDoctor version and macOS version
+      placeholder: "DevDoctor 0.2.0, macOS 15.6 (arm64)"
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where did it happen?
+      options:
+        - CLI (devdoctor ...)
+        - Desktop app
+        - Both
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: If a fix misbehaved
+      description: The transaction id (`devdoctor history`) and, if you rolled it back, what `devdoctor rollback <id>` printed.

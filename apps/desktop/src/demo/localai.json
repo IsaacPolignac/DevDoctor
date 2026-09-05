@@ -1,5 +1,5 @@
 {
-  "duration_ms": 9,
+  "duration_ms": 11,
   "ollama": {
     "app_bundle_present": false,
     "blob_bytes": 0,
@@ -30,7 +30,7 @@
         {
           "bytes": 4096,
           "kind": "models",
-          "last_used_secs_ago": 1180309,
+          "last_used_secs_ago": 1236510,
           "name": "orcarouter/Qwen3.8-27B-Uncensored-MLX",
           "path": "~/.cache/huggingface/hub/models--orcarouter--Qwen3.8-27B-Uncensored-MLX"
         }

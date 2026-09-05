@@ -12,6 +12,9 @@
 //! * [`engine::ScanEngine`] – runs detectors in isolation, measures them and computes the
 //!   health score.
 //! * [`snapshot`] – lightweight environment snapshots and their diffs ("What changed").
+//! * [`tracking`] – "what did this installer change": snapshots and startup-file diffs around
+//!   a command run by the user.
+//! * [`startup`] – shell startup time measurement and line-level attribution.
 //! * [`db::Database`] – local SQLite persistence.
 //!
 //! Platform-specific code lives behind the [`platform::Platform`] trait so Linux/Windows
@@ -36,8 +39,12 @@ pub mod paths;
 pub mod platform;
 pub mod redact;
 pub mod resolve;
+pub mod schedule;
 pub mod shell;
 pub mod snapshot;
+pub mod startup;
+pub mod sys;
+pub mod tracking;
 pub mod transaction;
 pub mod units;
 

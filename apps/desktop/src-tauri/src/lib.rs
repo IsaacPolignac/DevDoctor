@@ -327,6 +327,50 @@ async fn export_report(state: State<'_, AppState>) -> CmdResult<devdoctor::Diagn
     blocking(state.app.clone(), |a| a.diagnostic_report()).await
 }
 
+#[tauri::command]
+async fn export_markdown_report(state: State<'_, AppState>) -> CmdResult<String> {
+    blocking(state.app.clone(), |a| a.markdown_report()).await
+}
+
+#[tauri::command]
+async fn get_startup_profile(
+    state: State<'_, AppState>,
+    samples: usize,
+    with_trace: bool,
+) -> CmdResult<devdoctor::devdoctor_core::startup::StartupProfile> {
+    blocking(state.app.clone(), move |a| Ok(a.startup_profile(samples, with_trace))).await
+}
+
+#[tauri::command]
+async fn list_runs(state: State<'_, AppState>, limit: usize) -> CmdResult<Vec<devdoctor::devdoctor_core::tracking::RunRecord>> {
+    blocking(state.app.clone(), move |a| a.runs(limit)).await
+}
+
+#[tauri::command]
+async fn get_snapshot_schedule(state: State<'_, AppState>) -> CmdResult<devdoctor::devdoctor_core::schedule::SnapshotSchedule> {
+    blocking(state.app.clone(), |a| Ok(a.snapshot_schedule())).await
+}
+
+#[tauri::command]
+async fn preview_schedule_snapshots(state: State<'_, AppState>, hour: u8, minute: u8) -> CmdResult<FixPreview> {
+    blocking(state.app.clone(), move |a| a.preview_schedule_snapshots(hour, minute)).await
+}
+
+#[tauri::command]
+async fn schedule_snapshots(state: State<'_, AppState>, hour: u8, minute: u8) -> CmdResult<Transaction> {
+    blocking(state.app.clone(), move |a| a.schedule_snapshots(hour, minute)).await
+}
+
+#[tauri::command]
+async fn preview_unschedule_snapshots(state: State<'_, AppState>) -> CmdResult<FixPreview> {
+    blocking(state.app.clone(), |a| a.preview_unschedule_snapshots()).await
+}
+
+#[tauri::command]
+async fn unschedule_snapshots(state: State<'_, AppState>) -> CmdResult<Transaction> {
+    blocking(state.app.clone(), |a| a.unschedule_snapshots()).await
+}
+
 pub fn run() {
     let dirs = match devdoctor::devdoctor_core::paths::DevDoctorDirs::resolve() {
         Ok(d) => d,
@@ -414,6 +458,14 @@ pub fn run() {
             get_detectors,
             reveal_path,
             export_report,
+            export_markdown_report,
+            get_startup_profile,
+            list_runs,
+            get_snapshot_schedule,
+            preview_schedule_snapshots,
+            schedule_snapshots,
+            preview_unschedule_snapshots,
+            unschedule_snapshots,
             set_window_theme,
         ])
         .run(tauri::generate_context!())

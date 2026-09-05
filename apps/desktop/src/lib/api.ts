@@ -12,8 +12,9 @@ async function invoke<T>(cmd: string, args?: Record<string, unknown>): Promise<T
 }
 import type {
   BatchFixResult, CommandResolution, DetectorMeta, DevProcess, DevTool, DiagnosticReport, FixPreview, GitReport, IssueDetail, IssueRecord,
-  LocalAiReport, Overview, PackagesReport, PathReport, PortEntry, RuntimesReport, ScanMode, ScanProgress, ScanReport, ScanSummary, SearchResults,
-  ServiceInfo, ShellReport, SnapshotDiff, SnapshotSummary, SshReport, StorageProgress, StorageReport, SystemSummary, Transaction,
+  LocalAiReport, Overview, PackagesReport, PathReport, PortEntry, RunRecord, RuntimesReport, ScanMode, ScanProgress, ScanReport, ScanSummary,
+  SearchResults, ServiceInfo, ShellReport, SnapshotDiff, SnapshotSchedule, SnapshotSummary, SshReport, StartupProfile, StorageProgress, StorageReport,
+  SystemSummary, Transaction,
 } from "./types";
 
 export const api = {
@@ -65,6 +66,14 @@ export const api = {
   reveal: (path: string) => invoke<void>("reveal_path", { path }),
   setWindowTheme: (theme: "system" | "light" | "dark") => (inTauri ? invoke<void>("set_window_theme", { theme }) : Promise.resolve()),
   exportReport: () => invoke<DiagnosticReport>("export_report"),
+  exportMarkdownReport: () => invoke<string>("export_markdown_report"),
+  startupProfile: (samples: number, withTrace: boolean) => invoke<StartupProfile>("get_startup_profile", { samples, withTrace }),
+  runs: (limit = 50) => invoke<RunRecord[]>("list_runs", { limit }),
+  snapshotSchedule: () => invoke<SnapshotSchedule>("get_snapshot_schedule"),
+  previewScheduleSnapshots: (hour: number, minute: number) => invoke<FixPreview>("preview_schedule_snapshots", { hour, minute }),
+  scheduleSnapshots: (hour: number, minute: number) => invoke<Transaction>("schedule_snapshots", { hour, minute }),
+  previewUnscheduleSnapshots: () => invoke<FixPreview>("preview_unschedule_snapshots"),
+  unscheduleSnapshots: () => invoke<Transaction>("unschedule_snapshots"),
 };
 
 export function onScanProgress(cb: (p: ScanProgress) => void): Promise<UnlistenFn> {

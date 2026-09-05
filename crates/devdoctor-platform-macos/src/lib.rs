@@ -1,5 +1,8 @@
 //! macOS implementation of [`devdoctor_core::platform::Platform`].
 
+// The crate is empty on other operating systems so `cargo test --workspace` works everywhere.
+#![cfg(target_os = "macos")]
+
 use chrono::{DateTime, Utc};
 use devdoctor_core::command::{CommandRunner, CommandSpec};
 use devdoctor_core::fs_util;

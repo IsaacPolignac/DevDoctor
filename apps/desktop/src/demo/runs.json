@@ -1,0 +1,131 @@
+[
+  {
+    "id": "run_fb45b1fbfbdc",
+    "command": [
+      "sh",
+      "-c",
+      "echo \"export PATH=\\\"\\$HOME/.newtool/bin:\\$PATH\\\"\" >> ~/.zshrc; mkdir -p ~/.newtool/bin ~/.config/newtool; echo installer done"
+    ],
+    "label": "sh -c \"echo \\\"export PATH=\\\\\\\"\\\\$HOME/.newtool/bin:\\\\$PATH\\\\\\\"\\\" >> ~/.zshrc; mkdir -p ~/.newtool/bin ~/.config/newtool; echo installer done\"",
+    "cwd": "~",
+    "started_at": "2026-09-04T14:29:12.807113Z",
+    "finished_at": "2026-09-04T14:29:12.878140Z",
+    "duration_ms": 71,
+    "exit_code": 0,
+    "before_snapshot_id": "snap_6729c1d205e5",
+    "after_snapshot_id": "snap_85f3e6abd8c5",
+    "diff": {
+      "from_id": "snap_6729c1d205e5",
+      "to_id": "snap_85f3e6abd8c5",
+      "from_at": "2026-09-04T14:29:12.807108Z",
+      "to_at": "2026-09-04T14:29:12.877610Z",
+      "changes": [
+        {
+          "category": "path",
+          "key": "PATH",
+          "kind": "changed",
+          "before": [
+            "~/.local/bin",
+            "/usr/local/bin",
+            "/System/Cryptexes/App/usr/bin",
+            "/usr/bin",
+            "/bin",
+            "/usr/sbin",
+            "/sbin",
+            "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin",
+            "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin",
+            "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin",
+            "/pkg/env/global/bin",
+            "/Library/Apple/usr/bin",
+            "/opt/homebrew/bin"
+          ],
+          "after": [
+            "~/.newtool/bin",
+            "~/.local/bin",
+            "/usr/local/bin",
+            "/System/Cryptexes/App/usr/bin",
+            "/usr/bin",
+            "/bin",
+            "/usr/sbin",
+            "/sbin",
+            "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin",
+            "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin",
+            "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin",
+            "/pkg/env/global/bin",
+            "/Library/Apple/usr/bin",
+            "/opt/homebrew/bin"
+          ],
+          "description": "PATH changed: added ~/.newtool/bin"
+        },
+        {
+          "category": "shell_file",
+          "key": "~/.zshrc",
+          "kind": "changed",
+          "before": {
+            "mtime": 1788532151,
+            "sha256": "f9eb03d08a364c8674bc9a779907c67e7dad80bd2bf85587d8112943f1d7bc20",
+            "size": 78
+          },
+          "after": {
+            "mtime": 1788532152,
+            "sha256": "149054666a15fc6425898e8c3fefda2b2e4e7b2432056a3418337bc630f7b6d8",
+            "size": 117
+          },
+          "description": "~/.zshrc modified"
+        }
+      ],
+      "categories": [
+        {
+          "category": "path",
+          "label": "PATH",
+          "added": 0,
+          "removed": 0,
+          "changed": 1
+        },
+        {
+          "category": "shell_file",
+          "label": "Shell configuration",
+          "added": 0,
+          "removed": 0,
+          "changed": 1
+        }
+      ],
+      "headline": [
+        "2 shell configuration changes"
+      ]
+    },
+    "file_diffs": [
+      {
+        "path": "~/.zshrc",
+        "kind": "modified",
+        "diff": "--- ~/.zshrc (before)\n+++ ~/.zshrc (after)\n@@ -2,2 +2,3 @@\n eval \"$(pyenv init -)\"\n alias ll=\"ls -la\"\n+export PATH=\"$HOME/.newtool/bin:$PATH\"\n",
+        "lines_added": 1,
+        "lines_removed": 0
+      }
+    ],
+    "directory_changes": [
+      {
+        "dir": "~",
+        "added": [
+          ".config",
+          ".newtool"
+        ],
+        "removed": []
+      },
+      {
+        "dir": "~/.config",
+        "added": [
+          "newtool"
+        ],
+        "removed": []
+      }
+    ],
+    "version_changes": [],
+    "headline": [
+      "~/.zshrc modified (+1 / -0 lines)",
+      "new in ~: .config",
+      "new in ~: .newtool",
+      "new in ~/.config: newtool"
+    ]
+  }
+]

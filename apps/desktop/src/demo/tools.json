@@ -13,7 +13,7 @@
     "installed": true,
     "name": "Claude Code",
     "notes": [],
-    "version": "2.1.260 (Claude Code)"
+    "version": "2.1.261 (Claude Code)"
   },
   {
     "binary": "~/.npm-global/bin/codex",

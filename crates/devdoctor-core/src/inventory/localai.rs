@@ -35,10 +35,9 @@ pub struct LocalAiReport {
 }
 
 fn secs_ago(path: &Path) -> Option<u64> {
-    use std::os::unix::fs::MetadataExt;
     let m = std::fs::metadata(path).ok()?;
     let now = chrono::Utc::now().timestamp();
-    Some(now.saturating_sub(m.mtime()).max(0) as u64)
+    Some(now.saturating_sub(crate::sys::mtime_secs(&m)).max(0) as u64)
 }
 
 fn hf_repos(hub: &Path, kind: &str) -> Vec<ModelEntry> {

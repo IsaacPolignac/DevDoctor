@@ -39,7 +39,10 @@ export function areaOf(detectorId: string, category: Category): string {
   const [head, second] = detectorId.split(".");
   if (head === "shell" && second === "path") return "PATH";
   if (head === "shell" && second === "alias") return "Aliases";
+  if (head === "shell" && second === "startup") return "Terminal";
   if (head === "shell") return "Shell";
+  if (head === "macos") return "macOS";
+  if (head === "ai") return "AI tools";
   if (head === "python") return "Python";
   if (head === "node") return "Node.js";
   if (head === "rust") return "Rust";
@@ -62,6 +65,7 @@ export const AREA_STYLE: Record<string, { color: import("../components/Tile").Ti
   Homebrew: { color: "orange", icon: "box" }, Processes: { color: "green", icon: "waveform" }, Ports: { color: "teal", icon: "cable" },
   Storage: { color: "indigo", icon: "internaldrive" }, Ollama: { color: "pink", icon: "cpu" }, Startup: { color: "gray", icon: "gear" },
   SSH: { color: "yellow", icon: "key" }, Git: { color: "red", icon: "git" }, Environment: { color: "purple", icon: "sliders" },
+  Terminal: { color: "graphite", icon: "terminal" }, macOS: { color: "gray", icon: "wrench-screwdriver" }, "AI tools": { color: "pink", icon: "cpu" },
 };
 export function areaStyle(area: string): { color: import("../components/Tile").TileColor; icon: import("../components/Icons").IconName } {
   return AREA_STYLE[area] ?? { color: "gray", icon: "info" };
@@ -73,6 +77,10 @@ export const HEALTHY: Record<string, string> = {
   "shell.path.duplicate": "PATH has no duplicate entries",
   "shell.path.missing_directory": "Every PATH entry exists",
   "shell.path.suspicious_entry": "No empty, relative or world-writable PATH entry",
+  "shell.path.dangling_symlinks": "No broken command links in PATH",
+  "shell.startup.errors": "Nothing prints an error when a terminal opens",
+  "shell.startup.slow": "New terminals start quickly",
+  "macos.xcode_clt": "Xcode Command Line Tools are installed",
   "shell.source.missing_file": "Every sourced file exists",
   "shell.source.recursive": "Startup files do not source each other in a loop",
   "shell.source.duplicate": "No file is sourced twice at startup",
@@ -82,6 +90,9 @@ export const HEALTHY: Record<string, string> = {
   "python.pip.mismatch": "pip installs into the Python you run",
   "node.multiple_installations": "One Node.js installation method",
   "node.npm.mismatch": "npm belongs to the active Node.js",
+  "node.npm.global_prefix_not_writable": "npm can install global packages without sudo",
+  "node.npm.stranded_globals": "Global npm packages follow the active Node.js version",
+  "ai.claude_code.duplicate_install": "Claude Code is installed once",
   "rust.cargo_bin.not_in_path": "Rust tools are reachable",
   "homebrew.health": "Homebrew installation is healthy",
   "homebrew.doctor": "brew doctor reports no warnings",
@@ -152,6 +163,7 @@ export const GLOSSARY: Record<string, string> = {
   port: "A numbered door on your Mac that a server program listens on, such as 3000 for a web app.",
   "package manager": "A tool that installs software for you: Homebrew, npm, pip, cargo...",
   transaction: "A recorded change with backups, so it can be undone.",
+  run: "A command you wrapped with `devdoctor run` in the terminal. DevDoctor took a snapshot before and after, so everything the command changed is recorded.",
   backup: "A copy of a file taken before DevDoctor changes it, stored in DevDoctor's own folder.",
 };
 

@@ -33,6 +33,7 @@ export function OverviewPage({ refreshKey, refresh, detectors, inspector, onboar
   const report = useAsync(() => api.lastReport(), [refreshKey]);
   const issues = useAsync(() => api.issues(false), [refreshKey]);
   const storage = useAsync(() => api.lastStorage(), [refreshKey]);
+  const scans = useAsync(() => api.scans(20), [refreshKey]);
   const [filter, setFilter] = useState<ResultFilter>("all");
   const [area, setArea] = useState<Category | null>(null);
   const findings: Finding[] = useMemo(() => {
@@ -54,7 +55,7 @@ export function OverviewPage({ refreshKey, refresh, detectors, inspector, onboar
     <>
       <div className="content">
         {onboarding && <Onboarding onStart={() => { onOnboardingDone(); onScan(); }} onSkip={onOnboardingDone} />}
-        <EnvironmentHeader overview={o} reclaimable={reclaimable} />
+        <EnvironmentHeader overview={o} reclaimable={reclaimable} trend={(scans.data ?? []).map((s) => s.health_score).filter((v): v is number => v != null).reverse()} />
         <Dashboard health={o.health} issues={(issues.data ?? []).map((r) => r.issue)} selected={area} onSelect={setArea} />
         {!o.health && !onboarding && (
           <div className="card" style={{ marginTop: 16 }}>

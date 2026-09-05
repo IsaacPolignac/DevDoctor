@@ -1,1 +1,98 @@
-null
+{
+  "categories": [
+    {
+      "added": 3,
+      "category": "port",
+      "changed": 0,
+      "label": "Listening ports",
+      "removed": 3
+    },
+    {
+      "added": 0,
+      "category": "runtime",
+      "changed": 1,
+      "label": "Command resolution",
+      "removed": 0
+    }
+  ],
+  "changes": [
+    {
+      "before": {
+        "process": "rapportd"
+      },
+      "category": "port",
+      "description": "Port 61473 no longer in use",
+      "key": "61473",
+      "kind": "removed"
+    },
+    {
+      "before": {
+        "process": "rapportd"
+      },
+      "category": "port",
+      "description": "Port 61474 no longer in use",
+      "key": "61474",
+      "kind": "removed"
+    },
+    {
+      "after": {
+        "process": "rapportd"
+      },
+      "category": "port",
+      "description": "Port 61475 now listened by rapportd",
+      "key": "61475",
+      "kind": "added"
+    },
+    {
+      "after": {
+        "process": "rapportd"
+      },
+      "category": "port",
+      "description": "Port 61476 now listened by rapportd",
+      "key": "61476",
+      "kind": "added"
+    },
+    {
+      "before": {
+        "process": "rapportd"
+      },
+      "category": "port",
+      "description": "Port 61928 no longer in use",
+      "key": "61928",
+      "kind": "removed"
+    },
+    {
+      "after": {
+        "process": "rapportd"
+      },
+      "category": "port",
+      "description": "Port 64439 now listened by rapportd",
+      "key": "64439",
+      "kind": "added"
+    },
+    {
+      "after": {
+        "path": "~/.local/bin/claude",
+        "real_path": "~/.local/share/claude/versions/2.1.261",
+        "version": null
+      },
+      "before": {
+        "path": "~/.local/bin/claude",
+        "real_path": "~/.local/share/claude/versions/2.1.260",
+        "version": null
+      },
+      "category": "runtime",
+      "description": "`claude` now resolves to ~/.local/bin/claude (unknown version)",
+      "key": "claude",
+      "kind": "changed"
+    }
+  ],
+  "from_at": "2026-09-04T15:05:29.762133Z",
+  "from_id": "snap_2545ec3cd369",
+  "headline": [
+    "1 runtime change",
+    "3 listening ports added"
+  ],
+  "to_at": "2026-09-04T21:19:39.219783Z",
+  "to_id": "snap_96a9ee4a8a0e"
+}

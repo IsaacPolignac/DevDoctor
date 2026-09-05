@@ -3,30 +3,30 @@
     "address": "127.0.0.1",
     "common_dev_port": false,
     "dev_process": {
-      "command": "node ~/Documents/Codex/2026-09-04/m/outputs/sanad-app/node_modules/.bin/vite --host 127.0.0.1 --port 4173 --strictPort",
-      "cpu_percent": 0.0,
-      "cwd": "~/Documents/Codex/2026-09-04/m/outputs/sanad-app",
+      "command": "node ~/devdoctor/apps/desktop/node_modules/.bin/vite --host 127.0.0.1 --port 1420",
+      "cpu_percent": 0.014221999794244766,
+      "cwd": "~/devdoctor/apps/desktop",
       "cwd_missing": false,
       "kind": "node",
       "kind_label": "Node.js",
       "label": "vite dev server",
-      "memory_bytes": 1006141440,
+      "memory_bytes": 81428480,
       "name": "node",
       "orphaned": false,
       "owned_by_user": true,
-      "parent_pid": 58843,
-      "pid": 58911,
+      "parent_pid": 2323,
+      "pid": 2340,
       "ports": [
-        4173
+        1420
       ],
-      "project_path": "~/Documents/Codex/2026-09-04/m/outputs/sanad-app",
-      "run_time_secs": 1024,
+      "project_path": "~/devdoctor/apps/desktop",
+      "run_time_secs": 16,
       "stale": false,
       "stoppable": true
     },
     "local_only": true,
-    "pid": 58911,
-    "port": 4173,
+    "pid": 2340,
+    "port": 1420,
     "process_name": "node"
   },
   {
@@ -58,13 +58,13 @@
     "common_dev_port": false,
     "dev_process": {
       "command": "~/Library/Application Support/Local/lightning-services/mysql-8.4.0/bin/darwin-arm64/bin/mysqld --defaults-file=~/Local Sites/purepetide-staging/mysql/my.cnf",
-      "cpu_percent": 0.001852500019595027,
+      "cpu_percent": 0.002395499963313341,
       "cwd": "~/Local Sites/purepetide-staging/mysql/data",
       "cwd_missing": false,
       "kind": "database",
       "kind_label": "Database",
       "label": "mysqld",
-      "memory_bytes": 7045120,
+      "memory_bytes": 7028736,
       "name": "mysqld",
       "orphaned": true,
       "owned_by_user": true,
@@ -73,7 +73,7 @@
       "ports": [
         33306
       ],
-      "run_time_secs": 172409,
+      "run_time_secs": 228610,
       "stale": false,
       "stoppable": true
     },
@@ -103,7 +103,7 @@
     "common_dev_port": false,
     "local_only": false,
     "pid": 644,
-    "port": 58939,
+    "port": 52820,
     "process_name": "rapportd"
   },
   {
@@ -111,7 +111,7 @@
     "common_dev_port": false,
     "local_only": false,
     "pid": 644,
-    "port": 61465,
+    "port": 61477,
     "process_name": "rapportd"
   },
   {
@@ -119,7 +119,7 @@
     "common_dev_port": false,
     "local_only": false,
     "pid": 644,
-    "port": 61466,
+    "port": 61478,
     "process_name": "rapportd"
   }
 ]

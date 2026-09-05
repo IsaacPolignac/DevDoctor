@@ -18,13 +18,17 @@ use devdoctor_core::path_env::{build_path_report, PathReport, PathSource};
 use devdoctor_core::paths::DevDoctorDirs;
 use devdoctor_core::platform::{ListeningPort, OsInfo, Platform, ServiceInfo};
 use devdoctor_core::resolve::{resolve_command, CommandResolution};
+use devdoctor_core::schedule::{self, SnapshotSchedule};
 use devdoctor_core::shell::{AliasDef, EvalRef, PathMutation, ShellConfigFile, ShellKind, SourceRef};
 use devdoctor_core::snapshot::{self, Snapshot, SnapshotDiff, SnapshotOptions, SnapshotSummary};
+use devdoctor_core::startup::{self, StartupProfile};
+use devdoctor_core::tracking::{self, RunRecord, TrackingState};
 use devdoctor_core::transaction::{MutationPolicy, Transaction, TransactionManager};
 use devdoctor_core::{Error, Result};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::collections::HashSet;
+use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
@@ -203,6 +207,20 @@ pub const PAGES: &[(&str, &str)] = &[
     ("settings", "Settings"),
 ];
 
+/// The adapter for the operating system DevDoctor was built for.
+#[cfg(target_os = "macos")]
+fn real_platform(runner: Arc<dyn devdoctor_core::command::CommandRunner>) -> Arc<dyn Platform> {
+    Arc::new(devdoctor_platform_macos::MacosPlatform::new(runner))
+}
+
+#[cfg(windows)]
+fn real_platform(runner: Arc<dyn devdoctor_core::command::CommandRunner>) -> Arc<dyn Platform> {
+    Arc::new(devdoctor_platform_windows::WindowsPlatform::new(runner))
+}
+
+#[cfg(not(any(target_os = "macos", windows)))]
+compile_error!("DevDoctor currently supports macOS and Windows; a Linux adapter is planned (see docs/DECISIONS.md)");
+
 impl DevDoctor {
     /// Opens DevDoctor for the current user with the real platform adapter.
     pub fn open(opts: OpenOptions) -> Result<Self> {
@@ -212,7 +230,7 @@ impl DevDoctor {
         };
         dirs.ensure()?;
         let runner: Arc<dyn devdoctor_core::command::CommandRunner> = Arc::new(RealRunner);
-        let platform: Arc<dyn Platform> = Arc::new(devdoctor_platform_macos::MacosPlatform::new(runner.clone()));
+        let platform = real_platform(runner.clone());
         let ctx = SystemContext::detect(platform, runner, dirs.clone(), opts.context)?;
         let db = Database::open(&dirs.db_path)?;
         Ok(Self::assemble(ctx, db, dirs))
@@ -675,6 +693,109 @@ impl DevDoctor {
         }
     }
 
+    // ----- startup profile -----
+
+    /// Measures how long a new login shell takes to start (`samples` full starts) and, for zsh,
+    /// traces one start to attribute the time to startup-file lines.
+    pub fn startup_profile(&self, samples: usize, with_trace: bool) -> StartupProfile {
+        self.ctx.refresh_shell_capture();
+        startup::profile(&self.ctx, samples, with_trace)
+    }
+
+    // ----- install tracking (`devdoctor run`) -----
+
+    /// Records the environment right before a command the user is about to run. The "before"
+    /// snapshot is persisted immediately so it survives even if the command never returns.
+    pub fn begin_tracking(&self, label: &str) -> Result<TrackingState> {
+        let state = tracking::begin(&self.ctx, label, None);
+        self.db.insert_snapshot(&state.before)?;
+        Ok(state)
+    }
+
+    /// Records the environment after the command, stores the "after" snapshot and the run record
+    /// (snapshot diff, startup-file diffs, new files, version changes).
+    pub fn finish_tracking(
+        &self,
+        state: TrackingState,
+        command: Vec<String>,
+        cwd: Option<PathBuf>,
+        exit_code: Option<i32>,
+    ) -> Result<RunRecord> {
+        let (after, record) = tracking::finish(&self.ctx, state, command, cwd, exit_code, None);
+        self.db.insert_snapshot(&after)?;
+        self.db.insert_run(&record)?;
+        Ok(record)
+    }
+
+    pub fn runs(&self, limit: usize) -> Result<Vec<RunRecord>> {
+        self.db.list_runs(limit)
+    }
+
+    /// A snapshot of the environment right now, not persisted (used by `devdoctor watch`).
+    pub fn snapshot_now(&self, quick: bool) -> Snapshot {
+        self.ctx.refresh_shell_capture();
+        snapshot::collect(&self.ctx, &SnapshotOptions { kind: "watch", label: None, storage: None, quick })
+    }
+
+    pub fn diff_snapshots(&self, from: &Snapshot, to: &Snapshot) -> SnapshotDiff {
+        snapshot::diff(from, to)
+    }
+
+    // ----- scheduled snapshots (launchd on macOS, Task Scheduler on Windows) -----
+
+    pub fn snapshot_schedule(&self) -> SnapshotSchedule {
+        schedule::status(&self.ctx)
+    }
+
+    fn schedule_issue(&self, hour: u8, minute: u8) -> Result<Issue> {
+        let program = schedule::cli_binary(&self.ctx).ok_or_else(|| {
+            Error::Invalid(
+                format!("the `devdoctor` command line tool was not found in PATH; install it (for example `cargo install --path crates/devdoctor-cli`) so {} has a stable command to run", schedule::scheduler_name()),
+            )
+        })?;
+        Ok(IssueBuilder::new("manual.schedule.install", Category::Services, "snapshot_agent", "Take a snapshot every day")
+            .severity(Severity::Info)
+            .description("Requested from the snapshot settings.")
+            .metadata(json!({ "program": program, "hour": hour, "minute": minute, "data_dir": schedule::custom_data_dir(&self.ctx) }))
+            .fixer("schedule.snapshot_agent.install")
+            .build())
+    }
+
+    fn unschedule_issue(&self) -> Issue {
+        IssueBuilder::new("manual.schedule.remove", Category::Services, "snapshot_agent", "Stop taking daily snapshots")
+            .severity(Severity::Info)
+            .description("Requested from the snapshot settings.")
+            .fixer("schedule.snapshot_agent.remove")
+            .build()
+    }
+
+    pub fn preview_schedule_snapshots(&self, hour: u8, minute: u8) -> Result<FixPreview> {
+        let issue = self.schedule_issue(hour, minute)?;
+        let fixer = self.fixers.by_id("schedule.snapshot_agent.install").ok_or_else(|| Error::FixUnavailable("fixer missing".into()))?;
+        fixer.preview(&issue, &self.ctx)
+    }
+
+    /// Installs (or rewrites) the LaunchAgent that takes a snapshot every day at `hour:minute`.
+    pub fn schedule_snapshots(&self, hour: u8, minute: u8) -> Result<Transaction> {
+        let issue = self.schedule_issue(hour, minute)?;
+        let fixer = self.fixers.by_id("schedule.snapshot_agent.install").ok_or_else(|| Error::FixUnavailable("fixer missing".into()))?;
+        self.tx.apply(fixer.as_ref(), &issue, &self.ctx)
+    }
+
+    pub fn preview_unschedule_snapshots(&self) -> Result<FixPreview> {
+        let fixer = self.fixers.by_id("schedule.snapshot_agent.remove").ok_or_else(|| Error::FixUnavailable("fixer missing".into()))?;
+        fixer.preview(&self.unschedule_issue(), &self.ctx)
+    }
+
+    pub fn unschedule_snapshots(&self) -> Result<Transaction> {
+        let fixer = self.fixers.by_id("schedule.snapshot_agent.remove").ok_or_else(|| Error::FixUnavailable("fixer missing".into()))?;
+        self.tx.apply(fixer.as_ref(), &self.unschedule_issue(), &self.ctx)
+    }
+
+    pub fn run_record(&self, id: &str) -> Result<RunRecord> {
+        self.db.run(id)?.ok_or_else(|| Error::NotFound(format!("run {id}")))
+    }
+
     // ----- overview & search -----
 
     pub fn overview(&self) -> Result<Overview> {
@@ -841,7 +962,198 @@ impl DevDoctor {
             }
         }
         write("previews", Value::Object(previews))?;
+        write("startup", serde_json::to_value(self.startup_profile(3, true))?)?;
+        write("runs", serde_json::to_value(self.runs(20)?)?)?;
+        write("schedule", serde_json::to_value(self.snapshot_schedule())?)?;
         Ok(written)
+    }
+
+    /// A Markdown summary of the machine and its open issues, ready to paste into a bug report,
+    /// a forum post or a chat. Sanitised like the JSON report: home paths become `~`, the
+    /// username is replaced and likely secrets are redacted.
+    pub fn markdown_report(&self) -> Result<String> {
+        let home = self.ctx.home.clone();
+        let user = self.ctx.user.clone();
+        let clean = |text: &str| -> String {
+            let mut v = Value::String(text.to_string());
+            sanitize_value(&mut v, &home, &user);
+            v.as_str().unwrap_or_default().to_string()
+        };
+        let system = self.system();
+        let last = self.db.latest_scan()?;
+        let issues = self.issues(false)?;
+        let path = self.path_report();
+        let runtimes = self.runtimes();
+        let tools = self.tools(false);
+        let mut md = String::new();
+        let _ = writeln!(md, "## DevDoctor report");
+        let _ = writeln!(md);
+        let _ = writeln!(
+            md,
+            "- DevDoctor {} · {} {} ({}{}) · shell: {}",
+            system.devdoctor_version,
+            system.os.name,
+            system.os.version,
+            system.os.arch,
+            if system.os.rosetta == Some(true) { ", under Rosetta" } else { "" },
+            system.shell
+        );
+        let _ = writeln!(md, "- Generated: {}", Utc::now().format("%Y-%m-%d %H:%M UTC"));
+        match &last {
+            Some(scan) => {
+                let _ = writeln!(
+                    md,
+                    "- Last scan: {} scan, {} open issue{}, health {}/100, {} checks run",
+                    scan.mode,
+                    issues.len(),
+                    if issues.len() == 1 { "" } else { "s" },
+                    scan.health_score.map(|h| h.to_string()).unwrap_or_else(|| "?".into()),
+                    scan.detectors_run
+                );
+            }
+            None => {
+                let _ = writeln!(md, "- No scan recorded yet (run `devdoctor scan`)");
+            }
+        }
+        let _ = writeln!(md);
+        let _ = writeln!(md, "### Open issues");
+        let _ = writeln!(md);
+        if issues.is_empty() {
+            let _ = writeln!(md, "None.");
+        } else {
+            let _ = writeln!(md, "| Severity | Confidence | Issue | Detector | Auto-fix |");
+            let _ = writeln!(md, "| --- | --- | --- | --- | --- |");
+            for r in &issues {
+                let i = &r.issue;
+                let _ = writeln!(
+                    md,
+                    "| {} | {} | {} | `{}` | {} |",
+                    i.severity,
+                    i.confidence,
+                    clean(&i.title).replace('|', "\\|"),
+                    i.detector_id,
+                    if i.fixer_available {
+                        if i.batch_safe {
+                            "yes (safe)"
+                        } else {
+                            "yes"
+                        }
+                    } else {
+                        "no"
+                    }
+                );
+            }
+            let problems: Vec<&IssueRecord> = issues.iter().filter(|r| r.issue.is_problem()).collect();
+            if !problems.is_empty() {
+                let _ = writeln!(md);
+                let _ = writeln!(md, "#### Details of the problems");
+                for r in problems {
+                    let i = &r.issue;
+                    let _ = writeln!(md);
+                    let _ = writeln!(md, "**{}** (`{}`, id `{}`)", clean(&i.title), i.detector_id, i.id);
+                    let _ = writeln!(md);
+                    let _ = writeln!(md, "{}", clean(&i.description));
+                    if !i.evidence.is_empty() {
+                        let _ = writeln!(md);
+                        for e in i.evidence.iter().take(6) {
+                            let _ = writeln!(md, "- {}", clean(e));
+                        }
+                    }
+                }
+            }
+        }
+        let _ = writeln!(md);
+        let _ =
+            writeln!(md, "### PATH ({} entries, {} duplicate, {} missing)", path.entries.len(), path.duplicate_count, path.missing_count);
+        let _ = writeln!(md);
+        for e in &path.entries {
+            let mut flags = Vec::new();
+            if e.is_duplicate {
+                flags.push("duplicate".to_string());
+            }
+            if !e.exists {
+                flags.push("missing".to_string());
+            }
+            if let Some(s) = &e.suspicious {
+                flags.push(s.clone());
+            }
+            let source = e
+                .sources
+                .first()
+                .map(|s| format!("{}:{}", self.ctx.display_path(&s.file), s.line))
+                .or_else(|| e.source_hint.clone())
+                .unwrap_or_default();
+            let _ = writeln!(
+                md,
+                "{}. `{}` — {}{}{}",
+                e.position,
+                clean(&e.raw),
+                e.origin_label,
+                if source.is_empty() { String::new() } else { format!(" — {}", clean(&source)) },
+                if flags.is_empty() { String::new() } else { format!(" — **{}**", flags.join(", ")) }
+            );
+        }
+        let _ = writeln!(md);
+        let _ = writeln!(md, "### Runtimes");
+        let _ = writeln!(md);
+        let exe = |name: &str, x: &Option<devdoctor_core::resolve::Executable>| match x {
+            Some(x) => format!(
+                "- {name}: `{}` ({}{})",
+                clean(&x.path.display().to_string()),
+                x.origin_label,
+                x.version.as_ref().map(|v| format!(", {v}")).unwrap_or_default()
+            ),
+            None => format!("- {name}: not found"),
+        };
+        let _ = writeln!(md, "{}", exe("node", &runtimes.node.active_node));
+        let _ = writeln!(md, "{}", exe("npm", &runtimes.node.active_npm));
+        let _ = writeln!(md, "{}", exe("python3", &runtimes.python.python3));
+        let _ = writeln!(md, "{}", exe("pip3", &runtimes.python.pip3));
+        let _ = writeln!(md, "{}", exe("cargo", &runtimes.rust.cargo));
+        if runtimes.node.installations.len() > 1 {
+            let _ = writeln!(
+                md,
+                "- Node.js installations: {}",
+                runtimes
+                    .node
+                    .installations
+                    .iter()
+                    .map(|i| format!("{} ({})", i.label, i.version.clone().unwrap_or_default()))
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            );
+        }
+        if runtimes.python.installations.len() > 1 {
+            let _ = writeln!(
+                md,
+                "- Python installations: {}",
+                runtimes
+                    .python
+                    .installations
+                    .iter()
+                    .map(|i| format!("{} ({})", i.label, i.version.clone().unwrap_or_default()))
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            );
+        }
+        let installed: Vec<&tools::DevTool> = tools.iter().filter(|t| t.installed).collect();
+        if !installed.is_empty() {
+            let _ = writeln!(md);
+            let _ = writeln!(md, "### Developer tools");
+            let _ = writeln!(md);
+            for t in installed {
+                let _ = writeln!(
+                    md,
+                    "- {}{}{}",
+                    t.name,
+                    t.version.as_ref().map(|v| format!(" {v}")).unwrap_or_default(),
+                    t.install_method.as_ref().map(|m| format!(" (via {m})")).unwrap_or_default()
+                );
+            }
+        }
+        let _ = writeln!(md);
+        let _ = writeln!(md, "_Home paths shortened, username replaced and likely secrets redacted by DevDoctor. Generated with `devdoctor report --markdown`._");
+        Ok(md)
     }
 
     /// A sanitized diagnostic report: home paths become `~`, the username is replaced, likely
@@ -888,8 +1200,9 @@ impl DevDoctor {
     }
 }
 
-/// Sanitizes free text inside a JSON value: home paths become `~`, the username is replaced,
-/// likely secrets are redacted.
+/// Sanitizes free text inside a JSON value: home paths become `~`, the username (as a path
+/// component or a whole word) becomes `<user>`, e-mail addresses become `<email>`, likely
+/// secrets are redacted.
 pub fn sanitize_value(v: &mut Value, home: &Path, user: &str) {
     match v {
         Value::String(s) => {
@@ -897,12 +1210,42 @@ pub fn sanitize_value(v: &mut Value, home: &Path, user: &str) {
             if !user.is_empty() && user.len() > 1 {
                 out = out.replace(&format!("/Users/{user}"), "/Users/<user>").replace(&format!("/home/{user}"), "/home/<user>");
             }
+            out = redact_emails(&out);
+            if user.len() >= 3 {
+                out = replace_word(&out, user, "<user>");
+            }
             *s = devdoctor_core::redact::redact_text(&out);
         }
         Value::Array(a) => a.iter_mut().for_each(|x| sanitize_value(x, home, user)),
         Value::Object(o) => o.values_mut().for_each(|x| sanitize_value(x, home, user)),
         _ => {}
     }
+}
+
+/// Replaces whole-word occurrences of `word` (letters, digits and `_` count as word characters).
+fn replace_word(text: &str, word: &str, replacement: &str) -> String {
+    let is_word = |c: char| c.is_alphanumeric() || c == '_';
+    let mut out = String::with_capacity(text.len());
+    let mut rest = text;
+    while let Some(pos) = rest.find(word) {
+        let before_ok = rest[..pos].chars().next_back().is_none_or(|c| !is_word(c));
+        let after_ok = rest[pos + word.len()..].chars().next().is_none_or(|c| !is_word(c));
+        out.push_str(&rest[..pos]);
+        if before_ok && after_ok {
+            out.push_str(replacement);
+        } else {
+            out.push_str(word);
+        }
+        rest = &rest[pos + word.len()..];
+    }
+    out.push_str(rest);
+    out
+}
+
+fn redact_emails(text: &str) -> String {
+    static RE: std::sync::OnceLock<regex::Regex> = std::sync::OnceLock::new();
+    let re = RE.get_or_init(|| regex::Regex::new(r"[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}").expect("static regex"));
+    re.replace_all(text, "<email>").into_owned()
 }
 
 #[cfg(test)]
@@ -979,10 +1322,42 @@ mod tests {
     }
 
     #[test]
+    fn tracks_a_run_and_renders_markdown() {
+        let dir = tempfile::tempdir().unwrap();
+        let home = dir.path();
+        std::fs::write(home.join(".zshrc"), "export A=1\n").unwrap();
+        let app = app(home, "/usr/bin:/bin");
+        let state = app.begin_tracking("fake install").unwrap();
+        std::fs::write(home.join(".zshrc"), "export A=1\nexport PATH=\"$HOME/.newtool/bin:$PATH\"\n").unwrap();
+        std::fs::create_dir_all(home.join(".newtool/bin")).unwrap();
+        let record = app.finish_tracking(state, vec!["sh".into(), "install.sh".into()], None, Some(0)).unwrap();
+        assert!(record.changed_anything());
+        assert_eq!(record.file_diffs.len(), 1);
+        let listed = app.runs(10).unwrap();
+        assert_eq!(listed.len(), 1);
+        assert_eq!(app.run_record(&record.id[..8]).unwrap().id, record.id);
+        assert_eq!(app.snapshots(10).unwrap().iter().filter(|s| s.kind.starts_with("run_")).count(), 2);
+
+        let md = app.markdown_report().unwrap();
+        assert!(md.starts_with("## DevDoctor report"));
+        assert!(md.contains("### PATH"));
+        assert!(!md.contains(&home.display().to_string()), "home paths are shortened in the Markdown report");
+    }
+
+    #[test]
     fn sanitizes_reports() {
-        let mut v = json!({ "path": "/Users/jane/.zshrc", "token": "OPENAI_API_KEY=sk-abcdefghijklmnop" });
+        let mut v = json!({
+            "path": "/Users/jane/.zshrc",
+            "token": "OPENAI_API_KEY=sk-abcdefghijklmnop",
+            "user": "jane",
+            "cmd": "LOGNAME=jane node /tmp/x-jane-y/app.js --name janet",
+            "email": "jane.doe@example.com",
+        });
         sanitize_value(&mut v, Path::new("/Users/jane"), "jane");
         assert_eq!(v["path"], "~/.zshrc");
         assert!(!v["token"].as_str().unwrap().contains("sk-abcdefghijklmnop"));
+        assert_eq!(v["user"], "<user>");
+        assert_eq!(v["cmd"], "LOGNAME=<user> node /tmp/x-<user>-y/app.js --name janet", "whole words only");
+        assert_eq!(v["email"], "<email>");
     }
 }

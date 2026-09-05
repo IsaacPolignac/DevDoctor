@@ -4,17 +4,28 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
-description = "DevDoctor facade: wires the core engine, detectors, fixers and the macOS platform adapter for the CLI and the desktop app"
+repository.workspace = true
+homepage.workspace = true
+authors.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "DevDoctor facade: wires the core engine, detectors, fixers and the platform adapter for the CLI and the desktop apps"
 
 [dependencies]
 devdoctor-core.workspace = true
 devdoctor-detectors.workspace = true
 devdoctor-fixers.workspace = true
-devdoctor-platform-macos.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 tracing.workspace = true
 chrono.workspace = true
+regex.workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+devdoctor-platform-macos.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+devdoctor-platform-windows.workspace = true
 
 [dev-dependencies]
 tempfile.workspace = true

@@ -1,0 +1,26 @@
+name: Detector or fix request
+description: A problem DevDoctor should detect (or repair) on a developer Mac.
+labels: [detector]
+body:
+  - type: textarea
+    id: symptom
+    attributes:
+      label: The symptom
+      description: What does the developer see? An error message, a slow terminal, a command that runs the wrong version...
+    validations:
+      required: true
+  - type: textarea
+    id: cause
+    attributes:
+      label: The cause, if you know it
+      description: Which file, PATH entry, package or setting produces it, and how you found out.
+  - type: textarea
+    id: evidence
+    attributes:
+      label: How DevDoctor could observe it
+      description: Files to read, commands to run (no network, no sudo), what output means "problem".
+  - type: textarea
+    id: fix
+    attributes:
+      label: A safe fix, if any
+      description: What exact change repairs it, and how DevDoctor could verify the repair worked. Say if it is reversible.

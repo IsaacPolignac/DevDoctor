@@ -7,7 +7,7 @@
       "value_raw": "'cd ~/Downloads/purepeptide-site && claude --model claude-fable-5-1 --effort ultracode'"
     }
   ],
-  "capture_duration_ms": 24,
+  "capture_duration_ms": 30,
   "capture_warnings": [],
   "evals": [
     {

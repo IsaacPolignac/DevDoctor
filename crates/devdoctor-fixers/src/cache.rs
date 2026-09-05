@@ -127,7 +127,7 @@ impl Fixer for ClearHomebrewCacheFixer {
 pub struct ClearNpmCacheFixer;
 
 fn npm_cache_dir(ctx: &SystemContext) -> PathBuf {
-    ctx.home.join(".npm/_cacache")
+    devdoctor_core::inventory::storage::npm_cache_dir(ctx)
 }
 
 impl Fixer for ClearNpmCacheFixer {
@@ -181,10 +181,6 @@ impl Fixer for ClearNpmCacheFixer {
     }
 }
 
-fn first_existing(ctx: &SystemContext, candidates: &[&str]) -> PathBuf {
-    candidates.iter().map(|c| ctx.home.join(c)).find(|p| p.exists()).unwrap_or_else(|| ctx.home.join(candidates[0]))
-}
-
 pub struct ClearPipCacheFixer;
 
 impl Fixer for ClearPipCacheFixer {
@@ -205,7 +201,7 @@ impl Fixer for ClearPipCacheFixer {
     }
 
     fn preview(&self, issue: &Issue, ctx: &SystemContext) -> Result<FixPreview> {
-        let dir = first_existing(ctx, &["Library/Caches/pip", ".cache/pip"]);
+        let dir = devdoctor_core::inventory::storage::pip_cache_dir(ctx);
         cache_preview(
             PIP_ID,
             issue,
@@ -218,12 +214,12 @@ impl Fixer for ClearPipCacheFixer {
     }
 
     fn apply(&self, _issue: &Issue, ctx: &SystemContext, tx: &mut TxBuilder<'_>) -> Result<()> {
-        tx.clear_dir(&first_existing(ctx, &["Library/Caches/pip", ".cache/pip"]), &[])?;
+        tx.clear_dir(&devdoctor_core::inventory::storage::pip_cache_dir(ctx), &[])?;
         Ok(())
     }
 
     fn validate(&self, _issue: &Issue, ctx: &SystemContext, tx: &TxBuilder<'_>) -> Result<ValidationReport> {
-        let dir = first_existing(ctx, &["Library/Caches/pip", ".cache/pip"]);
+        let dir = devdoctor_core::inventory::storage::pip_cache_dir(ctx);
         let mut report = ValidationReport::ok();
         report.check(
             "cache emptied",
@@ -254,7 +250,7 @@ impl Fixer for ClearUvCacheFixer {
     }
 
     fn preview(&self, issue: &Issue, ctx: &SystemContext) -> Result<FixPreview> {
-        let dir = first_existing(ctx, &["Library/Caches/uv", ".cache/uv"]);
+        let dir = devdoctor_core::inventory::storage::uv_cache_dir(ctx);
         cache_preview(
             UV_ID,
             issue,
@@ -267,12 +263,12 @@ impl Fixer for ClearUvCacheFixer {
     }
 
     fn apply(&self, _issue: &Issue, ctx: &SystemContext, tx: &mut TxBuilder<'_>) -> Result<()> {
-        tx.clear_dir(&first_existing(ctx, &["Library/Caches/uv", ".cache/uv"]), &[])?;
+        tx.clear_dir(&devdoctor_core::inventory::storage::uv_cache_dir(ctx), &[])?;
         Ok(())
     }
 
     fn validate(&self, _issue: &Issue, ctx: &SystemContext, tx: &TxBuilder<'_>) -> Result<ValidationReport> {
-        let dir = first_existing(ctx, &["Library/Caches/uv", ".cache/uv"]);
+        let dir = devdoctor_core::inventory::storage::uv_cache_dir(ctx);
         let mut report = ValidationReport::ok();
         report.check(
             "cache emptied",

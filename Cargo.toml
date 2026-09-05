@@ -3,6 +3,7 @@ resolver = "2"
 members = [
   "crates/devdoctor-core",
   "crates/devdoctor-platform-macos",
+  "crates/devdoctor-platform-windows",
   "crates/devdoctor-detectors",
   "crates/devdoctor-fixers",
   "crates/devdoctor",
@@ -11,14 +12,20 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 license = "MIT"
 rust-version = "1.85"
+repository = "https://github.com/YOUR_GITHUB_USER/devdoctor"
+homepage = "https://github.com/YOUR_GITHUB_USER/devdoctor"
+authors = ["DevDoctor contributors"]
+keywords = ["developer-tools", "diagnostics", "path", "shell", "macos"]
+categories = ["command-line-utilities", "development-tools"]
 
 [workspace.dependencies]
 devdoctor-core = { path = "crates/devdoctor-core" }
 devdoctor-platform-macos = { path = "crates/devdoctor-platform-macos" }
+devdoctor-platform-windows = { path = "crates/devdoctor-platform-windows" }
 devdoctor-detectors = { path = "crates/devdoctor-detectors" }
 devdoctor-fixers = { path = "crates/devdoctor-fixers" }
 devdoctor = { path = "crates/devdoctor" }
@@ -39,6 +46,7 @@ sysinfo = "0.39"
 jwalk = "0.9"
 plist = "1"
 clap = { version = "4", features = ["derive", "env"] }
+clap_complete = "4"
 tempfile = "3"
 similar = "2"
 dirs = "6"

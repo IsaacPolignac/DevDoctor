@@ -72,6 +72,12 @@ pub enum Operation {
         exit_code: Option<i32>,
         description: String,
     },
+    /// A symbolic link removed (the link itself, never its target). Undone by recreating the
+    /// link with the recorded target.
+    SymlinkDelete {
+        path: PathBuf,
+        target: PathBuf,
+    },
 }
 
 impl Operation {
@@ -82,11 +88,12 @@ impl Operation {
             Operation::DirDelete { .. } => "dir_delete",
             Operation::ProcessStop { .. } => "process_stop",
             Operation::Command { .. } => "command",
+            Operation::SymlinkDelete { .. } => "symlink_delete",
         }
     }
 
     pub fn reversible(&self) -> bool {
-        matches!(self, Operation::FileWrite { .. } | Operation::FileDelete { .. })
+        matches!(self, Operation::FileWrite { .. } | Operation::FileDelete { .. } | Operation::SymlinkDelete { .. })
     }
 
     pub fn describe(&self, home: &Path) -> String {
@@ -107,6 +114,9 @@ impl Operation {
             }
             Operation::Command { program, args, exit_code, .. } => {
                 format!("Ran {} {} (exit {})", program, args.join(" "), exit_code.map(|c| c.to_string()).unwrap_or_else(|| "?".into()))
+            }
+            Operation::SymlinkDelete { path, target } => {
+                format!("Removed broken link {} (pointed to {})", fs_util::display_path(path, home), fs_util::display_path(target, home))
             }
         }
     }
@@ -279,6 +289,16 @@ impl MutationPolicy {
         }
         Ok(())
     }
+
+    /// Validates the removal of a symbolic link itself. The link must be inside an allowed root
+    /// and must currently be a symlink; its target is never touched.
+    pub fn check_delete_symlink(&self, path: &Path) -> Result<()> {
+        self.check_common(path)?;
+        if !fs_util::is_symlink(path) {
+            return Err(Error::UnsafePath(format!("{} is not a symbolic link", path.display())));
+        }
+        Ok(())
+    }
 }
 
 /// The only way a fixer can change the machine. Records every operation.
@@ -348,6 +368,17 @@ impl<'a> TxBuilder<'a> {
         Ok(())
     }
 
+    /// Removes a symbolic link (only the link). Reversible: rollback recreates it with the same
+    /// target. The target itself is never read, followed or modified.
+    pub fn delete_symlink(&mut self, path: &Path) -> Result<PathBuf> {
+        self.policy.check_delete_symlink(path)?;
+        let target = std::fs::read_link(path).map_err(|e| Error::io(path, e))?;
+        std::fs::remove_file(path).map_err(|e| Error::io(path, e))?;
+        tracing::info!(tx = %self.tx.id, path = %path.display(), target = %target.display(), "symlink removed");
+        self.tx.operations.push(Operation::SymlinkDelete { path: path.to_path_buf(), target: target.clone() });
+        Ok(target)
+    }
+
     /// Deletes a directory tree. Not reversible; callers must have shown a preview.
     pub fn delete_dir(&mut self, path: &Path) -> Result<DirSize> {
         self.policy.check_delete_dir(path)?;
@@ -379,8 +410,7 @@ impl<'a> TxBuilder<'a> {
                 });
                 total.add(size);
             } else {
-                use std::os::unix::fs::MetadataExt;
-                let bytes = meta.blocks() * 512;
+                let bytes = crate::sys::allocated_bytes(&meta);
                 std::fs::remove_file(&entry).map_err(|e| Error::io(&entry, e))?;
                 self.tx.operations.push(Operation::DirDelete { path: entry.clone(), bytes, entries: 1 });
                 total.allocated += bytes;
@@ -464,6 +494,21 @@ fn undo_operations(tx: &Transaction, store: &BackupStore, force: bool) -> Vec<St
             Operation::DirDelete { path, .. } => errors.push(format!("deleted directory {} cannot be restored", path.display())),
             Operation::ProcessStop { .. } => {}
             Operation::Command { program, .. } => errors.push(format!("command `{program}` cannot be undone")),
+            Operation::SymlinkDelete { path, target } => {
+                if std::fs::symlink_metadata(path).is_ok() {
+                    if !force {
+                        errors.push(format!("{} exists again; use force to replace it", path.display()));
+                        continue;
+                    }
+                    if let Err(e) = std::fs::remove_file(path) {
+                        errors.push(format!("could not replace {}: {e}", path.display()));
+                        continue;
+                    }
+                }
+                if let Err(e) = crate::sys::symlink(target, path) {
+                    errors.push(format!("could not recreate link {}: {e}", path.display()));
+                }
+            }
         }
     }
     errors

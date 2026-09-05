@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "description": "Find what broke your development environment and fix it safely",
+  "homepage": "https://github.com/YOUR_GITHUB_USER/devdoctor",
+  "license": "MIT",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/YOUR_GITHUB_USER/devdoctor/releases/download/v0.2.0/devdoctor-v0.2.0-x86_64-pc-windows-msvc.zip",
+      "hash": "REPLACE_WITH_ZIP_SHA256"
+    }
+  },
+  "bin": "devdoctor.exe",
+  "checkver": "github",
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/YOUR_GITHUB_USER/devdoctor/releases/download/v$version/devdoctor-v$version-x86_64-pc-windows-msvc.zip",
+        "hash": {
+          "url": "$url.sha256"
+        }
+      }
+    }
+  }
+}

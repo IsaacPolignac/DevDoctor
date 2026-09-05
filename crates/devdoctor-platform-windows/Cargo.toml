@@ -1,0 +1,18 @@
+[package]
+name = "devdoctor-platform-windows"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+authors.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Windows adapter for DevDoctor: processes, listening ports, startup entries, system information"
+
+[dependencies]
+devdoctor-core.workspace = true
+tracing.workspace = true
+sysinfo.workspace = true
+chrono.workspace = true

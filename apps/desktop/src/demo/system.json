@@ -1,6 +1,6 @@
 {
   "data_dir": "~/Library/Application Support/DevDoctor",
-  "devdoctor_version": "0.1.0",
+  "devdoctor_version": "0.2.0",
   "home": "~",
   "os": {
     "arch": "arm64",
@@ -11,5 +11,5 @@
   },
   "shell": "zsh",
   "shell_path": "/bin/zsh",
-  "user": "demo"
+  "user": "<user>"
 }

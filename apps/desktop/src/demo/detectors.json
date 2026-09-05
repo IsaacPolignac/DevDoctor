@@ -37,6 +37,15 @@
   },
   {
     "category": "shell",
+    "description": "Symbolic links in PATH directories whose target no longer exists (leftovers of uninstalled tools).",
+    "id": "shell.path.dangling_symlinks",
+    "modes": [
+      "quick"
+    ],
+    "name": "Broken command links in PATH"
+  },
+  {
+    "category": "shell",
     "description": "`source` statements in startup files pointing to files that are gone.",
     "id": "shell.source.missing_file",
     "modes": [
@@ -81,6 +90,24 @@
     "name": "Environment variables pointing nowhere"
   },
   {
+    "category": "shell",
+    "description": "Messages your startup files print each time a terminal opens: command not found, missing files, insecure completion directories.",
+    "id": "shell.startup.errors",
+    "modes": [
+      "quick"
+    ],
+    "name": "Errors printed at terminal startup"
+  },
+  {
+    "category": "shell",
+    "description": "Measures how long a new login shell takes to start and, for zsh, which startup lines are responsible.",
+    "id": "shell.startup.slow",
+    "modes": [
+      "quick"
+    ],
+    "name": "Terminal startup time"
+  },
+  {
     "category": "runtimes",
     "description": "Several Python installations, and `python` vs `python3` resolving to different interpreters.",
     "id": "python.interpreter.multiple",
@@ -118,12 +145,48 @@
   },
   {
     "category": "runtimes",
+    "description": "`npm install -g` writes into a directory you do not own (the classic EACCES error that people fix with sudo).",
+    "id": "node.npm.global_prefix_not_writable",
+    "modes": [
+      "quick"
+    ],
+    "name": "npm global install permissions"
+  },
+  {
+    "category": "runtimes",
+    "description": "After switching Node versions with nvm, fnm, asdf or mise, global packages (and their commands) stay behind in the old version.",
+    "id": "node.npm.stranded_globals",
+    "modes": [
+      "quick"
+    ],
+    "name": "Global npm packages left in another Node version"
+  },
+  {
+    "category": "ai_tools",
+    "description": "Claude Code present both as the native install (~/.local/bin/claude) and as the npm package, or in several Node versions.",
+    "id": "ai.claude_code.duplicate_install",
+    "modes": [
+      "quick"
+    ],
+    "name": "Claude Code installed more than once"
+  },
+  {
+    "category": "runtimes",
     "description": "rustup is installed but its bin directory is not in PATH, so cargo and rustc are not reachable.",
     "id": "rust.cargo_bin.not_in_path",
     "modes": [
       "quick"
     ],
     "name": "Cargo bin directory in PATH"
+  },
+  {
+    "category": "runtimes",
+    "description": "git, clang, make and Homebrew need the Command Line Tools; checks they are installed and that xcode-select points to an existing directory.",
+    "id": "macos.xcode_clt",
+    "modes": [
+      "quick"
+    ],
+    "name": "Xcode Command Line Tools"
   },
   {
     "category": "package_managers",

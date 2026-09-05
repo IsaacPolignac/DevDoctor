@@ -44,6 +44,20 @@ impl Detector for HomebrewHealthDetector {
                     .build(),
             );
         }
+        if inv.other_prefix.is_none() && ctx.os.arch == "arm64" && prefix == std::path::Path::new("/usr/local") {
+            issues.push(
+                IssueBuilder::new(HEALTH_ID, Category::PackageManagers, "intel_prefix", "Homebrew is the Intel build, running under Rosetta")
+                    .severity(Severity::Medium)
+                    .confidence(Confidence::Confirmed)
+                    .description("Homebrew lives under /usr/local, the prefix of the Intel build. This Mac has an Apple Silicon processor, where Homebrew's native prefix is /opt/homebrew. Everything installed with this Homebrew runs through Rosetta translation, typically after a Migration Assistant transfer from an Intel Mac.")
+                    .impact("Formulae run slower, some no longer receive Intel bottles and must be compiled, and native tools (Node, Python, Rust) end up as x86_64 builds that cannot load Apple Silicon libraries.")
+                    .evidence("/usr/local/bin/brew exists and /opt/homebrew does not")
+                    .evidence(format!("architecture: {}", ctx.os.arch))
+                    .recommended_action("Install the native Homebrew (the official install script puts it in /opt/homebrew), reinstall the formulae you use (`brew bundle dump` on the old one, `brew bundle` on the new one), then remove the Intel installation with Homebrew's uninstall script. DevDoctor does not do this automatically.")
+                    .metadata(json!({ "prefix": prefix, "expected_prefix": inv.expected_prefix }))
+                    .build(),
+            );
+        }
         if !inv.in_path {
             let profile = match ctx.shell {
                 devdoctor_core::shell::ShellKind::Bash => ctx.home.join(".bash_profile"),

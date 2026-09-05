@@ -37,7 +37,11 @@ impl Detector for PathDuplicateDetector {
                 "PATH taken from the DevDoctor process environment (login shell capture unavailable)".to_string()
             }
             PathSource::Override => "PATH provided explicitly".to_string(),
+            PathSource::Registry => {
+                "PATH read from the Windows registry (machine value, then user value), as a new terminal sees it".to_string()
+            }
         };
+        let registry = matches!(capture.path.source, PathSource::Registry);
         for (dir, positions) in capture.path.duplicates() {
             let plan = plan_duplicate_removals(&analysis.mutations, &analysis.initial_path, &dir);
             let display_dir = ctx.display_path(Path::new(&dir));
@@ -119,6 +123,10 @@ impl Detector for PathDuplicateDetector {
                         keep_text
                     ))
                     .fixer("shell.path.remove_duplicate");
+            } else if registry {
+                builder = builder.recommended_action(format!(
+                    "Open Settings > System > About > Advanced system settings > Environment Variables and remove the repeated {display_dir} entry (it appears in both the system and the user Path, or twice in one of them). DevDoctor does not edit the Windows registry yet."
+                ));
             } else if attributed == 0 {
                 builder = builder.recommended_action(format!(
                     "DevDoctor could not find a plain statement in your startup files that adds {display_dir}. It is probably added by a tool initialisation (eval or sourced script) or by the system PATH plus a tool. Review the files listed under Shell to find the second source; no automatic fix is offered."
@@ -235,6 +243,8 @@ impl Detector for PathMissingDirectoryDetector {
                     "The statement(s) adding {display_dir} ({}) cannot be edited automatically; edit them by hand.",
                     blocked.join(", ")
                 ));
+            } else if matches!(capture.path.source, PathSource::Registry) {
+                builder = builder.recommended_action(format!("Remove {display_dir} from the Path variable (Settings > System > About > Advanced system settings > Environment Variables). It is listed in the user or the system Path but no longer exists; DevDoctor does not edit the Windows registry yet."));
             } else {
                 builder = builder.recommended_action(format!("No startup file statement adds {display_dir} directly; it comes from a tool initialisation or the system PATH. Check the Shell page for eval/source lines."));
             }
@@ -291,9 +301,8 @@ impl Detector for PathSuspiciousEntryDetector {
             } else {
                 let key = normalize_key(raw);
                 if let Ok(meta) = std::fs::metadata(&key) {
-                    use std::os::unix::fs::PermissionsExt;
                     if meta.is_dir()
-                        && meta.permissions().mode() & 0o002 != 0
+                        && devdoctor_core::sys::is_world_writable(&meta)
                         && !key.starts_with("/private/tmp")
                         && !key.starts_with("/tmp")
                     {
@@ -307,11 +316,12 @@ impl Detector for PathSuspiciousEntryDetector {
                             .severity(Severity::Medium)
                             .confidence(Confidence::Confirmed)
                             .description(format!(
-                                "{} is writable by every user on this Mac and is searched for commands at position {position}.",
-                                ctx.display_path(Path::new(&key))
+                                "{} is writable by every user on {} and is searched for commands at position {position}.",
+                                ctx.display_path(Path::new(&key)),
+                                devdoctor_core::sys::os_label()
                             ))
                             .impact("Any process running as another user could drop an executable there that shadows a real command.")
-                            .evidence(format!("mode {:o}", meta.permissions().mode() & 0o7777))
+                            .evidence(format!("mode {:o}", devdoctor_core::sys::mode_of(&meta).unwrap_or(0)))
                             .recommended_action(format!("Tighten permissions (`chmod o-w {key}`) or remove the directory from PATH."))
                             .affected_command("PATH")
                             .build(),
@@ -319,6 +329,129 @@ impl Detector for PathSuspiciousEntryDetector {
                     }
                 }
             }
+        }
+        Ok(issues)
+    }
+}
+
+pub const DANGLING_ID: &str = "shell.path.dangling_symlinks";
+
+/// Broken symbolic links inside PATH directories: a command that "exists" but cannot run.
+pub struct PathDanglingSymlinkDetector;
+
+fn is_system_dir(dir: &str) -> bool {
+    dir.starts_with("/usr/bin")
+        || dir.starts_with("/bin")
+        || dir.starts_with("/usr/sbin")
+        || dir.starts_with("/sbin")
+        || dir.starts_with("/usr/libexec")
+        || dir.starts_with("/System/")
+        || dir.starts_with("/Library/Apple")
+        || dir.contains("cryptexd")
+        || dir.starts_with("/var/run/")
+}
+
+/// Guesses which tool left the dead link behind, from where the link pointed.
+fn origin_hint(target: &Path) -> Option<&'static str> {
+    let t = target.to_string_lossy();
+    if t.contains("/pipx/") {
+        Some("a pipx package that was removed")
+    } else if t.contains("/.cargo/") {
+        Some("a Cargo binary that was uninstalled")
+    } else if t.contains("/node_modules/") {
+        Some("an npm package that was removed")
+    } else if t.contains("/Cellar/") || t.contains("/Caskroom/") {
+        Some("a Homebrew formula that was uninstalled")
+    } else if t.contains("/Applications/") {
+        Some("an application that was deleted")
+    } else if t.contains("/.local/share/uv/") || t.contains("/uv/tools/") {
+        Some("a uv tool that was removed")
+    } else if t.contains("/.nvm/") || t.contains("/.volta/") || t.contains("/fnm/") {
+        Some("a Node.js version that was removed")
+    } else if t.contains("/.pyenv/") || t.contains("/.rbenv/") {
+        Some("a runtime version that was removed")
+    } else {
+        None
+    }
+}
+
+impl Detector for PathDanglingSymlinkDetector {
+    fn meta(&self) -> DetectorMeta {
+        DetectorMeta {
+            id: DANGLING_ID,
+            name: "Broken command links in PATH",
+            category: Category::Shell,
+            description: "Symbolic links in PATH directories whose target no longer exists (leftovers of uninstalled tools).",
+            modes: &[ScanMode::Quick],
+        }
+    }
+
+    fn scan(&self, ctx: &SystemContext) -> Result<Vec<Issue>> {
+        let capture = ctx.shell_capture();
+        let brew_prefix = ctx.brew_prefix().map(|p| p.to_string_lossy().into_owned());
+        let mut issues = Vec::new();
+        for dir in capture.path.dedup_order() {
+            if dir.is_empty() || is_system_dir(&dir) {
+                continue;
+            }
+            // Homebrew's own directories are covered by the Homebrew health detector.
+            if brew_prefix.as_ref().is_some_and(|p| dir.starts_with(p.as_str()) && p != "/usr/local") {
+                continue;
+            }
+            let path = PathBuf::from(&dir);
+            if !path.is_dir() {
+                continue;
+            }
+            let mut dead: Vec<(PathBuf, PathBuf)> = Vec::new();
+            for entry in devdoctor_core::fs_util::list_dir(&path) {
+                if devdoctor_core::fs_util::is_symlink(&entry) && std::fs::metadata(&entry).is_err() {
+                    let target = std::fs::read_link(&entry).unwrap_or_default();
+                    dead.push((entry, target));
+                }
+            }
+            if dead.is_empty() {
+                continue;
+            }
+            let in_home = devdoctor_core::fs_util::starts_with_lexical(&path, &ctx.home);
+            let display_dir = ctx.display_path(&path);
+            let names: Vec<String> = dead.iter().filter_map(|(l, _)| l.file_name().map(|n| n.to_string_lossy().into_owned())).collect();
+            let mut b = IssueBuilder::new(DANGLING_ID, Category::Shell, &dir, format!("{} broken command link{} in {display_dir}", dead.len(), if dead.len() == 1 { "" } else { "s" }))
+                .severity(Severity::Low)
+                .confidence(Confidence::Confirmed)
+                .description(format!(
+                    "{display_dir} is in your PATH and contains {} symbolic link{} whose target no longer exists ({}). Typing one of these commands gives `no such file or directory` instead of a clean `command not found`, and tools that check for the command believe it is installed.",
+                    dead.len(),
+                    if dead.len() == 1 { "" } else { "s" },
+                    names.iter().take(6).cloned().collect::<Vec<_>>().join(", ")
+                ))
+                .impact("Confusing errors and false positives in installers that probe for existing commands. Harmless otherwise.")
+                .recommended_action(if in_home {
+                    "Remove the dead links (DevDoctor can do it; Undo recreates them) or reinstall the tools they belonged to.".to_string()
+                } else {
+                    format!("Remove the dead links by hand (they are outside your home folder, so DevDoctor only reports them): rm {}", dead.iter().map(|(l, _)| l.display().to_string()).collect::<Vec<_>>().join(" "))
+                })
+                .metadata(json!({
+                    "dir": path,
+                    "in_home": in_home,
+                    "links": dead.iter().map(|(l, t)| json!({ "link": l, "target": t })).collect::<Vec<_>>(),
+                }));
+            for (link, target) in dead.iter().take(15) {
+                let hint = origin_hint(target).map(|h| format!(" — {h}")).unwrap_or_default();
+                b = b.evidence(format!("{} → {} (missing){hint}", ctx.display_path(link), ctx.display_path(target))).affected_file(
+                    link.clone(),
+                    None,
+                    None,
+                );
+            }
+            for (link, _) in &dead {
+                if let Some(n) = link.file_name() {
+                    b = b.affected_command(n.to_string_lossy().into_owned());
+                }
+            }
+            if in_home {
+                b = b.fixer("shell.path.remove_dangling_symlinks");
+            }
+            issues.push(b.build());
         }
         Ok(issues)
     }

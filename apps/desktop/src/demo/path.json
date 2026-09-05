@@ -1,5 +1,5 @@
 {
-  "capture_duration_ms": 24,
+  "capture_duration_ms": 30,
   "duplicate_count": 0,
   "entries": [
     {
@@ -43,7 +43,7 @@
       "writable": true
     },
     {
-      "executables": 37,
+      "executables": 204,
       "exists": true,
       "is_dir": true,
       "is_duplicate": false,
@@ -56,7 +56,7 @@
       "writable": true
     },
     {
-      "executables": 0,
+      "executables": 1,
       "exists": true,
       "is_dir": true,
       "is_duplicate": false,

@@ -39,8 +39,8 @@
       "origin_label": "User local bin (~/.local/bin)",
       "path": "~/.local/bin/claude",
       "path_position": 2,
-      "real_path": "~/.local/share/claude/versions/2.1.260",
-      "version": "2.1.260 (Claude Code)"
+      "real_path": "~/.local/share/claude/versions/2.1.261",
+      "version": "2.1.261 (Claude Code)"
     },
     "command": "claude",
     "notes": [],
@@ -87,18 +87,35 @@
   },
   "node": {
     "active": {
-      "directory": "/usr/local/bin",
-      "is_symlink": false,
-      "origin": "installer",
-      "origin_label": "Installer package (/usr/local/bin)",
-      "path": "/usr/local/bin/node",
-      "path_position": 5,
-      "version": "v24.18.0"
+      "directory": "/opt/homebrew/bin",
+      "is_symlink": true,
+      "origin": "homebrew",
+      "origin_label": "Homebrew",
+      "path": "/opt/homebrew/bin/node",
+      "path_position": 3,
+      "real_path": "/opt/homebrew/Cellar/node/26.8.1/bin/node",
+      "version": "v26.8.1"
     },
     "command": "node",
+    "conflict": "2 installations with different versions are reachable: v24.18.0, v26.8.1. `node` runs the one from Homebrew because it comes first in PATH.",
     "notes": [],
-    "others": [],
+    "others": [
+      {
+        "directory": "/usr/local/bin",
+        "is_symlink": false,
+        "origin": "installer",
+        "origin_label": "Installer package (/usr/local/bin)",
+        "path": "/usr/local/bin/node",
+        "path_position": 5,
+        "version": "v24.18.0"
+      }
+    ],
     "precedence": [
+      {
+        "origin_label": "Homebrew",
+        "path": "/opt/homebrew/bin",
+        "position": 3
+      },
       {
         "origin_label": "Installer package (/usr/local/bin)",
         "path": "/usr/local/bin",
@@ -109,20 +126,38 @@
   },
   "npm": {
     "active": {
-      "directory": "/usr/local/bin",
+      "directory": "/opt/homebrew/bin",
       "is_symlink": true,
-      "origin": "npm",
-      "origin_label": "npm",
-      "path": "/usr/local/bin/npm",
-      "path_position": 5,
-      "real_path": "/usr/local/lib/node_modules/npm/bin/npm-cli.js",
+      "origin": "homebrew",
+      "origin_label": "Homebrew",
+      "path": "/opt/homebrew/bin/npm",
+      "path_position": 3,
+      "real_path": "/opt/homebrew/lib/node_modules/npm/bin/npm-cli.js",
       "shebang": "/usr/bin/env node",
-      "version": "11.16.0"
+      "version": "11.19.0"
     },
     "command": "npm",
+    "conflict": "2 installations with different versions are reachable: 11.16.0, 11.19.0. `npm` runs the one from Homebrew because it comes first in PATH.",
     "notes": [],
-    "others": [],
+    "others": [
+      {
+        "directory": "/usr/local/bin",
+        "is_symlink": true,
+        "origin": "npm",
+        "origin_label": "npm",
+        "path": "/usr/local/bin/npm",
+        "path_position": 5,
+        "real_path": "/usr/local/lib/node_modules/npm/bin/npm-cli.js",
+        "shebang": "/usr/bin/env node",
+        "version": "11.16.0"
+      }
+    ],
     "precedence": [
+      {
+        "origin_label": "Homebrew",
+        "path": "/opt/homebrew/bin",
+        "position": 3
+      },
       {
         "origin_label": "npm",
         "path": "/usr/local/bin",
@@ -139,7 +174,7 @@
       "origin_label": "System",
       "path": "/usr/bin/pip3",
       "path_position": 7,
-      "version": "pip 21.2.4 from /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3"
+      "version": "pip 26.0.1 from ~/Library/Python/3.9/lib/python/site-packages/pip (python 3.9)"
     },
     "command": "pip3",
     "notes": [],

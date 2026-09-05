@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { api, errorMessage } from "../lib/api";
 import { useAsync } from "../lib/useAsync";
-import { formatDate } from "../lib/format";
-import { Button, Card, ConfirmDialog, ErrorBox, Loading, PageHeader, Pill, Term, useToast } from "../components/Basics";
+import { useNav } from "../lib/nav";
+import { formatDate, shortenHome } from "../lib/format";
+import { Button, Card, ConfirmDialog, Disclosure, ErrorBox, Loading, PageHeader, Pill, Term, useToast } from "../components/Basics";
+import { DiffView } from "../components/DiffView";
 
 export function ChangesPage({ refreshKey }: { refreshKey: number }) {
   const toast = useToast();
+  const { home } = useNav();
   const snaps = useAsync(() => api.snapshots(100), [refreshKey]);
+  const runs = useAsync(() => api.runs(50), [refreshKey]);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const diff = useAsync(() => api.changes(from || null, to || null), [from, to, refreshKey]);
@@ -55,6 +59,21 @@ export function ChangesPage({ refreshKey }: { refreshKey: number }) {
           ))}
         </>
       )}
+      <h2>Recorded installs</h2>
+      <p className="muted small">Wrap an installer in your terminal — <span className="inline-code">devdoctor run brew install something</span> — and DevDoctor records exactly what that <Term k="run">run</Term> changed: startup files, PATH, packages, new folders and applications.</p>
+      <ErrorBox error={runs.error} />
+      {(runs.data ?? []).length === 0 ? <Card><p className="muted">No recorded installs yet.</p></Card> : (runs.data ?? []).map((r) => (
+        <Card key={r.id} title={<span className="list-inline"><span className="mono">{r.label}</span><span className="muted small">{formatDate(r.started_at)}</span><Pill tone={r.exit_code === 0 ? "green" : "red"}>{r.exit_code == null ? "interrupted" : `exit ${r.exit_code}`}</Pill></span>}>
+          {r.headline.length === 0 ? <p className="muted">Nothing DevDoctor tracks changed.</p> : <ul className="section-list">{r.headline.map((h, i) => <li key={i}>{h}</li>)}</ul>}
+          {r.file_diffs.map((f) => <Disclosure key={f.path} label={`${shortenHome(f.path, home)} · ${f.kind}`}><DiffView diff={f.diff} /></Disclosure>)}
+          {r.diff.changes.length > 0 && (
+            <Disclosure label={`${r.diff.changes.length} tracked change${r.diff.changes.length > 1 ? "s" : ""}`}>
+              <div className="list">{r.diff.changes.map((ch) => <div key={`${ch.category}:${ch.key}`} className="row"><Pill tone={ch.kind === "added" ? "green" : ch.kind === "removed" ? "red" : "blue"}>{ch.kind}</Pill><span className="grow selectable">{ch.description}</span></div>)}</div>
+            </Disclosure>
+          )}
+          <div className="mono faint tiny" style={{ marginTop: 8 }}>{r.id}</div>
+        </Card>
+      ))}
       <h2>Snapshots</h2>
       {list.length === 0 ? <p className="muted">None yet.</p> : (
         <div className="list glass-strong">{list.map((s) => <div key={s.id} className="row"><div className="grow"><div className="row-title">{formatDate(s.created_at)} {s.kind === "baseline" && <Pill tone="blue">baseline</Pill>}</div><div className="row-sub">{s.kind}{s.label ? ` · ${s.label}` : ""} · {Object.values(s.summary.counts).reduce((a, b) => a + b, 0)} items</div></div><span className="mono faint tiny">{s.id}</span></div>)}</div>

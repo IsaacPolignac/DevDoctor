@@ -1,9 +1,9 @@
 //! Filesystem helpers with the safety rules DevDoctor relies on:
 //! atomic writes, symlink-aware deletion and disk-usage measurement.
 
+use crate::sys;
 use crate::{Error, Result};
 use std::collections::HashSet;
-use std::os::unix::fs::{MetadataExt, PermissionsExt};
 use std::path::{Component, Path, PathBuf};
 
 pub fn read_to_string_opt(path: &Path) -> Result<Option<String>> {
@@ -23,7 +23,7 @@ pub fn sha256_file(path: &Path) -> Result<String> {
 }
 
 pub fn file_mode(path: &Path) -> Option<u32> {
-    std::fs::symlink_metadata(path).ok().map(|m| m.permissions().mode() & 0o7777)
+    std::fs::symlink_metadata(path).ok().and_then(|m| sys::mode_of(&m))
 }
 
 pub fn is_symlink(path: &Path) -> bool {
@@ -46,7 +46,7 @@ pub fn atomic_write(path: &Path, data: &[u8], mode: Option<u32>) -> Result<()> {
         f.sync_all().map_err(|e| Error::io(&tmp, e))?;
     }
     if let Some(mode) = mode.or_else(|| file_mode(path)) {
-        let _ = std::fs::set_permissions(&tmp, std::fs::Permissions::from_mode(mode));
+        sys::set_mode(&tmp, mode);
     }
     std::fs::rename(&tmp, path).map_err(|e| {
         let _ = std::fs::remove_file(&tmp);
@@ -160,20 +160,15 @@ pub fn dir_size(path: &Path) -> DirSize {
         Err(_) => return DirSize::default(),
     };
     if !meta.is_dir() {
-        return DirSize { allocated: meta.blocks() * 512, logical: meta.len(), files: 1, dirs: 0 };
+        return DirSize { allocated: sys::allocated_bytes(&meta), logical: meta.len(), files: 1, dirs: 0 };
     }
     let walk = jwalk::WalkDirGeneric::<((), Option<FileMeta>)>::new(path).skip_hidden(false).follow_links(false).process_read_dir(
         |_depth, _path, _state, children| {
             for child in children.iter_mut().flatten() {
                 if let Ok(md) = child.metadata() {
-                    child.client_state = Some(FileMeta {
-                        allocated: md.blocks() * 512,
-                        logical: md.len(),
-                        is_dir: md.is_dir(),
-                        dev: md.dev(),
-                        ino: md.ino(),
-                        nlink: md.nlink(),
-                    });
+                    let (dev, ino, nlink) = sys::file_identity(&md);
+                    child.client_state =
+                        Some(FileMeta { allocated: sys::allocated_bytes(&md), logical: md.len(), is_dir: md.is_dir(), dev, ino, nlink });
                 }
             }
         },
@@ -202,11 +197,11 @@ pub fn dir_size(path: &Path) -> DirSize {
 /// Most recent modification time (seconds since epoch) among a directory's direct children and
 /// the directory itself. Cheap proxy for "last project activity".
 pub fn latest_mtime_shallow(path: &Path) -> Option<i64> {
-    let mut latest = std::fs::symlink_metadata(path).ok().map(|m| m.mtime());
+    let mut latest = std::fs::symlink_metadata(path).ok().map(|m| sys::mtime_secs(&m));
     if let Ok(rd) = std::fs::read_dir(path) {
         for entry in rd.flatten() {
             if let Ok(md) = entry.metadata() {
-                let t = md.mtime();
+                let t = sys::mtime_secs(&md);
                 if latest.is_none_or(|l| t > l) {
                     latest = Some(t);
                 }
@@ -227,11 +222,15 @@ pub fn list_dir(path: &Path) -> Vec<PathBuf> {
     }
 }
 
+/// Whether the current user may write into `path`. `None` when it cannot be determined.
+pub fn is_writable(path: &Path) -> Option<bool> {
+    sys::is_writable(path)
+}
+
+/// Whether `path` is a regular file the current user can execute (mode bits on Unix, `PATHEXT`
+/// on Windows).
 pub fn is_executable_file(path: &Path) -> bool {
-    match std::fs::metadata(path) {
-        Ok(m) => m.is_file() && (m.permissions().mode() & 0o111) != 0,
-        Err(_) => false,
-    }
+    sys::is_executable_file(path)
 }
 
 #[cfg(test)]
@@ -239,11 +238,12 @@ mod tests {
     use super::*;
 
     #[test]
+    #[cfg(unix)]
     fn atomic_write_preserves_mode() {
         let dir = tempfile::tempdir().unwrap();
         let p = dir.path().join("f.txt");
         std::fs::write(&p, "a").unwrap();
-        std::fs::set_permissions(&p, std::fs::Permissions::from_mode(0o600)).unwrap();
+        sys::set_mode(&p, 0o600);
         atomic_write(&p, b"bb", None).unwrap();
         assert_eq!(std::fs::read_to_string(&p).unwrap(), "bb");
         assert_eq!(file_mode(&p).unwrap(), 0o600);
@@ -272,7 +272,9 @@ mod tests {
         std::fs::create_dir(&real).unwrap();
         std::fs::write(real.join("keep.txt"), "x").unwrap();
         let link = dir.path().join("link");
-        std::os::unix::fs::symlink(&real, &link).unwrap();
+        if sys::symlink(&real, &link).is_err() {
+            return; // symlink creation needs a privilege on some Windows setups
+        }
         assert!(remove_dir_all_no_follow(&link).is_err());
         assert!(real.join("keep.txt").exists());
     }

@@ -4,6 +4,7 @@ use crate::backup::BackupRecord;
 use crate::engine::ScanReport;
 use crate::issue::Issue;
 use crate::snapshot::{Snapshot, SnapshotItem, SnapshotSummary};
+use crate::tracking::RunRecord;
 use crate::transaction::Transaction;
 use crate::{Error, Result};
 use chrono::{DateTime, Utc};
@@ -12,7 +13,7 @@ use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
-const MIGRATIONS: &[(i64, &str)] = &[(1, include_str!("migrations_0001.sql"))];
+const MIGRATIONS: &[(i64, &str)] = &[(1, include_str!("migrations_0001.sql")), (2, include_str!("migrations_0002.sql"))];
 
 pub struct Database {
     conn: Mutex<Connection>,
@@ -492,6 +493,56 @@ impl Database {
         )?;
         let rows = stmt.query_map(params![snapshot_id, limit as i64], |r| r.get::<_, String>(0))?;
         Ok(rows.flatten().collect())
+    }
+
+    // ----- tracked runs -----
+
+    pub fn insert_run(&self, run: &RunRecord) -> Result<()> {
+        let conn = self.conn.lock().expect("db lock");
+        conn.execute(
+            "INSERT INTO runs (id, label, started_at, finished_at, exit_code, before_snapshot_id, after_snapshot_id, run_json) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+            params![
+                run.id,
+                run.label,
+                ts(&run.started_at),
+                ts(&run.finished_at),
+                run.exit_code,
+                run.before_snapshot_id,
+                run.after_snapshot_id,
+                serde_json::to_string(run)?,
+            ],
+        )?;
+        Ok(())
+    }
+
+    pub fn list_runs(&self, limit: usize) -> Result<Vec<RunRecord>> {
+        let conn = self.conn.lock().expect("db lock");
+        let mut stmt = conn.prepare("SELECT run_json FROM runs ORDER BY started_at DESC LIMIT ?1")?;
+        let rows = stmt.query_map(params![limit as i64], |r| r.get::<_, String>(0))?;
+        let mut out = Vec::new();
+        for json in rows.flatten() {
+            out.push(serde_json::from_str(&json)?);
+        }
+        Ok(out)
+    }
+
+    pub fn run(&self, id_or_prefix: &str) -> Result<Option<RunRecord>> {
+        let conn = self.conn.lock().expect("db lock");
+        let like = format!("{}%", id_or_prefix.replace('%', ""));
+        let mut stmt = conn.prepare("SELECT run_json FROM runs WHERE id = ?1 OR id LIKE ?2 ORDER BY (id = ?1) DESC LIMIT 2")?;
+        let rows: Vec<String> = stmt.query_map(params![id_or_prefix, like], |r| r.get(0))?.flatten().collect();
+        match rows.len() {
+            0 => Ok(None),
+            1 => Ok(Some(serde_json::from_str(&rows[0])?)),
+            _ => {
+                let first: RunRecord = serde_json::from_str(&rows[0])?;
+                if first.id == id_or_prefix {
+                    Ok(Some(first))
+                } else {
+                    Err(Error::invalid(format!("run id prefix `{id_or_prefix}` is ambiguous")))
+                }
+            }
+        }
     }
 
     // ----- settings -----

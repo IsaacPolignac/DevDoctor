@@ -3,7 +3,8 @@ import { api, errorMessage } from "../lib/api";
 import { useAsync } from "../lib/useAsync";
 import { useNav } from "../lib/nav";
 import { formatBytes, formatDate, formatMs, shortenHome } from "../lib/format";
-import { Button, Card, DataTable, ErrorBox, KeyValue, Loading, PageHeader, PathLink, Pill, Segmented, StatusPill, Switch, Term, usePrefs, type Appearance, type Glass } from "../components/Basics";
+import type { FixPreview } from "../lib/types";
+import { Button, Card, ConfirmDialog, DataTable, ErrorBox, KeyValue, Loading, PageHeader, PathLink, Pill, Segmented, StatusPill, Switch, Term, usePrefs, useToast, type Appearance, type Glass } from "../components/Basics";
 import { Logo } from "../components/Logo";
 import { TransactionView } from "../components/TransactionView";
 
@@ -132,15 +133,72 @@ export function HistoryPage({ refreshKey }: { refreshKey: number }) {
   );
 }
 
+function DailySnapshotCard() {
+  const toast = useToast();
+  const sched = useAsync(() => api.snapshotSchedule(), []);
+  const [hour, setHour] = useState(12);
+  const [dialog, setDialog] = useState<"on" | "off" | null>(null);
+  const [preview, setPreview] = useState<FixPreview | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const s = sched.data;
+  const open = async (mode: "on" | "off") => {
+    setError(null);
+    try { setPreview(mode === "on" ? await api.previewScheduleSnapshots(hour, 0) : await api.previewUnscheduleSnapshots()); setDialog(mode); } catch (e) { setError(errorMessage(e)); }
+  };
+  const confirm = async () => {
+    setBusy(true);
+    try {
+      if (dialog === "on") await api.scheduleSnapshots(hour, 0); else await api.unscheduleSnapshots();
+      toast.push({ title: dialog === "on" ? "Daily snapshots scheduled" : "Daily snapshots stopped", tone: "green" });
+      setDialog(null); sched.reload();
+    } catch (e) { setError(errorMessage(e)); } finally { setBusy(false); }
+  };
+  const two = (n?: number) => String(n ?? 0).padStart(2, "0");
+  return (
+    <Card title="Daily snapshot">
+      <p className="small">"What changed since yesterday" needs a <Term k="snapshot">snapshot</Term> from yesterday. macOS can take one for you every day: a user <Term k="launch agent">launch agent</Term> runs the DevDoctor command line tool for about a second. No password, metadata only.</p>
+      {s && (
+        <>
+          <div className="switch-row">
+            <span>Take a snapshot every day{s.installed && <div className="muted small">At {two(s.hour)}:{two(s.minute)} · {s.loaded ? "active" : "not loaded yet"}{s.last_run ? ` · last run ${formatDate(s.last_run)}` : ""}</div>}</span>
+            <Switch on={s.installed} onChange={(v) => open(v ? "on" : "off")} />
+          </div>
+          {!s.installed && (
+            <div className="row" style={{ gap: 8, alignItems: "center" }}>
+              <span className="small">Time of day</span>
+              <select className="text" value={hour} onChange={(e) => setHour(Number(e.target.value))}>{Array.from({ length: 24 }, (_, h) => <option key={h} value={h}>{two(h)}:00</option>)}</select>
+              {!s.available_program && <span className="muted small">The <span className="inline-code">devdoctor</span> command line tool was not found in PATH; install it first (see the README).</span>}
+            </div>
+          )}
+          {s.notes.map((n, i) => <div key={i} className="notice">{n}</div>)}
+        </>
+      )}
+      <ErrorBox error={sched.error ?? error} />
+      {dialog && preview && (
+        <ConfirmDialog title={preview.title} confirmLabel={dialog === "on" ? "Schedule" : "Stop"} busy={busy} onConfirm={confirm} onCancel={() => setDialog(null)}>
+          <p>{preview.summary}</p>
+          <ul className="section-list">{preview.operations.map((o, i) => <li key={i} className="mono small">{o}</li>)}</ul>
+          {preview.notes.map((n, i) => <p key={i} className="muted small">{n}</p>)}
+        </ConfirmDialog>
+      )}
+    </Card>
+  );
+}
+
 export function SettingsPage({ autoScan, onAutoScan }: { autoScan: boolean; onAutoScan: (v: boolean) => void }) {
   const { technical, setTechnical, appearance, setAppearance, glass, setGlass } = usePrefs();
   const sys = useAsync(() => api.system(), []);
   const detectors = useAsync(() => api.detectors(), []);
   const [report, setReport] = useState<string | null>(null);
+  const [markdown, setMarkdown] = useState<string | null>(null);
   const [included, setIncluded] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const exportReport = async () => {
-    try { const r = await api.exportReport(); setIncluded(r.included); setReport(JSON.stringify(r, null, 2)); } catch (e) { setError(errorMessage(e)); }
+    try { const r = await api.exportReport(); setIncluded(r.included); setMarkdown(null); setReport(JSON.stringify(r, null, 2)); } catch (e) { setError(errorMessage(e)); }
+  };
+  const exportMarkdown = async () => {
+    try { const md = await api.exportMarkdownReport(); setReport(null); setMarkdown(md); } catch (e) { setError(errorMessage(e)); }
   };
   return (
     <div className="page">
@@ -155,6 +213,7 @@ export function SettingsPage({ autoScan, onAutoScan }: { autoScan: boolean; onAu
           <div className="hairline" />
           <Switch on={technical} onChange={setTechnical} label={<span>Show technical details<div className="muted small">Detector ids, raw severities, evidence and diffs shown by default.</div></span>} />
         </Card>
+        <DailySnapshotCard />
         <Card title="About">
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}><Logo size={48} /><div><div className="title3">DevDoctor</div><div className="secondary caption">Find what broke your development environment.</div></div></div>
           {sys.data && <KeyValue rows={[["Version", sys.data.devdoctor_version], ["Data folder", <span className="mono selectable">{sys.data.data_dir}</span>], ["User", sys.data.user], ["Shell", `${sys.data.shell} (${sys.data.shell_path})`], ["macOS", `${sys.data.os.version} ${sys.data.os.build ?? ""} · ${sys.data.os.arch}`]]} />}
@@ -163,9 +222,15 @@ export function SettingsPage({ autoScan, onAutoScan }: { autoScan: boolean; onAu
       </div>
       <h2>Diagnostic report</h2>
       <Card>
-        <p className="small">Create a report to share when asking for help. Home paths are shortened, your username is replaced and anything that looks like a secret is removed.</p>
-        <Button icon="shield" onClick={exportReport}>Create report</Button>
+        <p className="small">Create a report to share when asking for help. Home paths are shortened, your username is replaced and anything that looks like a secret is removed. The Markdown version is made to paste into a GitHub issue or a chat.</p>
+        <div className="btn-row"><Button icon="diff" onClick={exportMarkdown}>Markdown for a bug report</Button><Button icon="shield" onClick={exportReport}>Full JSON report</Button></div>
         <ErrorBox error={error} />
+        {markdown && (
+          <>
+            <textarea className="report selectable" readOnly value={markdown} />
+            <Button size="small" onClick={() => navigator.clipboard.writeText(markdown).catch(() => {})}>Copy to clipboard</Button>
+          </>
+        )}
         {report && (
           <>
             <p className="small">Included: {included.join("; ")}.</p>
