@@ -5,8 +5,8 @@
 class Devdoctor < Formula
   desc "Find what broke your development environment and fix it safely"
   homepage "https://github.com/IsaacPolignac/DevDoctor"
-  url "https://github.com/IsaacPolignac/DevDoctor/archive/refs/tags/v0.2.0.tar.gz"
-  sha256 "0f581eb98d8e1d5ee3a78b39ae2da7e2032c5bb5463c3c4876a92753a5621e22"
+  url "https://github.com/IsaacPolignac/DevDoctor/archive/refs/tags/v0.2.1.tar.gz"
+  sha256 "aa34c467fcb7d39235b905c1cc7a3949c90b87e5b88d79f1173290b70503878f"
   license "MIT"
   head "https://github.com/IsaacPolignac/DevDoctor.git", branch: "main"
 

@@ -1,12 +1,12 @@
 {
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Find what broke your development environment and fix it safely",
   "homepage": "https://github.com/IsaacPolignac/DevDoctor",
   "license": "MIT",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.0/devdoctor-v0.2.0-x86_64-pc-windows-msvc.zip",
-      "hash": "169fbf7127a1b95f4f4d11bf95a2cea5a6fb05611ac3e138bb4990440e35380d"
+      "url": "https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.1/devdoctor-v0.2.1-x86_64-pc-windows-msvc.zip",
+      "hash": "cd5b55c1325206ffc61580fff5dab5b403e2d78b0cb3cf152272510a7ce976b8"
     }
   },
   "bin": "devdoctor.exe",
