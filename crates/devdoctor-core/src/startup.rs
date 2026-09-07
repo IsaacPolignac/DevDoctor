@@ -449,6 +449,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)] // zsh trace attribution compares POSIX paths; the profiler never runs on Windows
     fn attributes_inclusive_time_to_user_statements() {
         let entries = parse_zsh_trace(TRACE);
         let home = Path::new("/Users/me");
