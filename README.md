@@ -25,10 +25,10 @@ Intel Mac, MSI and command-line builds are available under [other downloads](htt
 
 ## See DevDoctor in action
 
-![DevDoctor walkthrough: Overview, Problems, Runtimes and Developer Storage](docs/images/devdoctor-demo.gif)
+![DevDoctor native macOS walkthrough: Overview, Problems, Settings and Dark Mode](docs/images/devdoctor-demo.gif)
 
-The walkthrough uses generated demonstration data. It contains no user name, personal path,
-project name or private environment information.
+This walkthrough is captured from the current native macOS 26 app in presentation mode.
+The computer name is replaced and every visible frame is checked for personal paths or private information.
 
 DevDoctor gives you one trustworthy view of PATH, runtimes, package managers, processes,
 ports, startup items, developer storage and local AI tools. Every finding explains the cause,
@@ -72,11 +72,11 @@ Spanish and Simplified Chinese; engine-produced diagnostic explanations remain i
 
 <table>
   <tr>
-    <td><img src="docs/images/demo-problems.png" alt="Problems and safe repair details"><br><sub><b>Problems</b> — evidence, impact and repair plan together.</sub></td>
-    <td><img src="docs/images/demo-runtimes-tools.png" alt="Runtime inventory"><br><sub><b>Runtimes</b> — see which Node.js, Python and Rust installations actually win.</sub></td>
+    <td><img src="docs/images/native-demo-problems.png" alt="Native Problems screen and safe repair details"><br><sub><b>Problems</b> — evidence, impact and repair plan together.</sub></td>
+    <td><img src="docs/images/native-demo-settings.png" alt="Native DevDoctor appearance settings"><br><sub><b>Settings</b> — System, Light and Dark appearance with native macOS controls.</sub></td>
   </tr>
   <tr>
-    <td colspan="2"><img src="docs/images/demo-developer-storage.png" alt="Developer Storage in dark appearance"><br><sub><b>Developer Storage</b> — understand reclaimable space before cleaning anything.</sub></td>
+    <td colspan="2"><img src="docs/images/native-demo-overview-dark.png" alt="Native DevDoctor Overview in dark appearance"><br><sub><b>Dark Overview</b> — the same clear health radar in dark appearance.</sub></td>
   </tr>
 </table>
 

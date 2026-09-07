@@ -293,6 +293,9 @@ enum PendingAction: Equatable {
 
 @MainActor
 final class AppModel: ObservableObject {
+    /// Keeps documentation captures free of the local computer name.
+    static let isPresentationMode = CommandLine.arguments.contains("--presentation-mode")
+
     @Published var selection: AppSection? = AppModel.initialSection
     @Published var selectedFindingID: String?
 

@@ -227,7 +227,7 @@ private struct OverviewHeader: View {
     @EnvironmentObject private var model: AppModel
 
     private var machineName: String {
-        Host.current().localizedName ?? tr("This Mac")
+        AppModel.isPresentationMode ? tr("This Mac") : (Host.current().localizedName ?? tr("This Mac"))
     }
 
     var body: some View {

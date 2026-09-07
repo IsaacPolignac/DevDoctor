@@ -27,12 +27,11 @@ extension Color {
 struct DevDoctorAppIcon: View {
     var size: CGFloat
 
-    private static let iconImage: NSImage? = {
-        guard let url = Bundle.module.url(forResource: "AppIcon", withExtension: "png") else {
-            return nil
-        }
-        return NSImage(contentsOf: url)
-    }()
+    /// Use the bundle icon everywhere so the app, Dock, About panel and sidebar
+    /// can never drift to different versions of the mark.
+    private static let iconImage: NSImage? = Bundle.main
+        .url(forResource: "AppIcon", withExtension: "icns")
+        .flatMap(NSImage.init(contentsOf:))
 
     var body: some View {
         Group {

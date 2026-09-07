@@ -25,10 +25,10 @@ Les versions Mac Intel, MSI et ligne de commande se trouvent dans les [autres t�
 
 ## DevDoctor en action
 
-![Démonstration de DevDoctor : Overview, Problems, Runtimes et Developer Storage](docs/images/devdoctor-demo.gif)
+![Démonstration native de DevDoctor : Overview, Problems, Réglages et mode sombre](docs/images/devdoctor-demo.gif)
 
-Cette démonstration utilise uniquement des données fictives. Aucun nom d’utilisateur, chemin
-personnel, nom de projet ou détail privé de l’environnement n’y apparaît.
+Cette démonstration est capturée depuis l’application macOS 26 native actuelle, en mode présentation.
+Le nom de l’ordinateur est remplacé et chaque image visible est vérifiée pour exclure chemins personnels et informations privées.
 
 DevDoctor réunit PATH, runtimes, gestionnaires de paquets, processus, ports, éléments de
 démarrage, stockage de développement et outils d’IA locale dans une interface claire. Chaque
@@ -73,11 +73,11 @@ moteur restent en anglais.
 
 <table>
   <tr>
-    <td><img src="docs/images/demo-problems.png" alt="Problèmes et détails d’une réparation sûre"><br><sub><b>Problems</b> — preuves, impact et plan de réparation réunis.</sub></td>
-    <td><img src="docs/images/demo-runtimes-tools.png" alt="Inventaire des runtimes"><br><sub><b>Runtimes</b> — voir quelles installations Node.js, Python et Rust sont réellement utilisées.</sub></td>
+    <td><img src="docs/images/native-demo-problems.png" alt="Écran Problems natif et détails d’une réparation sûre"><br><sub><b>Problems</b> — preuves, impact et plan de réparation réunis.</sub></td>
+    <td><img src="docs/images/native-demo-settings.png" alt="Réglages d’apparence natifs de DevDoctor"><br><sub><b>Réglages</b> — apparence Système, Claire ou Sombre avec les contrôles natifs de macOS.</sub></td>
   </tr>
   <tr>
-    <td colspan="2"><img src="docs/images/demo-developer-storage.png" alt="Developer Storage en mode sombre"><br><sub><b>Developer Storage</b> — comprendre l’espace récupérable avant tout nettoyage.</sub></td>
+    <td colspan="2"><img src="docs/images/native-demo-overview-dark.png" alt="Overview natif de DevDoctor en mode sombre"><br><sub><b>Overview sombre</b> — le même radar de santé clair en apparence sombre.</sub></td>
   </tr>
 </table>
 
