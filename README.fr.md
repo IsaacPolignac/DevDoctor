@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/images/icon.png" width="112" alt="Icône de DevDoctor"></p>
+<p align="center"><img src="apps/macos/Assets/AppIcon-1024.png" width="128" alt="Icône de DevDoctor"></p>
 
 <h1 align="center">DevDoctor</h1>
 
@@ -11,9 +11,24 @@
   <img alt="Local par défaut" src="https://img.shields.io/badge/local-par%20défaut-34C759">
 </p>
 
-<p align="center"><a href="https://github.com/IsaacPolignac/DevDoctor/releases/latest"><strong>Télécharger DevDoctor</strong></a> · <a href="#installation">Installer la CLI</a> · <a href="README.md">English</a> · <a href="CONTRIBUTING.md">Contribuer</a></p>
+<p align="center"><a href="#télécharger"><strong>Télécharger</strong></a> · <a href="#installer-le-cli">Installer la CLI</a> · <a href="README.md">English</a> · <a href="CONTRIBUTING.md">Contribuer</a></p>
 
-![Vue d’ensemble de DevDoctor](docs/images/native-overview-light.jpg)
+## Télécharger
+
+| Votre ordinateur | Téléchargement conseillé |
+| --- | --- |
+| **Apple Silicon · macOS 26+** | **[Télécharger l’app Mac native](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.1/DevDoctor-v0.2.1-macos26-arm64.zip)** |
+| **Apple Silicon · macOS 12–15** | **[Télécharger l’app Mac compatible](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.1/DevDoctor-Web-v0.2.1-macos-arm64.zip)** |
+| **Windows 10/11 · x64** | **[Télécharger l’installateur Windows](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.1/DevDoctor-v0.2.1-windows-x64-setup.exe)** |
+
+Les versions Mac Intel, MSI et ligne de commande se trouvent dans les [autres téléchargements](https://github.com/IsaacPolignac/DevDoctor/releases/tag/v0.2.1).
+
+## DevDoctor en action
+
+![Démonstration de DevDoctor : Overview, Problems, Runtimes et Developer Storage](docs/images/devdoctor-demo.gif)
+
+Cette démonstration utilise uniquement des données fictives. Aucun nom d’utilisateur, chemin
+personnel, nom de projet ou détail privé de l’environnement n’y apparaît.
 
 DevDoctor réunit PATH, runtimes, gestionnaires de paquets, processus, ports, éléments de
 démarrage, stockage de développement et outils d’IA locale dans une interface claire. Chaque
@@ -54,14 +69,17 @@ des réparations, les thèmes Système/Clair/Sombre et les contrôles Liquid Gla
 existe en anglais, français, espagnol et chinois simplifié ; les diagnostics produits par le
 moteur restent en anglais.
 
-<details>
-<summary>Mode sombre et aperçu d’une réparation</summary>
+## Captures d’écran
 
-![DevDoctor en mode sombre](docs/images/native-overview-dark.jpg)
-
-![Aperçu d’une réparation](docs/images/native-repair-preview.jpg)
-
-</details>
+<table>
+  <tr>
+    <td><img src="docs/images/demo-problems.png" alt="Problèmes et détails d’une réparation sûre"><br><sub><b>Problems</b> — preuves, impact et plan de réparation réunis.</sub></td>
+    <td><img src="docs/images/demo-runtimes-tools.png" alt="Inventaire des runtimes"><br><sub><b>Runtimes</b> — voir quelles installations Node.js, Python et Rust sont réellement utilisées.</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/images/demo-developer-storage.png" alt="Developer Storage en mode sombre"><br><sub><b>Developer Storage</b> — comprendre l’espace récupérable avant tout nettoyage.</sub></td>
+  </tr>
+</table>
 
 ## Plateformes
 
@@ -74,10 +92,9 @@ moteur restent en anglais.
 Linux n’est pas encore pris en charge. Sous Windows, DevDoctor détecte les problèmes de PATH
 mais ne modifie pas automatiquement le registre.
 
-## Installation
+## Installer le CLI
 
-Téléchargez l’application depuis les [Releases GitHub](https://github.com/IsaacPolignac/DevDoctor/releases/latest).
-Chaque binaire possède un fichier `.sha256` associé.
+Chaque binaire téléchargeable possède un fichier `.sha256` associé sur la [page de la release](https://github.com/IsaacPolignac/DevDoctor/releases/tag/v0.2.1).
 
 ### CLI macOS
 

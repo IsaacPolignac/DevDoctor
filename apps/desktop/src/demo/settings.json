@@ -1,6 +1,6 @@
 {
   "appearance": "light",
-  "auto_scan_on_launch": true,
+  "auto_scan_on_launch": false,
   "onboarding_done": true,
   "technical_details": false
 }
