@@ -274,6 +274,22 @@ pub fn local_app_data() -> Option<PathBuf> {
     }
 }
 
+/// `std::fs::canonicalize` returns `\\?\C:\...` verbatim paths on Windows, which Task Scheduler
+/// and most tools do not accept. This strips the prefix; other paths are returned unchanged.
+pub fn strip_verbatim(path: PathBuf) -> PathBuf {
+    if !cfg!(windows) {
+        return path;
+    }
+    let s = path.to_string_lossy();
+    if let Some(rest) = s.strip_prefix(r"\\?\UNC\") {
+        PathBuf::from(format!(r"\\{rest}"))
+    } else if let Some(rest) = s.strip_prefix(r"\\?\") {
+        PathBuf::from(rest)
+    } else {
+        path
+    }
+}
+
 /// Short name of the operating system family DevDoctor is running on, for messages.
 pub fn os_label() -> &'static str {
     if cfg!(target_os = "macos") {
