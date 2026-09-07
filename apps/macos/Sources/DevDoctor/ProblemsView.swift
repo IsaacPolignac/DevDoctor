@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProblemsView: View {
     @EnvironmentObject private var model: AppModel
+    let glassMode: GlassMode
     @State private var level: LevelFilter = .all
     /// Sentinel for the area filter; displayed as "All areas".
     private static let allAreas = "*"
@@ -26,25 +27,31 @@ struct ProblemsView: View {
 
     private var problemCount: Int { model.issueRecords.filter { !$0.ignored && $0.issue.severity >= .medium }.count }
     private var noteCount: Int { model.issueRecords.filter { !$0.ignored && $0.issue.severity < .medium }.count }
+    private var hasIgnoredFindings: Bool { model.issueRecords.contains(where: \.ignored) }
 
     var body: some View {
         VStack(spacing: 0) {
             PageScaffold(title: tr("Problems"), subtitle: AppSection.problems.blurb) {
-                HStack(spacing: 10) {
-                    StatusPill(text: tr("%@ need attention", "\(problemCount)"), symbol: "exclamationmark.triangle.fill", color: problemCount > 0 ? .orange : .green)
-                    StatusPill(text: noteCount == 1 ? tr("1 recommendation") : tr("%@ recommendations", "\(noteCount)"), symbol: "info.circle.fill", color: .blue)
-                    if model.issueRecords.contains(where: \.ignored) {
-                        Toggle(tr("Show ignored"), isOn: $model.showIgnored).toggleStyle(.checkbox).font(.caption)
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: 10) {
+                        statusSummary
+                        ignoredToggle
+                        Spacer()
+                        safeFixButton
                     }
-                    Spacer()
-                    if model.safeFixCount > 0 {
-                        Button {
-                            showingSafeFixes = true
-                        } label: {
-                            Label(tr("Fix %@ safely…", "\(model.safeFixCount)"), systemImage: "wand.and.stars")
+
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack(spacing: 10) {
+                            statusSummary
+                            Spacer(minLength: 0)
                         }
-                        .buttonStyle(.glassProminent)
-                        .help(tr("Apply every reversible, verified, low-risk fix in one go, after a preview"))
+                        if hasIgnoredFindings || model.safeFixCount > 0 {
+                            HStack(spacing: 10) {
+                                ignoredToggle
+                                Spacer(minLength: 0)
+                                safeFixButton
+                            }
+                        }
                     }
                 }
 
@@ -77,12 +84,51 @@ struct ProblemsView: View {
 
             ScanStatusBar()
         }
-        .inspector(isPresented: $model.isInspectorPresented) {
-            IssueInspector()
-                .inspectorColumnWidth(min: 280, ideal: 320, max: 380)
+        .inspector(isPresented: Binding(
+            get: { model.isInspectorPresented && model.selectedFinding != nil },
+            set: { model.isInspectorPresented = $0 }
+        )) {
+            IssueInspector(glassMode: glassMode)
+                .inspectorColumnWidth(min: 320, ideal: 350, max: 390)
         }
         .sheet(isPresented: $showingSafeFixes) {
             SafeFixSheet()
+        }
+    }
+
+    @ViewBuilder
+    private var statusSummary: some View {
+        StatusPill(
+            text: tr("%@ need attention", "\(problemCount)"),
+            symbol: "exclamationmark.triangle.fill",
+            color: problemCount > 0 ? .orange : .green
+        )
+        StatusPill(
+            text: noteCount == 1 ? tr("1 recommendation") : tr("%@ recommendations", "\(noteCount)"),
+            symbol: "info.circle.fill",
+            color: .blue
+        )
+    }
+
+    @ViewBuilder
+    private var ignoredToggle: some View {
+        if hasIgnoredFindings {
+            Toggle(tr("Show ignored"), isOn: $model.showIgnored)
+                .toggleStyle(.checkbox)
+                .font(.caption)
+        }
+    }
+
+    @ViewBuilder
+    private var safeFixButton: some View {
+        if model.safeFixCount > 0 {
+            Button {
+                showingSafeFixes = true
+            } label: {
+                Label(tr("Fix %@ safely…", "\(model.safeFixCount)"), systemImage: "wand.and.stars")
+            }
+            .buttonStyle(.glassProminent)
+            .help(tr("Apply every reversible, verified, low-risk fix in one go, after a preview"))
         }
     }
 }
@@ -150,10 +196,15 @@ struct SafeFixSheet: View {
                     } else {
                         ForEach(previews) { preview in
                             VStack(alignment: .leading, spacing: 8) {
-                                Text(preview.title).font(.subheadline.weight(.semibold))
-                                Text(preview.summary).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                                richText(preview.title).font(.subheadline.weight(.semibold))
+                                richText(preview.summary).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                                 ForEach(Array(preview.operations.enumerated()), id: \.offset) { _, op in
-                                    Label(op, systemImage: "checkmark.circle").font(.caption)
+                                    Label {
+                                        richText(op)
+                                    } icon: {
+                                        Image(systemName: "checkmark.circle")
+                                    }
+                                    .font(.caption)
                                 }
                                 ForEach(preview.filesModified) { file in
                                     DiffBlock(text: file.diff)

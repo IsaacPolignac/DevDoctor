@@ -11,6 +11,7 @@ dist
 
 # Swift Package Manager (native app)
 apps/macos/.build
+apps/macos/.build-*
 .swiftpm
 
 # Tauri

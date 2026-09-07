@@ -235,11 +235,13 @@ struct TransactionOperation: Codable, Hashable {
 
     var summary: String {
         switch kind {
-        case "file_write": "\(created == true ? "Created" : "Edited") \(path ?? "")\(created == true ? "" : " (backup kept)")"
+        case "file_write": created == true
+            ? tr("Created %@", "\(path ?? "")")
+            : tr("Edited %@ (backup kept)", "\(path ?? "")")
         case "file_delete": tr("Deleted file %@ (backup kept)", "\(path ?? "")")
         case "symlink_delete": tr("Removed broken link %@ → %@", "\(path ?? "")", "\(target ?? "")")
         case "dir_delete": tr("Deleted %@ (%@)", "\(path ?? "")", "\(Formatters.byteString(bytes))")
-        case "process_stop": tr("Stopped %@ (pid %@)%@", "\(name ?? "process")", "\(pid ?? 0)", "\(force == true ? tr(" forcefully") : "")")
+        case "process_stop": tr("Stopped %@ (pid %@)%@", "\(name ?? tr("process"))", "\(pid ?? 0)", "\(force == true ? tr(" forcefully") : "")")
         case "command": tr("Ran %@ %@ (exit %@)", "\(program ?? "")", "\((args ?? []).joined(separator: " "))", "\(exitCode.map(String.init) ?? "?")")
         default: kind
         }
@@ -552,9 +554,9 @@ struct StartupProfile: Codable {
 
     var ratingLabel: String {
         switch rating {
-        case "fast": "instant"
-        case "ok": "fine"
-        case "slow": "slow"
+        case "fast": tr("instant")
+        case "ok": tr("fine")
+        case "slow": tr("slow")
         default: tr("very slow")
         }
     }
@@ -846,7 +848,7 @@ struct ServiceInfo: Codable, Hashable, Identifiable {
     var stateLabel: String {
         if let runningPid { return tr("running · pid %@", "\(runningPid)") }
         switch loaded {
-        case .some(true): return "loaded"
+        case .some(true): return tr("loaded")
         case .some(false): return tr("not loaded")
         case .none: return "—"
         }

@@ -1,14 +1,14 @@
 # Homebrew formula for the DevDoctor CLI. Publish it from a tap
-# (`brew tap YOUR_GITHUB_USER/devdoctor https://github.com/YOUR_GITHUB_USER/devdoctor`, then
+# (`brew tap IsaacPolignac/DevDoctor https://github.com/IsaacPolignac/DevDoctor`, then
 # `brew install devdoctor`). `scripts/update-formula.sh <version>` refreshes url and sha256 after
 # each release.
 class Devdoctor < Formula
   desc "Find what broke your development environment and fix it safely"
-  homepage "https://github.com/YOUR_GITHUB_USER/devdoctor"
-  url "https://github.com/YOUR_GITHUB_USER/devdoctor/archive/refs/tags/v0.2.0.tar.gz"
+  homepage "https://github.com/IsaacPolignac/DevDoctor"
+  url "https://github.com/IsaacPolignac/DevDoctor/archive/refs/tags/v0.2.0.tar.gz"
   sha256 "REPLACE_WITH_SOURCE_TARBALL_SHA256"
   license "MIT"
-  head "https://github.com/YOUR_GITHUB_USER/devdoctor.git", branch: "main"
+  head "https://github.com/IsaacPolignac/DevDoctor.git", branch: "main"
 
   depends_on "rust" => :build
   depends_on :macos

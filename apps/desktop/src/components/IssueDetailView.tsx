@@ -58,7 +58,7 @@ export function IssueDetailView({ issueId, onChanged }: { issueId: string; onCha
       {issue.current_state && (<><h3>{t("Current state")}</h3><pre className="selectable">{shortenHome(issue.current_state, home)}</pre></>)}
       {issue.technical_description && (<><h3>{t("Technical details")}</h3><pre className="selectable">{shortenHome(issue.technical_description, home)}</pre></>)}
       <h3>{t("Identity")}</h3>
-      <KeyValue rows={[[t("Detector"), <span className="mono">{issue.detector_id}</span>], [t("Issue id"), <span className="mono">{issue.id}</span>], [t("First seen"), formatDate(record.first_seen_at)], [t("Last seen"), formatDate(record.last_seen_at)], [t("Automatic fix"), issue.fixer_available ? fixer_name ?? "available" : t("not available")], [t("Can be undone"), issue.reversible ? "yes" : "no"], [t("Safe for batch fix"), issue.batch_safe ? "yes" : "no"]]} />
+      <KeyValue rows={[[t("Detector"), <span className="mono">{issue.detector_id}</span>], [t("Issue id"), <span className="mono">{issue.id}</span>], [t("First seen"), formatDate(record.first_seen_at)], [t("Last seen"), formatDate(record.last_seen_at)], [t("Automatic fix"), issue.fixer_available ? fixer_name ?? t("available") : t("not available")], [t("Can be undone"), issue.reversible ? t("yes") : t("no")], [t("Safe for batch fix"), issue.batch_safe ? t("yes") : t("no")]]} />
     </>
   );
 

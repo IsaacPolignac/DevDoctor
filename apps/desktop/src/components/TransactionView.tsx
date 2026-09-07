@@ -56,7 +56,7 @@ export function TransactionView({ tx, onChanged }: { tx: Transaction; onChanged?
           {tx.backups.length > 0 && <><p>{t("DevDoctor puts back the ")}{tx.backups.length} {t(" file(s) it saved before this fix:")}</p>
           <ul className="section-list">{tx.backups.map((b) => <li key={b.id} className="mono">{shortenHome(b.original_path, home)}</li>)}</ul></>}
           {tx.operations.some((o) => o.kind === "symlink_delete") && <p>{t("The removed links are recreated with their original targets.")}</p>}
-          <p className="muted small">{t("If a file changed after the fix, the restore is refused to protect your edits; the CLI can force it with ")}<span className="inline-code">{t("devdoctor rollback ")}{tx.id} {t(" --force")}</span>.</p>
+          <p className="muted small">{t("If a file changed after the fix, the restore is refused to protect your edits; the CLI can force it with ")}<span className="inline-code">devdoctor rollback {tx.id} --force</span>.</p>
         </ConfirmDialog>
       )}
     </div>

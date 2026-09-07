@@ -6,6 +6,13 @@ import { Disclosure, Pill, usePrefs } from "./Basics";
 import { Icon } from "./Icons";
 import { t } from "../lib/i18n";
 
+function localizedRiskLabel(risk: string): string {
+  if (risk === "low") return t("Low risk");
+  if (risk === "medium") return t("Medium risk");
+  if (risk === "high") return t("High risk");
+  return t("{risk} risk", { risk: risk.charAt(0).toUpperCase() + risk.slice(1) });
+}
+
 /** Everything the user must see before a fix is applied, plain words first. */
 export function FixPreviewView({ preview, compact }: { preview: FixPreview; compact?: boolean }) {
   const { home } = useNav();
@@ -14,7 +21,7 @@ export function FixPreviewView({ preview, compact }: { preview: FixPreview; comp
     <div className="list-inline" style={{ margin: "10px 0" }}>
       <Pill tone={preview.reversible ? "green" : "orange"}><Icon name={preview.reversible ? "undo" : "alert"} size={11} />{preview.reversible ? t("Can be undone") : t("Cannot be undone")}</Pill>
       <Pill tone={preview.backup_created ? "green" : "gray"}><Icon name="shield" size={11} />{preview.backup_created ? t("Backup first") : t("No files changed")}</Pill>
-      <Pill tone={preview.risk === "low" ? "green" : preview.risk === "medium" ? "orange" : "red"}>{t("Risk: ")}{preview.risk}</Pill>
+      <Pill tone={preview.risk === "low" ? "green" : preview.risk === "medium" ? "orange" : "red"}>{localizedRiskLabel(preview.risk)}</Pill>
       {preview.estimated_disk_space_recovered > 0 && <Pill tone="blue">{t("Frees ")}{formatBytes(preview.estimated_disk_space_recovered)}</Pill>}
     </div>
   );

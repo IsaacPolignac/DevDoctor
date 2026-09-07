@@ -23,7 +23,7 @@ struct OverviewView: View {
 
             VStack(spacing: 0) {
                 ScrollView {
-                    if model.needsOnboarding {
+                    if model.report == nil {
                         WelcomePanel(glassMode: glassMode)
                             .padding(28)
                     } else {
@@ -51,9 +51,9 @@ struct OverviewView: View {
                                 SystemAreasSection(categories: categories, glassMode: glassMode)
                             }
                         }
-                        .padding(.horizontal, 22)
-                        .padding(.top, 18)
-                        .padding(.bottom, 22)
+                        .padding(.horizontal, 28)
+                        .padding(.top, 24)
+                        .padding(.bottom, 32)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
@@ -62,7 +62,10 @@ struct OverviewView: View {
                 ScanStatusBar()
             }
         }
-        .inspector(isPresented: $model.isInspectorPresented) {
+        .inspector(isPresented: Binding(
+            get: { model.isInspectorPresented && model.selectedFinding != nil },
+            set: { model.isInspectorPresented = $0 }
+        )) {
             IssueInspector(glassMode: glassMode)
                 .inspectorColumnWidth(min: 320, ideal: 350, max: 390)
         }
@@ -91,7 +94,12 @@ private struct EnvironmentHealthBar: View {
         if health.problems == 0 && health.warnings == 0 {
             return tr("All active checks passed.")
         }
-        return tr("%@ problems · %@ warnings", "\(health.problems)", "\(health.warnings)")
+        switch (health.problems, health.warnings) {
+        case (1, 1): return tr("1 problem · 1 warning")
+        case (1, _): return tr("1 problem · %@ warnings", "\(health.warnings)")
+        case (_, 1): return tr("%@ problems · 1 warning", "\(health.problems)")
+        default: return tr("%@ problems · %@ warnings", "\(health.problems)", "\(health.warnings)")
+        }
     }
 
     private var statusColor: Color {
@@ -103,68 +111,94 @@ private struct EnvironmentHealthBar: View {
 
     var body: some View {
         MaterialPanel(cornerRadius: 20, padding: 14) {
-            HStack(spacing: 16) {
-                Gauge(value: Double(score), in: 0...100) {
-                    Text(tr("Health"))
-                } currentValueLabel: {
-                    Text("\(score)")
-                        .font(.subheadline.monospacedDigit().weight(.bold))
-                }
-                .gaugeStyle(.accessoryCircularCapacity)
-                .tint(statusColor)
-                .frame(width: 58, height: 58)
-                .accessibilityLabel(tr("Environment health"))
-                .accessibilityValue(tr("%@ percent", "\(score)"))
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Label(
-                        statusTitle,
-                        systemImage: model.isScanning
-                            ? "waveform.path.ecg"
-                            : ((health?.problems ?? 0) > 0 ? "exclamationmark.shield.fill" : "checkmark.shield.fill")
-                    )
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(statusColor)
-                    .lineLimit(1)
-
-                    Text(statusDetail)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                }
-                .frame(maxWidth: 210, alignment: .leading)
-
-                Spacer(minLength: 4)
-
-                HStack(spacing: 14) {
-                    HealthMetric(value: health?.checksPassed ?? 0, label: tr("Passed"), color: .green)
-                    HealthMetric(value: health?.problems ?? 0, label: tr("Problems"), color: .orange)
-                    HealthMetric(value: health?.notes ?? 0, label: tr("Notes"), color: .blue)
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 16) {
+                    healthGauge
+                    statusCopy
+                    Spacer(minLength: 4)
+                    healthMetrics
+                    scanControls
                 }
 
-                GlassEffectContainer(spacing: 10) {
-                    HStack(spacing: 8) {
-                        if issueCount > 0 {
-                            Button(tr("Review")) {
-                                model.selection = .problems
-                            }
-                            .buttonStyle(.glassProminent)
-                            .buttonBorderShape(.capsule)
-                            .controlSize(.small)
-                        }
-
-                        Button {
-                            Task { await model.runScan() }
-                        } label: {
-                            Image(systemName: model.isScanning ? "progress.indicator" : "arrow.clockwise")
-                        }
-                        .buttonStyle(.glass)
-                        .buttonBorderShape(.circle)
-                        .controlSize(.small)
-                        .disabled(model.isScanning)
-                        .help(model.isScanning ? tr("Scanning") : tr("Scan Again"))
+                VStack(spacing: 12) {
+                    HStack(spacing: 14) {
+                        healthGauge
+                        statusCopy
+                        Spacer(minLength: 0)
+                        scanControls
                     }
+                    Divider()
+                    healthMetrics
+                        .frame(maxWidth: .infinity)
                 }
+            }
+        }
+    }
+
+    private var healthGauge: some View {
+        Gauge(value: Double(score), in: 0...100) {
+            Text(tr("Health"))
+        } currentValueLabel: {
+            Text("\(score)")
+                .font(.subheadline.monospacedDigit().weight(.bold))
+        }
+        .gaugeStyle(.accessoryCircularCapacity)
+        .tint(statusColor)
+        .frame(width: 58, height: 58)
+        .accessibilityLabel(tr("Environment health"))
+        .accessibilityValue(tr("%@ percent", "\(score)"))
+    }
+
+    private var statusCopy: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Label(
+                statusTitle,
+                systemImage: model.isScanning
+                    ? "waveform.path.ecg"
+                    : ((health?.problems ?? 0) > 0 ? "exclamationmark.shield.fill" : "checkmark.shield.fill")
+            )
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(statusColor)
+            .lineLimit(1)
+
+            Text(statusDetail)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+        }
+        .frame(minWidth: 180, idealWidth: 210, maxWidth: 210, alignment: .leading)
+    }
+
+    private var healthMetrics: some View {
+        HStack(spacing: 14) {
+            HealthMetric(value: health?.checksPassed ?? 0, label: tr("Passed"), color: .green)
+            HealthMetric(value: health?.problems ?? 0, label: tr("Problems"), color: .orange)
+            HealthMetric(value: health?.notes ?? 0, label: tr("Notes"), color: .blue)
+        }
+    }
+
+    private var scanControls: some View {
+        GlassEffectContainer(spacing: 10) {
+            HStack(spacing: 8) {
+                if issueCount > 0 {
+                    Button(tr("Review")) {
+                        model.selection = .problems
+                    }
+                    .buttonStyle(.glassProminent)
+                    .buttonBorderShape(.capsule)
+                    .controlSize(.small)
+                }
+
+                Button {
+                    Task { await model.runScan() }
+                } label: {
+                    Image(systemName: model.isScanning ? "progress.indicator" : "arrow.clockwise")
+                }
+                .buttonStyle(.glass)
+                .buttonBorderShape(.circle)
+                .controlSize(.small)
+                .disabled(model.isScanning)
+                .help(model.isScanning ? tr("Scanning") : tr("Scan Again"))
             }
         }
     }
@@ -257,13 +291,22 @@ private struct WelcomePanel: View {
                     WelcomeFact(symbol: "arrow.uturn.backward", title: tr("Reversible"), detail: tr("Rollback ready"))
                 }
 
-                Button(tr("Run First Scan")) {
+                Button {
                     Task { await model.runScan() }
+                } label: {
+                    HStack(spacing: 8) {
+                        if model.isScanning {
+                            ProgressView()
+                                .controlSize(.small)
+                        }
+                        Text(model.isScanning ? tr("Scanning") : tr("Run First Scan"))
+                    }
                 }
                 .buttonStyle(.glassProminent)
                 .buttonBorderShape(.capsule)
                 .controlSize(.large)
                 .glassEffect(glass.interactive(), in: .capsule)
+                .disabled(model.isScanning)
             }
             .frame(maxWidth: .infinity, minHeight: 420)
         }
@@ -297,12 +340,14 @@ private struct RadarArea: Identifiable {
     let destination: AppSection
 
     var color: Color {
+        if checks == 0 && issues == 0 { return .secondary }
         if problems > 0 { return .red }
         if issues > 0 { return .orange }
         return .green
     }
 
     var status: String {
+        if checks == 0 && issues == 0 { return tr("Not scanned") }
         if problems > 0 {
             return problems == 1 ? tr("1 conflict") : tr("%@ conflicts", "\(problems)")
         }
@@ -411,19 +456,20 @@ private struct EnvironmentRadarView: View {
                     let node = nodePosition(index: index, center: center, radius: nodeRadius)
                     let label = labelPosition(index: index, width: width)
                     let isLeft = index == 0 || index == 2 || index == 4
+                    let displayColor = model.isScanning ? Color.blue : area.color
 
                     RadarConnector(
                         from: node,
                         to: label,
                         labelWidth: 132,
                         isLeft: isLeft,
-                        color: area.color
+                        color: displayColor
                     )
 
-                    RadarStatusNode(area: area, glassMode: glassMode)
+                    RadarStatusNode(area: area, isScanning: model.isScanning, glassMode: glassMode)
                         .position(node)
 
-                    RadarAreaLabel(area: area, isLeft: isLeft) {
+                    RadarAreaLabel(area: area, isLeft: isLeft, isScanning: model.isScanning) {
                         model.selection = area.destination
                     }
                     .frame(width: 132)
@@ -567,21 +613,30 @@ private struct RadarConnector: View {
 
 private struct RadarStatusNode: View {
     let area: RadarArea
+    let isScanning: Bool
     let glassMode: GlassMode
 
+    private var tint: Color { isScanning ? .blue : area.color }
+
+    private var symbol: String {
+        if isScanning { return "ellipsis" }
+        if area.checks == 0 && area.issues == 0 { return "minus" }
+        return area.issues > 0 ? "exclamationmark" : "checkmark"
+    }
+
     private var glass: Glass {
-        glassMode == .clear ? .regular : .regular.tint(area.color.opacity(0.24))
+        glassMode == .clear ? .clear : .regular.tint(tint.opacity(0.24))
     }
 
     var body: some View {
-        Image(systemName: area.issues > 0 ? "exclamationmark" : "checkmark")
+        Image(systemName: symbol)
             .font(.system(size: 11, weight: .bold))
             .foregroundStyle(.white)
             .frame(width: 27, height: 27)
-            .background(area.color.gradient, in: Circle())
+            .background(tint.gradient, in: Circle())
             .glassEffect(glass, in: .circle)
             .overlay(Circle().stroke(.white.opacity(0.72), lineWidth: 1))
-            .shadow(color: area.color.opacity(0.30), radius: 8, y: 2)
+            .shadow(color: tint.opacity(0.30), radius: 8, y: 2)
             .accessibilityHidden(true)
     }
 }
@@ -589,7 +644,11 @@ private struct RadarStatusNode: View {
 private struct RadarAreaLabel: View {
     let area: RadarArea
     let isLeft: Bool
+    let isScanning: Bool
     let action: () -> Void
+
+    private var tint: Color { isScanning ? .blue : area.color }
+    private var status: String { isScanning ? tr("Scanning") : area.status }
 
     var body: some View {
         Button(action: action) {
@@ -599,9 +658,9 @@ private struct RadarAreaLabel: View {
                 Image(systemName: area.symbol)
                     .font(.system(size: 13, weight: .semibold))
                     .symbolRenderingMode(.hierarchical)
-                    .foregroundStyle(area.color)
+                    .foregroundStyle(tint)
                     .frame(width: 28, height: 28)
-                    .background(area.color.opacity(0.10), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .background(tint.opacity(0.10), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
 
                 if isLeft { labelText }
             }
@@ -610,14 +669,14 @@ private struct RadarAreaLabel: View {
         }
         .buttonStyle(.plain)
         .help(tr("Open %@", "\(area.title)"))
-        .accessibilityLabel("\(area.title), \(area.status)")
+        .accessibilityLabel("\(area.title), \(status)")
     }
 
     private var labelText: some View {
         VStack(alignment: isLeft ? .leading : .trailing, spacing: 1) {
             Text(area.title)
                 .font(.subheadline.weight(.semibold))
-            Text(area.status)
+            Text(status)
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -626,42 +685,66 @@ private struct RadarAreaLabel: View {
 }
 
 private struct RadarCenter: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let health: HealthScore?
     let issueCount: Int
     let availableFixes: Int
     let isScanning: Bool
     let glassMode: GlassMode
 
+    private var hasProblems: Bool { (health?.problems ?? 0) > 0 }
+
+    private var stateColor: Color {
+        if isScanning { return .blue }
+        if health == nil { return .secondary }
+        if hasProblems { return .red }
+        if issueCount > 0 { return .orange }
+        return .green
+    }
+
+    private var stateSymbol: String {
+        if isScanning { return "waveform.path.ecg" }
+        if health == nil { return "minus.circle.fill" }
+        if hasProblems { return "exclamationmark.shield.fill" }
+        if issueCount > 0 { return "info.circle.fill" }
+        return "checkmark.seal.fill"
+    }
+
     private var glass: Glass {
-        glassMode == .clear ? .regular : .regular.tint(.cyan.opacity(0.14))
+        glassMode == .clear ? .clear : .regular.tint(stateColor.opacity(0.18))
     }
 
     private var title: String {
         if isScanning { return tr("Scanning") }
-        if availableFixes > 0 { return tr("Ready with") }
+        if health == nil { return tr("Not scanned") }
+        if hasProblems { return tr("Needs Attention") }
         if issueCount > 0 { return tr("Review") }
         return tr("All checks")
     }
 
     private var value: String {
         if isScanning { return tr("your Mac") }
+        if health == nil { return tr("your Mac") }
         if availableFixes > 0 { return availableFixes == 1 ? tr("1 fix") : tr("%@ fixes", "\(availableFixes)") }
         if issueCount > 0 { return issueCount == 1 ? tr("1 finding") : tr("%@ findings", "\(issueCount)") }
-        return "passed"
+        return tr("passed")
     }
 
     var body: some View {
         VStack(spacing: 6) {
-            Image(systemName: isScanning ? "waveform.path.ecg" : (issueCount > 0 ? "checkmark.shield.fill" : "checkmark.seal.fill"))
+            Image(systemName: stateSymbol)
                 .font(.system(size: 27, weight: .semibold))
                 .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(issueCount > 0 ? Color.green : Color.blue)
+                .foregroundStyle(stateColor)
+                .symbolEffect(.pulse, isActive: isScanning && !reduceMotion)
+                .contentTransition(.symbolEffect(.replace))
 
             VStack(spacing: 0) {
                 Text(title)
                     .font(.subheadline.weight(.semibold))
                 Text(value)
                     .font(.title2.monospacedDigit().weight(.semibold))
+                    .contentTransition(.numericText())
             }
 
             if let health {
@@ -675,6 +758,8 @@ private struct RadarCenter: View {
         .overlay(Circle().stroke(.white.opacity(0.48), lineWidth: 0.8))
         .shadow(color: .black.opacity(0.08), radius: 16, y: 7)
         .accessibilityElement(children: .combine)
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.24), value: isScanning)
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.24), value: value)
     }
 }
 
@@ -687,15 +772,17 @@ private struct AttentionCardsSection: View {
         MaterialPanel(cornerRadius: 20, padding: 14) {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 8) {
-                    Text(findings.isEmpty ? tr("Environment Ready") : tr("Needs Attention"))
+                    Text(model.isScanning ? tr("Checking your environment") : (findings.isEmpty ? tr("Environment Ready") : tr("Needs Attention")))
                         .font(.headline)
 
-                    Text("\(findings.count)")
-                        .font(.caption.monospacedDigit().weight(.semibold))
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, 3)
-                        .background(.quaternary, in: Capsule())
+                    if !model.isScanning {
+                        Text("\(findings.count)")
+                            .font(.caption.monospacedDigit().weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 3)
+                            .background(.quaternary, in: Capsule())
+                    }
 
                     Spacer()
 
@@ -709,7 +796,21 @@ private struct AttentionCardsSection: View {
                     }
                 }
 
-                if findings.isEmpty {
+                if model.isScanning {
+                    HStack(spacing: 12) {
+                        ProgressView()
+                            .controlSize(.small)
+                            .tint(.blue)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(tr("Checking your environment")).font(.subheadline.weight(.semibold))
+                            Text(tr("Running local checks…"))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                    }
+                    .frame(minHeight: 86)
+                } else if findings.isEmpty {
                     HStack(spacing: 12) {
                         Image(systemName: "checkmark.circle.fill")
                             .font(.title2)
@@ -782,9 +883,7 @@ private struct AttentionFindingCard: View {
         return finding.title
     }
 
-    private var tint: Color {
-        finding.issue?.fixerAvailable == true ? .blue : finding.severity.color
-    }
+    private var tint: Color { finding.severity.color }
 
     private var glass: Glass {
         glassMode == .clear ? .clear : .regular.tint(tint.opacity(0.20))
@@ -813,7 +912,7 @@ private struct AttentionFindingCard: View {
                     Text(conciseTitle)
                         .font(.subheadline.weight(.semibold))
                         .lineLimit(1)
-                    Text(finding.summary)
+                    richText(finding.summary)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(2)
@@ -848,7 +947,7 @@ private struct SystemAreasSection: View {
     let glassMode: GlassMode
 
     private let columns = [
-        GridItem(.adaptive(minimum: 190, maximum: 260), spacing: 10)
+        GridItem(.adaptive(minimum: 228, maximum: 300), spacing: 10)
     ]
 
     var body: some View {
@@ -878,11 +977,13 @@ private struct SystemAreaTile: View {
     @State private var isHovering = false
 
     private var style: SystemAreaStyle { SystemAreaStyle(category: category) }
+    private var localizedCategoryLabel: String { tr(category.label) }
 
     private var statusColor: Color {
         if category.problems > 0 { return .red }
         if category.warnings > 0 { return .orange }
         if category.issues > 0 { return .blue }
+        if category.checksRun == 0 { return .secondary }
         return .green
     }
 
@@ -914,7 +1015,7 @@ private struct SystemAreaTile: View {
                     .glassEffect(glass, in: .rect(cornerRadius: 11))
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(category.label)
+                    Text(localizedCategoryLabel)
                         .font(.subheadline.weight(.semibold))
                         .lineLimit(1)
                     Text(statusText)
@@ -928,7 +1029,7 @@ private struct SystemAreaTile: View {
                 Image(
                     systemName: category.issues > 0
                         ? (category.problems > 0 ? "exclamationmark.circle.fill" : "info.circle.fill")
-                        : "checkmark.circle.fill"
+                        : (category.checksRun == 0 ? "minus.circle" : "checkmark.circle.fill")
                 )
                 .font(.system(size: 13, weight: .semibold))
                 .symbolRenderingMode(.hierarchical)
@@ -958,8 +1059,8 @@ private struct SystemAreaTile: View {
         .onHover { hovering in
             withAnimation(.easeOut(duration: 0.15)) { isHovering = hovering }
         }
-        .help(tr("Open %@", "\(category.label)"))
-        .accessibilityLabel("\(category.label), \(statusText)")
+        .help(tr("Open %@", "\(localizedCategoryLabel)"))
+        .accessibilityLabel("\(localizedCategoryLabel), \(statusText)")
     }
 }
 

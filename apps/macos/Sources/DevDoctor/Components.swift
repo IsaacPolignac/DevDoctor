@@ -135,7 +135,7 @@ struct SectionHeading<Trailing: View>: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title).font(.headline)
                 if let detail {
-                    Text(detail).font(.caption).foregroundStyle(.secondary)
+                    richText(detail).font(.caption).foregroundStyle(.secondary)
                 }
             }
             Spacer()
@@ -190,7 +190,7 @@ struct DataUnavailableView: View {
         ContentUnavailableView {
             Label(title, systemImage: symbol)
         } description: {
-            Text(detail)
+            richText(detail)
         }
         .frame(maxWidth: .infinity, minHeight: 260)
     }
@@ -232,18 +232,21 @@ struct FindingTable: View {
                     .foregroundStyle(finding.severity.color)
                     .symbolRenderingMode(.hierarchical)
                     .help(finding.severity.title)
+                    .accessibilityLabel(finding.severity.title)
             }
             .width(28)
 
             TableColumn(tr("Area")) { finding in
                 Text(finding.area).fontWeight(.medium)
             }
-            .width(min: 70, ideal: 100, max: 140)
+            .width(min: 70, ideal: 90, max: 110)
 
             TableColumn(tr("Finding")) { finding in
-                Text(finding.title).lineLimit(1)
+                richText(finding.title)
+                    .lineLimit(1)
+                    .help(finding.title)
             }
-            .width(min: 180, ideal: 380)
+            .width(min: 180, ideal: 250, max: 320)
 
             TableColumn(tr("Confidence")) { finding in
                 if let issue = finding.issue {
@@ -256,21 +259,27 @@ struct FindingTable: View {
 
             TableColumn(tr("Fix")) { finding in
                 if let issue = finding.issue, issue.fixerAvailable {
+                    let label = issue.batchSafe ? tr("Safe fix available") : tr("Fix available after preview")
                     Image(systemName: issue.batchSafe ? "wand.and.stars" : "wrench.adjustable")
                         .foregroundStyle(.blue)
-                        .help(issue.batchSafe ? tr("Safe fix available") : tr("Fix available after preview"))
+                        .help(label)
+                        .accessibilityLabel(label)
                 } else if finding.ignored {
-                    Image(systemName: "eye.slash").foregroundStyle(.secondary).help(tr("Ignored"))
+                    Image(systemName: "eye.slash")
+                        .foregroundStyle(.secondary)
+                        .help(tr("Ignored"))
+                        .accessibilityLabel(tr("Ignored"))
                 }
             }
-            .width(36)
+            .width(80)
 
             TableColumn(tr("Source")) { finding in
                 Text(finding.source)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
+                    .help(finding.source)
             }
-            .width(min: 90, ideal: 170, max: 240)
+            .width(min: 80, ideal: 100, max: 140)
         }
         .tableStyle(.inset(alternatesRowBackgrounds: false))
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
@@ -286,7 +295,7 @@ struct IssueInspector: View {
     @EnvironmentObject private var model: AppModel
     let glassMode: GlassMode
 
-    init(glassMode: GlassMode = .clear) {
+    init(glassMode: GlassMode) {
         self.glassMode = glassMode
     }
 
@@ -341,7 +350,7 @@ private struct InspectorFindingContent: View {
     }
 
     private var glass: Glass {
-        glassMode == .clear ? .regular : .regular.tint(finding.severity.color.opacity(0.20))
+        glassMode == .clear ? .clear : .regular.tint(finding.severity.color.opacity(0.20))
     }
 
     private var visibleEvidence: [String] {
@@ -365,6 +374,7 @@ private struct InspectorFindingContent: View {
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
+                        .help(finding.source)
                 }
 
                 Spacer()
@@ -398,7 +408,7 @@ private struct InspectorFindingContent: View {
                     .overlay(Circle().stroke(.white.opacity(0.42), lineWidth: 0.8))
                     .shadow(color: finding.severity.color.opacity(0.24), radius: 18, y: 5)
 
-                Text(finding.title)
+                richText(finding.title)
                     .font(.title3.weight(.semibold))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
@@ -543,7 +553,7 @@ private struct InspectorDetailRow: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text(title)
                     .font(.caption.weight(.semibold))
-                Text(text)
+                richText(text)
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -635,7 +645,7 @@ struct RepairPreviewSheet: View {
                 Spacer()
                 if let preview = model.fixPreview {
                     StatusPill(
-                        text: preview.risk.capitalized + " risk",
+                        text: localizedRiskLabel(preview.risk),
                         symbol: preview.risk == "low" ? "shield.checkered" : "exclamationmark.shield",
                         color: preview.risk == "low" ? .green : (preview.risk == "medium" ? .orange : .red)
                     )
@@ -654,15 +664,19 @@ struct RepairPreviewSheet: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 18) {
                         VStack(alignment: .leading, spacing: 5) {
-                            Text(preview.title).font(.title3.weight(.semibold))
-                            Text(preview.summary).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                            richText(preview.title).font(.title3.weight(.semibold))
+                            richText(preview.summary).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                         }
 
                         GroupBox(tr("Operations")) {
                             VStack(alignment: .leading, spacing: 9) {
                                 ForEach(Array(preview.operations.enumerated()), id: \.offset) { _, operation in
-                                    Label(operation, systemImage: "checkmark.circle")
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Label {
+                                        richText(operation)
+                                    } icon: {
+                                        Image(systemName: "checkmark.circle")
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 ForEach(preview.directoriesDeleted) { dir in
                                     Label(tr("%@ — %@, %@ entries", "\(Formatters.shortenHome(dir.path))", "\(Formatters.byteString(dir.bytes))", "\(dir.entries)"), systemImage: "trash")
@@ -702,10 +716,14 @@ struct RepairPreviewSheet: View {
                         }
 
                         ForEach(Array(preview.notes.enumerated()), id: \.offset) { _, note in
-                            Label(note, systemImage: "info.circle")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
+                            Label {
+                                richText(note)
+                            } icon: {
+                                Image(systemName: "info.circle")
+                            }
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
                         }
 
                         if !preview.validations.isEmpty {
@@ -714,10 +732,14 @@ struct RepairPreviewSheet: View {
                                     .font(.caption.weight(.semibold))
                                     .foregroundStyle(.secondary)
                                 ForEach(Array(preview.validations.enumerated()), id: \.offset) { _, check in
-                                    Label(check, systemImage: "checkmark.shield")
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                        .fixedSize(horizontal: false, vertical: true)
+                                    Label {
+                                        richText(check)
+                                    } icon: {
+                                        Image(systemName: "checkmark.shield")
+                                    }
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
                                 }
                             }
                         }
@@ -760,6 +782,15 @@ struct RepairPreviewSheet: View {
             .padding(16)
         }
         .frame(minWidth: 640, idealWidth: 720, minHeight: 480, idealHeight: 640)
+    }
+}
+
+private func localizedRiskLabel(_ risk: String) -> String {
+    switch risk {
+    case "low": tr("Low risk")
+    case "medium": tr("Medium risk")
+    case "high": tr("High risk")
+    default: tr("%@ risk", risk.capitalized)
     }
 }
 

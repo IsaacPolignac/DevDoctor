@@ -72,13 +72,13 @@ export function ConfidencePill({ confidence }: { confidence: Confidence }) {
 
 export function StatusPill({ status }: { status: string }) {
   const tone: Tone = status === "applied" ? "green" : status === "rolled_back" ? "blue" : status.includes("fail") ? "red" : "gray";
-  const label = status === "applied" ? t("Applied") : status === "rolled_back" ? t("Undone") : status === "failed" ? t("Failed (rolled back)") : status.replace("_", " ");
+  const label = status === "applied" ? t("Applied") : status === "rolled_back" ? t("Undone") : status === "failed" ? t("Failed (rolled back)") : status === "rollback_failed" ? t("Rollback failed") : status.replace("_", " ");
   return <Pill tone={tone}>{label}</Pill>;
 }
 
 type Variant = "default" | "primary" | "prominent" | "ghost" | "plain" | "destructive" | "destructive-primary";
 export function Button({ variant = "default", size, icon, onClick, disabled, children, title, className, full }: { variant?: Variant; size?: "small" | "large"; icon?: IconName; onClick?: () => void; disabled?: boolean; children?: ReactNode; title?: string; className?: string; full?: boolean }) {
-  const cls = ["btn", (variant === "primary" || variant === "prominent") ? "prominent" : "", (variant === "ghost" || variant === "plain") ? "plain" : "", variant === "destructive" ? "destructive" : "", variant === "destructive-primary" ? t("destructive prominent") : "", size ?? "", full ? "full" : "", className ?? ""].filter(Boolean).join(" ");
+  const cls = ["btn", (variant === "primary" || variant === "prominent") ? "prominent" : "", (variant === "ghost" || variant === "plain") ? "plain" : "", variant === "destructive" ? "destructive" : "", variant === "destructive-primary" ? "destructive prominent" : "", size ?? "", full ? "full" : "", className ?? ""].filter(Boolean).join(" ");
   return <button className={cls} onClick={onClick} disabled={disabled} title={title}>{icon && <Icon name={icon} size={size === "small" ? 12 : 14} />}{children}</button>;
 }
 

@@ -12,7 +12,7 @@ struct ServicesView: View {
     private var selected: ServiceInfo? { rows.first { $0.id == selectedID } }
 
     var body: some View {
-        PageScaffold(title: tr("Startup Items"), subtitle: AppSection.services.blurb + tr(" Apple's own are hidden.")) {
+        PageScaffold(title: tr("Startup Items"), subtitle: tr("Programs macOS starts for you at login. Apple's own are hidden.")) {
             if isLoading {
                 LoadingPanel(title: tr("Reading launch agents…"))
             } else if let error {
@@ -38,13 +38,13 @@ struct ServicesView: View {
                     .width(min: 220, ideal: 320)
                     TableColumn(tr("From")) { s in Text(s.originLabel).foregroundStyle(.secondary) }
                         .width(110)
-                    TableColumn(tr("At login")) { s in Text(s.runAtLoad ? "yes" : "no").foregroundStyle(s.runAtLoad ? .primary : .secondary) }
-                        .width(70)
+                    TableColumn(tr("At login")) { s in Text(s.runAtLoad ? tr("yes") : tr("no")).foregroundStyle(s.runAtLoad ? .primary : .secondary) }
+                        .width(104)
                     TableColumn(tr("Now")) { s in Text(s.stateLabel).foregroundStyle(s.runningPid != nil ? .green : .secondary) }
-                        .width(120)
+                        .width(88)
                     TableColumn(tr("Starts")) { s in
                         if s.targetExists == false {
-                            StatusPill(text: "missing: \(s.program.map(Formatters.shortenHome) ?? "?")", symbol: "xmark.circle", color: .red)
+                            StatusPill(text: tr("missing: %@", "\(s.program.map(Formatters.shortenHome) ?? "?")"), symbol: "xmark.circle", color: .red)
                         } else {
                             Text(s.program.map(Formatters.shortenHome) ?? "").font(.system(.caption, design: .monospaced)).lineLimit(1)
                         }
@@ -65,7 +65,7 @@ struct ServicesView: View {
                             KeyValueList(rows: [
                                 (tr("Program"), selected.program.map(Formatters.shortenHome) ?? "—"),
                                 (tr("Arguments"), selected.programArguments.isEmpty ? "—" : selected.programArguments.joined(separator: " ")),
-                                (tr("Keep alive"), selected.keepAlive ? "yes" : "no"),
+                                (tr("Keep alive"), selected.keepAlive ? tr("yes") : tr("no")),
                                 (tr("Last exit status"), selected.lastExitStatus.map(String.init) ?? "—"),
                                 (tr("Working directory"), selected.workingDirectory.map(Formatters.shortenHome) ?? "—"),
                             ])
@@ -109,14 +109,14 @@ struct GitView: View {
                     SectionCard(tr("Global configuration")) {
                         KeyValueList(rows: [
                             ("git", g.git.map { "\(Formatters.shortenHome($0.path)) · \($0.version ?? "")" } ?? tr("not found")),
-                            (tr("GitHub CLI"), g.gh.map { "\(Formatters.shortenHome($0.path)) · \($0.version ?? "")\(g.ghConfigPresent ? " · signed in" : "")" } ?? tr("not found")),
-                            (tr("Config files"), g.configFiles.isEmpty ? "none" : g.configFiles.map(Formatters.shortenHome).joined(separator: "\n")),
+                            (tr("GitHub CLI"), g.gh.map { "\(Formatters.shortenHome($0.path)) · \($0.version ?? "")\(g.ghConfigPresent ? tr(" · signed in") : "")" } ?? tr("not found")),
+                            (tr("Config files"), g.configFiles.isEmpty ? tr("none") : g.configFiles.map(Formatters.shortenHome).joined(separator: "\n")),
                             (tr("Name"), g.userName ?? tr("not set")),
                             (tr("Email"), g.userEmail ?? tr("not set")),
                             (tr("Default branch"), g.defaultBranch ?? tr("(not set — Git uses master)")),
                             (tr("Credential helper"), g.credentialHelpers.isEmpty ? tr("(none in global config)") : g.credentialHelpers.joined(separator: ", ")),
-                            (tr("Commit signing"), g.gpgSign == true ? tr("on (%@)%@", "\(g.gpgFormat ?? "gpg")", "\(g.signingKey.map { " · key \($0)" } ?? "")") : "off"),
-                            (tr("Global ignore file"), g.excludesFile.map { "\(Formatters.shortenHome($0))\(g.excludesFileExists ? "" : " (missing)")" } ?? "—"),
+                            (tr("Commit signing"), g.gpgSign == true ? tr("on (%@)%@", "\(g.gpgFormat ?? "gpg")", "\(g.signingKey.map { tr(" · key %@", $0) } ?? "")") : tr("off")),
+                            (tr("Global ignore file"), g.excludesFile.map { "\(Formatters.shortenHome($0))\(g.excludesFileExists ? "" : tr(" (missing)"))" } ?? "—"),
                             (tr("Aliases"), "\(g.aliasCount)"),
                             (tr("Conditional includes"), g.includeIfs.isEmpty ? "—" : g.includeIfs.joined(separator: "; ")),
                         ])
@@ -166,7 +166,7 @@ struct SshView: View {
                 HStack(alignment: .top, spacing: 16) {
                     SectionCard(tr("Status")) {
                         KeyValueList(rows: [
-                            (tr("~/.ssh folder"), s.sshDirExists ? tr("present (permissions %@)", "\(s.sshDirMode.map { String($0, radix: 8) } ?? "?")") : "missing"),
+                            (tr("~/.ssh folder"), s.sshDirExists ? tr("present (permissions %@)", "\(s.sshDirMode.map { String($0, radix: 8) } ?? "?")") : tr("missing")),
                             (tr("Agent"), tr("%@ · %@ key%@ loaded", "\(s.agentStatus.replacingOccurrences(of: "_", with: " "))", "\(s.agentIdentities)", "\(s.agentIdentities == 1 ? "" : "s")")),
                             (tr("Config"), s.configExists ? tr("%@ host entries", "\(s.hosts.count)") : tr("no ~/.ssh/config")),
                             (tr("Known hosts"), tr("%@ entries", "\(s.knownHostsEntries)")),
@@ -196,10 +196,10 @@ struct SshView: View {
                                 .width(100)
                             TableColumn(tr("Comment")) { k in Text(k.comment ?? "").foregroundStyle(.secondary).lineLimit(1) }
                             TableColumn(tr("Permissions")) { k in
-                                StatusPill(text: "\(String(k.mode, radix: 8)) \(k.modeOk ? "ok" : "too open")", symbol: k.modeOk ? "lock" : "lock.open", color: k.modeOk ? .green : .red)
+                                StatusPill(text: "\(String(k.mode, radix: 8)) \(k.modeOk ? tr("ok") : tr("too open"))", symbol: k.modeOk ? "lock" : "lock.open", color: k.modeOk ? .green : .red)
                             }
                             .width(130)
-                            TableColumn(tr("Public key")) { k in Text(k.hasPublicKey ? "yes" : "no").foregroundStyle(.secondary) }
+                            TableColumn(tr("Public key")) { k in Text(k.hasPublicKey ? tr("yes") : tr("no")).foregroundStyle(.secondary) }
                                 .width(80)
                         }
                         .devDoctorTable(minHeight: CGFloat(min(280, 60 + s.keys.count * 32)))

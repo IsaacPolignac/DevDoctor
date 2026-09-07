@@ -9,6 +9,13 @@ import { Logo } from "../components/Logo";
 import { TransactionView } from "../components/TransactionView";
 import { LANGUAGES, languageChoice, setLanguage, t, type Language } from "../lib/i18n";
 
+function scanModeLabel(mode: string): string {
+  if (mode === "quick") return t("quick check");
+  if (mode === "deep") return t("deep check");
+  if (mode === "storage") return t("disk space check");
+  return mode.replaceAll("_", " ");
+}
+
 export function ServicesPage({ refreshKey }: { refreshKey: number }) {
   const { home } = useNav();
   const r = useAsync(() => api.services(), [refreshKey]);
@@ -75,11 +82,11 @@ export function GitPage({ refreshKey }: { refreshKey: number }) {
           <KeyValue rows={[
             ["git", g.git ? <span className="mono selectable">{shortenHome(g.git.path, home)} · {g.git.version ?? ""}</span> : t("not found")],
             [t("GitHub CLI"), g.gh ? <span className="mono selectable">{shortenHome(g.gh.path, home)} · {g.gh.version ?? ""}{g.gh_config_present ? t(" · signed in") : ""}</span> : t("not found")],
-            [t("Config files"), g.config_files.length ? g.config_files.map((f) => <div key={f}><PathLink path={f} /></div>) : "none"],
+            [t("Config files"), g.config_files.length ? g.config_files.map((f) => <div key={f}><PathLink path={f} /></div>) : t("none")],
             [t("Name"), g.user_name ?? <Pill tone="orange">{t("not set")}</Pill>], [t("Email"), g.user_email ?? <Pill tone="orange">{t("not set")}</Pill>],
             [t("Default branch"), g.default_branch ?? t("(not set — Git uses master)")],
             [t("Credential helper"), g.credential_helpers.join(", ") || t("(none in global config)")],
-            [t("Commit signing"), g.gpg_sign ? `on (${g.gpg_format ?? "gpg"})${g.signing_key ? ` · key ${g.signing_key}` : ""}` : "off"],
+            [t("Commit signing"), g.gpg_sign ? t("on ({format}){key}", { format: g.gpg_format ?? "gpg", key: g.signing_key ? t(" · key {key}", { key: g.signing_key }) : "" }) : t("off")],
             [t("Global ignore file"), g.excludes_file ? <span className="mono">{shortenHome(g.excludes_file, home)}{g.excludes_file_exists ? "" : t(" (missing)")}</span> : "—"],
             [t("Aliases"), String(g.alias_count)], [t("Conditional includes"), g.include_ifs.join("; ") || "—"],
           ]} />
@@ -101,12 +108,12 @@ export function SshPage({ refreshKey }: { refreshKey: number }) {
       <PageHeader title={t("SSH keys")} subtitle={t("Key files, their permissions and your SSH configuration. DevDoctor never reads the contents of a private key.")} />
       <div className="grid cols-2">
         <Card title={t("Status")}>
-          <KeyValue rows={[[t("~/.ssh folder"), s.ssh_dir_exists ? t("present (permissions {mode})", { mode: s.ssh_dir_mode?.toString(8) ?? "?" }) : t("missing")], [t("Agent"), `${t(s.agent_status.replace("_", " "))} · ${s.agent_identities === 1 ? t("1 key loaded") : t("{n} keys loaded", { n: s.agent_identities })}`], [t("Config"), s.config_exists ? `${s.hosts.length} host entries` : t("no ~/.ssh/config")], [t("Known hosts"), `${s.known_hosts_entries} entries`]]} />
+          <KeyValue rows={[[t("~/.ssh folder"), s.ssh_dir_exists ? t("present (permissions {mode})", { mode: s.ssh_dir_mode?.toString(8) ?? "?" }) : t("missing")], [t("Agent"), `${t(s.agent_status.replace("_", " "))} · ${s.agent_identities === 1 ? t("1 key loaded") : t("{n} keys loaded", { n: s.agent_identities })}`], [t("Config"), s.config_exists ? t("{n} host entries", { n: s.hosts.length }) : t("no ~/.ssh/config")], [t("Known hosts"), t("{n} entries", { n: s.known_hosts_entries })]]} />
         </Card>
         <Card title={t("Findings")}>{s.findings.length === 0 ? <p className="muted">{t("Nothing unusual.")}</p> : <ul className="section-list">{s.findings.map((f, i) => <li key={i}>{f}</li>)}</ul>}</Card>
       </div>
       <h2>{t("Keys")}</h2>
-      <DataTable columns={[{ key: "name", label: t("Key"), render: (k) => <span className="mono">{k.name}</span> }, { key: "key_type", label: t("Type"), render: (k) => k.key_type ?? "" }, { key: "comment", label: t("Comment"), render: (k) => k.comment ?? "" }, { key: "mode", label: t("Permissions"), render: (k) => (k.mode_ok ? <Pill tone="green">{k.mode.toString(8)} {t(" ok")}</Pill> : <Pill tone="red">{k.mode.toString(8)} {t(" too open")}</Pill>) }, { key: "pub", label: t("Public key"), render: (k) => (k.has_public_key ? "yes" : "no") }]} rows={s.keys} rowKey={(k) => k.path} empty={t("No private keys found in ~/.ssh.")} />
+      <DataTable columns={[{ key: "name", label: t("Key"), render: (k) => <span className="mono">{k.name}</span> }, { key: "key_type", label: t("Type"), render: (k) => k.key_type ?? "" }, { key: "comment", label: t("Comment"), render: (k) => k.comment ?? "" }, { key: "mode", label: t("Permissions"), render: (k) => (k.mode_ok ? <Pill tone="green">{k.mode.toString(8)} {t("ok")}</Pill> : <Pill tone="red">{k.mode.toString(8)} {t("too open")}</Pill>) }, { key: "pub", label: t("Public key"), render: (k) => (k.has_public_key ? t("yes") : t("no")) }]} rows={s.keys} rowKey={(k) => k.path} empty={t("No private keys found in ~/.ssh.")} />
       <h2>{t("Hosts")}</h2>
       <DataTable columns={[{ key: "patterns", label: t("Host"), render: (h) => h.patterns.join(" ") }, { key: "hostname", label: t("Connects to"), render: (h) => h.hostname ?? "" }, { key: "user", label: t("User"), render: (h) => h.user ?? "" }, { key: "identity", label: t("Key"), render: (h) => h.identity_files.map((f) => <div key={f}>{h.missing_identity_files.includes(f) ? <Pill tone="red">{shortenHome(f, home)} {t(" missing")}</Pill> : <span className="mono">{shortenHome(f, home)}</span>}</div>) }, { key: "line", label: t("Line"), className: "num", render: (h) => String(h.line) }]} rows={s.hosts} rowKey={(h) => `${h.line}`} empty={t("No host entries.")} />
     </div>
@@ -129,7 +136,7 @@ export function HistoryPage({ refreshKey }: { refreshKey: number }) {
       ))}
       <h2>{t("Checks")}</h2>
       <ErrorBox error={scans.error} />
-      <DataTable columns={[{ key: "started_at", label: t("When"), render: (s) => formatDate(s.started_at) }, { key: "mode", label: t("Type"), render: (s) => ({ quick: "quick", deep: "deep", storage: "disk space" } as Record<string, string>)[s.mode] ?? s.mode }, { key: "health_score", label: t("Health"), className: "num", render: (s) => (s.health_score != null ? String(s.health_score) : "") }, { key: "issue_count", label: t("Issues"), className: "num", render: (s) => String(s.issue_count) }, { key: "detectors", label: t("Checks"), render: (s) => `${s.detectors_run}${s.detectors_failed ? ` (${s.detectors_failed} failed)` : ""}` }, { key: "duration_ms", label: t("Took"), render: (s) => formatMs(s.duration_ms) }]} rows={scans.data ?? []} rowKey={(s) => s.id} empty={t("No checks yet.")} />
+      <DataTable columns={[{ key: "started_at", label: t("When"), render: (s) => formatDate(s.started_at) }, { key: "mode", label: t("Type"), render: (s) => scanModeLabel(s.mode) }, { key: "health_score", label: t("Health"), className: "num", render: (s) => (s.health_score != null ? String(s.health_score) : "") }, { key: "issue_count", label: t("Issues"), className: "num", render: (s) => String(s.issue_count) }, { key: "detectors", label: t("Checks"), render: (s) => s.detectors_failed ? t("{run} checks · {failed} failed", { run: s.detectors_run, failed: s.detectors_failed }) : t("{n} checks", { n: s.detectors_run }) }, { key: "duration_ms", label: t("Took"), render: (s) => formatMs(s.duration_ms) }]} rows={scans.data ?? []} rowKey={(s) => s.id} empty={t("No checks yet.")} />
     </div>
   );
 }
@@ -169,7 +176,7 @@ function DailySnapshotCard() {
             <div className="row" style={{ gap: 8, alignItems: "center" }}>
               <span className="small">{t("Time of day")}</span>
               <select className="text" value={hour} onChange={(e) => setHour(Number(e.target.value))}>{Array.from({ length: 24 }, (_, h) => <option key={h} value={h}>{two(h)}:00</option>)}</select>
-              {!s.available_program && <span className="muted small">{t("The ")}<span className="inline-code">{t("devdoctor")}</span> {t(" command line tool was not found in PATH; install it first (see the README).")}</span>}
+              {!s.available_program && <span className="muted small">{t("The devdoctor command line tool was not found in PATH; install it first (see the README).")}</span>}
             </div>
           )}
           {s.notes.map((n, i) => <div key={i} className="notice">{n}</div>)}

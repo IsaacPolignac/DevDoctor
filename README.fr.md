@@ -59,22 +59,22 @@ Il répond à la question que tout développeur finit par se poser :
 
 ```sh
 # macOS : ligne de commande dans ~/.local/bin (vérifie le SHA-256 de l'archive)
-curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/devdoctor/main/scripts/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/IsaacPolignac/DevDoctor/main/scripts/install.sh | sh
 
 # macOS : Homebrew
-brew tap YOUR_GITHUB_USER/devdoctor https://github.com/YOUR_GITHUB_USER/devdoctor && brew install devdoctor
+brew tap IsaacPolignac/DevDoctor https://github.com/IsaacPolignac/DevDoctor && brew install devdoctor
 ```
 
 ```powershell
 # Windows : ligne de commande dans %LOCALAPPDATA%\Programs\DevDoctor (sans droits administrateur)
-irm https://raw.githubusercontent.com/YOUR_GITHUB_USER/devdoctor/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/IsaacPolignac/DevDoctor/main/scripts/install.ps1 | iex
 
 # Windows : Scoop
-scoop install https://raw.githubusercontent.com/YOUR_GITHUB_USER/devdoctor/main/scoop/devdoctor.json
+scoop install https://raw.githubusercontent.com/IsaacPolignac/DevDoctor/main/scoop/devdoctor.json
 ```
 
 Les applications de bureau sont sur la page
-[Releases](https://github.com/YOUR_GITHUB_USER/devdoctor/releases) : app native macOS 26, app web
+[Releases](https://github.com/IsaacPolignac/DevDoctor/releases) : app native macOS 26, app web
 pour macOS 12 à 15, installateurs Windows (`setup.exe` et `.msi`). Chaque fichier a son `.sha256`.
 Les builds ne sont pas encore notarisés ni signés Authenticode : sur macOS, clic droit → Ouvrir la
 première fois ; sur Windows, « Informations complémentaires → Exécuter quand même » dans SmartScreen.
@@ -85,7 +85,7 @@ Prérequis : Rust (stable) ; Xcode 26 pour l'application native (macOS 26) ; Nod
 récent pour l'application web ; sous Windows, les Build Tools de Visual Studio.
 
 ```sh
-git clone https://github.com/YOUR_GITHUB_USER/devdoctor && cd devdoctor
+git clone https://github.com/IsaacPolignac/DevDoctor && cd devdoctor
 
 # Ligne de commande
 cargo build --release -p devdoctor-cli

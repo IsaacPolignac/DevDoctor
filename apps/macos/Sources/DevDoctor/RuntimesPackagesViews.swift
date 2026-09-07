@@ -98,7 +98,7 @@ struct RuntimesView: View {
             KeyValueList(rows: [
                 ("rustup", rust.rustupInstalled ? tr("installed in %@", "\(Formatters.shortenHome(rust.rustupHome))") : tr("not installed")),
                 ("cargo", exe(rust.cargo)),
-                (tr("~/.cargo/bin in PATH"), rust.cargoBinInPath ? "yes" : "no"),
+                (tr("~/.cargo/bin in PATH"), rust.cargoBinInPath ? tr("yes") : tr("no")),
                 (tr("Default toolchain"), rust.defaultToolchain ?? "—"),
                 (tr("Toolchains"), rust.toolchains.isEmpty ? "—" : rust.toolchains.map(\.name).joined(separator: ", ")),
                 (tr("Installed binaries"), rust.installedCrates.isEmpty ? "—" : rust.installedCrates.map { "\($0.name) \($0.version)" }.joined(separator: ", ")),
@@ -162,7 +162,7 @@ struct PackagesView: View {
 
     @ViewBuilder
     private func homebrew(_ brew: HomebrewInventory) -> some View {
-        SectionCard(tr("Homebrew"), detail: brew.installed ? "\(brew.version ?? "Homebrew") at \(brew.prefix ?? "?")" : tr("Not installed")) {
+        SectionCard(tr("Homebrew"), detail: brew.installed ? tr("%@ at %@", "\(brew.version ?? "Homebrew")", "\(brew.prefix ?? "?")") : tr("Not installed")) {
             if brew.installed {
                 HStack(spacing: 0) {
                     MetricCell(value: "\(brew.formulae.count)", label: tr("formulae"), symbol: "shippingbox", tint: .orange)
@@ -171,7 +171,7 @@ struct PackagesView: View {
                     Divider().frame(height: 36)
                     MetricCell(value: "\(brew.brokenLinks.count)", label: tr("broken links"), symbol: "link", tint: brew.brokenLinks.isEmpty ? .green : .orange)
                     Divider().frame(height: 36)
-                    MetricCell(value: brew.inPath ? "yes" : "no", label: tr("brew in PATH"), symbol: "point.topleft.down.to.point.bottomright.curvepath", tint: brew.inPath ? .green : .red)
+                    MetricCell(value: brew.inPath ? tr("yes") : tr("no"), label: tr("brew in PATH"), symbol: "point.topleft.down.to.point.bottomright.curvepath", tint: brew.inPath ? .green : .red)
                 }
                 .padding(.vertical, 10)
                 .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 12))
@@ -193,7 +193,7 @@ struct PackagesView: View {
                     Table(formulae) {
                         TableColumn(tr("Formula")) { f in Text(f.name) }
                         TableColumn(tr("Versions")) { f in Text(f.versions.joined(separator: ", ")).font(.system(.caption, design: .monospaced)) }
-                        TableColumn(tr("Linked")) { f in Text(f.linked ? "yes" : "no").foregroundStyle(f.linked ? .primary : .secondary) }
+                        TableColumn(tr("Linked")) { f in Text(f.linked ? tr("yes") : tr("no")).foregroundStyle(f.linked ? .primary : .secondary) }
                             .width(60)
                     }
                     .devDoctorTable(minHeight: CGFloat(min(360, 60 + formulae.count * 28)))

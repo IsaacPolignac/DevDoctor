@@ -2,11 +2,11 @@
 """Generates the app localisation files from the translation source apps/i18n/strings/*.json.
 
   scripts/gen-i18n.py            write Swift .lproj/Localizable.strings and the TS dictionary
-  scripts/gen-i18n.py --check    list interface strings used in code that have no translation
+  scripts/gen-i18n.py --check    fail if a used interface string or language value is missing
 
 Each file maps English keys to {"fr": ..., "es": ..., "zh-Hans": ...}; files are merged. Keys come from the
 Swift `tr("...")` calls (placeholders `%@`) and the React `t("...")` calls (placeholders `{name}`).
-A missing translation falls back to English at runtime, so the file may lag behind the code.
+Proper names and commands that intentionally stay unchanged are listed explicitly in the source.
 """
 import json, pathlib, re, sys
 
@@ -53,20 +53,32 @@ def strings_escape(s):
 
 def main():
     data = {}
+    duplicates = []
     for f in sorted(SOURCE_DIR.glob("*.json")):
         part = json.loads(f.read_text())
         dup = set(part) & set(data)
         if dup:
             print(f"duplicate keys in {f.name}: {sorted(dup)[:5]}", file=sys.stderr)
+            duplicates.extend(sorted(dup))
         data.update(part)
+    missing_values = sorted(
+        (key, lang)
+        for key, values in data.items()
+        for lang in LANGS
+        if not isinstance(values.get(lang), str) or not values[lang]
+    )
     if "--check" in sys.argv:
         used = swift_keys() | ts_keys()
         missing = sorted(k for k in used if k not in data)
         unused = sorted(k for k in data if k not in used)
         for k in missing:
             print("MISSING", json.dumps(k, ensure_ascii=False))
+        for key, lang in missing_values:
+            print("MISSING VALUE", lang, json.dumps(key, ensure_ascii=False))
         print(f"{len(used)} keys used, {len(missing)} without translation, {len(unused)} unused entries", file=sys.stderr)
-        return
+        return 1 if duplicates or missing or missing_values else 0
+    if duplicates or missing_values:
+        return 1
     for lang in LANGS:
         lproj = SWIFT_DIR / "Resources" / f"{lang}.lproj"
         lproj.mkdir(parents=True, exist_ok=True)
@@ -81,6 +93,7 @@ def main():
     ts += "export const TRANSLATIONS: Record<string, Record<string, string>> = " + json.dumps(table, ensure_ascii=False, indent=2) + ";\n"
     (TS_DIR / "lib/i18n.generated.ts").write_text(ts)
     print(f"{len(data)} keys → {', '.join(f'{lang}: {len(table[lang])}' for lang in LANGS)}")
+    return 0
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

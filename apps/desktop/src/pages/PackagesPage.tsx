@@ -32,7 +32,7 @@ export function PackagesPage({ refreshKey }: { refreshKey: number }) {
       {!homebrew.installed ? <Card><p className="muted">{t("Homebrew is not installed.")}</p></Card> : (
         <div className="grid cols-2">
           <Card>
-            <KeyValue rows={[[t("Version"), homebrew.version ?? "?"], [t("Installed at"), <span className="mono">{homebrew.prefix}</span>], [t("Expected on this Mac"), <span className="mono">{homebrew.expected_prefix}</span>], [t("Second installation"), homebrew.other_prefix ? <span className="mono">{homebrew.other_prefix}</span> : "none"], [t("brew in PATH"), homebrew.in_path ? "yes" : "no"], [t("Formulae"), String(homebrew.formulae.length)], [t("Casks (apps)"), String(homebrew.casks.length)], [t("Cache"), <span className="mono">{shortenHome(homebrew.cache_dir, home)}{homebrew.cache_size ? ` · ${formatBytes(homebrew.cache_size.allocated)}` : ""}</span>]]} />
+            <KeyValue rows={[[t("Version"), homebrew.version ?? "?"], [t("Installed at"), <span className="mono">{homebrew.prefix}</span>], [t("Expected on this Mac"), <span className="mono">{homebrew.expected_prefix}</span>], [t("Second installation"), homebrew.other_prefix ? <span className="mono">{homebrew.other_prefix}</span> : t("none")], [t("brew in PATH"), homebrew.in_path ? t("yes") : t("no")], [t("Formulae"), String(homebrew.formulae.length)], [t("Casks (apps)"), String(homebrew.casks.length)], [t("Cache"), <span className="mono">{shortenHome(homebrew.cache_dir, home)}{homebrew.cache_size ? ` · ${formatBytes(homebrew.cache_size.allocated)}` : ""}</span>]]} />
           </Card>
           <Card>
             <h3>{t("Broken links")}</h3>
@@ -45,7 +45,7 @@ export function PackagesPage({ refreshKey }: { refreshKey: number }) {
       {homebrew.installed && (
         <>
           <h2>{t("Installed formulae")}</h2>
-          <DataTable columns={[{ key: "name", label: t("Formula") }, { key: "versions", label: t("Versions"), render: (f) => f.versions.join(", ") }, { key: "linked", label: t("Linked"), render: (f) => (f.linked ? "yes" : "no") }]} rows={homebrew.formulae} rowKey={(f) => f.name} />
+          <DataTable columns={[{ key: "name", label: t("Formula") }, { key: "versions", label: t("Versions"), render: (f) => f.versions.join(", ") }, { key: "linked", label: t("Linked"), render: (f) => (f.linked ? t("yes") : t("no")) }]} rows={homebrew.formulae} rowKey={(f) => f.name} />
         </>
       )}
     </div>

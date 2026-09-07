@@ -9,6 +9,20 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  i18n:
+    name: Generated translations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify localisation sources and generated files
+        run: |
+          set -euo pipefail
+          python3 scripts/gen-i18n.py --check
+          python3 scripts/gen-i18n.py
+          git diff --exit-code -- \
+            apps/macos/Sources/DevDoctor/Resources \
+            apps/desktop/src/lib/i18n.generated.ts
+
   engine:
     name: Engine and CLI (macOS)
     runs-on: macos-latest

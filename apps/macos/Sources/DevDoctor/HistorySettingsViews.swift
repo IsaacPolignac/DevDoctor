@@ -54,7 +54,7 @@ struct HistoryView: View {
                 Task { await model.rollback(transaction) }
             }
         } message: {
-            Text(tr("DevDoctor puts back the %@ file(s) it saved before “%@”. If a file changed since, the restore is refused to protect your edits.", "\(pendingRollback?.backups?.count ?? 0)", "\(pendingRollback?.title ?? "this repair")"))
+            Text(tr("DevDoctor puts back the %@ file(s) it saved before “%@”. If a file changed since, the restore is refused to protect your edits.", "\(pendingRollback?.backups?.count ?? 0)", "\(pendingRollback?.title ?? tr("this repair"))"))
         }
     }
 
@@ -72,7 +72,12 @@ struct HistoryView: View {
                     .width(90)
                 TableColumn(tr("Findings")) { scan in Text("\(scan.issueCount)").monospacedDigit() }
                     .width(75)
-                TableColumn(tr("Checks")) { scan in Text("\(scan.detectorsRun)\(scan.detectorsFailed > 0 ? " (\(scan.detectorsFailed) failed)" : "")").monospacedDigit() }
+                TableColumn(tr("Checks")) { scan in
+                    Text(scan.detectorsFailed > 0
+                         ? tr("%@ checks · %@ failed", "\(scan.detectorsRun)", "\(scan.detectorsFailed)")
+                         : tr("%@ checks", "\(scan.detectorsRun)"))
+                        .monospacedDigit()
+                }
                     .width(110)
                 TableColumn(tr("Duration")) { scan in Text(Formatters.duration(ms: scan.durationMs)).monospacedDigit().foregroundStyle(.secondary) }
                     .width(90)
@@ -170,7 +175,7 @@ struct HistoryView: View {
                     .width(min: 150, ideal: 190)
                 TableColumn(tr("Command")) { run in Text(run.label).font(.system(.body, design: .monospaced)).lineLimit(1) }
                     .width(min: 240, ideal: 360)
-                TableColumn(tr("Exit")) { run in Text(run.exitCode.map(String.init) ?? "signal").monospacedDigit().foregroundStyle(run.exitCode == 0 ? .green : .orange) }
+                TableColumn(tr("Exit")) { run in Text(run.exitCode.map(String.init) ?? tr("signal")).monospacedDigit().foregroundStyle(run.exitCode == 0 ? .green : .orange) }
                     .width(60)
                 TableColumn(tr("What changed")) { run in Text(run.headline.isEmpty ? tr("nothing tracked") : run.headline.joined(separator: "; ")).foregroundStyle(.secondary).lineLimit(1) }
             }
@@ -215,6 +220,7 @@ struct SettingsView: View {
     @Binding var appearance: AppearanceMode
     @Binding var glassMode: GlassMode
     @AppStorage(L10n.storageKey) private var languageChoice = AppLanguage.system.rawValue
+    @AppStorage("soundEffectsEnabled") private var soundEffectsEnabled = false
     @State private var schedule: SnapshotSchedule?
     @State private var scheduleHour = 12
     @State private var markdown: String?
@@ -267,6 +273,7 @@ struct SettingsView: View {
                 }
 
                 Section(tr("Diagnostics")) {
+                    Toggle(tr("Play a subtle sound when a scan finishes"), isOn: $soundEffectsEnabled)
                     Toggle(tr("Run a quick check when DevDoctor opens (if the last one is older than an hour)"), isOn: Binding(
                         get: { model.autoScanOnLaunch },
                         set: { model.autoScanOnLaunch = $0 }
@@ -294,7 +301,9 @@ struct SettingsView: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(tr("Take a snapshot every day"))
                                 if schedule.installed {
-                                    Text(tr("At %@ · %@%@", "\(String(format: "%02d:%02d", schedule.hour ?? 0, schedule.minute ?? 0))", "\(schedule.loaded ? "active" : "not loaded yet")", "\(schedule.lastRun.map { " · last run \(Formatters.shortDate($0))" } ?? "")"))
+                                    let state = schedule.loaded ? tr("active") : tr("not loaded yet")
+                                    let lastRun = schedule.lastRun.map { tr(" · last run %@", Formatters.shortDate($0)) } ?? ""
+                                    Text(tr("At %@ · %@%@", "\(String(format: "%02d:%02d", schedule.hour ?? 0, schedule.minute ?? 0))", state, lastRun))
                                         .font(.caption).foregroundStyle(.secondary)
                                 } else {
                                     Text(tr("\"What changed since yesterday\" needs a snapshot from yesterday. A user launch agent runs the DevDoctor command line tool for about a second; no password, metadata only."))
@@ -311,8 +320,12 @@ struct SettingsView: View {
                                 .frame(width: 110)
                             }
                             if schedule.availableProgram == nil {
-                                Label(tr("The `devdoctor` command line tool was not found in PATH. Install it (`cargo install --path crates/devdoctor-cli`) so launchd has a stable command to run."), systemImage: "exclamationmark.triangle")
-                                    .font(.caption).foregroundStyle(.orange)
+                                Label {
+                                    richText(tr("The `devdoctor` command line tool was not found in PATH. Install it (`cargo install --path crates/devdoctor-cli`) so launchd has a stable command to run."))
+                                } icon: {
+                                    Image(systemName: "exclamationmark.triangle")
+                                }
+                                .font(.caption).foregroundStyle(.orange)
                             }
                         }
                         ForEach(Array(schedule.notes.enumerated()), id: \.offset) { _, note in

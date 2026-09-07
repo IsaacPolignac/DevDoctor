@@ -400,7 +400,7 @@ final class AppModel: ObservableObject {
             return Date().timeIntervalSince(date) > 3600
         }()
         if history.scans.isEmpty || (autoScanOnLaunch && stale) {
-            await runScan()
+            await runScan(audible: false)
         } else if selectedFindingID == nil {
             selectedFindingID = preferredFindingID
         }
@@ -421,7 +421,7 @@ final class AppModel: ObservableObject {
 
     // MARK: Scans
 
-    func runScan(mode: ScanMode = .quick) async {
+    func runScan(mode: ScanMode = .quick, audible: Bool = true) async {
         guard !isScanning else { return }
         isScanning = true
         scanMode = mode
@@ -435,6 +435,7 @@ final class AppModel: ObservableObject {
             scanProgress = 1
             await refreshState()
             selectedFindingID = preferredFindingID
+            if audible { InterfaceFeedback.scanCompleted() }
         } catch {
             alertMessage = error.localizedDescription
         }
@@ -556,6 +557,7 @@ final class AppModel: ObservableObject {
                 try await EngineClient.shared.unignore(issueID: issue.id)
             }
             await refreshState()
+            await runScan()
         } catch {
             alertMessage = error.localizedDescription
         }

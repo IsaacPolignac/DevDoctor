@@ -266,7 +266,7 @@ struct LocalAIView: View {
                                     .foregroundStyle(source.present ? .green : .secondary)
                                 Text(source.label).fontWeight(.medium)
                                 Spacer()
-                                Text(source.present ? Formatters.byteString(source.bytes) : "Not found")
+                                Text(source.present ? Formatters.byteString(source.bytes) : tr("Not found"))
                                     .foregroundStyle(.secondary)
                                     .monospacedDigit()
                             }

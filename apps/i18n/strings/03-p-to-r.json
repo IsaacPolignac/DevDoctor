@@ -24,6 +24,11 @@
     "es": "PID %@ · %@",
     "zh-Hans": "PID %@ · %@"
   },
+  "Package Managers": {
+    "fr": "Gestionnaires de paquets",
+    "es": "Gestores de paquetes",
+    "zh-Hans": "包管理器"
+  },
   "Package managers": {
     "fr": "Gestionnaires de paquets",
     "es": "Gestores de paquetes",
@@ -213,6 +218,11 @@
     "fr": "Programmes que macOS démarre pour vous à la connexion.",
     "es": "Programas que macOS inicia por ti al iniciar sesión.",
     "zh-Hans": "macOS 在登录时为您启动的程序。"
+  },
+  "Programs macOS starts for you at login. Apple's own are hidden.": {
+    "fr": "Programmes que macOS démarre pour vous à la connexion. Ceux d'Apple sont masqués.",
+    "es": "Programas que macOS inicia por ti al iniciar sesión. Los de Apple están ocultos.",
+    "zh-Hans": "macOS 在登录时为您启动的程序。Apple 自带的项目已隐藏。"
   },
   "Programs stopped": {
     "fr": "Programmes arrêtés",

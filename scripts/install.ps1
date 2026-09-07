@@ -5,7 +5,7 @@
   Downloads the latest release zip for x64 Windows, verifies its SHA-256, extracts devdoctor.exe
   into %LOCALAPPDATA%\Programs\DevDoctor and adds that folder to the user PATH.
 
-    irm https://raw.githubusercontent.com/YOUR_GITHUB_USER/devdoctor/main/scripts/install.ps1 | iex
+    irm https://raw.githubusercontent.com/IsaacPolignac/DevDoctor/main/scripts/install.ps1 | iex
 
 .PARAMETER Version   Release tag to install (default: latest).
 .PARAMETER Repo      GitHub repository (owner/name).
@@ -13,7 +13,7 @@
 #>
 param(
   [string]$Version = $env:DEVDOCTOR_VERSION,
-  [string]$Repo = $(if ($env:DEVDOCTOR_REPO) { $env:DEVDOCTOR_REPO } else { "YOUR_GITHUB_USER/devdoctor" }),
+  [string]$Repo = $(if ($env:DEVDOCTOR_REPO) { $env:DEVDOCTOR_REPO } else { "IsaacPolignac/DevDoctor" }),
   [switch]$NoPath
 )
 $ErrorActionPreference = "Stop"

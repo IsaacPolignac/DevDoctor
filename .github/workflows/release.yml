@@ -8,6 +8,20 @@ permissions:
   contents: write
 
 jobs:
+  i18n:
+    name: Generated translations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify localisation sources and generated files
+        run: |
+          set -euo pipefail
+          python3 scripts/gen-i18n.py --check
+          python3 scripts/gen-i18n.py
+          git diff --exit-code -- \
+            apps/macos/Sources/DevDoctor/Resources \
+            apps/desktop/src/lib/i18n.generated.ts
+
   cli:
     name: CLI ${{ matrix.target }}
     runs-on: macos-latest
@@ -175,7 +189,7 @@ jobs:
 
   release:
     name: Publish GitHub release
-    needs: [cli, cli-windows, app, app-windows, native-app]
+    needs: [i18n, cli, cli-windows, app, app-windows, native-app]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4

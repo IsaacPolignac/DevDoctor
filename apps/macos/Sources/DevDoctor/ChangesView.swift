@@ -1,5 +1,29 @@
 import SwiftUI
 
+private func localizedChangeKind(_ kind: String) -> String {
+    switch kind {
+    case "added": tr("added")
+    case "removed": tr("removed")
+    case "changed": tr("changed")
+    case "modified": tr("modified")
+    default: kind.replacingOccurrences(of: "_", with: " ")
+    }
+}
+
+private func localizedSnapshotKind(_ kind: String) -> String {
+    switch kind {
+    case "baseline": tr("baseline")
+    case "scan": tr("scan")
+    case "manual": tr("manual")
+    case "pre_fix": tr("before repair")
+    case "post_fix": tr("after repair")
+    case "run_before": tr("before recorded run")
+    case "run_after": tr("after recorded run")
+    case "watch": tr("watch")
+    default: kind.replacingOccurrences(of: "_", with: " ")
+    }
+}
+
 struct ChangesView: View {
     @EnvironmentObject private var model: AppModel
     @State private var snapshots: [SnapshotSummary] = []
@@ -67,7 +91,13 @@ struct ChangesView: View {
                             Label(tr("No changes detected."), systemImage: "checkmark.circle").foregroundStyle(.secondary)
                         } else {
                             ForEach(Array(diff.headline.enumerated()), id: \.offset) { _, h in
-                                Label(h, systemImage: "circle.fill").font(.callout.weight(.medium)).imageScale(.small)
+                                Label {
+                                    richText(h)
+                                } icon: {
+                                    Image(systemName: "circle.fill")
+                                }
+                                .font(.callout.weight(.medium))
+                                .imageScale(.small)
                             }
                         }
                     }
@@ -76,8 +106,8 @@ struct ChangesView: View {
                             VStack(alignment: .leading, spacing: 6) {
                                 ForEach(diff.changes.filter { $0.category == category.category }) { change in
                                     HStack(alignment: .top, spacing: 8) {
-                                        StatusPill(text: change.kind, symbol: change.kind == "added" ? "plus" : (change.kind == "removed" ? "minus" : "arrow.triangle.2.circlepath"), color: change.kind == "added" ? .green : (change.kind == "removed" ? .red : .blue))
-                                        Text(change.description).font(.callout).textSelection(.enabled).fixedSize(horizontal: false, vertical: true)
+                                        StatusPill(text: localizedChangeKind(change.kind), symbol: change.kind == "added" ? "plus" : (change.kind == "removed" ? "minus" : "arrow.triangle.2.circlepath"), color: change.kind == "added" ? .green : (change.kind == "removed" ? .red : .blue))
+                                        richText(change.description).font(.callout).textSelection(.enabled).fixedSize(horizontal: false, vertical: true)
                                         Spacer()
                                     }
                                 }
@@ -120,7 +150,7 @@ struct ChangesView: View {
                                 .width(min: 150, ideal: 180)
                             TableColumn(tr("Kind")) { s in
                                 HStack(spacing: 6) {
-                                    Text(s.kind.replacingOccurrences(of: "_", with: " "))
+                                    Text(localizedSnapshotKind(s.kind))
                                     if s.kind == "baseline" { StatusPill(text: tr("baseline"), symbol: "flag", color: .blue) }
                                 }
                             }
@@ -153,7 +183,7 @@ struct ChangesView: View {
     }
 
     private func label(_ s: SnapshotSummary) -> String {
-        "\(Formatters.shortDate(s.createdAt)) · \(s.kind.replacingOccurrences(of: "_", with: " "))\(s.label.map { " · \($0)" } ?? "")"
+        "\(Formatters.shortDate(s.createdAt)) · \(localizedSnapshotKind(s.kind))\(s.label.map { " · \($0)" } ?? "")"
     }
 
     private func load() async {
@@ -204,17 +234,23 @@ struct RunCard: View {
                         Text("\(Formatters.shortDate(run.startedAt)) · \(Formatters.duration(ms: run.durationMs))").font(.caption).foregroundStyle(.secondary)
                     }
                     Spacer()
-                    StatusPill(text: run.exitCode.map { "exit \($0)" } ?? "interrupted", symbol: run.exitCode == 0 ? "checkmark.circle" : "exclamationmark.circle", color: run.exitCode == 0 ? .green : .orange)
+                    StatusPill(text: run.exitCode.map { tr("exit %@", "\($0)") } ?? tr("interrupted"), symbol: run.exitCode == 0 ? "checkmark.circle" : "exclamationmark.circle", color: run.exitCode == 0 ? .green : .orange)
                 }
                 if run.headline.isEmpty {
                     Text(tr("Nothing DevDoctor tracks changed.")).font(.callout).foregroundStyle(.secondary)
                 } else {
                     ForEach(Array(run.headline.enumerated()), id: \.offset) { _, h in
-                        Label(h, systemImage: "circle.fill").font(.callout).imageScale(.small)
+                        Label {
+                            richText(h)
+                        } icon: {
+                            Image(systemName: "circle.fill")
+                        }
+                        .font(.callout)
+                        .imageScale(.small)
                     }
                 }
                 ForEach(run.fileDiffs) { f in
-                    DisclosureGroup("\(Formatters.shortenHome(f.path)) · \(f.kind) (+\(f.linesAdded) / −\(f.linesRemoved))") {
+                    DisclosureGroup("\(Formatters.shortenHome(f.path)) · \(localizedChangeKind(f.kind)) (+\(f.linesAdded) / −\(f.linesRemoved))") {
                         DiffBlock(text: f.diff).padding(.top, 6)
                     }
                     .font(.callout)
@@ -224,8 +260,8 @@ struct RunCard: View {
                         VStack(alignment: .leading, spacing: 4) {
                             ForEach(run.diff.changes) { c in
                                 HStack(spacing: 8) {
-                                    StatusPill(text: c.kind, symbol: "circle", color: c.kind == "added" ? .green : (c.kind == "removed" ? .red : .blue))
-                                    Text(c.description).font(.caption).textSelection(.enabled)
+                                    StatusPill(text: localizedChangeKind(c.kind), symbol: "circle", color: c.kind == "added" ? .green : (c.kind == "removed" ? .red : .blue))
+                                    richText(c.description).font(.caption).textSelection(.enabled)
                                     Spacer()
                                 }
                             }

@@ -7,6 +7,26 @@ import { Button, Card, ConfirmDialog, Disclosure, ErrorBox, Loading, PageHeader,
 import { DiffView } from "../components/DiffView";
 import { t } from "../lib/i18n";
 
+function localizedChangeKind(kind: string): string {
+  if (kind === "added") return t("added");
+  if (kind === "removed") return t("removed");
+  if (kind === "changed") return t("changed");
+  if (kind === "modified") return t("modified");
+  return kind.replaceAll("_", " ");
+}
+
+function localizedSnapshotKind(kind: string): string {
+  if (kind === "baseline") return t("baseline");
+  if (kind === "scan") return t("scan");
+  if (kind === "manual") return t("manual");
+  if (kind === "pre_fix") return t("before repair");
+  if (kind === "post_fix") return t("after repair");
+  if (kind === "run_before") return t("before recorded run");
+  if (kind === "run_after") return t("after recorded run");
+  if (kind === "watch") return t("watch");
+  return kind.replaceAll("_", " ");
+}
+
 export function ChangesPage({ refreshKey }: { refreshKey: number }) {
   const toast = useToast();
   const { home } = useNav();
@@ -27,7 +47,7 @@ export function ChangesPage({ refreshKey }: { refreshKey: number }) {
   if (snaps.loading && !snaps.data) return <Loading what="snapshots" />;
   const list = snaps.data ?? [];
   const hasBaseline = list.some((s) => s.kind === "baseline");
-  const label = (s: (typeof list)[number]) => `${formatDate(s.created_at)} · ${s.kind}${s.label ? ` · ${s.label}` : ""}`;
+  const label = (s: (typeof list)[number]) => `${formatDate(s.created_at)} · ${localizedSnapshotKind(s.kind)}${s.label ? ` · ${s.label}` : ""}`;
   return (
     <div className="page">
       <PageHeader title={t("What changed")} subtitle={<>{t("DevDoctor takes a ")}<Term k="snapshot">{t("snapshot")}</Term> {t(" of your setup after every check. Comparing two of them shows exactly what was installed, removed or edited in between. It cannot know what happened before it was installed.")}</>} actions={<Button icon="diff" onClick={() => { setBaseline(!hasBaseline); setCreating(true); }}>{hasBaseline ? t("Take snapshot") : t("Create baseline")}</Button>} />
@@ -55,21 +75,21 @@ export function ChangesPage({ refreshKey }: { refreshKey: number }) {
           {diff.data.categories.map((c) => (
             <div key={c.category}>
               <h2>{c.label} <span className="muted" style={{ fontWeight: 400 }}>{[c.added ? `+${c.added}` : "", c.removed ? `−${c.removed}` : "", c.changed ? `~${c.changed}` : ""].filter(Boolean).join(" ")}</span></h2>
-              <div className="list glass-strong">{diff.data!.changes.filter((ch) => ch.category === c.category).map((ch) => <div key={`${ch.category}:${ch.key}`} className="row"><Pill tone={ch.kind === "added" ? "green" : ch.kind === "removed" ? "red" : "blue"}>{ch.kind}</Pill><span className="grow selectable">{ch.description}</span></div>)}</div>
+              <div className="list glass-strong">{diff.data!.changes.filter((ch) => ch.category === c.category).map((ch) => <div key={`${ch.category}:${ch.key}`} className="row"><Pill tone={ch.kind === "added" ? "green" : ch.kind === "removed" ? "red" : "blue"}>{localizedChangeKind(ch.kind)}</Pill><span className="grow selectable">{ch.description}</span></div>)}</div>
             </div>
           ))}
         </>
       )}
       <h2>{t("Recorded installs")}</h2>
-      <p className="muted small">{t("Wrap an installer in your terminal — ")}<span className="inline-code">{t("devdoctor run brew install something")}</span> {t(" — and DevDoctor records exactly what that ")}<Term k="run">{t("run")}</Term> {t(" changed: startup files, PATH, packages, new folders and applications.")}</p>
+      <p className="muted small">{t("Wrap an installer in your terminal — ")}<span className="inline-code">devdoctor run brew install something</span> {t(" — and DevDoctor records exactly what that ")}<Term k="run">{t("run")}</Term> {t(" changed: startup files, PATH, packages, new folders and applications.")}</p>
       <ErrorBox error={runs.error} />
       {(runs.data ?? []).length === 0 ? <Card><p className="muted">{t("No recorded installs yet.")}</p></Card> : (runs.data ?? []).map((r) => (
         <Card key={r.id} title={<span className="list-inline"><span className="mono">{r.label}</span><span className="muted small">{formatDate(r.started_at)}</span><Pill tone={r.exit_code === 0 ? "green" : "red"}>{r.exit_code == null ? t("interrupted") : t("exit {code}", { code: r.exit_code })}</Pill></span>}>
           {r.headline.length === 0 ? <p className="muted">{t("Nothing DevDoctor tracks changed.")}</p> : <ul className="section-list">{r.headline.map((h, i) => <li key={i}>{h}</li>)}</ul>}
-          {r.file_diffs.map((f) => <Disclosure key={f.path} label={`${shortenHome(f.path, home)} · ${f.kind}`}><DiffView diff={f.diff} /></Disclosure>)}
+          {r.file_diffs.map((f) => <Disclosure key={f.path} label={`${shortenHome(f.path, home)} · ${localizedChangeKind(f.kind)}`}><DiffView diff={f.diff} /></Disclosure>)}
           {r.diff.changes.length > 0 && (
             <Disclosure label={r.diff.changes.length === 1 ? t("1 tracked change") : t("{n} tracked changes", { n: r.diff.changes.length })}>
-              <div className="list">{r.diff.changes.map((ch) => <div key={`${ch.category}:${ch.key}`} className="row"><Pill tone={ch.kind === "added" ? "green" : ch.kind === "removed" ? "red" : "blue"}>{ch.kind}</Pill><span className="grow selectable">{ch.description}</span></div>)}</div>
+              <div className="list">{r.diff.changes.map((ch) => <div key={`${ch.category}:${ch.key}`} className="row"><Pill tone={ch.kind === "added" ? "green" : ch.kind === "removed" ? "red" : "blue"}>{localizedChangeKind(ch.kind)}</Pill><span className="grow selectable">{ch.description}</span></div>)}</div>
             </Disclosure>
           )}
           <div className="mono faint tiny" style={{ marginTop: 8 }}>{r.id}</div>
@@ -77,7 +97,7 @@ export function ChangesPage({ refreshKey }: { refreshKey: number }) {
       ))}
       <h2>{t("Snapshots")}</h2>
       {list.length === 0 ? <p className="muted">{t("None yet.")}</p> : (
-        <div className="list glass-strong">{list.map((s) => <div key={s.id} className="row"><div className="grow"><div className="row-title">{formatDate(s.created_at)} {s.kind === "baseline" && <Pill tone="blue">{t("baseline")}</Pill>}</div><div className="row-sub">{s.kind}{s.label ? ` · ${s.label}` : ""} · {Object.values(s.summary.counts).reduce((a, b) => a + b, 0)} {t(" items")}</div></div><span className="mono faint tiny">{s.id}</span></div>)}</div>
+        <div className="list glass-strong">{list.map((s) => <div key={s.id} className="row"><div className="grow"><div className="row-title">{formatDate(s.created_at)} {s.kind === "baseline" && <Pill tone="blue">{t("baseline")}</Pill>}</div><div className="row-sub">{localizedSnapshotKind(s.kind)}{s.label ? ` · ${s.label}` : ""} · {Object.values(s.summary.counts).reduce((a, b) => a + b, 0)} {t(" items")}</div></div><span className="mono faint tiny">{s.id}</span></div>)}</div>
       )}
       {creating && (
         <ConfirmDialog title={baseline ? t("Create baseline snapshot") : t("Take a snapshot")} confirmLabel="Create" busy={busy} onConfirm={create} onCancel={() => setCreating(false)}>

@@ -2,13 +2,13 @@
 # DevDoctor installer for macOS: downloads the latest release of the `devdoctor` CLI for this
 # machine, verifies its SHA-256 and installs it into ~/.local/bin (or $DEVDOCTOR_INSTALL_DIR).
 #
-#   curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/devdoctor/main/scripts/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/IsaacPolignac/DevDoctor/main/scripts/install.sh | sh
 #
 # Environment: DEVDOCTOR_REPO (owner/name), DEVDOCTOR_VERSION (tag, default latest),
 # DEVDOCTOR_INSTALL_DIR (default ~/.local/bin). Nothing runs with sudo.
 set -eu
 
-REPO="${DEVDOCTOR_REPO:-YOUR_GITHUB_USER/devdoctor}"
+REPO="${DEVDOCTOR_REPO:-IsaacPolignac/DevDoctor}"
 INSTALL_DIR="${DEVDOCTOR_INSTALL_DIR:-$HOME/.local/bin}"
 
 os="$(uname -s)"

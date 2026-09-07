@@ -2,6 +2,18 @@
 
 All notable changes to DevDoctor. The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## 0.2.1 — 2026-09-07
+
+### Improved
+
+- Polished native macOS Overview, inspector, tables and compact layouts.
+- Consistent transparent Liquid Glass and neutral indicators for unscanned areas.
+- Subtle radar transitions that respect Reduce Motion.
+- Optional quiet scan-completion sound; automatic startup scans remain silent.
+- French, Spanish and Simplified Chinese interface translations and accessibility labels.
+- Clearer inline commands in diagnostic explanations and repair previews.
+- Health refresh after ignoring findings, clean release builds and translation checks in CI.
+
 ## 0.2.0 — 2026-09-05
 
 ### Added

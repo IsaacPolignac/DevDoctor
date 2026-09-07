@@ -61,14 +61,18 @@ struct SidebarView: View {
             HStack(spacing: 8) {
                 Image(systemName: "lock.shield")
                     .foregroundStyle(.secondary)
-                Text(tr("Local by default · nothing leaves this Mac"))
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(tr("Local by default"))
+                        .font(.caption.weight(.medium))
+                    Text(tr("Nothing leaves this Mac"))
+                        .font(.caption2)
+                }
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
                 Spacer(minLength: 0)
             }
             .padding(.horizontal, 12)
-            .padding(.vertical, 8)
+            .padding(.vertical, 7)
         }
     }
 }
@@ -77,10 +81,14 @@ private struct SidebarRow: View {
     let section: AppSection
     var badge: Int? = nil
 
+    private var title: String {
+        section == .storage ? tr("Storage") : section.title
+    }
+
     var body: some View {
         Label {
             HStack {
-                Text(section.title)
+                Text(title)
                 Spacer()
                 if let badge {
                     Text("\(badge)")
@@ -96,5 +104,6 @@ private struct SidebarRow: View {
                 .symbolRenderingMode(.hierarchical)
         }
         .tag(section)
+        .help(section.title)
     }
 }

@@ -75,3 +75,11 @@ func tr(_ key: String, _ args: CVarArg...) -> String {
     let template = L10n.string(key)
     return args.isEmpty ? template : String(format: template, locale: L10n.locale, arguments: args)
 }
+
+/// Renders trusted inline Markdown from DevDoctor copy and engine output. This keeps command
+/// names visually distinct without exposing Markdown punctuation such as backticks in the UI.
+func richText(_ markdown: String) -> Text {
+    let options = AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)
+    let attributed = (try? AttributedString(markdown: markdown, options: options)) ?? AttributedString(markdown)
+    return Text(attributed)
+}

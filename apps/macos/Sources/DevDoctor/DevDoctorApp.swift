@@ -108,10 +108,11 @@ struct DevDoctorApp: App {
 
                 Divider()
 
-                Button(model.isInspectorPresented ? tr("Hide Inspector") : tr("Show Inspector")) {
+                Button(model.isInspectorPresented && model.selectedFinding != nil ? tr("Hide Inspector") : tr("Show Inspector")) {
                     model.isInspectorPresented.toggle()
                 }
                 .keyboardShortcut("i", modifiers: [.command, .option])
+                .disabled(model.selectedFinding == nil)
             }
         }
     }
@@ -125,7 +126,7 @@ struct RootView: View {
     var body: some View {
         NavigationSplitView {
             SidebarView(selection: $model.selection)
-                .navigationSplitViewColumnWidth(min: 205, ideal: 220, max: 255)
+                .navigationSplitViewColumnWidth(min: 232, ideal: 248, max: 288)
         } detail: {
             Group {
                 if !model.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -158,7 +159,8 @@ struct RootView: View {
                         } label: {
                             Label(tr("Inspector"), systemImage: "sidebar.right")
                         }
-                        .help(model.isInspectorPresented ? tr("Hide Inspector") : tr("Show Inspector"))
+                        .help(model.isInspectorPresented && model.selectedFinding != nil ? tr("Hide Inspector") : tr("Show Inspector"))
+                        .disabled(model.selectedFinding == nil)
                     }
                 }
             }
@@ -187,7 +189,7 @@ struct RootView: View {
         case .overview:
             OverviewView(glassMode: glassMode)
         case .problems:
-            ProblemsView()
+            ProblemsView(glassMode: glassMode)
         case .shell:
             ShellView()
         case .path:

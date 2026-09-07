@@ -13,17 +13,25 @@ APP_DIR="$ROOT/apps/macos"
 OUT="$ROOT/target/macos"
 BUNDLE="$OUT/DevDoctor.app"
 CONFIG="${CONFIG:-release}"
+SWIFT_SCRATCH="$OUT/swift-build-$CONFIG"
+
+echo "==> Preparing clean macOS build output"
+# Remove both the publishable bundle and Swift product before either compiler runs. If
+# any later step fails, callers cannot mistake an artifact from an older run for success.
+rm -rf "$BUNDLE" "$SWIFT_SCRATCH"
+mkdir -p "$OUT"
 
 echo "==> Building the engine (cargo build --release -p devdoctor-cli)"
 (cd "$ROOT" && cargo build --release -p devdoctor-cli)
 
 echo "==> Building the SwiftUI app (swift build -c $CONFIG)"
-(cd "$APP_DIR" && swift build -c "$CONFIG" 2>&1 | grep -Ev "^\[|^Compiling|^Emitting|^Write|^Build complete" || true)
-BIN_DIR="$(cd "$APP_DIR" && swift build -c "$CONFIG" --show-bin-path)"
+# A clean scratch directory guarantees that a failed build cannot leave an older
+# executable available for assembly. Preserve Swift's exit status and full output.
+BIN_DIR="$(cd "$APP_DIR" && swift build -c "$CONFIG" --scratch-path "$SWIFT_SCRATCH" --show-bin-path)"
+(cd "$APP_DIR" && swift build -c "$CONFIG" --scratch-path "$SWIFT_SCRATCH")
 test -x "$BIN_DIR/DevDoctor" || { echo "Swift build did not produce $BIN_DIR/DevDoctor" >&2; exit 1; }
 
 echo "==> Assembling $BUNDLE"
-rm -rf "$BUNDLE"
 mkdir -p "$BUNDLE/Contents/MacOS" "$BUNDLE/Contents/Resources"
 cp "$BIN_DIR/DevDoctor" "$BUNDLE/Contents/MacOS/DevDoctor"
 # Named devdoctor-engine: APFS is case-insensitive, so "devdoctor" would overwrite "DevDoctor".
