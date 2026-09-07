@@ -15,8 +15,14 @@ tauri-build = { version = "2", features = [] }
 
 [dependencies]
 devdoctor.workspace = true
-tauri = { version = "2", features = ["macos-private-api"] }
+tauri = { version = "2", features = [] }
 window-vibrancy = "0.6"
 serde.workspace = true
 serde_json.workspace = true
 tracing.workspace = true
+
+# The transparent window with real vibrancy needs the private API on macOS only; the Windows
+# configuration (tauri.windows.conf.json) turns macOSPrivateApi off, and tauri-build requires the
+# Cargo feature set to match that setting.
+[target.'cfg(target_os = "macos")'.dependencies]
+tauri = { version = "2", features = ["macos-private-api"] }
