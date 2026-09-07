@@ -42,7 +42,10 @@ fn context(env: &Env, path: &str) -> SystemContext {
 fn valid_zshrc_produces_no_shell_issues() {
     let env = home_with(&[(".zshrc", "valid.zshrc")]);
     std::fs::create_dir_all(env.home.join(".local/bin")).unwrap();
-    let ctx = context(&env, "$HOME/.local/bin:/opt/homebrew/bin:/usr/bin:/bin");
+    // A stand-in for Homebrew's bin directory: the missing-directory detector looks at the real
+    // filesystem, and /opt/homebrew only exists on Apple Silicon Macs with Homebrew installed.
+    std::fs::create_dir_all(env.home.join("homebrew/bin")).unwrap();
+    let ctx = context(&env, "$HOME/.local/bin:$HOME/homebrew/bin:/usr/bin:/bin");
     for d in [
         Box::new(shell_path::PathDuplicateDetector) as Box<dyn Detector>,
         Box::new(shell_path::PathMissingDirectoryDetector),
