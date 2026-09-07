@@ -287,8 +287,14 @@ mod tests {
         std::fs::write(dir.path().join("sub").join("b.bin"), vec![1u8; 5_000]).unwrap();
         std::fs::hard_link(dir.path().join("a.bin"), dir.path().join("a-link.bin")).unwrap();
         let size = dir_size(dir.path());
-        assert_eq!(size.files, 2, "hard link counted once");
-        assert_eq!(size.logical, 15_000);
+        if cfg!(unix) {
+            assert_eq!(size.files, 2, "hard link counted once");
+            assert_eq!(size.logical, 15_000);
+        } else {
+            // Windows exposes no stable file identity through std, so hard links count twice.
+            assert_eq!(size.files, 3);
+            assert_eq!(size.logical, 25_000);
+        }
         assert!(size.allocated >= 15_000);
         assert_eq!(size.dirs, 1);
     }

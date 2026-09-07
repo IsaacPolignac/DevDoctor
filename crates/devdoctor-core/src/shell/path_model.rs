@@ -435,7 +435,8 @@ pub fn apply_removals(files: &BTreeMap<PathBuf, String>, mutations: &[PathMutati
     (edits, skipped)
 }
 
-#[cfg(test)]
+// These tests exercise POSIX shell behaviour (login shells, `:`-separated PATH, rc files).
+#[cfg(all(test, unix))]
 mod tests {
     use super::*;
     use crate::shell::parser::parse_shell_file;

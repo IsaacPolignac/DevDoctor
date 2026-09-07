@@ -1,0 +1,8 @@
+# Keep LF line endings on every platform: shell fixtures, .strings files and tests compare bytes.
+* text=auto eol=lf
+*.sh text eol=lf
+*.ps1 text eol=crlf
+*.png binary
+*.jpg binary
+*.icns binary
+*.ico binary

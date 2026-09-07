@@ -341,7 +341,8 @@ pub fn display_dir(path: &Path, home: &Path) -> String {
     fs_util::display_path(path, home)
 }
 
-#[cfg(test)]
+// These tests exercise POSIX shell behaviour (login shells, `:`-separated PATH, rc files).
+#[cfg(all(test, unix))]
 mod tests {
     use super::*;
     use crate::command::MockRunner;

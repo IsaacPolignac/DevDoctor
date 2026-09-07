@@ -1264,6 +1264,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)] // edits a .zshrc and relies on a `:`-separated PATH
     fn scan_fix_rollback_vertical_slice() {
         let dir = tempfile::tempdir().unwrap();
         let home = dir.path();

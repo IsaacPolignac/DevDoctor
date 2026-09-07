@@ -247,16 +247,34 @@ impl VersionCache {
 mod tests {
     use super::*;
 
+    /// A command that prints `hello` on this OS.
+    fn echo_spec() -> CommandSpec {
+        if cfg!(windows) {
+            CommandSpec::new("cmd.exe").args(["/C", "echo hello"])
+        } else {
+            CommandSpec::new("/bin/echo").arg("hello")
+        }
+    }
+
+    /// A command that takes about five seconds on this OS.
+    fn slow_spec() -> CommandSpec {
+        if cfg!(windows) {
+            CommandSpec::new("cmd.exe").args(["/C", "ping -n 6 127.0.0.1 >nul"])
+        } else {
+            CommandSpec::new("/bin/sleep").arg("5")
+        }
+    }
+
     #[test]
     fn real_runner_captures_output() {
-        let out = RealRunner.run(&CommandSpec::new("/bin/echo").arg("hello")).expect("echo runs");
+        let out = RealRunner.run(&echo_spec()).expect("echo runs");
         assert!(out.success());
         assert_eq!(out.stdout.trim(), "hello");
     }
 
     #[test]
     fn real_runner_times_out() {
-        let out = RealRunner.run(&CommandSpec::new("/bin/sleep").arg("5").timeout_ms(100)).expect("spawns");
+        let out = RealRunner.run(&slow_spec().timeout_ms(100)).expect("spawns");
         assert!(out.timed_out);
         assert!(!out.success());
     }
