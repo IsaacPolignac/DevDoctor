@@ -4,7 +4,7 @@
 
 1. Create the GitHub repository (public) and point the tree at it:
    ```sh
-   scripts/set-repo.sh <your-github-user>     # replaces the YOUR_GITHUB_USER placeholder everywhere
+   scripts/set-repo.sh <your-github-user>     # replaces the IsaacPolignac placeholder everywhere
    git remote add origin git@github.com:<your-github-user>/devdoctor.git
    git push -u origin main
    ```

@@ -113,24 +113,24 @@ PCs than the macOS version, hence "beta". Please report what you see.
 
 ```sh
 # macOS: CLI into ~/.local/bin (verifies the SHA-256 of the release asset)
-curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/devdoctor/main/scripts/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/IsaacPolignac/DevDoctor/main/scripts/install.sh | sh
 
 # macOS: Homebrew (tap hosted in this repository)
-brew tap YOUR_GITHUB_USER/devdoctor https://github.com/YOUR_GITHUB_USER/devdoctor && brew install devdoctor
+brew tap IsaacPolignac/devdoctor https://github.com/IsaacPolignac/DevDoctor && brew install devdoctor
 
 # Any OS with Rust: build the CLI from the latest tag
-cargo install --git https://github.com/YOUR_GITHUB_USER/devdoctor devdoctor-cli
+cargo install --git https://github.com/IsaacPolignac/DevDoctor devdoctor-cli
 ```
 
 ```powershell
 # Windows: CLI into %LOCALAPPDATA%\Programs\DevDoctor and the user PATH (no administrator rights)
-irm https://raw.githubusercontent.com/YOUR_GITHUB_USER/devdoctor/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/IsaacPolignac/DevDoctor/main/scripts/install.ps1 | iex
 
 # Windows: Scoop
-scoop install https://raw.githubusercontent.com/YOUR_GITHUB_USER/devdoctor/main/scoop/devdoctor.json
+scoop install https://raw.githubusercontent.com/IsaacPolignac/DevDoctor/main/scoop/devdoctor.json
 ```
 
-Desktop apps are on the [Releases](https://github.com/YOUR_GITHUB_USER/devdoctor/releases) page:
+Desktop apps are on the [Releases](https://github.com/IsaacPolignac/DevDoctor/releases) page:
 `DevDoctor-<tag>-macos26-arm64.zip` (native app), `DevDoctor-Web-<tag>-macos-arm64.zip`
 (macOS 12–15), `DevDoctor-<tag>-windows-x64-setup.exe` / `.msi` (Windows). Every asset has a
 `.sha256` next to it. Builds are not notarized or Authenticode-signed yet: on macOS right-click →
@@ -141,7 +141,7 @@ Open once, on Windows choose "More info → Run anyway" in SmartScreen.
 Requirements: Rust (stable); Xcode 26 for the native app (macOS 26); Node 20+ for the web-technology app.
 
 ```sh
-git clone https://github.com/YOUR_GITHUB_USER/devdoctor && cd devdoctor
+git clone https://github.com/IsaacPolignac/DevDoctor && cd devdoctor
 
 # CLI
 cargo build --release -p devdoctor-cli
