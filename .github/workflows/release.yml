@@ -199,3 +199,21 @@ jobs:
             not code-signed: SmartScreen shows "Windows protected your PC" → More info → Run anyway.
 
             Verify any download with its `.sha256` file.
+
+  formula:
+    name: Update Homebrew formula and Scoop manifest
+    needs: [release]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Refresh hashes for ${{ github.ref_name }}
+        run: scripts/update-formula.sh "${GITHUB_REF_NAME#v}"
+      - name: Commit to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet; then echo "hashes already current"; exit 0; fi
+          git commit -am "Formula and Scoop manifest: hashes for ${GITHUB_REF_NAME}"
+          git push origin HEAD:main
