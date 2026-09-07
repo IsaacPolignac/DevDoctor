@@ -6,7 +6,7 @@
   "architecture": {
     "64bit": {
       "url": "https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.0/devdoctor-v0.2.0-x86_64-pc-windows-msvc.zip",
-      "hash": "REPLACE_WITH_ZIP_SHA256"
+      "hash": "169fbf7127a1b95f4f4d11bf95a2cea5a6fb05611ac3e138bb4990440e35380d"
     }
   },
   "bin": "devdoctor.exe",
