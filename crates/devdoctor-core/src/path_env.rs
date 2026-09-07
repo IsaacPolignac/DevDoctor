@@ -770,7 +770,8 @@ pub fn build_path_report(ctx: &SystemContext) -> PathReport {
     }
 }
 
-#[cfg(test)]
+// These tests exercise POSIX shell behaviour (login shells, `:`-separated PATH, rc files).
+#[cfg(all(test, unix))]
 mod tests {
     use super::*;
 

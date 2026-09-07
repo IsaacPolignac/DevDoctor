@@ -12,15 +12,24 @@
         "decorations": true,
         "titleBarStyle": "Visible"
       }
-    ],
-    "macOSPrivateApi": false
+    ]
   },
   "bundle": {
-    "targets": ["msi", "nsis"],
-    "icon": ["icons/icon.ico", "icons/icon.png"],
+    "targets": [
+      "msi",
+      "nsis"
+    ],
+    "icon": [
+      "icons/icon.ico",
+      "icons/icon.png"
+    ],
     "windows": {
-      "webviewInstallMode": { "type": "downloadBootstrapper" },
-      "nsis": { "installMode": "currentUser" }
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper"
+      },
+      "nsis": {
+        "installMode": "currentUser"
+      }
     }
   }
 }

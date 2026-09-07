@@ -2,14 +2,14 @@
 
 ## Visual truth and capture conditions
 
-- Fusion source A, health summary and System Areas: `/Users/isaak/Documents/Codex/2026-09-03/referenced-chatgpt-conversation-this-is-an/outputs/DevDoctor-MacOS-Prototype/Audit/Final/01-overview-light-pass1.png`
-- Fusion source B, radar Overview: `/Users/isaak/Documents/Codex/2026-09-03/referenced-chatgpt-conversation-this-is-an/outputs/DevDoctor-MacOS-Prototype/Audit/Final/05-overview-radar-light.png`
-- User-selected radar reference: `/Users/isaak/Documents/Codex/2026-09-03/referenced-chatgpt-conversation-this-is-an/outputs/DevDoctor-MacOS-Prototype/DesignReferences/overview-radar-selected.png`
-- Final Light top capture: `/Users/isaak/Documents/Codex/2026-09-03/referenced-chatgpt-conversation-this-is-an/outputs/DevDoctor-MacOS-Prototype/Audit/Final/08-overview-fusion-light-pass1.png`
-- Final Light System Areas capture: `/Users/isaak/Documents/Codex/2026-09-03/referenced-chatgpt-conversation-this-is-an/outputs/DevDoctor-MacOS-Prototype/Audit/Final/09-overview-fusion-system-areas-light.png`
-- Final Dark capture: `/Users/isaak/Documents/Codex/2026-09-03/referenced-chatgpt-conversation-this-is-an/outputs/DevDoctor-MacOS-Prototype/Audit/Final/10-overview-fusion-dark.png`
-- Repair-preview capture: `/Users/isaak/Documents/Codex/2026-09-03/referenced-chatgpt-conversation-this-is-an/outputs/DevDoctor-MacOS-Prototype/Audit/Final/04-fix-preview-dark.png`
-- Combined two-source/final implementation comparison reviewed: `/Users/isaak/Documents/Codex/2026-09-03/referenced-chatgpt-conversation-this-is-an/outputs/DevDoctor-MacOS-Prototype/Audit/Final/11-fusion-sources-vs-implementation.png`
+- Fusion source A, health summary and System Areas: `<prototype-folder>/Audit/Final/01-overview-light-pass1.png`
+- Fusion source B, radar Overview: `<prototype-folder>/Audit/Final/05-overview-radar-light.png`
+- User-selected radar reference: `<prototype-folder>/DesignReferences/overview-radar-selected.png`
+- Final Light top capture: `<prototype-folder>/Audit/Final/08-overview-fusion-light-pass1.png`
+- Final Light System Areas capture: `<prototype-folder>/Audit/Final/09-overview-fusion-system-areas-light.png`
+- Final Dark capture: `<prototype-folder>/Audit/Final/10-overview-fusion-dark.png`
+- Repair-preview capture: `<prototype-folder>/Audit/Final/04-fix-preview-dark.png`
+- Combined two-source/final implementation comparison reviewed: `<prototype-folder>/Audit/Final/11-fusion-sources-vs-implementation.png`
 - Runtime viewport: 1320 × 820 points at @2x with the native rounded window shadow.
 - Final handoff state: Overview, System appearance, Clear Liquid Glass, selected reversible finding, sidebar and issue inspector visible.
 
@@ -50,6 +50,6 @@
 - Health Review, Scan Again, radar-area navigation, System Areas navigation, issue-card selection, View All, search, inspector visibility, and the appearance popover remain connected.
 - Preview Fix completed a real dry run and displayed operations, the affected file diff, reversibility status, Cancel, and Apply Repair controls.
 - Apply Repair, process stop, and rollback were deliberately not executed during visual QA.
-- The separate `/Users/isaak/devdoctor` implementation was not edited.
+- The separate implementation in this repository was not edited.
 
 final result: passed

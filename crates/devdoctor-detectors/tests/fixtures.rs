@@ -1,3 +1,4 @@
+#![cfg(unix)]
 //! Fixture-based tests: each fixture is installed as the `.zshrc` of a temporary home and the
 //! detectors are run against it with a fake platform and a mocked command runner.
 

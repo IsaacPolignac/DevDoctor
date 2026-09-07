@@ -4,7 +4,7 @@
 
 1. Create the GitHub repository (public) and point the tree at it:
    ```sh
-   scripts/set-repo.sh <your-github-user>     # replaces the YOUR_GITHUB_USER placeholder everywhere
+   scripts/set-repo.sh <your-github-user>     # replaces the IsaacPolignac placeholder everywhere
    git remote add origin git@github.com:<your-github-user>/devdoctor.git
    git push -u origin main
    ```
@@ -21,30 +21,27 @@
 
 ## Every release
 
-1. Update `CHANGELOG.md` and bump the version in `Cargo.toml` (`workspace.package.version`),
-   `apps/desktop/src-tauri/tauri.conf.json`, `apps/desktop/package.json` and `apps/macos/Info.plist`.
-2. Run the checks locally:
+1. Describe the release in `CHANGELOG.md` under a `## Unreleased` heading (the script renames it
+   to the version and the date). Notes are written by a person, never generated.
+2. Run one command from a clean, up-to-date `main`:
    ```sh
-   cargo fmt --all && cargo clippy --workspace --exclude devdoctor-desktop --all-targets -- -D warnings
-   cargo test --workspace --exclude devdoctor-desktop
-   (cd apps/desktop && npm run build)
-   # optional Windows compile proof from macOS: rustup target add x86_64-pc-windows-gnu; brew install mingw-w64
-   cargo check --target x86_64-pc-windows-gnu -p devdoctor-cli
+   scripts/release.sh 0.3.0 --dry-run   # bumps, checks, shows the diff, restores the tree
+   scripts/release.sh 0.3.0             # the same, then commit "Release v0.3.0", tag, push
    ```
-3. Commit, tag and push:
-   ```sh
-   git commit -am "Release v0.2.0" && git tag v0.2.0 && git push && git push --tags
-   ```
-   The `Release` workflow builds the CLI (macOS arm64/x86_64, Windows x64), the native macOS 26
-   app, the web-technology macOS app and the Windows MSI/NSIS installers, attaches them with
-   `.sha256` files and generates release notes.
-4. When the release is public, refresh the Homebrew formula and the Scoop manifest with the real
-   hashes and commit them:
-   ```sh
-   scripts/update-formula.sh 0.2.0
-   ```
-   Homebrew users install with `brew tap <user>/devdoctor https://github.com/<user>/devdoctor`
-   then `brew install devdoctor`; Scoop users with `scoop install <raw url of scoop/devdoctor.json>`.
+   The script bumps `Cargo.toml` (workspace version, propagated to every crate),
+   `apps/desktop/src-tauri/tauri.conf.json`, `apps/desktop/package.json` and its lock file,
+   `apps/macos/Info.plist` (`CFBundleShortVersionString`, and `CFBundleVersion` + 1), refreshes
+   `Cargo.lock`, then runs `cargo fmt --check`, clippy with warnings denied, the test suite and the
+   web front-end build before touching git. `--skip-tests` leaves the tests to CI.
+3. The pushed tag starts the `Release` workflow: CLI (macOS arm64/x86_64, Windows x64), native
+   macOS 26 app, web-technology macOS app, Windows MSI and NSIS installers, all attached with
+   `.sha256` files and generated release notes. Its last job runs `scripts/update-formula.sh`
+   and commits the new Homebrew and Scoop hashes to `main`, so `brew install` and
+   `scoop install` follow the release without a manual step.
+
+Manual fallback, should the last job fail: `scripts/update-formula.sh 0.3.0`, commit, push.
+Homebrew users install with `brew tap IsaacPolignac/devdoctor https://github.com/IsaacPolignac/DevDoctor`
+then `brew install devdoctor`; Scoop users with `scoop install <raw url of scoop/devdoctor.json>`.
 
 ## Asset names
 

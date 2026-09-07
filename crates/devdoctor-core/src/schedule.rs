@@ -87,12 +87,14 @@ pub fn log_path(dirs: &DevDoctorDirs) -> PathBuf {
 /// The `devdoctor` command line binary to run from the agent: the current executable when it is
 /// the CLI itself, otherwise the first `devdoctor` found in PATH (the desktop app relies on this).
 pub fn cli_binary(ctx: &SystemContext) -> Option<PathBuf> {
+    let resolved = |p: PathBuf| crate::sys::strip_verbatim(std::fs::canonicalize(&p).unwrap_or(p));
     if let Ok(exe) = std::env::current_exe() {
-        if exe.file_name().is_some_and(|n| n == "devdoctor") {
-            return std::fs::canonicalize(&exe).ok().or(Some(exe));
+        // `devdoctor` on Unix, `devdoctor.exe` on Windows.
+        if exe.file_stem().is_some_and(|n| n == "devdoctor") {
+            return Some(resolved(exe));
         }
     }
-    ctx.find_program("devdoctor").and_then(|p| std::fs::canonicalize(&p).ok().or(Some(p)))
+    ctx.find_program("devdoctor").map(resolved)
 }
 
 /// The data directory to pass to the scheduled command when it is not the default one.
