@@ -719,7 +719,7 @@ dependencies = [
 
 [[package]]
 name = "devdoctor"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "chrono",
  "devdoctor-core",
@@ -736,7 +736,7 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-cli"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "chrono",
  "clap",
@@ -751,7 +751,7 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-core"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "chrono",
  "dirs",
@@ -774,7 +774,7 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-desktop"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "devdoctor",
  "serde",
@@ -787,7 +787,7 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-detectors"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "chrono",
  "devdoctor-core",
@@ -800,7 +800,7 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-fixers"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "chrono",
  "devdoctor-core",
@@ -812,7 +812,7 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-platform-macos"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "chrono",
  "devdoctor-core",
@@ -826,7 +826,7 @@ dependencies = [
 
 [[package]]
 name = "devdoctor-platform-windows"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "chrono",
  "devdoctor-core",

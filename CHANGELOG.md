@@ -2,7 +2,7 @@
 
 All notable changes to DevDoctor. The format follows [Keep a Changelog](https://keepachangelog.com/).
 
-## Unreleased
+## 0.2.2 — 2026-09-08
 
 ### Improved
 
