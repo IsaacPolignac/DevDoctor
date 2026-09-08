@@ -17,11 +17,11 @@
 
 | Votre ordinateur | Téléchargement conseillé |
 | --- | --- |
-| **Apple Silicon · macOS 26+** | **[Télécharger l’app Mac native](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.1/DevDoctor-v0.2.1-macos26-arm64.zip)** |
-| **Apple Silicon · macOS 12–15** | **[Télécharger l’app Mac compatible](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.1/DevDoctor-Web-v0.2.1-macos-arm64.zip)** |
-| **Windows 10/11 · x64** | **[Télécharger l’installateur Windows](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.1/DevDoctor-v0.2.1-windows-x64-setup.exe)** |
+| **Apple Silicon · macOS 26+** | **[Télécharger l’app Mac native](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.2/DevDoctor-v0.2.2-macos26-arm64.zip)** |
+| **Apple Silicon · macOS 12–15** | **[Télécharger l’app Mac compatible](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.2/DevDoctor-Web-v0.2.2-macos-arm64.zip)** |
+| **Windows 10/11 · x64** | **[Télécharger l’installateur Windows](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.2/DevDoctor-v0.2.2-windows-x64-setup.exe)** |
 
-Les versions Mac Intel, MSI et ligne de commande se trouvent dans les [autres téléchargements](https://github.com/IsaacPolignac/DevDoctor/releases/tag/v0.2.1).
+Les versions Mac Intel, MSI et ligne de commande se trouvent dans les [autres téléchargements](https://github.com/IsaacPolignac/DevDoctor/releases/tag/v0.2.2).
 
 ## DevDoctor en action
 
@@ -94,7 +94,7 @@ mais ne modifie pas automatiquement le registre.
 
 ## Installer le CLI
 
-Chaque binaire téléchargeable possède un fichier `.sha256` associé sur la [page de la release](https://github.com/IsaacPolignac/DevDoctor/releases/tag/v0.2.1).
+Chaque binaire téléchargeable possède un fichier `.sha256` associé sur la [page de la release](https://github.com/IsaacPolignac/DevDoctor/releases/tag/v0.2.2).
 
 ### CLI macOS
 

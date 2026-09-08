@@ -17,11 +17,11 @@
 
 | Your computer | Recommended download |
 | --- | --- |
-| **Apple silicon · macOS 26+** | **[Download the native Mac app](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.1/DevDoctor-v0.2.1-macos26-arm64.zip)** |
-| **Apple silicon · macOS 12–15** | **[Download the compatible Mac app](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.1/DevDoctor-Web-v0.2.1-macos-arm64.zip)** |
-| **Windows 10/11 · x64** | **[Download the Windows installer](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.1/DevDoctor-v0.2.1-windows-x64-setup.exe)** |
+| **Apple silicon · macOS 26+** | **[Download the native Mac app](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.2/DevDoctor-v0.2.2-macos26-arm64.zip)** |
+| **Apple silicon · macOS 12–15** | **[Download the compatible Mac app](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.2/DevDoctor-Web-v0.2.2-macos-arm64.zip)** |
+| **Windows 10/11 · x64** | **[Download the Windows installer](https://github.com/IsaacPolignac/DevDoctor/releases/download/v0.2.2/DevDoctor-v0.2.2-windows-x64-setup.exe)** |
 
-Intel Mac, MSI and command-line builds are available under [other downloads](https://github.com/IsaacPolignac/DevDoctor/releases/tag/v0.2.1).
+Intel Mac, MSI and command-line builds are available under [other downloads](https://github.com/IsaacPolignac/DevDoctor/releases/tag/v0.2.2).
 
 ## See DevDoctor in action
 
@@ -92,7 +92,7 @@ Linux is not supported yet. Windows detects PATH issues but does not automatical
 
 ## Install the CLI
 
-Every downloadable binary has a neighboring `.sha256` file on the [release page](https://github.com/IsaacPolignac/DevDoctor/releases/tag/v0.2.1).
+Every downloadable binary has a neighboring `.sha256` file on the [release page](https://github.com/IsaacPolignac/DevDoctor/releases/tag/v0.2.2).
 
 ### macOS CLI
 
