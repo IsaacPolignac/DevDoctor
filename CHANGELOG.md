@@ -2,6 +2,17 @@
 
 All notable changes to DevDoctor. The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## Unreleased
+
+### Improved
+
+- Refreshed the public README with the current application icon, direct platform downloads,
+  and privacy-checked native macOS screenshots and an English walkthrough.
+- Reused the bundle icon inside the native sidebar so the application mark stays consistent
+  with the Dock, About panel and release artwork.
+- Added a presentation mode that replaces the local computer name in documentation captures.
+- Made the detector fixture tests portable across machines without Apple Silicon Homebrew.
+
 ## 0.2.1 — 2026-09-07
 
 ### Improved
