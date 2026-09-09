@@ -13,6 +13,10 @@
 
 <p align="center"><a href="#télécharger"><strong>Télécharger</strong></a> · <a href="#installer-le-cli">Installer la CLI</a> · <a href="README.md">English</a> · <a href="CONTRIBUTING.md">Contribuer</a></p>
 
+## Note sur le développement
+
+DevDoctor est un projet personnel d'apprentissage mené par Isaak Sahi avec une aide importante de Claude et Codex pour générer, corriger et documenter le code. J'ai défini le problème, choisi et organisé les fonctions, testé les résultats et préparé les versions publiques. Je ne présente pas ce dépôt comme du code entièrement écrit à la main ou sans assistance.
+
 ## Télécharger
 
 | Votre ordinateur | Téléchargement conseillé |
