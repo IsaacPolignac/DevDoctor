@@ -128,7 +128,7 @@
     // light sweep, masked by the wordmark's own shapes
     const wmShine = el("div", "s8-wm-shine", wm);
     setMask(wmShine, 'url("assets/brand/brand-wordmark.svg")');
-    const wmBand = el("div", "s8-band", wmShine);
+    const wmBand = el("div", "s8-band", wmShine, { "data-layout-allow-overflow": "" }); // parked outside, clipped by the mask
 
     // ---- tagline « La pureté, prouvée. » (word 1 of L7, « PurePeptide », is the logo)
     const head = place(el("div", "s8-head", stage), 0, TAG_TOP);
@@ -145,7 +145,7 @@
     el("img", "", vial, { src: PP.cfg.heroVial, alt: "" });
     const vShine = el("div", "s8-vshine", vial);
     setMask(vShine, 'url("' + PP.cfg.heroVial + '")');
-    const vBand = el("div", "s8-band v", vShine);
+    const vBand = el("div", "s8-band v", vShine, { "data-layout-allow-overflow": "" }); // parked outside, clipped by the mask
 
     // ---- CTA row: navy pill (site primary button) + URL
     const cta = place(el("div", "s8-cta", stage), 0, CTA_Y - 42, 1080, 84);
@@ -214,11 +214,14 @@
 
     // tagline words on L7 (la · pureté · prouvée)
     h.words.forEach((w, i) => PP.wordIn(tl, w, T_WORD[i], { dur: 0.6 }));
-    // 26.20 chime: a light shine across « prouvée. » (gradient text + moving highlight layer)
+    // 26.20 chime: a light shine across « prouvée. » (gradient text + moving highlight layer).
+    // Highlight layer is 300% wide with its band at 42–58 %: position 87 % puts the band's leading edge on the
+    // word's left edge, 13 % puts its trailing edge past the right edge — so the glint is on the letters the
+    // whole 26.20 → 26.70 (100 % → 0 % wasted the first ~0.1 s off-word, reading 3 frames late on the chime).
     PP.drive(
       tl,
       (p) => {
-        proof.style.backgroundPosition = `${(100 - p * 100).toFixed(2)}% 0%, 0% 0%`;
+        proof.style.backgroundPosition = `${(87 - p * 74).toFixed(2)}% 0%, 0% 0%`;
       },
       0,
       1,

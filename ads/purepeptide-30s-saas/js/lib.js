@@ -66,7 +66,7 @@
   let uid = 0;
   PP.uid = (p) => (p || "pp") + "-" + ++uid;
   // French typography: narrow no-break space before ? ! : ; and inside « »
-  PP.fr = (s) => s.replace(/ ([?!:;])/g, " $1").replace(/« /g, "« ").replace(/ »/g, " »");
+  PP.fr = (s) => s.replace(/(\d) (%)/g, "$1\u202F$2").replace(/(\d) (h|mg|ml|pays)\b/g, "$1\u00A0$2").replace(/ ([?!:;])/g, " $1").replace(/« /g, "« ").replace(/ »/g, " »");
 
   // ---------------------------------------------------------------- text
   // lines: array of strings; wrap a word in *asterisks* for the brand gradient. Returns { el, lines, words }.

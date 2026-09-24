@@ -185,13 +185,13 @@
       });
       if (widest > maxW) h.el.style.fontSize = Math.floor((parseFloat(getComputedStyle(h.el).fontSize) * maxW) / widest) + "px";
     };
-    const h6 = PP.voHeadline(tl, hl, "L6", ["Expédition sous *24* *heures,*", "vers *dix* *pays.*"], "h2 s67-h s67-h6");
+    const h6 = PP.voHeadline(tl, hl, "L6", ["Expédition sous *24* *heures,*", "vers *10* *pays.*"], "h2 s67-h s67-h6");
     fit(h6, 820);
     PP.textOut(tl, [...h6.lines].reverse(), 20.28, { dur: 0.18, stagger: 0.03 });
 
     // ================================================================== trust pills
     const trust = PP.cfg.trust;
-    const PILLS = [trust[3], trust[4], trust[1], trust[5]]; // 24 h · chaîne du froid · labo indépendant · paiement
+    const PILLS = ["Réservé à un usage de recherche", trust[4], trust[1], trust[5]]; // 24 h · chaîne du froid · labo indépendant · paiement
     const PILL_TOP = 452;
     const PILL_STEP = 78;
     const pills = PILLS.map((text, i) => {
@@ -310,7 +310,23 @@
       ft(accent, { scaleY: 0 }, { scaleY: 1 }, T, 0.4, "expo.out");
       ft(tile, { scale: 0.6 }, { scale: 1 }, T + 0.02, 0.45, "back.out(2.6)");
       strokes.forEach((st, k) => ft(st, { drawSVG: "0%" }, { drawSVG: "100%" }, T + 0.08 + k * 0.06, 0.42, "power2.inOut"));
-      PP.counter(tl, val, { from: 0, to: s.to, at: T, dur: s.dur, format: (x) => String(Math.round(x)), ease: "power3.out" });
+      if (s.to > 2) PP.counter(tl, val, { from: s.to === 99 ? 90 : 0, to: s.to, at: T, dur: s.dur, format: (x) => String(Math.round(x)), ease: "power3.out" });
+      else
+        // small counts (2 méthodes, 1 COA): same 0 → n curve (the mix ticks on each change) but the « 0 » state is
+        // never shown — « 0 COA par lot » must not be readable; the digit appears on its first tick.
+        // (a no-break space, not opacity: the parent .grad clips its gradient to the child glyphs)
+        PP.drive(
+          tl,
+          (x) => {
+            const n = Math.round(x);
+            val.textContent = n < 1 ? " " : String(n);
+          },
+          0,
+          s.to,
+          T,
+          s.dur,
+          "power3.out"
+        );
       return { w, card, num };
     });
     PP.drive(

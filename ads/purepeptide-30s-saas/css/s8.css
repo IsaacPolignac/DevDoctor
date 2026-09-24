@@ -22,17 +22,18 @@
 #s8 .s8-wm { position: absolute; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
 #s8 .s8-wm-in { position: absolute; inset: 0; }
 #s8 .s8-wm-shine { position: absolute; inset: 0; overflow: hidden; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
-#s8 .s8-band { position: absolute; top: -20%; left: 0; width: 28%; height: 140%; background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0) 100%); }
+/* sheen = light brand cyan, not white: a white band on this light background erased the letters it crossed */
+#s8 .s8-band { position: absolute; top: -20%; left: 0; width: 28%; height: 140%; background: linear-gradient(100deg, rgba(86, 200, 232, 0) 0%, rgba(86, 200, 232, 0.9) 50%, rgba(86, 200, 232, 0) 100%); }
 #s8 .s8-band.v { top: -30%; width: 30%; height: 160%; background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 30%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.55) 70%, rgba(255, 255, 255, 0) 100%); transform: rotate(18deg); }
 
 /* tagline */
 #s8 .s8-head { position: absolute; left: 0; right: 0; display: flex; justify-content: center; }
 #s8 .s8-head .pp-h { position: relative; }
 #s8 .s8-proof {
-  background-image: linear-gradient(100deg, rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, 0.92) 50%, rgba(255, 255, 255, 0) 58%), var(--grad);
+  background-image: linear-gradient(100deg, rgba(86, 200, 232, 0) 42%, rgba(86, 200, 232, 0.9) 50%, rgba(86, 200, 232, 0) 58%), var(--grad);
   background-size: 300% 100%, 100% 100%;
   background-repeat: no-repeat;
-  background-position: 100% 0%, 0% 0%;
+  background-position: 87% 0%, 0% 0%; /* band parked just left of the word; driven 87 % → 13 % from 26.20 */
 }
 
 /* vial */

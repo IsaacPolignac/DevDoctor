@@ -15,8 +15,21 @@ Livrable : [`renders/purepeptide-30s-saas-fr.mp4`](renders/purepeptide-30s-saas-
 | Musique | ElevenLabs Music (généré pour cette pub, instrumental, 120 BPM) |
 | Bruitages | synthétisés (`tools/mix_audio.py`), aucun échantillon tiers |
 
-Masqués dans les captures, pour respecter le brief (aucune allégation d'effet) : les étiquettes de catégorie
-(« Récupération », « Croissance »…), les descriptions « étudié pour… », et les produits MT-2 et Retatrutide.
+Masqués dans les captures, pour respecter le brief (aucune allégation d'effet, pas de protocole) : les étiquettes de
+catégorie (« Récupération », « Croissance »…), les descriptions « étudié pour… », les produits MT-2 et Retatrutide, et
+l'encart « À associer à l'eau bactériostatique pour la reconstitution » de la fiche produit.
+
+## À valider avant diffusion
+
+1. **Certificats en ligne.** La voix dit « Chaque certificat, publié en ligne » et le QR code mène à
+   `purepeptide.care/coa/`, mais cette page affiche aujourd'hui « Certificats à venir » (visible, non masqué, dans la
+   pub). Publiez les COA des lots avant de diffuser ; ensuite je peux recapturer la page et relancer le rendu.
+2. **Logo Janoshik.** La carte « Janoshik Analytical » reprend le logo du laboratoire, comme le fait le site. Vérifiez
+   que vous avez leur accord pour l'utiliser en publicité (sinon : carte en texte seul, une ligne à retirer dans
+   `js/scenes/s23.js`).
+3. **Seuil de pureté.** Le site affiche « ≥ 99 % » (accueil) mais la page Qualité parle d'un seuil d'acceptation de 98 %.
+   La pub n'agrandit plus la phrase « 98 % » ; harmonisez le site si possible.
+4. **« 10 pays »** vient du bandeau du site (« Livraison vers 10 pays ») et de la liste des pays de la fiche produit.
 
 ## Rendre la vidéo
 

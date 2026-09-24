@@ -23,6 +23,7 @@
 
 /* floating cards */
 #s23 .s23-card { position: absolute; background: #ffffff; border-radius: 26px; box-shadow: 0 30px 70px rgba(18, 42, 84, 0.2), 0 0 0 1px var(--line); }
+#s23 .s23-node { position: absolute; top: 0; width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px; border-radius: 50%; background: #ffffff; box-shadow: 0 0 0 3px var(--teal); z-index: 2; }
 #s23 .s23-lens .pp-lens { position: absolute; border-radius: 12px; box-shadow: none; background: #ffffff; }
 #s23 .s23-lbl { position: absolute; left: 30px; height: 26px; display: flex; align-items: center; gap: 12px; font-size: 20px; color: var(--ink-soft); white-space: nowrap; }
 #s23 .s23-lbl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 5px rgba(22, 164, 143, 0.14); }

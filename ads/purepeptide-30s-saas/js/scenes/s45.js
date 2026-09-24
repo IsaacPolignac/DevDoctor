@@ -69,10 +69,10 @@
     const OFF = phone.sw + 90; // parked right of the screen, shadow included
     gsap.set([qual.el, coa.el], { x: OFF });
 
-    // COA focus scrim: fades the « Certificats de lot / à venir » part of the page behind the QR card
-    const scrim = PP.el("div", "s45-scrim", phone.screen);
-    scrim.style.top = (PP.PHONE.status + 432) * S + "px";
-    gsap.set(scrim, { opacity: 0 });
+    // COA focus scrim: veils the « Certificats de lot / à venir » part of the page (below the Janoshik
+    // paragraph, css y 432). It lives INSIDE the COA page at full density, so the page slides in already
+    // veiled — « Certificats à venir » is never legible (it used to read clearly 14.10 → 14.55).
+
 
     // in-phone fx (rig coords): lifted-row slots + COA paragraph ring
     const fx = PP.svg("svg", { class: "s45-fx", width: 1080, height: 1920, viewBox: "0 0 1080 1920" }, rig);
@@ -175,8 +175,11 @@
     }
 
     // Identité row (css 21,466 → 348 x 210) goes up-right; Pureté row (css 21,677.5 → 348 x 233) goes left
-    const ide = liftCard({ crop: [21, 466, 348, 210], x: 556, y: 632, t: T_IDE, out: T_OUT, exitX: -16 });
-    const pur = liftCard({ crop: [21, 677.5, 348, 233], x: 124, y: 1000, t: T_PUR, out: T_OUT + 0.08, exitX: 16 });
+    const ide = liftCard({ crop: [21, 466, 348, 58], x: 556, y: 632, t: T_IDE, out: T_OUT, exitX: -16 });
+    PP.el("div", "s45-chip mono", ide.panel, { text: "Spectrométrie de masse" });
+    // y 1036: the card's top edge stays below the in-phone Identité chip (« SPECTROMÉTRIE DE MASSE ») until it lifts
+    const pur = liftCard({ crop: [21, 677.5, 348, 58], x: 124, y: 1036, t: T_PUR, out: T_OUT + 0.08, exitX: 16 });
+    PP.el("div", "s45-chip mono", pur.panel, { text: "HPLC" });
 
     // ---- chromatogram (Pureté): one sharp peak, brand-gradient stroke, soft gradient fill under the peak
     (function chromatogram(panel) {
@@ -277,13 +280,13 @@
     ft(qualDim, { opacity: 0 }, { opacity: 0.16 }, T_NAV2, 0.45, "power2.out");
 
     // ring on the Janoshik paragraph (css 20,309,350,112) on « certificat »
-    const RP = 7;
+    const RPX = 14, // horizontal padding: the text starts at the capture's css x 20 — keep it off the stroke
+      RPY = 7;
     const p0 = at(20, 309, 0);
-    const ring = PP.svg("rect", { x: p0.x - RP, y: p0.y - RP, width: 350 * S + 2 * RP, height: 112 * S + 2 * RP, rx: 22, fill: "rgba(42,154,194,0.06)", stroke: "url(#s45-grad)", "stroke-width": 4.5 }, fx);
+    const ring = PP.svg("rect", { x: p0.x - RPX, y: p0.y - RPY, width: 350 * S + 2 * RPX, height: 112 * S + 2 * RPY, rx: 22, fill: "rgba(42,154,194,0.06)", stroke: "url(#s45-grad)", "stroke-width": 4.5 }, fx);
     gsap.set(ring, { drawSVG: "0%", attr: { "fill-opacity": 0 } });
     ft(ring, { drawSVG: "0%" }, { drawSVG: "100%" }, 14.4, 0.42, "power2.out");
     ft(ring, { attr: { "fill-opacity": 0 } }, { attr: { "fill-opacity": 1 } }, 14.4, 0.3, "power1.out");
-    ft(scrim, { opacity: 0 }, { opacity: 1 }, 14.3, 0.35, "power1.inOut");
 
     // QR card
     const QR = 250;
@@ -319,9 +322,10 @@
 
     gsap.set(qr, { opacity: 0, transformOrigin: "50% 60%" });
     gsap.set(scan, { opacity: 0, y: 0 });
-    snap(qr, { opacity: 0 }, { opacity: 1 }, T_QR);
-    ft(qr, { scale: 0.62, y: 46 }, { scale: 1, y: 0 }, T_QR, 0.6, "s45spring");
-    ft(qr, { boxShadow: SHADOW0 }, { boxShadow: SHADOW1 }, T_QR, 0.3, "power2.out");
+    const T_QRV = T_QR - 1 / 30; // onset one frame early: the 14.90 pop frame already shows the card
+    snap(qr, { opacity: 0 }, { opacity: 1 }, T_QRV);
+    ft(qr, { scale: 0.62, y: 46 }, { scale: 1, y: 0 }, T_QRV, 0.6, "s45spring");
+    ft(qr, { boxShadow: SHADOW0 }, { boxShadow: SHADOW1 }, T_QRV, 0.3, "power2.out");
     // brackets snap in from outside
     const bOff = [
       [-14, -14],

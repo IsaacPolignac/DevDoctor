@@ -112,7 +112,11 @@
     const srcW = CROP[2] * S,
       srcH = CROP[3] * S;
     const OP = 7; // outline padding
-    const srcRing = PP.svg("rect", { x: src0.x - OP, y: src0.y - OP, width: srcW + 2 * OP, height: srcH + 2 * OP, rx: 16, fill: "rgba(42,154,194,0.06)", stroke: "url(#s23-grad)", "stroke-width": 3 }, fx);
+    // the ring hugs the « Vérifié » pill row (css y 662..686, 4.5 css padding): its bottom stroke must clear the
+    // « · Certificat d'analyse inclus » line just below (ascenders from css y 695)
+    const ringY0 = at(0, 657.5, SCROLL_PROD).y,
+      ringY1 = at(0, 690.5, SCROLL_PROD).y;
+    const srcRing = PP.svg("rect", { x: src0.x - OP, y: ringY0, width: srcW + 2 * OP, height: ringY1 - ringY0, rx: 16, fill: "rgba(42,154,194,0.06)", stroke: "url(#s23-grad)", "stroke-width": 3 }, fx);
 
     // lens card target (P0 frame; the rig adds the phone offset)
     const LENS = { x: 360, y: 744, w: 620 };
@@ -123,8 +127,7 @@
     const srcMid = src0.y + srcH / 2;
     const link = PP.svg("path", { d: `M${srcRight},${srcMid} H${linkX - 28} Q${linkX},${srcMid} ${linkX},${srcMid + 28} V${LENS.y}`, fill: "none", stroke: "url(#s23-grad)", "stroke-width": 3, "stroke-linecap": "round" }, fx);
     const dotA = PP.svg("circle", { cx: srcRight, cy: srcMid, r: 6, fill: C.blue }, fx);
-    const dotB = PP.svg("circle", { cx: linkX, cy: LENS.y, r: 7, fill: "#FFFFFF", stroke: C.teal, "stroke-width": 3 }, fx);
-    gsap.set([dotA, dotB], { transformOrigin: "50% 50%", scale: 0 });
+    gsap.set(dotA, { transformOrigin: "50% 50%", scale: 0 });
 
     // lab line « Analysé par un laboratoire indépendant (HPLC + spectrométrie de masse) » at scroll 1100
     const lab0 = at(21, 1749, SCROLL_END);
@@ -155,6 +158,11 @@
     const lx0 = src0.x - LENS.x - LPAD * s0;
     const ly0 = src0.y - LENS.y - LTOP * s0;
     gsap.set(lens, { transformOrigin: "0 0", x: lx0, y: ly0, scale: s0, opacity: 0 });
+    // link end node: a child of the lens card, pinned on its top edge (as an FX-layer circle it sat UNDER the card
+    // and the card's spring/float covered all but a sliver of it)
+    const dotB = PP.el("div", "s23-node", lens);
+    dotB.style.left = linkX - LENS.x + "px";
+    gsap.set(dotB, { scale: 0 });
 
     const jan = PP.el("div", "s23-card s23-jan", rig);
     const JAN = { x: LENS.x, y: LENS.y + lensH + 26, w: LENS.w };

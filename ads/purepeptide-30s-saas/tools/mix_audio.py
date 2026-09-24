@@ -614,15 +614,16 @@ def stat_hit(note: str, seed: int = 0) -> np.ndarray:
 
 # counters (s67.js): PP.counter(from 0 to `to`, at T, dur, power3.out, Math.round) — one tick per
 # displayed change, thinned to >= 35 ms apart, none in the 30 ms after the card's own hit.
-COUNTERS = [(20.50, 99, 0.95), (21.00, 2, 0.55), (21.50, 1, 0.45)]
+COUNTERS = [(20.50, 90, 99, 0.95), (21.00, 0, 2, 0.55), (21.50, 0, 1, 0.45)]  # (t0, from, to, dur)
 
 
 def counter_tick_times() -> list[float]:
     out = []
-    for t0, to, dur in COUNTERS:
+    for t0, fr, to, dur in COUNTERS:
         last = -1.0
-        for k in range(1, to + 1):
-            tk = t0 + dur * (1 - (1 - (k - 0.5) / to) ** (1 / 3))
+        n = to - fr
+        for k in range(1, n + 1):
+            tk = t0 + dur * (1 - (1 - (k - 0.5) / n) ** (1 / 3))
             if tk - t0 < 0.03 or tk - last < 0.035:
                 continue
             out.append(round(tk, 4))
@@ -707,23 +708,23 @@ STATS = [(20.50, "E5"), (21.00, "G5"), (21.50, "A5")]
 CUES: list[Cue] = [
     Cue(2.95, "whoosh: phone rises", whoosh,
         dict(dur=0.52, peak=0.32, f0=260, fpk=2600, f1=1100, q=1.0, pan=(-0.15, 0.15), seed=295),
-        gain_db=-14, offset=WHOOSH_PEAK - 0.32, room=-14),
-    Cue(4.00, "tap: checkbox 1", tap, dict(f=2350, body_hz=380, seed=400), gain_db=-15, pan=-0.12, room=-12),
-    Cue(4.45, "tap: checkbox 2", tap, dict(f=2640, body_hz=400, seed=445), gain_db=-15, pan=-0.12, room=-12),
+        gain_db=-14, offset=WHOOSH_PEAK - 0.42, room=-14),
+    Cue(4.00, "tap: checkbox 1", tap, dict(f=2350, body_hz=380, seed=400), gain_db=-10, pan=-0.12, room=-12, offset=1 / 30),
+    Cue(4.45, "tap: checkbox 2", tap, dict(f=2640, body_hz=400, seed=445), gain_db=-10, pan=-0.12, room=-12),
     Cue(5.15, "tap: Entrer sur PurePeptide", tap, dict(f=2090, body_hz=330, weight=1.3, seed=515),
-        gain_db=-14, pan=-0.05, room=-12),
+        gain_db=-9, pan=-0.05, room=-12),
     Cue(5.95, "swipe: to product page", swipe, dict(pan=(0.55, -0.55), seed=595),
         gain_db=-18, offset=-0.015, room=-14),
-    Cue(6.90, "pop: HPLC 99.0% lens", pop, dict(note="E6", seed=690), gain_db=-17, pan=0.1, room=-10),
-    Cue(7.64, "pop: Janoshik card", pop, dict(note="G6", seed=764), gain_db=-17, pan=-0.1, room=-10),
-    Cue(8.60, "tap: lab line", tap, dict(f=2350, body_hz=360, seed=860), gain_db=-15, pan=-0.1, room=-12),
+    Cue(6.90, "pop: HPLC 99.0% lens", pop, dict(note="E6", seed=690), gain_db=-12, pan=0.1, room=-10, offset=1 / 30),
+    Cue(7.64, "pop: Janoshik card", pop, dict(note="G6", seed=764), gain_db=-12, pan=-0.1, room=-10),
+    Cue(8.60, "tap: lab line", tap, dict(f=2350, body_hz=360, seed=860), gain_db=-10, pan=-0.1, room=-12, offset=1 / 30),
     Cue(10.05, "swipe: to Qualité page", swipe, dict(pan=(0.55, -0.55), seed=1005),
         gain_db=-18, offset=-0.015, room=-14),
-    Cue(10.80, "pop: Pureté · HPLC card", pop, dict(note="A5", seed=1080), gain_db=-17, pan=0.12, room=-10),
-    Cue(11.84, "pop: Identité · masse card", pop, dict(note="C6", seed=1184), gain_db=-17, pan=-0.12, room=-10),
+    Cue(10.80, "pop: Pureté · HPLC card", pop, dict(note="A5", seed=1080), gain_db=-12, pan=0.12, room=-10, offset=1 / 30),
+    Cue(11.84, "pop: Identité · masse card", pop, dict(note="C6", seed=1184), gain_db=-12, pan=-0.12, room=-10),
     Cue(14.05, "swipe: to Certificats page", swipe, dict(pan=(0.55, -0.55), seed=1405),
         gain_db=-18, offset=-0.015, room=-14),
-    Cue(14.90, "pop: QR card", pop, dict(note="D6", seed=1490), gain_db=-16, room=-10),
+    Cue(14.90, "pop: QR card", pop, dict(note="D6", seed=1490), gain_db=-11, room=-10),
     Cue(15.10, "scan: beep + moving band 15.10-15.60", scan, dict(dur=0.50, note="A6", seed=1510),
         gain_db=-20, room=-12, ends_at=15.60),
     Cue(15.60, "riser 15.60 -> 16.00", riser, dict(dur=0.40, seed=1560), gain_db=-15, ends_at=16.00),
@@ -731,16 +732,16 @@ CUES: list[Cue] = [
     *[Cue(t, f"vial pop {i + 1} ({n})", vial_pop, dict(note=n, seed=1610 + 7 * i), gain_db=-17, pan=p, hall=-13)
       for i, (t, n, p) in enumerate(VIALS)],
     *[Cue(t, f"pill pop {i + 1} ({n})", pop, dict(note=n, dur=0.14, decay=0.026, body=0.15, glide=0.35,
-                                                  seed=1875 + 5 * i), gain_db=-17, pan=p, room=-10)
+                                                  seed=1875 + 5 * i), gain_db=-13, pan=p, room=-10)
       for i, (t, n, p) in enumerate(PILLS)],
     *[Cue(t, f"stat hit {i + 1}", stat_hit, dict(note=n, seed=2050 + 5 * i), gain_db=-9, room=-14)
       for i, (t, n) in enumerate(STATS)],
     Cue(20.50, "counter ticks 20.50-21.59", counter_ticks, gain_db=-21),
     Cue(23.75, "whoosh: to end card", whoosh,
         dict(dur=0.56, peak=0.34, f0=240, fpk=3000, f1=900, q=1.0, pan=(0.45, -0.45), seed=2375, body=0.45),
-        gain_db=-12, offset=WHOOSH_PEAK - 0.34, room=-14),
-    Cue(24.00, "shimmer: brand reveal", shimmer, dict(seed=2400), gain_db=-18, hall=-7, big=-11),
-    Cue(26.20, "soft chime: prouvée.", soft_chime, dict(seed=2620), gain_db=-21, hall=-8),
+        gain_db=-9, offset=WHOOSH_PEAK - 0.34, room=-14),
+    Cue(24.00, "shimmer: brand reveal", shimmer, dict(seed=2400), gain_db=-18, hall=-7, big=-11, offset=1 / 30),
+    Cue(26.20, "soft chime: prouvée.", soft_chime, dict(seed=2620), gain_db=-21, hall=-8, offset=1 / 30),
 ]
 
 

@@ -50,7 +50,7 @@ PP.VO = [
    6.4
   ],
   "at": 3.0,
-  "text": "On ne vous demande pas de nous croire. On vous montre les preuves.",
+  "text": "On ne vous demande pas de nous croire, on vous montre les preuves.",
   "words": [
    {
     "w": "On",
@@ -184,7 +184,7 @@ PP.VO = [
    14.52
   ],
   "at": 10.0,
-  "text": "Pureté par HPLC. Identité par spectrométrie de masse.",
+  "text": "Pureté par HPLC, identité par spectrométrie de masse.",
   "words": [
    {
     "w": "Pureté",
@@ -320,7 +320,7 @@ PP.VO = [
    23.56
   ],
   "at": 23.95,
-  "text": "PurePeptide. La pureté, prouvée.",
+  "text": "PurePeptide, la pureté, prouvée.",
   "words": [
    {
     "w": "PurePeptide,",

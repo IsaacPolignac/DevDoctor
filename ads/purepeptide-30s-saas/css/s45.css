@@ -34,3 +34,6 @@
   background: linear-gradient(180deg, rgba(42, 154, 194, 0) 0%, rgba(42, 154, 194, 0.1) 60%, rgba(22, 164, 143, 0.26) 100%); }
 #s45 .s45-qr-cap { margin-top: 32px; display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-weight: 500; font-size: 23px; letter-spacing: 0.02em; color: var(--ink); white-space: nowrap; }
 #s45 .s45-qr-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 5px rgba(22, 164, 143, 0.14); }
+
+/* method chip on the lifted cards' chart panel (site chip style; dark teal on light teal ≥ 4.5:1) */
+#s45 .s45-chip { position: absolute; left: 22px; top: 16px; z-index: 2; padding: 7px 14px; border-radius: 999px; background: #e7f6f3; color: #0b6b5e; font-size: 20px; letter-spacing: 0.12em; white-space: nowrap; }

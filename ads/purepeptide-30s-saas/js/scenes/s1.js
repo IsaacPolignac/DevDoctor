@@ -203,10 +203,15 @@
 
     // ------------------------------------------------------------------ exit 2.80 → 3.20
     // quick text-out so the top zone is clear (≈ 3.01) when s23's L2 headline starts (« On » ≈ 3.00)
-    PP.textOut(tl, h.words, T_OUT - 0.04, { dur: 0.2, stagger: 0.01 });
+    // (the LINES move, not the words: a word sliding inside its overflow-hidden line got its ascenders sliced off)
+    PP.textOut(tl, h.lines, T_OUT - 0.04, { dur: 0.2, stagger: 0.02 });
     // tiny anticipation lift, then the vial drops out of frame under the rising phone (fully off-frame by 3.14)
-    tl.fromTo(rig, { y: 0, scale: 1 }, { y: -24, scale: 1.015, duration: 0.14, ease: "power2.out", immediateRender: false }, T_OUT - 0.1);
-    tl.fromTo(rig, { y: -24, scale: 1.015, rotation: 0 }, { y: 1500, scale: 0.8, rotation: 4, duration: 0.3, ease: "power2.in", immediateRender: false }, T_OUT + 0.04);
+    // (in-out ease: power2.out started at full speed and the vial + brackets jumped ~17 px in the single frame 2.70→2.73)
+    tl.fromTo(rig, { y: 0, scale: 1 }, { y: -24, scale: 1.015, duration: 0.14, ease: "power2.inOut", immediateRender: false }, T_OUT - 0.1);
+    // (quad ease + a quick dissolve while the phone passes over it: with the old cubic ease the vial was still parked
+    // when the phone's top edge reached it and read as "plugged into" the phone for ~3 frames, 2.93–3.00)
+    tl.fromTo(rig, { y: -24, scale: 1.015, rotation: 0 }, { y: 1500, scale: 0.8, rotation: 4, duration: 0.3, ease: "power1.in", immediateRender: false }, T_OUT + 0.04);
+    tl.fromTo(rig, { opacity: 1 }, { opacity: 0, duration: 0.13, ease: "none", immediateRender: false }, T_OUT + 0.08);
     tl.fromTo(back, { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power1.in", immediateRender: false }, T_OUT);
   });
 })();
