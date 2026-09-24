@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>PurePeptide — La pureté, prouvée. (pub SaaS 30 s, FR)</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/DrawSVGPlugin.min.js"></script>
+    <script src="assets/vendor/CustomEase.min.js"></script>
+    <script src="assets/vendor/qrcode.js"></script>
+    <style>
+      @font-face { font-family: "DM Sans"; src: url("assets/fonts/dm-sans-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+      @font-face { font-family: "DM Sans"; src: url("assets/fonts/dm-sans-latin-800-normal.woff2") format("woff2"); font-weight: 800; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+      @font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: block; }
+      @font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: block; }
+      /* ≥ → and the French narrow no-break space (U+202F), missing from the latin subsets */
+      @font-face { font-family: "PP Symbols"; src: url("assets/fonts/inter-symbols.woff2") format("woff2"); font-weight: 100 900; font-display: block; unicode-range: U+202F, U+2192, U+2264-2265; }
+      :root {
+        --bg: #f5f8fb;
+        --white: #ffffff;
+        --ink: #16233f;
+        --ink-soft: #5c697f;
+        --line: #e6ebf2;
+        --navy: #123a78;
+        --blue: #2a9ac2;
+        --teal: #16a48f;
+        --cap: #1746b8;
+        --grad: linear-gradient(115deg, #123a78 0%, #2a9ac2 55%, #16a48f 100%);
+        --shadow-md: 0 6px 16px rgba(18, 42, 84, 0.07), 0 16px 40px rgba(18, 42, 84, 0.07);
+        --shadow-lg: 0 24px 64px rgba(18, 42, 84, 0.14);
+        --display: "DM Sans", "PP Symbols", sans-serif;
+        --body: "Inter", "PP Symbols", sans-serif;
+        --mono: "IBM Plex Mono", "PP Symbols", monospace;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--body); color: var(--ink); -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+      .layer { position: absolute; inset: 0; pointer-events: none; }
+      #bg { background: linear-gradient(180deg, #f8fbfd 0%, #eef4fa 100%); }
+      .blob { position: absolute; left: 0; top: 0; width: 1100px; height: 1100px; border-radius: 50%; }
+      .blob.b1 { background: radial-gradient(circle closest-side, rgba(42, 154, 194, 0.16), rgba(42, 154, 194, 0) 100%); }
+      .blob.b2 { background: radial-gradient(circle closest-side, rgba(22, 164, 143, 0.13), rgba(22, 164, 143, 0) 100%); }
+      .blob.b3 { background: radial-gradient(circle closest-side, rgba(18, 58, 120, 0.1), rgba(18, 58, 120, 0) 100%); }
+      #dots { inset: auto; left: 0; top: 0; width: 1080px; height: 1960px; background-image: radial-gradient(rgba(22, 35, 63, 0.075) 1.5px, transparent 1.8px); background-size: 28px 28px; background-position: 0 0; -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 40%, transparent 100%); mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 40%, transparent 100%); }
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      .cam { position: absolute; inset: 0; transform-origin: 540px 960px; }
+      #s1 { z-index: 11; } #s23 { z-index: 12; } #s45 { z-index: 13; } #s67 { z-index: 14; } #s8 { z-index: 15; }
+      #grain { z-index: 40; mix-blend-mode: soft-light; opacity: 0.05; }
+      #grain svg { display: block; }
+
+      /* ---- type ---- */
+      .pp-h { font-family: var(--display); font-weight: 800; letter-spacing: -0.035em; line-height: 1.04; color: var(--ink); text-align: center; white-space: nowrap; }
+      .pp-h.h1 { font-size: 100px; }
+      .pp-h.h2 { font-size: 76px; }
+      .pp-h.h3 { font-size: 58px; font-weight: 700; }
+      .pp-ln { display: block; overflow: hidden; padding: 0.08em 0.2em 0.2em; margin: -0.08em -0.2em -0.2em; }
+      .pp-w { display: inline-block; }
+      .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: 0.02em; }
+      .mono { font-family: var(--mono); font-weight: 500; text-transform: uppercase; letter-spacing: 0.14em; font-variant-numeric: tabular-nums; }
+      .soft { color: var(--ink-soft); }
+      .pp-c { display: inline; }
+
+      /* ---- components ---- */
+      .pp-phone { position: absolute; background: linear-gradient(145deg, #2b3446 0%, #0d1320 55%, #1c2433 100%); box-shadow: 0 70px 140px rgba(18, 42, 84, 0.3), 0 20px 50px rgba(18, 42, 84, 0.18), inset 0 0 0 2px rgba(255, 255, 255, 0.08); }
+      .pp-screen { position: absolute; overflow: hidden; background: #ffffff; }
+      .pp-view { position: absolute; left: 0; right: 0; bottom: 0; overflow: hidden; background: #ffffff; }
+      .pp-page { position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; }
+      .pp-page img { position: absolute; left: 0; top: 0; display: block; }
+      .pp-status { position: absolute; left: 0; right: 0; top: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; padding: 0 7% 0 10%; background: #ffffff; font-family: var(--body); font-weight: 600; color: var(--ink); }
+      .pp-icons { display: flex; align-items: center; }
+      .pp-island { position: absolute; left: 50%; z-index: 4; background: #05070a; border-radius: 999px; }
+      .pp-glare { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(118deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 32%); }
+      .pp-touch { position: absolute; left: 0; top: 0; width: 76px; height: 76px; margin: -38px 0 0 -38px; z-index: 30; }
+      .pp-touch-dot { position: absolute; inset: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.88); box-shadow: 0 8px 22px rgba(18, 42, 84, 0.28), inset 0 0 0 2px rgba(18, 42, 84, 0.1); }
+      .pp-touch-ring { position: absolute; inset: 0; border-radius: 50%; border: 3px solid var(--blue); opacity: 0; }
+      .pp-lens { position: absolute; overflow: hidden; border-radius: 26px; background: #ffffff; box-shadow: 0 34px 80px rgba(18, 42, 84, 0.22), 0 0 0 1px var(--line); }
+      .pp-lens img { position: absolute; display: block; }
+      .pp-pill { position: absolute; display: inline-flex; align-items: center; gap: 14px; padding: 18px 30px; border-radius: 999px; background: #ffffff; border: 1px solid var(--line); box-shadow: var(--shadow-md); font-family: var(--body); font-weight: 600; font-size: 30px; color: var(--ink); white-space: nowrap; }
+      .pp-pill.dark { background: var(--navy); color: #ffffff; border-color: transparent; }
+      .pp-vial { position: absolute; }
+      .pp-vial img { display: block; width: 100%; height: 100%; filter: drop-shadow(0 34px 38px rgba(18, 42, 84, 0.22)); }
+      .pp-logo, .pp-symbol { display: block; }
+    </style>
+    <link rel="preload" as="image" href="assets/brand/brand-symbol.svg" />
+    <link rel="preload" as="image" href="assets/brand/brand-wordmark-light.svg" />
+    <link rel="preload" as="image" href="assets/brand/brand-wordmark.svg" />
+    <link rel="preload" as="image" href="assets/brand/janoshik-logo.svg" />
+    <link rel="preload" as="image" href="assets/site/d-coa.jpg" />
+    <link rel="preload" as="image" href="assets/site/d-home.jpg" />
+    <link rel="preload" as="image" href="assets/site/d-product.jpg" />
+    <link rel="preload" as="image" href="assets/site/d-quality.jpg" />
+    <link rel="preload" as="image" href="assets/site/gate-0.jpg" />
+    <link rel="preload" as="image" href="assets/site/gate-1.jpg" />
+    <link rel="preload" as="image" href="assets/site/gate-2.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-coa.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-home-proof.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-home.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-product.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-quality.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-shop.jpg" />
+    <link rel="preload" as="image" href="assets/vials/bpc157-tb500-10.png" />
+    <link rel="preload" as="image" href="assets/vials/cjc-1295-ipa-10.png" />
+    <link rel="preload" as="image" href="assets/vials/ghk-cu-50.png" />
+    <link rel="preload" as="image" href="assets/vials/hero.png" />
+    <link rel="preload" as="image" href="assets/vials/igf-1-lr3-1.png" />
+    <link rel="preload" as="image" href="assets/vials/selank-10.png" />
+    <link rel="preload" as="image" href="assets/vials/semax-10.png" />
+    <link rel="stylesheet" href="css/s1.css" />
+    <link rel="stylesheet" href="css/s23.css" />
+    <link rel="stylesheet" href="css/s45.css" />
+    <link rel="stylesheet" href="css/s67.css" />
+    <link rel="stylesheet" href="css/s8.css" />
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="30">
+      <div id="bg" class="layer"></div>
+      <div id="blobs" class="layer"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+      <div id="dots" class="layer"></div>
+
+      <section id="s1" class="clip scene" data-start="0" data-duration="3.2" data-track-index="1"></section>
+      <section id="s23" class="clip scene" data-start="2.8" data-duration="7.2" data-track-index="2"></section>
+      <section id="s45" class="clip scene" data-start="10" data-duration="6.2" data-track-index="3"></section>
+      <section id="s67" class="clip scene" data-start="15.9" data-duration="8.3" data-track-index="4"></section>
+      <section id="s8" class="clip scene" data-start="23.8" data-duration="6.2" data-track-index="5"></section>
+
+      <div id="grain" class="layer">
+        <svg width="1080" height="1920" viewBox="0 0 1080 1920">
+          <filter id="grain-f" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+            <feTurbulence id="grain-turb" type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="0" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="1080" height="1920" filter="url(#grain-f)" />
+        </svg>
+      </div>
+
+      <audio id="mix" src="assets/audio/mix.wav" data-start="0" data-duration="30" data-track-index="10" data-volume="1"></audio>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/vo.js"></script>
+    <script src="js/lib.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/scenes/s1.js"></script>
+    <script src="js/scenes/s23.js"></script>
+    <script src="js/scenes/s45.js"></script>
+    <script src="js/scenes/s67.js"></script>
+    <script src="js/scenes/s8.js"></script>
+    <script>
+      gsap.registerPlugin(DrawSVGPlugin, CustomEase);
+      const fonts = ['800 100px "DM Sans"', '700 100px "DM Sans"', '400 40px "Inter"', '500 40px "Inter"', '600 40px "Inter"', '700 40px "Inter"', '400 30px "IBM Plex Mono"', '500 30px "IBM Plex Mono"'].map((f) => document.fonts.load(f));
+      fonts.push(document.fonts.load('600 40px "PP Symbols"', "≥→ "));
+      Promise.all(fonts).then(() => {
+        const tl = window.PP.build();
+        window.__timelines["main"] = tl;
+        if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
+      });
+    </script>
+  </body>
+</html>

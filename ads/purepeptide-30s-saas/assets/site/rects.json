@@ -1,0 +1,248 @@
+{
+ "m-home": {
+  "h1": [
+   35,
+   354,
+   320,
+   67
+  ],
+  "identite": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "stats": [
+   18,
+   5205,
+   354,
+   52
+  ],
+  "gridFirst": [
+   37,
+   1802,
+   80,
+   40
+  ],
+  "docH": 9481,
+  "h1font": "\"DM Sans\", Inter, system-ui, -apple-system, sans-serif",
+  "h1weight": "800",
+  "bodyFont": "\"Twemoji Country Flags\", Inter, system-ui, -apple-system, sans-serif"
+ },
+ "m-product": {
+  "h1": [
+   20,
+   614,
+   350,
+   35
+  ],
+  "verified": [
+   20,
+   662,
+   63,
+   24
+  ],
+  "purityLine": [
+   20,
+   662,
+   350,
+   48
+  ],
+  "shipping": [
+   21,
+   1606,
+   348,
+   81
+  ],
+  "labLine": [
+   21,
+   1749,
+   348,
+   63
+  ],
+  "docH": 4993,
+  "h1font": "\"DM Sans\", Inter, system-ui, -apple-system, sans-serif",
+  "h1weight": "700",
+  "bodyFont": "\"Twemoji Country Flags\", Inter, system-ui, -apple-system, sans-serif"
+ },
+ "m-quality": {
+  "h1": [
+   20,
+   193,
+   350,
+   48
+  ],
+  "identite": [
+   97,
+   485,
+   254,
+   131
+  ],
+  "purete": [
+   97,
+   697,
+   254,
+   155
+  ],
+  "thresholds": [
+   20,
+   1941,
+   350,
+   453
+  ],
+  "docH": 4778,
+  "h1font": "\"DM Sans\", Inter, system-ui, -apple-system, sans-serif",
+  "h1weight": "800",
+  "bodyFont": "\"Twemoji Country Flags\", Inter, system-ui, -apple-system, sans-serif"
+ },
+ "m-coa": {
+  "h1": [
+   20,
+   185,
+   350,
+   48
+  ],
+  "janoshik": [
+   20,
+   309,
+   350,
+   112
+  ],
+  "docH": 2119,
+  "h1font": "\"DM Sans\", Inter, system-ui, -apple-system, sans-serif",
+  "h1weight": "800",
+  "bodyFont": "\"Twemoji Country Flags\", Inter, system-ui, -apple-system, sans-serif"
+ },
+ "m-shop": {
+  "h1": [
+   18,
+   161,
+   354,
+   31
+  ],
+  "gridFirst": [
+   220,
+   786,
+   80,
+   40
+  ],
+  "docH": 4172,
+  "h1font": "\"DM Sans\", Inter, system-ui, -apple-system, sans-serif",
+  "h1weight": "700",
+  "bodyFont": "\"Twemoji Country Flags\", Inter, system-ui, -apple-system, sans-serif"
+ },
+ "d-home": {
+  "h1": [
+   174,
+   244,
+   545,
+   137
+  ],
+  "identite": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "stats": [
+   52,
+   4219,
+   636,
+   65
+  ],
+  "gridFirst": [
+   749,
+   1661,
+   154,
+   23
+  ],
+  "docH": 7362,
+  "h1font": "\"DM Sans\", Inter, system-ui, -apple-system, sans-serif",
+  "h1weight": "800",
+  "bodyFont": "\"Twemoji Country Flags\", Inter, system-ui, -apple-system, sans-serif"
+ },
+ "d-quality": {
+  "h1": [
+   174,
+   198,
+   1092,
+   70
+  ],
+  "identite": [
+   457,
+   507,
+   436,
+   107
+  ],
+  "purete": [
+   457,
+   668,
+   590,
+   107
+  ],
+  "thresholds": [
+   280,
+   1687,
+   880,
+   231
+  ],
+  "docH": 3627,
+  "h1font": "\"DM Sans\", Inter, system-ui, -apple-system, sans-serif",
+  "h1weight": "800",
+  "bodyFont": "\"Twemoji Country Flags\", Inter, system-ui, -apple-system, sans-serif"
+ },
+ "d-product": {
+  "h1": [
+   765,
+   310,
+   468,
+   45
+  ],
+  "verified": [
+   765,
+   368,
+   63,
+   27
+  ],
+  "purityLine": [
+   765,
+   368,
+   468,
+   27
+  ],
+  "shipping": [
+   766,
+   1091,
+   466,
+   62
+  ],
+  "labLine": [
+   766,
+   1215,
+   466,
+   63
+  ],
+  "docH": 3737,
+  "h1font": "\"DM Sans\", Inter, system-ui, -apple-system, sans-serif",
+  "h1weight": "700",
+  "bodyFont": "\"Twemoji Country Flags\", Inter, system-ui, -apple-system, sans-serif"
+ },
+ "d-coa": {
+  "h1": [
+   174,
+   188,
+   1092,
+   70
+  ],
+  "janoshik": [
+   304,
+   346,
+   648,
+   93
+  ],
+  "docH": 1477,
+  "h1font": "\"DM Sans\", Inter, system-ui, -apple-system, sans-serif",
+  "h1weight": "800",
+  "bodyFont": "\"Twemoji Country Flags\", Inter, system-ui, -apple-system, sans-serif"
+ }
+}
