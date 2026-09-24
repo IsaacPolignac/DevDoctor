@@ -1,1 +1,130 @@
-/* s12 scene styles (scoped under #s12) */
+/* s12 — S1 HOOK + S2 HERO VIAL (0.00–6.00). Every rule scoped under #s12. */
+
+/* full-frame wrappers (cameras, zoom-through, rack focus, float) */
+#s12 .s12-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1080px;
+  height: 1920px;
+}
+/* S2 camera (the pre-created .cam): push-in centred on the hero vial */
+#s12 > .cam {
+  transform-origin: 540px 1000px;
+}
+/* S1 headline camera: push-in centred on the headline block */
+#s12 .s12-cam1 {
+  transform-origin: 540px 880px;
+}
+/* rack focus scales about the vial centre (540,1000) so it lands on its S2 pose */
+#s12 .s12-rack {
+  transform-origin: 540px 1000px;
+}
+/* zoom-through about the label centre (vial float at 5.6–6.0 lifts it ~6–12 px) */
+#s12 .s12-zoom {
+  transform-origin: 540px 1055px;
+}
+
+/* ---- S1 headline: 110 px, two lines, block centred on y 880 (box 770 -> 990) ---- */
+#s12 .s12-h1 {
+  position: absolute;
+  left: 0;
+  top: 770px;
+  width: 1080px;
+  transform-origin: 540px 110px;
+}
+#s12 .s12-h1 .pp-w {
+  transform-origin: 50% 50%;
+}
+/* Determinism: the shared `.pp-w { will-change: transform, filter }` makes Chrome keep the raster
+   scale of each word layer from the first frame it painted, so text sharpness depended on the seek
+   history of a render worker (verified: forward vs reverse seeks differed). Re-raster every frame. */
+#s12 .pp-w {
+  will-change: auto;
+}
+
+/* ---- scan line: x 120 -> 960, soft fading ends; line centre = wrapper top + 40 ---- */
+#s12 .s12-scan {
+  position: absolute;
+  left: 120px;
+  top: 660px;
+  width: 840px;
+  height: 80px;
+  opacity: 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 24%, #000 76%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 24%, #000 76%, transparent 100%);
+}
+#s12 .s12-scan .pp-scan {
+  left: 0;
+  top: 39px;
+}
+
+/* ---- S2 ---- */
+#s12 .s12-logo {
+  position: absolute;
+  left: 0;
+  width: 1080px;
+  text-align: center;
+  line-height: 1;
+}
+#s12 .s12-h3 {
+  position: absolute;
+  left: 0;
+  top: 460px;
+  width: 1080px;
+}
+
+/* floor: 1 px --line hairline, y 1392, x 200 -> 880, a touch brighter where the vial stands */
+#s12 .s12-floor {
+  position: absolute;
+  left: 200px;
+  top: 1392px;
+  width: 680px;
+  height: 1px;
+  transform-origin: 50% 50%;
+  background: linear-gradient(
+    to right,
+    rgba(234, 242, 255, 0) 0%,
+    rgba(234, 242, 255, 0.1) 16%,
+    rgba(234, 242, 255, 0.16) 38%,
+    rgba(234, 242, 255, 0.24) 50%,
+    rgba(234, 242, 255, 0.16) 62%,
+    rgba(234, 242, 255, 0.1) 84%,
+    rgba(234, 242, 255, 0) 100%
+  );
+}
+
+/* callouts: mono 22 px, --muted, uppercase; leader lines in one SVG overlay */
+#s12 .s12-callsvg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+#s12 .s12-call {
+  position: absolute;
+  font-size: 22px;
+  white-space: nowrap;
+  color: var(--muted);
+}
+#s12 .s12-call-l {
+  text-align: right;
+}
+#s12 .s12-call-l .s12-cl {
+  margin-right: -0.12em; /* cancel the trailing tracking so the right edge is optical */
+}
+#s12 .s12-call-r {
+  text-align: left;
+}
+#s12 .s12-cl {
+  display: block;
+}
+#s12 .s12-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px 2px rgba(127, 231, 255, 0.45);
+}

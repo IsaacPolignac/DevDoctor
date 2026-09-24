@@ -324,7 +324,7 @@
     const longest = Math.max(...parts.map((p) => p.length));
     const fs = Math.min(42, 222 / (longest * 0.58));
     const nameY = parts.length > 1 ? LY + 120 : LY + 140;
-    parts.forEach((p, k) => T(p, 150, nameY + k * fs * 1.02, fs, 600, "Inter Tight", { "letter-spacing": -fs * 0.03 }));
+    parts.forEach((p, k) => T(p, 150, nameY + k * fs * 1.02, fs, 600, "Inter Tight", { "letter-spacing": -fs * 0.03, "word-spacing": fs * 0.12 }));
     T(amount.toUpperCase(), 150, LY + 190, 22, 500, "IBM Plex Mono", { "letter-spacing": 2.5 });
     PP.svg("rect", { x: 44, y: LY + 214, width: 212, height: 1, fill: PP.C.ink, "fill-opacity": 0.2 }, label);
     T("LYOPHILIZED · HPLC-TESTED", 150, LY + 240, 11.5, 400, "IBM Plex Mono", { "letter-spacing": 1.4, "fill-opacity": 0.75 });

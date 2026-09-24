@@ -1,1 +1,126 @@
-/* s7 scene styles (scoped under #s7) */
+/* s7 scene styles (scoped under #s7) — STANDARDS */
+
+/* ---- headline (top y 330) */
+#s7 .s7-head {
+  position: absolute;
+  left: 0;
+  top: 330px;
+  width: 1080px;
+  transform-origin: 540px 36px;
+}
+/* will-change would freeze the glyph raster at the first painted scale (camera push-in → soft text) */
+#s7 .s7-head .pp-w {
+  will-change: auto;
+}
+
+/* ---- tiles: 400 × 300, radius 24, --panel glass, 1 px --line */
+#s7 .s7-tile {
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  transform-origin: 200px 150px;
+}
+#s7 .s7-glass,
+#s7 .s7-glow,
+#s7 .s7-flare {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+}
+#s7 .s7-glass {
+  /* --panel over a partial --bg base (the grid recedes behind the glass) + a faint top-left sheen */
+  background:
+    linear-gradient(155deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0) 42%),
+    linear-gradient(var(--panel), var(--panel)),
+    rgba(5, 7, 10, 0.55);
+  border: 1px solid var(--line);
+  box-shadow:
+    inset 0 1px 0 rgba(234, 242, 255, 0.05),
+    0 30px 60px rgba(0, 0, 0, 0.35);
+}
+/* tension: border charges to --accent 40 % with a soft outer glow */
+#s7 .s7-glow {
+  border: 1px solid rgba(127, 231, 255, 0.4);
+  box-shadow:
+    0 0 28px rgba(127, 231, 255, 0.1),
+    inset 0 0 22px rgba(127, 231, 255, 0.045);
+  opacity: 0;
+}
+/* implosion: the tile turns to light as it falls into the point */
+#s7 .s7-flare {
+  border: 1px solid rgba(127, 231, 255, 0.85);
+  background: radial-gradient(ellipse at 50% 50%, rgba(127, 231, 255, 0.16) 0%, rgba(127, 231, 255, 0.05) 70%);
+  box-shadow: 0 0 36px rgba(127, 231, 255, 0.3);
+  opacity: 0;
+}
+
+/* ---- icon: 56 px, 2 px --accent stroke, round caps */
+#s7 .s7-icon {
+  position: absolute;
+  left: 32px;
+  top: 32px;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 0 5px rgba(127, 231, 255, 0.35));
+}
+#s7 .s7-icon path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---- text block, anchored to the tile's bottom padding */
+#s7 .s7-txt {
+  position: absolute;
+  left: 32px;
+  right: 32px;
+  bottom: 32px;
+}
+#s7 .s7-title {
+  font-family: "Inter Tight", sans-serif;
+  font-weight: 600;
+  font-size: 32px;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--text);
+}
+#s7 .s7-sub {
+  margin-top: 14px;
+  font-size: 20px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ---- implosion point (outside the camera: unscaled screen px, centre 540 880) */
+#s7 .s7-point {
+  position: absolute;
+  left: 540px;
+  top: 880px;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+#s7 .s7-core {
+  position: absolute;
+  left: -6px;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:
+    0 0 4px 1px rgba(255, 255, 255, 0.9),
+    0 0 12px 4px rgba(127, 231, 255, 0.9),
+    0 0 36px 10px rgba(127, 231, 255, 0.45);
+}
+#s7 .s7-halo {
+  position: absolute;
+  left: -110px;
+  top: -110px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side, rgba(127, 231, 255, 0.34) 0%, rgba(127, 231, 255, 0.12) 38%, rgba(127, 231, 255, 0) 100%);
+}

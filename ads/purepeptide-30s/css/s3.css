@@ -1,1 +1,217 @@
-/* s3 scene styles (scoped under #s3) */
+/* s3 scene styles (scoped under #s3) — PURITY */
+#s3 .s3-wipe {
+  position: absolute;
+  inset: 0;
+}
+
+/* opaque replica of the global background layers, shown only during the 9.50–10.00 scan wipe */
+#s3 .s3-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0;
+}
+#s3 .s3-bd-glow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1300px;
+  height: 1300px;
+  background: radial-gradient(circle closest-side, rgba(127, 231, 255, 0.1), rgba(127, 231, 255, 0.045) 45%, rgba(127, 231, 255, 0) 100%);
+}
+#s3 .s3-bd-grid {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1080px;
+  height: 1980px;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(to right, rgba(238, 243, 248, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(238, 243, 248, 0.1) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: 0 0;
+}
+
+#s3 .s3-enter {
+  position: absolute;
+  inset: 0;
+  transform-origin: 540px 820px;
+}
+
+/* ---- headline */
+#s3 .s3-head {
+  position: absolute;
+  left: 0;
+  top: 300px;
+  width: 1080px;
+}
+
+/* ---- counter */
+#s3 .s3-row {
+  position: absolute;
+  left: 0;
+  top: 445px;
+  width: 1080px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+}
+#s3 .s3-counter {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  height: 150px;
+  font-family: "Inter Tight", sans-serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+#s3 .s3-num {
+  display: inline-block;
+  font-size: 150px;
+  text-align: right;
+}
+#s3 .s3-pct {
+  display: inline-block;
+  font-size: 82px;
+  margin-left: 4px;
+}
+#s3 .s3-check {
+  position: absolute;
+  left: calc(100% + 24px);
+  top: 53px;
+  width: 44px;
+  height: 44px;
+}
+#s3 .s3-check svg {
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 0 6px rgba(127, 231, 255, 0.45));
+}
+
+#s3 .s3-hplc {
+  position: absolute;
+  left: 0;
+  top: 620px;
+  width: 1080px;
+  font-size: 26px;
+  text-align: center;
+  padding-left: 0.12em;
+}
+
+/* ---- chart card */
+#s3 .s3-card {
+  position: absolute;
+  left: 120px;
+  top: 700px;
+  width: 840px;
+  height: 640px;
+  border-radius: 28px;
+  /* --panel over a partial --bg base so the global 60 px grid recedes and the chart's own 6 % grid reads */
+  background: linear-gradient(var(--panel), var(--panel)), rgba(5, 7, 10, 0.55);
+  box-shadow: inset 0 1px 0 rgba(234, 242, 255, 0.04);
+  border: 1px solid var(--line);
+}
+#s3 .s3-divider {
+  position: absolute;
+  left: 168px;
+  top: 1232px;
+  width: 744px;
+  height: 1px;
+  background: var(--line);
+}
+#s3 .s3-footer {
+  position: absolute;
+  left: 168px;
+  top: 1264px;
+  font-size: 20px;
+  white-space: nowrap;
+}
+#s3 .s3-chart {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+#s3 .s3-grid path {
+  fill: none;
+  stroke: rgba(238, 243, 248, 0.06);
+  stroke-width: 1;
+}
+#s3 .s3-axes path {
+  fill: none;
+  stroke: rgba(234, 242, 255, 0.26);
+  stroke-width: 1;
+}
+#s3 .s3-trace {
+  fill: none;
+  stroke: var(--text);
+  stroke-opacity: 0.85;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+#s3 .s3-leader {
+  fill: none;
+  stroke: rgba(234, 242, 255, 0.45);
+  stroke-width: 1;
+}
+#s3 .s3-lbl {
+  position: absolute;
+  font-size: 20px;
+  white-space: nowrap;
+}
+#s3 .s3-mau {
+  left: 168px;
+  top: 748px;
+  text-transform: none;
+}
+#s3 .s3-tick {
+  top: 1136px;
+}
+#s3 .s3-tick-r {
+  margin-right: -0.12em;
+}
+#s3 .s3-tick-c {
+  transform: translateX(-50%);
+  padding-left: 0.12em;
+}
+#s3 .s3-xtitle {
+  left: 0;
+  top: 1176px;
+  width: 1080px;
+  text-align: center;
+  padding-left: 0.12em;
+}
+#s3 .s3-peaklabel {
+  position: absolute;
+  font-size: 20px;
+  color: var(--text);
+  white-space: nowrap;
+  transform-origin: 0% 50%;
+}
+#s3 .s3-dot {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 16px 3px rgba(127, 231, 255, 0.75), 0 0 5px 1px rgba(127, 231, 255, 0.9);
+  opacity: 0;
+}
+#s3 .s3-scan {
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+/* The shared .pp-w has will-change: transform, filter — Chrome then keeps the raster scale of the first
+   frame it painted, so glyph AA depended on seek history (parallel workers). Re-raster every frame instead. */
+#s3 .s3-head .pp-w {
+  will-change: auto;
+}

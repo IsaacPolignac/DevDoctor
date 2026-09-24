@@ -1,1 +1,165 @@
-/* s4 scene styles (scoped under #s4) */
+/* s4 scene styles (scoped under #s4) — IDENTITY */
+
+/* ---- card (static layer, visible from 9.50 behind S3's scan wipe) */
+#s4 .s4-card {
+  position: absolute;
+  left: 120px;
+  top: 620px;
+  width: 840px;
+  height: 640px;
+  border-radius: 28px;
+  /* same material as S3's chart card: --panel over a partial --bg base so the global grid recedes */
+  background: linear-gradient(var(--panel), var(--panel)), rgba(5, 7, 10, 0.55);
+  box-shadow: inset 0 1px 0 rgba(234, 242, 255, 0.04);
+  border: 1px solid var(--line);
+}
+#s4 .s4-footer {
+  position: absolute;
+  left: 0;
+  top: 1310px;
+  width: 1080px;
+  font-size: 22px;
+  line-height: 1;
+  text-align: center;
+  padding-left: 0.12em; /* balance the trailing tracking */
+  white-space: nowrap;
+}
+
+/* ---- headline */
+#s4 .s4-head {
+  position: absolute;
+  left: 0;
+  top: 300px;
+  width: 1080px;
+}
+/* same fix as S3: will-change froze the glyph raster scale of the first painted frame */
+#s4 .s4-head .pp-w {
+  will-change: auto;
+}
+
+/* ---- label group */
+#s4 .s4-label {
+  position: absolute;
+  left: 168px;
+  top: 668px;
+  width: 700px;
+}
+#s4 .s4-mm-row {
+  display: flex;
+  align-items: center;
+  height: 28px;
+}
+#s4 .s4-mm {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text);
+  white-space: nowrap;
+}
+#s4 .s4-check {
+  width: 30px;
+  height: 30px;
+  margin-left: 12px;
+  flex: none;
+}
+#s4 .s4-check svg {
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 0 5px rgba(127, 231, 255, 0.45));
+}
+#s4 .s4-sub {
+  margin-top: 14px;
+  font-size: 20px;
+  line-height: 1;
+  white-space: nowrap;
+}
+#s4 .s4-unit {
+  text-transform: none;
+}
+
+/* ---- leader */
+#s4 .s4-svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+#s4 .s4-leader path {
+  fill: none;
+  stroke: rgba(234, 242, 255, 0.42);
+  stroke-width: 1;
+}
+
+/* ---- spectrum */
+#s4 .s4-spec {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1080px;
+  height: 1920px;
+}
+#s4 .s4-axis {
+  position: absolute;
+  left: 168px;
+  top: 1208px;
+  width: 744px;
+  height: 1px;
+  background: rgba(234, 242, 255, 0.26);
+  transform-origin: 0% 50%;
+}
+#s4 .s4-bar {
+  position: absolute;
+  width: 6px;
+  background: rgba(238, 243, 248, 0.35);
+  transform-origin: 50% 100%;
+}
+#s4 .s4-halo {
+  position: absolute;
+  left: -57px;
+  top: -48px;
+  width: 120px;
+  bottom: -12px;
+  background: radial-gradient(closest-side, rgba(127, 231, 255, 0.26), rgba(127, 231, 255, 0.07) 55%, rgba(127, 231, 255, 0));
+  opacity: 0;
+}
+#s4 .s4-hot {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  box-shadow: 0 0 18px 2px rgba(127, 231, 255, 0.55), 0 0 6px rgba(127, 231, 255, 0.85);
+  opacity: 0;
+}
+
+/* ---- match-cut line (outside cam, unscaled) */
+#s4 .s4-linewrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1080px;
+  height: 260px;
+  opacity: 0;
+}
+#s4 .s4-line {
+  left: 160px;
+}
+#s4 .s4-trail {
+  position: absolute;
+  left: 160px;
+  width: 760px;
+  height: 0;
+  background: linear-gradient(to bottom, rgba(127, 231, 255, 0.16), rgba(127, 231, 255, 0));
+  /* feathered ends so the motion trail never reads as a hard-edged slab */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  opacity: 0;
+}
+#s4 .s4-flare {
+  position: absolute;
+  left: -90px;
+  top: -9px;
+  width: 180px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(190, 245, 255, 0.55) 35%, rgba(127, 231, 255, 0) 100%);
+  opacity: 0;
+}
