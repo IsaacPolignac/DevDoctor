@@ -83,6 +83,7 @@ PP.scene("s7", function (tl, root, cam) {
     { icon: "globe", title: "Ships to " + cfg.countries + " countries", sub: "TRACKED DELIVERY" },
   ];
   const BEATS = [22.5, 23.0, 23.5, 24.0];
+  const ICON_INK_X = 2.6; // left edge of the US outline in its 56-unit box (the reference: it already aligns)
 
   // ------------------------------------------------------------------ headline (top y 330)
   const head = PP.headline(cam, ["No shortcuts."], "h2");
@@ -102,6 +103,14 @@ PP.scene("s7", function (tl, root, cam) {
     const flare = PP.el("div", "s7-flare", el);
     const svg = PP.svg("svg", { class: "s7-icon", width: 56, height: 56, viewBox: "0 0 56 56" }, el);
     const strokes = ICONS[def.icon].map(([d, off, dur]) => ({ path: PP.svg("path", { d }, svg), off, dur }));
+    // optical alignment: every icon's ink (not its 56 px box) starts on the same x as the title's ink,
+    // so the narrow vial / doc / globe don't sit 5–15 px inside the text column while the wide US map hugs it
+    try {
+      const inkL = Math.min(...strokes.map((s) => s.path.getBBox().x));
+      if (isFinite(inkL)) svg.style.left = (32 + (ICON_INK_X - inkL)).toFixed(1) + "px";
+    } catch (e) {
+      /* keep the 32 px box position */
+    }
     const txt = PP.el("div", "s7-txt", el);
     const title = PP.el("div", "s7-title", txt, { text: def.title });
     const sub = PP.el("div", "mono muted s7-sub", txt, { text: def.sub });
@@ -118,7 +127,10 @@ PP.scene("s7", function (tl, root, cam) {
 
   // --- headline 22.00–22.40 (faster than the default text-in). Switched on one frame into the reveal so
   // the first frame after the hard cut shows no blurred word tops peeking through the mask padding.
+  // Later words are likewise switched on just after their own stagger start (a waiting word's blurred top
+  // would otherwise show as a smear along the mask's bottom edge).
   tl.fromTo(head.el, { opacity: 0 }, { opacity: 1, duration: 0.005, ease: "none" }, 22.01);
+  head.words.slice(1).forEach((w, k) => tl.fromTo(w, { opacity: 0 }, { opacity: 1, duration: 0.005, ease: "none" }, 22.0 + 0.06 * (k + 1) + 0.01));
   PP.wordsIn(tl, head.words, 22.0, { dur: 0.34, stagger: 0.06 });
 
   // --- tiles pop on the beats: scale 0.94→1, y 24→0, opacity, 0.5 s expo.out; icon strokes draw over
@@ -165,7 +177,7 @@ PP.scene("s7", function (tl, root, cam) {
   });
 
   // --- 25.50–26.00 implosion: headline + tiles 1→4 (stagger 0.04) collapse into the point, all gone by
-  // 25.90 so the last frames hold the fully formed point alone. Travel to the point: power3.in.
+  // 25.90 so the last frames show the point alone. Travel to the point: power3.in.
   // Scale → 0.2 / opacity → 0 / blur: power2.in, so the cards shrink and dissolve into light instead of
   // arriving as solid slabs. The headline fades out as it reaches the tile row.
   const HEAD_CY = 330 + 36;
@@ -199,11 +211,12 @@ PP.scene("s7", function (tl, root, cam) {
   });
 
   // --- the point: a faint seed appears as the headline starts to fall, then ignites as the tiles arrive.
-  // Fully formed at 25.90 (the last S7 frame is 25.967); S8 bursts its own identical point at 26.00.
+  // It keeps charging through the last frames (no frozen pre-hit hold) and is fully formed on the last S7
+  // frame (25.967); S8 bursts its own identical point at 26.00.
   const P_SEED0 = 25.52;
   const P_SEED1 = 25.7;
   const P_IGN0 = 25.6;
-  const P_IGN1 = 25.9;
+  const P_IGN1 = 25.96;
   const setPoint = (t) => {
     const seed = smooth(P_SEED0, P_SEED1, t);
     const ign = Math.pow(clamp01((t - P_IGN0) / (P_IGN1 - P_IGN0)), 2);

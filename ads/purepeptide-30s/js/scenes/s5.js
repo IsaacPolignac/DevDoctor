@@ -42,6 +42,8 @@ PP.scene("s5", function (tl, root, cam) {
   // headline
   const head = PP.headline(cam, ["Every batch.", "Its own *COA.*"], "h2");
   head.el.classList.add("s5-head");
+  // the lib's mask lines bleed 0.2em past the headline box on purpose (glyph/blur room); nothing is clipped
+  head.lines.forEach((ln) => ln.setAttribute("data-layout-allow-overflow", ""));
 
   const persp = PP.el("div", "s5-persp", cam);
   const sheet = PP.el("div", "s5-sheet", persp);
@@ -61,7 +63,7 @@ PP.scene("s5", function (tl, root, cam) {
     ["PRODUCT", cfg.coaProduct],
     ["BATCH", cfg.batch],
     ["TEST DATE", cfg.testDate],
-    ["PURITY (HPLC)", cfg.purity.toFixed(1) + "%"],
+    ["PURITY (HPLC)", cfg.purityStr + "%"],
     ["IDENTITY (MS)", "CONFORMS"],
     ["LAB", cfg.lab],
   ];
@@ -193,21 +195,28 @@ PP.scene("s5", function (tl, root, cam) {
   // Settle back in z while landing, so the pose reads as if pivoting on the card centre (projected box ≈ x 154→922,
   // y 545→1304) instead of the hinge; y compensates exactly so the top-edge centre stays on (540, 560).
   tl.fromTo(sheet, { z: 0, y: 0 }, { z: -PUSH_Z, y: (-(PERSP_OY - CARD.y) * PUSH_Z) / PERSP, duration: 0.9, ease: "power2.inOut" }, 12.0);
-  // the line melts into the card's top edge
+  // the line melts into the card's top edge: its ends pull in to where the rounded corners start (x 160→920 at
+  // 12.00 = the S4 line; then r·2/3 in from each side so no straight whisker sticks out past the corner arcs)
+  tl.fromTo(edge, { scaleX: 1 }, { scaleX: (CARD.w - (4 * CARD.r) / 3) / CARD.w, duration: 0.25, ease: "expo.out", force3D: false }, 12.0);
   tl.fromTo(edge, { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power1.in" }, 12.1);
 
-  // --- 12.30 headline (hidden until then so waiting words never peek through the mask padding)
-  tl.fromTo(head.el, { opacity: 0 }, { opacity: 1, duration: 0.005, ease: "none" }, 12.295);
+  // --- 12.30 headline. A word parked at yPercent 100 (blurred) shows as a hard-edged sliver in its mask's bottom
+  // padding until its own start (line 2 "Its own COA." sat there 0.2–0.3 s, incl. an --accent smear), so each word is
+  // gated: opacity 0 until its start, then up over 0.12 s inside the mask reveal (same as S1/S2, S3, S4).
+  tl.fromTo(head.words, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out", stagger: 0.06 }, 12.3);
   PP.wordsIn(tl, head.words, 12.3);
 
   // --- 12.60–13.40 rows print one by one (fade + 8 px rise, stagger 0.1)
-  tl.fromTo(rowText, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out", stagger: 0.1 }, 12.6);
+  // force3D:false on every tween inside the 3D sheet: a translate3d/scale3d mid-tween promotes the element to its own
+  // compositor layer, which splits the paper into layers rasterised at different scales (thin dividers stair-step
+  // and flicker for exactly the frames the tween runs, then snap back when it ends).
+  tl.fromTo(rowText, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out", stagger: 0.1, force3D: false }, 12.6);
 
   // --- 13.40 caption
   tl.fromTo(cap, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 13.4);
 
   // --- 13.40–13.70 corner brackets snap onto the QR
-  tl.fromTo(brackets, { scale: 1.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.24, ease: "back.out(1.6)", stagger: 0.02 }, 13.4);
+  tl.fromTo(brackets, { scale: 1.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.24, ease: "back.out(1.6)", stagger: 0.02, force3D: false }, 13.4);
 
   // --- 13.70–14.30 scan line passes down then up over the QR
   tl.fromTo(beam, { opacity: 0 }, { opacity: 1, duration: 0.06, ease: "none" }, 13.68);
@@ -231,7 +240,7 @@ PP.scene("s5", function (tl, root, cam) {
   // --- 14.30 VERIFIED: pill pops, PURITY underline draws, border flashes once
   gsap.set(pill, { rotation: -6 });
   PP.popIn(tl, pill, 14.3);
-  tl.fromTo(underline, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.inOut" }, 14.32);
+  tl.fromTo(underline, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.inOut", force3D: false }, 14.32); // see force3D note above
   tl.fromTo(flash, { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "power2.out" }, 14.3);
   tl.fromTo(flash, { opacity: 1 }, { opacity: 0, duration: 0.25, ease: "power2.in", immediateRender: false }, 14.4);
 

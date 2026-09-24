@@ -208,6 +208,12 @@ PP.scene("s12", function (tl, root, cam) {
       float.style.transform = s;
       callFloat.style.transform = s;
       reflFloat.style.transform = `translateY(${(-off).toFixed(3)}px)`;
+      // headline masks are only needed for the reveal; the text-out (yPercent -40) must not be cut
+      // flat by the mask top. A: last word lands 3.69; B: last word lands 5.03.
+      const ovA = t >= 3.75 ? "visible" : "hidden";
+      const ovB = t >= 5.1 ? "visible" : "hidden";
+      hA.lines.forEach((l) => (l.style.overflow = ovA));
+      hB.lines.forEach((l) => (l.style.overflow = ovB));
     },
     2.5,
     6.0,

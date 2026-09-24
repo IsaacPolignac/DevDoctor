@@ -217,7 +217,7 @@
     const scale = height / PP.VIAL_VB.h;
     const product = o.product || PP.cfg.coaProduct;
     const amount = o.amount || PP.cfg.amount;
-    const batch = o.batch || PP.cfg.batch;
+    const batch = o.batch !== undefined ? o.batch : PP.cfg.batch; // "" = no batch line (no known code)
     const id = PP.uid("vial");
     const wrap = PP.el("div", "pp-vial", parent);
     wrap.style.width = PP.VIAL_VB.w * scale + "px";
@@ -323,12 +323,12 @@
     const parts = product.includes(" / ") ? [product.split(" / ")[0] + " /", product.split(" / ")[1]] : [product];
     const longest = Math.max(...parts.map((p) => p.length));
     const fs = Math.min(42, 222 / (longest * 0.58));
-    const nameY = parts.length > 1 ? LY + 120 : LY + 140;
+    const nameY = parts.length > 1 ? LY + 112 : LY + 140;
     parts.forEach((p, k) => T(p, 150, nameY + k * fs * 1.02, fs, 600, "Inter Tight", { "letter-spacing": -fs * 0.03, "word-spacing": fs * 0.12 }));
     T(amount.toUpperCase(), 150, LY + 190, 22, 500, "IBM Plex Mono", { "letter-spacing": 2.5 });
     PP.svg("rect", { x: 44, y: LY + 214, width: 212, height: 1, fill: PP.C.ink, "fill-opacity": 0.2 }, label);
-    T("LYOPHILIZED · HPLC-TESTED", 150, LY + 240, 11.5, 400, "IBM Plex Mono", { "letter-spacing": 1.4, "fill-opacity": 0.75 });
-    T("BATCH " + batch, 150, LY + 262, 13, 500, "IBM Plex Mono", { "letter-spacing": 1.6 });
+    T("LYOPHILIZED · HPLC-TESTED", 150, LY + (batch ? 240 : 252), 11.5, 400, "IBM Plex Mono", { "letter-spacing": 1.4, "fill-opacity": 0.75 });
+    if (batch) T("BATCH " + batch, 150, LY + 262, 13, 500, "IBM Plex Mono", { "letter-spacing": 1.6 });
     PP.svg("rect", { x: 20, y: LY + LH - 38, width: 260, height: 38, fill: PP.C.ink }, label);
     T("RESEARCH USE ONLY", 150, LY + LH - 14, 12.5, 500, "IBM Plex Mono", { "letter-spacing": 2.4, fill: PP.C.paper });
     PP.svg("rect", { x: 20, y: LY, width: 260, height: LH, fill: labelShade }, label);

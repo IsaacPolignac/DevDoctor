@@ -16,10 +16,11 @@
     amount: pick("AMOUNT", "10 mg"),
     batch: pick("BATCH", "PP-2611-A"),
     purity: parseFloat(pick("PURITY", "99.3")),
+    purityStr: pick("PURITY", "99.3").trim(),
     lab: pick("LAB", "INDEPENDENT LAB"),
     testDate: pick("TEST_DATE", "09/15/2026"),
-    mExp: pick("M_EXP", "1419.5"),
-    mObs: pick("M_OBS", "1419.6"),
+    mExp: pick("M_EXP", "1419.5").replace(/\s*Da\s*$/i, ""), // unit is added on screen
+    mObs: pick("M_OBS", "1419.6").replace(/\s*Da\s*$/i, ""),
     coaUrl: pick("COA_URL", "https://purepeptide.care/coa/PP-2611-A"),
     countries: pick("COUNTRIES", "30"),
     endCta: pick("END_CTA", "LAUNCHING DECEMBER 2026 · JOIN THE LIST"),

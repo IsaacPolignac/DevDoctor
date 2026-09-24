@@ -65,18 +65,19 @@
   font-family: "Inter Tight", sans-serif;
   font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.03em;
   color: var(--accent);
   white-space: nowrap;
 }
 #s3 .s3-num {
   display: inline-block;
   font-size: 150px;
+  letter-spacing: -0.03em;
   text-align: right;
 }
 #s3 .s3-pct {
   display: inline-block;
   font-size: 82px;
+  letter-spacing: -0.03em;
   margin-left: 4px;
 }
 #s3 .s3-check {

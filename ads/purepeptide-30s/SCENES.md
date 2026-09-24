@@ -135,5 +135,10 @@ tools/snap.sh /tmp/claude-0/snaps-s3 6.2,7.4,8.9,9.75   # PNG frames at exact ti
 npx hyperframes lint                                     # must stay at 0 errors
 ```
 
+`snap.sh` adds 0.5 ms to each time, so `14.3` captures exactly frame 429 (the CLI floors t×30).
+
+Headline reveals: gate each word's opacity (0→1 over 0.12 s from its own stagger start) on top of
+`PP.wordsIn`, otherwise words still parked at yPercent 100 show a blurred sliver in the mask padding.
+
 Look at the PNGs yourself and compare them against BRIEF.md: layout coordinates, safe zone, type sizes,
 colours, the state at each listed time. Iterate until it matches and looks premium.

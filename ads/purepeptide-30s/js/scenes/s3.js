@@ -42,7 +42,7 @@ PP.scene("s3", function (tl, root, cam) {
   const ctr = PP.el("div", "s3-counter tnum", row);
   const num = PP.el("span", "s3-num", ctr);
   PP.el("span", "s3-pct", ctr, { text: "%" });
-  num.textContent = cfg.purity.toFixed(1);
+  num.textContent = cfg.purityStr;
   const numW = num.getBoundingClientRect().width;
   if (numW > 0) num.style.width = Math.ceil(numW + 2) + "px";
   const checkWrap = PP.el("div", "s3-check", ctr);
@@ -181,12 +181,16 @@ PP.scene("s3", function (tl, root, cam) {
 
   // ================================================================== timeline
   // --- entry (hand-off #2): hidden until 5.75, then zoom-through from 1.12 + blur 12 px
-  tl.fromTo(enter, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 5.75);
+  // opacity crosses over with S2's fading vial around 5.90 (power1.inOut): with a front-loaded ease the crisp S3
+  // card + footer text were already ~65 % in at 5.87, a muddled double exposure behind the still-solid vial
+  tl.fromTo(enter, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.inOut" }, 5.75);
   tl.fromTo(enter, { scale: 1.12, filter: "blur(12px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 5.75);
   PP.camera(tl, cam, 6.0, 10.0);
 
-  // --- headline 6.10 (element hidden until then: the waiting words would peek through the mask's bottom padding)
-  tl.fromTo(head.el, { opacity: 0 }, { opacity: 1, duration: 0.005, ease: "none" }, 6.095);
+  // --- headline 6.10. The mask (.pp-ln) keeps 0.18em bottom padding for descenders, so a word parked at
+  // yPercent 100 (blurred) shows as a hard-edged sliver at the mask bottom until its own start. Gate each word:
+  // opacity 0 until its start, then up over 0.12 s (hidden inside the mask reveal), same as S1/S2.
+  tl.fromTo(head.words, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out", stagger: 0.06 }, 6.1);
   PP.wordsIn(tl, head.words, 6.1);
 
   // --- axes + gridlines draw 6.20–6.60 (stagger 0.03)
@@ -236,7 +240,7 @@ PP.scene("s3", function (tl, root, cam) {
 
   // --- counter 7.00–8.80 + "HPLC PURITY" type-on at 7.00
   tl.fromTo(ctr, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.35, ease: "power2.out" }, 7.0);
-  PP.counter(tl, num, { from: 0, to: cfg.purity, at: 7.0, dur: 1.8, decimals: 1, ease: "power3.out" });
+  PP.counter(tl, num, { from: 0, to: cfg.purity, at: 7.0, dur: 1.8, ease: "power3.out", format: (x) => (x >= cfg.purity - 1e-9 ? cfg.purityStr : x.toFixed(1)) });
   PP.typeOn(tl, hplcChars, 7.0);
 
   // --- lock at 8.80: glow pulse 0→28→8 px + check draws in 0.3 s
@@ -272,14 +276,18 @@ PP.scene("s3", function (tl, root, cam) {
   const scan = PP.scanLine(root, "v", PP.H);
   scan.classList.add("s3-scan");
   tl.fromTo(scan, { opacity: 0 }, { opacity: 1, duration: 0.005, ease: "none" }, 9.49);
+  // The line travels from just off the left edge to just off the right edge (its ~30 px glow included), so it
+  // glides in and out instead of popping on at x 0 on 9.50 and vanishing half-clipped at x 1079 on 10.00.
+  // The clip follows the line and is complete (S3 fully wiped) once the line passes x 1080.
+  const SCAN_OFF = 32;
   PP.drive(
     tl,
     (x) => {
-      wipe.style.clipPath = x <= 0 ? "none" : `inset(0px 0px 0px ${x.toFixed(2)}px)`;
+      wipe.style.clipPath = x <= 0 ? "none" : `inset(0px 0px 0px ${Math.min(PP.W, x).toFixed(2)}px)`;
       scan.style.transform = `translateX(${(x - 1).toFixed(2)}px)`;
     },
-    0,
-    PP.W,
+    -SCAN_OFF,
+    PP.W + SCAN_OFF,
     9.5,
     0.5,
     "power2.inOut",

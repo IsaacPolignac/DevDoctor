@@ -23,6 +23,8 @@
 /* zoom-through about the label centre (vial float at 5.6–6.0 lifts it ~6–12 px) */
 #s12 .s12-zoom {
   transform-origin: 540px 1055px;
+  /* the vial rushing at the lens occludes the fading logo/headline B (5.77–5.87), not the reverse */
+  z-index: 1;
 }
 
 /* ---- S1 headline: 110 px, two lines, block centred on y 880 (box 770 -> 990) ---- */

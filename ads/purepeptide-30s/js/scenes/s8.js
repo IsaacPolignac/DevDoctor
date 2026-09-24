@@ -210,7 +210,7 @@ PP.scene("s8", function (tl, root, cam) {
   // reads even though the letters are already near-white; the band's glow spills just outside the strokes.
   const BW = 300; // band box width (the bright core is the middle ~20 %)
   const TXT = "#EEF3F8";
-  const DIM = "#C2C9D0";
+  const DIM = "rgba(238,243,248,0.8)"; // --text at 80 %
   const baseSt = logo.isImage ? null : logo.el.style;
   const setSweep = (u) => {
     const xc = -60 + u * (logoW + 120); // band centre, px from the wordmark's left edge (just off the ink at both ends)
@@ -246,10 +246,12 @@ PP.scene("s8", function (tl, root, cam) {
   PP.drive(tl, setSweep, 0, 1, 26.4, 0.7, "power1.inOut");
 
   // --- tagline 26.70–27.20 (brief text-in; expo.out is visually settled by 27.20)
-  // (switched on one frame into the reveal: before it, the blurred word tops would peek through the
-  // mask's bottom padding)
-  tl.fromTo(tag.el, { opacity: 0 }, { opacity: 1, duration: 0.005, ease: "none" }, 26.71);
-  PP.wordsIn(tl, tag.words, 26.7, { dur: 0.5, stagger: 0.05 });
+  // Each word is switched on just after its own stagger start: while it waits at yPercent 100 its blurred
+  // top would otherwise peek through the mask's bottom padding as a grey/--accent smear under the line.
+  const TAG_T = 26.7;
+  const TAG_ST = 0.05;
+  tag.words.forEach((w, k) => tl.fromTo(w, { opacity: 0 }, { opacity: 1, duration: 0.005, ease: "none" }, TAG_T + TAG_ST * k + 0.01));
+  PP.wordsIn(tl, tag.words, TAG_T, { dur: 0.5, stagger: TAG_ST });
 
   // --- URL pill 27.20–27.60: border draws around from the top centre, text fades in, glass fill settles
   PP.draw(tl, [pathR, pathL], 27.2, 0.4);
@@ -260,5 +262,5 @@ PP.scene("s8", function (tl, root, cam) {
   PP.typeOn(tl, ctaChars, 27.6, 0.29 / Math.max(1, ctaChars.length - 1));
 
   // --- legal line fades in at 27.80 and stays (fully readable 28.00–30.00)
-  tl.fromTo(legal, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, 27.8);
+  tl.fromTo(legal, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }, 27.8);
 });

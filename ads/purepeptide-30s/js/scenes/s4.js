@@ -130,9 +130,10 @@ PP.scene("s4", function (tl, root, cam) {
   // ================================================================== timeline
   PP.camera(tl, cam, 10.0, 12.0);
 
-  // --- headline 10.00–10.50 (hidden until then: waiting words would peek through the mask padding)
-  // (switched on one frame into the reveal so the first frame shows no blurred word tops)
-  tl.fromTo(head.el, { opacity: 0 }, { opacity: 1, duration: 0.005, ease: "none" }, 10.01);
+  // --- headline 10.00–10.50. A word parked at yPercent 100 (blurred) shows as a hard-edged sliver in the mask's
+  // bottom padding until its own start, so each word is gated: opacity 0 until its start, then up over 0.12 s
+  // (hidden inside the mask reveal), same as S1/S2. head.el's own opacity stays free for the 11.55 text-out.
+  tl.fromTo(head.words, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out", stagger: 0.06 }, 10.0);
   PP.wordsIn(tl, head.words, 10.0);
 
   // --- baseline axis draws left→right just ahead of the bars

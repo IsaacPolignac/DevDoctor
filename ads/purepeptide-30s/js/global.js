@@ -13,9 +13,11 @@
     // 60 px hairline grid drifting up 20 px over 30 s (linear). Base opacity 0.5 => 5 % lines.
     tl.fromTo(grid, { y: 0 }, { y: -20, duration: 30, ease: "none" }, 0);
     tl.set(grid, { opacity: 0.5 }, 0);
+    // The grid pans with the S5 -> S6 whip so the move reads as one camera pan (1080 px = 18 cells: seamless).
+    tl.fromTo(grid, { x: 0 }, { x: -1080, duration: 0.5, ease: "expo.inOut" }, 15.5);
 
     // Film grain: seed stepped every frame (900 frames), deterministic.
-    PP.drive(tl, (v) => turb.setAttribute("seed", String(Math.floor(v))), 0, 900, 0, 30, "none");
+    PP.drive(tl, (v) => turb.setAttribute("seed", String(Math.round(v))), 0, 900, 0, 30, "none");
 
     // Radial glow (--accent 10 %, radius 650 px) parked behind each scene's hero element.
     // [time, x, y] centre positions; moves ease over 0.4 s at each cut.

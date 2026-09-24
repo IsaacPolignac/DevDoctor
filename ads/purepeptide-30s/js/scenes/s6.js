@@ -67,7 +67,10 @@ PP.scene("s6", function (tl, root, cam) {
   const ROLL = 0.35;
   const T_OUT = 20.5; // name + spec exit
   const T_GROUP = 20.5;
-  const GROUP = 0.8;
+  // 0.60 s power2.inOut: the far-left vials travel ~1600 px; with expo.inOut over 0.8 s they moved ≥ one vial pitch per
+  // frame at 20.90–20.93 (wagon-wheel strobe: labels swap in place). Peak step is now ≤ ~0.5 pitch for any visible vial,
+  // on par with the brief's own product slides, and the line-up is settled at 21.10 before the rim light reaches it.
+  const GROUP = 0.6;
   const T_LINE = 20.9;
   const T_RIM = 21.0;
   const RIM = 0.6;
@@ -80,7 +83,7 @@ PP.scene("s6", function (tl, root, cam) {
   const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
   const lerp = (a, b, k) => a + (b - a) * k;
   const eSlide = gsap.parseEase("expo.inOut");
-  const eGroup = gsap.parseEase("expo.inOut");
+  const eGroup = gsap.parseEase("power2.inOut");
   const eSweep = gsap.parseEase("sine.inOut");
   const eGlint = gsap.parseEase("power2.inOut");
   const cosS = (a) => 0.5 - 0.5 * Math.cos(Math.PI * a); // smooth 0→1 on [0,1]
@@ -157,11 +160,11 @@ PP.scene("s6", function (tl, root, cam) {
     el.style.transformOrigin = W0 / 2 + "px " + H0 + "px";
     let refl = null;
     if (!ghost) {
-      refl = PP.vialReflection(el, { height: H0, product: name, fade: REFL_FADE[0], opacity: REFL_OP });
+      refl = PP.vialReflection(el, { height: H0, product: name, batch: name === cfg.coaProduct ? cfg.batch : "", fade: REFL_FADE[0], opacity: REFL_OP });
       refl.el.style.left = "0px";
       refl.el.style.top = H0 + "px"; // mirror about the base line
     }
-    const vial = PP.vial(el, { height: H0, product: name });
+    const vial = PP.vial(el, { height: H0, product: name, batch: name === cfg.coaProduct ? cfg.batch : "" });
     vial.el.style.left = "0px";
     vial.el.style.top = "0px";
     // rim light: an --accent band (soft) under the lib's white core band, both clipped to the vial
@@ -193,6 +196,7 @@ PP.scene("s6", function (tl, root, cam) {
   // name: slot-machine reel inside a soft-edged mask
   const nameBox = PP.el("div", "s6-name", cam);
   const reel = PP.el("div", "s6-reel", nameBox);
+  reel.setAttribute("data-layout-allow-overflow", ""); // the 6-row reel is meant to overflow its 1-row mask
   const rows = names.map((name) => {
     const r = PP.el("div", "s6-row", reel);
     r.style.height = ROW + "px";
@@ -217,8 +221,11 @@ PP.scene("s6", function (tl, root, cam) {
 
   // ------------------------------------------------------------------ per-frame layout (pure function of t)
   const TAN12 = Math.tan((12 * Math.PI) / 180);
-  const RIM_X0 = GX[0] - gbw[0] / 2 - 90;
-  const RIM_X1 = GX[N - 1] + gbw[N - 1] / 2 + 90;
+  // the sweep starts/ends 130 px clear of the outer glass so the band never lands on BPC-157 while it is still
+  // arriving (settled 21.10); RIM_EDGE fades the band in/out so it can never pop on at full strength either.
+  const RIM_X0 = GX[0] - gbw[0] / 2 - 130;
+  const RIM_X1 = GX[N - 1] + gbw[N - 1] / 2 + 130;
+  const RIM_EDGE = 0.1;
   const RIM_W = 72; // on-screen width of the accent band (soft falloff, narrower than a vial so it reads as a passing light)
   const CORE_W = 22; // on-screen width of the white core
   const f2 = (v) => v.toFixed(2);
@@ -229,7 +236,9 @@ PP.scene("s6", function (tl, root, cam) {
 
     // ---- vials
     const rimOn = t >= T_RIM && t <= T_RIM + RIM;
-    const rimX = lerp(RIM_X0, RIM_X1, eSweep(clamp01((t - T_RIM) / RIM)));
+    const rimU = clamp01((t - T_RIM) / RIM);
+    const rimX = lerp(RIM_X0, RIM_X1, eSweep(rimU));
+    const rimEnv = cosS(clamp01(Math.min(rimU, 1 - rimU) / RIM_EDGE));
     const reflFade = lerp(REFL_FADE[0], REFL_FADE[1], g);
     for (const u of units) {
       const c = carousel(u.k - p);
@@ -245,7 +254,8 @@ PP.scene("s6", function (tl, root, cam) {
       if (hidden) continue;
       u.el.style.transform = `translate(${f2(x - W0 / 2)}px, ${f2(base - H0)}px) scale(${s.toFixed(4)})`;
       u.el.style.opacity = op.toFixed(3);
-      u.el.style.filter = blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : "none";
+      // the CSS blur is applied in the unit's local space and then scaled by s: divide so the brief's 3 px is on screen
+      u.el.style.filter = blur > 0.05 ? `blur(${(blur / s).toFixed(2)}px)` : "none";
       u.el.style.zIndex = String(100 - Math.round(Math.abs(u.k - p) * 10));
       if (u.refl) {
         const m = `linear-gradient(to bottom, #000 0px, transparent ${f2(reflFade / s)}px)`;
@@ -268,7 +278,7 @@ PP.scene("s6", function (tl, root, cam) {
       if (rimOn) {
         coreX = toRect(rimX, CORE_W);
         rimRectX = toRect(rimX, RIM_W);
-        sweepOp = 1;
+        sweepOp = rimEnv;
         u.vial.sweepRect.style.opacity = "0.6";
       } else {
         const kk = (t - GLINT_AT[u.k]) / GLINT;
