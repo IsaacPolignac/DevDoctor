@@ -1,1 +1,60 @@
-/* s67 scene styles (scoped under #s67) */
+/* s67 scene styles (scoped under #s67) — drop (vials + trust pills) and proof (stat cards) */
+#s67 .cam { transform-origin: 540px 960px; }
+#s67 .s67-kick, #s67 .s67-dolly, #s67 .s67-grid, #s67 .s67-pills, #s67 .s67-proof, #s67 .s67-hl, #s67 .s67-stack { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+
+/* 16.00 impact light */
+#s67 .s67-flash { position: absolute; inset: 0; opacity: 0;
+  background: radial-gradient(ellipse 62% 42% at 50% 43%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.7) 38%, rgba(42, 154, 194, 0.2) 72%, rgba(22, 164, 143, 0.14) 88%, rgba(18, 58, 120, 0.15) 100%); }
+#s67 .s67-shock { position: absolute; overflow: visible; pointer-events: none; }
+
+/* vials */
+#s67 .s67-v { position: absolute; }
+#s67 .s67-v-land, #s67 .s67-v-flo, #s67 .s67-v-sq { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+#s67 .s67-v .pp-vial { left: 0; top: 0; }
+#s67 .s67-v .pp-vial img { filter: drop-shadow(0 26px 30px rgba(18, 42, 84, 0.2)); }
+#s67 .s67-glow { position: absolute; border-radius: 50%;
+  background: radial-gradient(circle closest-side, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.85) 38%, rgba(42, 154, 194, 0.16) 70%, rgba(42, 154, 194, 0) 100%); }
+#s67 .s67-ring { position: absolute; border-radius: 50%; border: 3.5px solid rgba(42, 154, 194, 0.75);
+  box-shadow: 0 0 34px rgba(42, 154, 194, 0.4), inset 0 0 28px rgba(255, 255, 255, 0.95); }
+#s67 .s67-shadow { position: absolute; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(18, 42, 84, 0.26), rgba(18, 42, 84, 0.09) 60%, rgba(18, 42, 84, 0) 100%); }
+
+/* product labels */
+#s67 .s67-lab { position: absolute; text-align: center; white-space: nowrap; }
+#s67 .s67-lab-name { display: block; overflow: hidden; padding: 2px 4px 4px; margin: -2px -4px -4px; font-family: var(--display); font-weight: 700; font-size: 27px; line-height: 1.15; letter-spacing: -0.01em; color: var(--ink); }
+#s67 .s67-lab-name span { display: inline-block; }
+#s67 .s67-lab-amt { margin-top: 5px; font-family: var(--mono); font-weight: 500; font-size: 21px; line-height: 1.2; letter-spacing: 0.06em; color: var(--teal); }
+
+/* headlines */
+#s67 .s67-hl .pp-h { position: absolute; left: 0; width: 1080px; }
+#s67 .pp-h.s67-h6 { top: 272px; font-size: 66px; }
+#s67 .pp-h.s67-hp { top: 318px; font-size: 72px; }
+#s67 .s67-eyebrow { position: absolute; left: 0; top: 272px; width: 1080px; text-align: center; font-size: 22px; letter-spacing: 0.2em; color: var(--navy); }
+#s67 .s67-hp .pp-w.grad { position: relative; }
+#s67 .s67-under { position: absolute; left: 0.04em; right: 0.06em; bottom: 0.02em; height: 7px; border-radius: 4px; background: var(--grad); transform-origin: 0 50%; }
+
+/* trust pills */
+#s67 .s67-pw { position: absolute; }
+#s67 .s67-pflo { position: absolute; left: 0; top: 0; }
+#s67 .s67-pw .pp-pill { position: relative; font-size: 28px; padding: 16px 30px 16px 22px; }
+
+/* stat cards */
+#s67 .s67-cw { position: absolute; transform-origin: 50% 100%; }
+#s67 .s67-card { position: absolute; inset: 0; border-radius: 28px; background: #ffffff; border: 1px solid var(--line); box-shadow: var(--shadow-md), 0 30px 70px rgba(18, 42, 84, 0.08); overflow: hidden; display: flex; align-items: center; padding: 0 30px 0 30px; transform-origin: 50% 100%; }
+#s67 .s67-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: linear-gradient(180deg, #123a78 0%, #2a9ac2 55%, #16a48f 100%); transform-origin: 50% 0; }
+#s67 .s67-num { flex: none; width: 420px; text-align: right; padding-right: 32px; font-family: var(--display); font-weight: 800; font-size: 124px; line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; white-space: nowrap; padding-bottom: 0.06em; }
+#s67 .s67-lbl { font-family: var(--body); font-weight: 600; font-size: 38px; line-height: 1.18; color: var(--ink); padding-left: 34px; border-left: 2px solid var(--line); }
+#s67 .s67-lbl .soft { color: var(--ink-soft); font-weight: 500; }
+#s67 .s67-hi { position: absolute; inset: 0; border-radius: 28px; box-shadow: inset 0 0 0 3px rgba(42, 154, 194, 0.55), inset 0 0 60px rgba(42, 154, 194, 0.16); pointer-events: none; }
+#s67 .s67-src { position: absolute; display: flex; align-items: center; justify-content: center; gap: 12px; font-family: var(--mono); font-weight: 500; font-size: 24px; letter-spacing: 0.02em; color: var(--ink); white-space: nowrap; }
+#s67 .s67-src-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 5px rgba(22, 164, 143, 0.14); }
+#s67 .s67-tile { flex: none; width: 76px; height: 76px; border-radius: 22px; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(145deg, rgba(42, 154, 194, 0.1), rgba(22, 164, 143, 0.1)); box-shadow: inset 0 0 0 1px rgba(42, 154, 194, 0.16); }
+#s67 .s67-icon { display: block; overflow: visible; }
+#s67 .s67-ge { font-size: 0.6em; margin-right: 0.26em; vertical-align: 0.2em; }
+#s67 .s67-pct { font-size: 0.78em; margin-left: 0.1em; }
+#s67 .s67-shine { position: absolute; top: -20px; bottom: -20px; left: 0; width: 160px; pointer-events: none;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(42, 154, 194, 0.07) 35%, rgba(255, 255, 255, 0.75) 50%, rgba(22, 164, 143, 0.07) 65%, rgba(255, 255, 255, 0) 100%); mix-blend-mode: normal; }
+
+/* gradient on each digit span (same look; lets the layout audit see the clipped fill) */
+#s67 .s67-num.grad > span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }

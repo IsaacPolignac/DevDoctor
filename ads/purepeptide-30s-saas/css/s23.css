@@ -1,1 +1,38 @@
 /* s23 scene styles (scoped under #s23) */
+#s23 .s23-rig { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+#s23 .s23-hl { position: absolute; inset: 0; pointer-events: none; }
+#s23 .s23-hl .pp-h { position: absolute; left: 0; top: 268px; width: 1080px; }
+#s23 .pp-h.s23-h { font-size: 72px; }
+
+/* phone internals */
+#s23 .s23-gate { position: absolute; inset: 0; transform-origin: 273px 590px; }
+#s23 > .cam { transform-origin: 540px 600px; }
+#s23 .s23-blur { position: absolute; left: 0; top: 0; display: block; max-width: none; transform-origin: 50% 15%; transform: scale(1.1); filter: blur(9px); }
+#s23 .s23-veil { position: absolute; inset: 0; background: rgba(21, 33, 61, 0.59); }
+#s23 .s23-dim { position: absolute; inset: 0; background: #0c1628; opacity: 0; pointer-events: none; }
+#s23 .s23-prod { box-shadow: -14px 0 40px rgba(12, 22, 40, 0.16); }
+#s23 .s23-btnpatch { position: absolute; background: #ffffff; }
+#s23 .s23-btn { position: absolute; overflow: hidden; }
+#s23 .s23-btn img { position: absolute; display: block; max-width: none; }
+#s23 .pp-status.s23-darkbar { background: #142b55; color: #ffffff; }
+#s23 .s23-darkbar g { fill: #ffffff; }
+#s23 .s23-darkbar rect[fill="none"] { stroke: #ffffff; }
+
+/* fx overlay */
+#s23 .s23-fx { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+
+/* floating cards */
+#s23 .s23-card { position: absolute; background: #ffffff; border-radius: 26px; box-shadow: 0 30px 70px rgba(18, 42, 84, 0.2), 0 0 0 1px var(--line); }
+#s23 .s23-lens .pp-lens { position: absolute; border-radius: 12px; box-shadow: none; background: #ffffff; }
+#s23 .s23-lbl { position: absolute; left: 30px; height: 26px; display: flex; align-items: center; gap: 12px; font-size: 20px; color: var(--ink-soft); white-space: nowrap; }
+#s23 .s23-lbl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 5px rgba(22, 164, 143, 0.14); }
+
+#s23 .s23-jan { padding: 30px 32px 30px; display: flex; flex-direction: column; align-items: flex-start; }
+#s23 .s23-jan-logo { display: block; height: 46px; width: auto; }
+#s23 .s23-jan-name { margin-top: 18px; font-family: var(--body); font-weight: 600; font-size: 38px; line-height: 1.1; letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+#s23 .s23-jan-sub { margin-top: 12px; display: flex; align-items: center; gap: 12px; font-size: 20px; color: var(--navy); white-space: nowrap; }
+#s23 .s23-jan-sub .mono { letter-spacing: 0.12em; }
+
+/* touch indicator: translucent navy fill + white rim so it reads on white UI and on the dimmed gate */
+#s23 .pp-touch-dot { background: rgba(18, 58, 120, 0.28); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.95), 0 10px 26px rgba(18, 42, 84, 0.3); }
+#s23 .pp-touch-ring { border-color: var(--blue); }

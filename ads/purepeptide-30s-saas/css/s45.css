@@ -1,1 +1,36 @@
 /* s45 scene styles (scoped under #s45) */
+#s45 .cam { transform-origin: 540px 1170px; }
+#s45 .s45-rig { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 1040px; }
+#s45 .s45-hl { position: absolute; inset: 0; pointer-events: none; transform-origin: 540px 1170px; }
+#s45 .s45-hl .pp-h { position: absolute; left: 0; top: 268px; width: 1080px; }
+#s45 .pp-h.s45-h { font-size: 72px; }
+
+/* phone internals */
+#s45 .s45-push { box-shadow: -14px 0 40px rgba(12, 22, 40, 0.16); }
+#s45 .s45-dim { position: absolute; inset: 0; background: #0c1628; opacity: 0; pointer-events: none; }
+#s45 .s45-scrim { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(180deg, rgba(247, 250, 252, 0) 0px, rgba(247, 250, 252, 0.93) 64px, rgba(247, 250, 252, 0.97) 100%); }
+#s45 .s45-fx { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+#s45 .s45-slot { position: absolute; border-radius: 18px; background: #f3f6fa; border: 2.5px dashed rgba(42, 154, 194, 0.3);
+  box-shadow: inset 0 10px 26px rgba(18, 42, 84, 0.05); }
+
+/* floating cards */
+#s45 .s45-card { position: absolute; overflow: hidden; background: #ffffff; border-radius: 26px; transform-origin: 0 0; }
+#s45 .s45-card .pp-lens { left: 0; top: 0; border-radius: 0; box-shadow: none; }
+#s45 .s45-panel { position: absolute; left: 0; right: 0; background: #ffffff; }
+#s45 .s45-panel::before { content: ""; position: absolute; left: 28px; right: 28px; top: 0; height: 2px; background: var(--line); }
+#s45 .s45-chart { position: absolute; left: 0; top: 0; display: block; overflow: visible; }
+
+/* QR card */
+#s45 .s45-qr { position: absolute; background: #ffffff; border-radius: 28px; padding: 44px 0 28px; display: flex; flex-direction: column; align-items: center; }
+#s45 .s45-qr-code { position: relative; }
+#s45 .s45-qr-code .pp-qr { display: block; }
+#s45 .s45-brk { position: absolute; left: -20px; top: -20px; overflow: visible; }
+#s45 .s45-scan-clip { position: absolute; left: -12px; right: -12px; top: 0; bottom: 0; overflow: hidden; }
+#s45 .s45-scan { position: absolute; left: 0; right: 0; top: 0; height: 0; }
+#s45 .s45-scan-line { position: absolute; left: 0; right: 0; top: -2px; height: 5px; border-radius: 3px; background: var(--grad);
+  box-shadow: 0 0 18px 4px rgba(42, 154, 194, 0.55), 0 0 42px 10px rgba(22, 164, 143, 0.25); }
+#s45 .s45-scan-trail { position: absolute; left: 12px; right: 12px; bottom: 0; height: 84px;
+  background: linear-gradient(180deg, rgba(42, 154, 194, 0) 0%, rgba(42, 154, 194, 0.1) 60%, rgba(22, 164, 143, 0.26) 100%); }
+#s45 .s45-qr-cap { margin-top: 32px; display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-weight: 500; font-size: 23px; letter-spacing: 0.02em; color: var(--ink); white-space: nowrap; }
+#s45 .s45-qr-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 5px rgba(22, 164, 143, 0.14); }

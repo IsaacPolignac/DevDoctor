@@ -220,7 +220,7 @@
     const bar = PP.el("div", "pp-status", screen);
     bar.style.height = P.status * S + "px";
     bar.style.fontSize = 15.5 * S + "px";
-    PP.el("span", "pp-time", bar, { text: "9:41" });
+    PP.el("span", "pp-time", bar, { text: "9:41", "data-layout-allow-overlap": "" });
     const icons = PP.el("span", "pp-icons", bar);
     icons.innerHTML = `<svg viewBox="0 0 70 14" width="${70 * S * 0.62}" height="${14 * S * 0.62}"><g fill="${PP.C.ink}"><rect x="0" y="9" width="3.2" height="5" rx="1"/><rect x="5" y="6.5" width="3.2" height="7.5" rx="1"/><rect x="10" y="4" width="3.2" height="10" rx="1"/><rect x="15" y="1" width="3.2" height="13" rx="1"/><path d="M29 4.2c2.6-2.4 6.8-2.4 9.4 0l-1.3 1.3c-1.9-1.7-4.9-1.7-6.8 0zM31.4 6.8c1.3-1.2 3.4-1.2 4.7 0l-1.3 1.3c-.6-.5-1.5-.5-2.1 0zM33.7 9.4l1.1 1.1-1.1 1.1-1.1-1.1z"/><rect x="45" y="1.5" width="21" height="11" rx="3" fill="none" stroke="${PP.C.ink}" stroke-opacity=".45" stroke-width="1.2"/><rect x="47" y="3.5" width="17" height="7" rx="1.6"/><rect x="67" y="5.2" width="1.6" height="3.6" rx=".8" fill-opacity=".45"/></g></svg>`;
     const island = PP.el("div", "pp-island", screen);
@@ -270,7 +270,7 @@
       tap(tl, at) {
         tl.fromTo(dot, { scale: 1 }, { scale: 0.78, duration: 0.09, ease: "power2.out", immediateRender: false }, at);
         tl.fromTo(dot, { scale: 0.78 }, { scale: 1, duration: 0.25, ease: "back.out(2)", immediateRender: false }, at + 0.09);
-        tl.fromTo(ring, { scale: 0.4, opacity: 0.9 }, { scale: 2.2, opacity: 0, duration: 0.55, ease: "power2.out" }, at);
+        tl.fromTo(ring, { scale: 0.4, opacity: 0.9 }, { scale: 2.2, opacity: 0, duration: 0.55, ease: "power2.out", immediateRender: false }, at);
       },
     };
   };
