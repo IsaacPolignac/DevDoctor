@@ -145,6 +145,8 @@ def setup_frame(rig, shot, t):
             dist = 0.322  # tighter end card: vial ~75 % of frame height
         loc = (0, -dist, 0.03)
         aim(cam, loc, (0, 0, 0.0285))
+        if shot == 'hero_still':
+            cd.dof.focus_distance -= 0.0121  # focus on the label surface, not the vial axis
         rig.energy('Key_Rim', lerp(0.15, 1.0, e))
         rig.energy('Top', lerp(0.5, 1.0, e))
     elif shot == 'macro_still':
@@ -159,10 +161,10 @@ def setup_frame(rig, shot, t):
         rig.strips_orbit(0)
         for n, sgn in (('Strip_L', -1), ('Strip_R', 1)):
             o = rig.L[n]
-            p = Vector((sgn * 0.16, 0.16, 0.05))  # behind-left / behind-right: edge refraction + rims
+            p = Vector((sgn * 0.11, 0.24, 0.05))  # well behind: edge refraction/rims, label stays dark
             o.location = p
             o.rotation_euler = (Vector((0, 0, 0.01)) - p).to_track_quat('-Z', 'Y').to_euler()
-            rig.energy(n, 1.6)
+            rig.energy(n, 1.2)
     elif shot == 'label_still':
         # close 3/4 on the label, logo sharp
         cd.lens = 100

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>PurePeptide film — three.js plates</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three/build/three.module.js", "three/addons/": "./assets/vendor/three/jsm/" } }
+    </script>
+    <style>
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+      #gl { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="6.4333">
+      <canvas id="gl" width="2400" height="1350"></canvas>
+    </div>
+    <script type="module">
+      import { createStage } from "./js/stage3d.js";
+      import { SEGMENTS, TOTAL_FRAMES } from "./js/segments.js";
+      const DUR = TOTAL_FRAMES / 30;
+      const stage = createStage({ canvas: document.getElementById("gl"), segments: SEGMENTS, pixelRatio: 1.25, transmissionScale: 0.75 });
+      window.__stage = stage;
+      const tl = gsap.timeline({ paused: true });
+      let clock = 0;
+      const drive = { t(v) { if (v === undefined) return clock; clock = v; if (stage.isReady) stage.renderAt(v); } };
+      tl.fromTo(drive, { t: 0 }, { t: DUR, duration: DUR, ease: "none", immediateRender: false }, 0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      window.addEventListener("hf-seek", (e) => { if (stage.isReady) stage.renderAt(e.detail.time); });
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      window.__hf.buildReady["stage3d"] = stage.ready.then(() => stage.renderAt(window.__hfThreeTime || 0, true));
+    </script>
+  </body>
+</html>
