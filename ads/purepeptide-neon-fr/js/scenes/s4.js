@@ -14,7 +14,7 @@ PP.scene("s4", function (tl, root, cam) {
   drift.style.transformOrigin = `540px ${CY}px`;
 
   // ------------------------------------------------------------ background: giant outline 99 + glow
-  const bg = PP.el("div", "s4-bgword", drift, { text: "99" });
+  const bg = PP.el("div", "s4-bgword", drift, { text: "99", "data-layout-allow-overflow": "" });
   tl.fromTo(bg, { x: 70, scale: 1.1 }, { x: -70, scale: 1, duration: 2.5, ease: "none" }, T0);
   tl.fromTo(bg, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.out" }, T0);
   const glow = PP.el("div", "s4-glow", drift);

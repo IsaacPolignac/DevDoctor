@@ -121,7 +121,7 @@
     tl.fromTo(res.el, { clipPath: "inset(0px 0px 250px 0px round 36px)", opacity: 0 }, { clipPath: "inset(0px 0px 0px 0px round 36px)", opacity: 1, duration: 0.3, ease: "expo.out" }, 1.37);
 
     // L1 group exits fast (up + blur) 1.83 → 1.98
-    tl.fromTo(grpA, { y: 0, scale: 1, opacity: 1, filter: "blur(0px)" }, { y: -150, scale: 0.94, opacity: 0, filter: "blur(18px)", duration: 0.15, ease: "power3.in", immediateRender: false }, 1.83);
+    tl.fromTo(grpA, { y: 0, scale: 1, opacity: 1, filter: "blur(0px)" }, { y: -150, scale: 0.94, opacity: 0, filter: "blur(18px)", duration: 0.15, ease: "power2.in", immediateRender: false }, 1.8);
     tl.set(grpA, { transformOrigin: "540px 800px" }, 0);
 
     // ------------------------------------------------ L2 headline + measured « o » of « fiole »
@@ -191,7 +191,7 @@
     const A = Math.ceil((far * 1.08) / (r0 * DS * PS));
     PP.zoomThrough(tl, zoom, ox, oy, 4.1, { amount: A });
     S12.o = { x: oxS, y: oyS, r: r0 * DS * PS, A, at: 4.1 };
-    tl.fromTo(cam, { opacity: 1 }, { opacity: 0, duration: 0.001, ease: "none", immediateRender: false }, 4.2334);
+    tl.fromTo(cam, { opacity: 1 }, { opacity: 0, duration: 0.001, ease: "none", immediateRender: false }, 4.1 + 4 * F - 0.002);
 
     // L2 slow settle (ends before the push so the « o » is still at its measured spot)
     tl.fromTo(h2.el, { y: 18 }, { y: 0, duration: 1.85, ease: "power2.out" }, 1.93);

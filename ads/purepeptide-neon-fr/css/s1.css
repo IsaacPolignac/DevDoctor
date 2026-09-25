@@ -23,7 +23,7 @@
 #s1 .s1-shimmer { position: absolute; inset: 0; --p: -30%; background: linear-gradient(100deg, rgba(255, 255, 255, 0) calc(var(--p) - 14%), rgba(46, 230, 201, 0.14) var(--p), rgba(255, 255, 255, 0) calc(var(--p) + 14%)); }
 
 /* L2 back layer */
-#s1 .s1-qmark { position: absolute; left: 0; right: 0; top: 560px; text-align: center; font-family: var(--display); font-weight: 800; font-size: 1300px; line-height: 1; color: rgba(46, 230, 201, 0.035); -webkit-text-stroke: 3px rgba(46, 230, 201, 0.22); transform-origin: 540px 1250px; filter: blur(1px); }
+#s1 .s1-qmark { position: absolute; left: 0; right: 0; top: 560px; text-align: center; font-family: var(--display); font-weight: 800; font-size: 1300px; line-height: 1; color: rgba(46, 230, 201, 0.035); -webkit-text-stroke: 3px rgba(46, 230, 201, 0.3); transform-origin: 540px 1250px; filter: blur(1px); }
 #s1 .s1-vglow { position: absolute; left: 90px; width: 900px; top: 900px; height: 1000px; border-radius: 50%; background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(46, 230, 201, 0.28) 0%, rgba(56, 189, 248, 0.1) 45%, rgba(4, 7, 13, 0) 72%); }
 #s1 .s1-vwrap { position: absolute; inset: 0; }
 #s1 .s1-vial { transform-origin: 50% 60%; }

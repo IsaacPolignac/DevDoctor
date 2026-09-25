@@ -2,7 +2,7 @@
 #s4 .s4-drift, #s4 .s4-numin, #s4 .s4-punch { position: absolute; inset: 0; }
 #s4 .s4-numin, #s4 .s4-punch { transform-origin: 540px 850px; }
 
-#s4 .s4-bgword { position: absolute; left: -400px; right: -400px; top: 850px; margin-top: -560px; height: 1120px; line-height: 1120px; text-align: center; font-family: var(--display); font-weight: 800; font-size: 1060px; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 3px rgba(46, 230, 201, 0.09); white-space: nowrap; }
+#s4 .s4-bgword { position: absolute; left: -400px; right: -400px; top: 850px; margin-top: -560px; height: 1120px; line-height: 1120px; text-align: center; font-family: var(--display); font-weight: 800; font-size: 1060px; letter-spacing: -0.06em; color: rgba(46, 230, 201, 0.035); -webkit-text-stroke: 3px rgba(46, 230, 201, 0.09); white-space: nowrap; }
 #s4 .s4-glow { position: absolute; left: 540px; top: 850px; width: 1100px; height: 900px; margin: -450px 0 0 -550px; border-radius: 50%; background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(46, 230, 201, 0.35) 0%, rgba(56, 189, 248, 0.12) 40%, rgba(4, 7, 13, 0) 70%); }
 
 #s4 .s4-sparks { position: absolute; width: 0; height: 0; }

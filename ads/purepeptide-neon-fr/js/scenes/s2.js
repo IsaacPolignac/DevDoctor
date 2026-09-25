@@ -8,7 +8,8 @@ PP.scene("s2", function (tl, root, cam) {
   const S12 = PP.s12 || {};
   const O = S12.o || { x: 590, y: 600, r: 14, A: 120, at: 4.1 };
 
-  const drift = PP.el("div", "s2-layer", cam);
+  const intro = PP.el("div", "s2-layer", cam);
+  const drift = PP.el("div", "s2-layer", intro);
   const headL = PP.el("div", "s2-layer", drift);
   const push = PP.el("div", "s2-layer", drift);
   const back = PP.el("div", "s2-layer", push);
@@ -27,18 +28,19 @@ PP.scene("s2", function (tl, root, cam) {
     "expo.in"
   );
   // camera: settle from the zoom (origin = the « o »), then a slow constant lateral drift
-  tl.set(drift, { transformOrigin: `${O.x}px ${O.y}px` }, 0);
-  tl.fromTo(drift, { scale: 1.16 }, { scale: 1, duration: 1.1, ease: "expo.out" }, 4.1);
+  // first frame: the vial's label sits right behind the « o », then the camera settles (vial slides to its spot)
+  tl.set(intro, { transformOrigin: "540px 1130px" }, 0);
+  tl.fromTo(intro, { x: O.x - 540, y: O.y - 1130, scale: 1.16 }, { x: 0, y: 0, scale: 1, duration: 1.0, ease: "expo.out" }, 4.1);
   const DX0 = -10,
     DX1 = 10;
   tl.fromTo(drift, { x: DX0 }, { x: DX1, duration: 4.2, ease: "none" }, 4.1);
   const driftAt = (t) => DX0 + ((DX1 - DX0) * (t - 4.1)) / 4.2;
 
   // ------------------------------------------------ headline (top zone)
-  const h = PP.voHeadline(tl, headL, "L3", ["Chez *PurePeptide*,", "chaque lot part dans", "un *laboratoire* *indépendant.*"], "h2 s2-h");
+  const h = PP.voHeadline(tl, headL, "L3", ["Chez *PurePeptide,*", "chaque lot part dans", "un *laboratoire* *indépendant.*"], "h2 s2-h");
   h.el.style.cssText = "position:absolute;left:0;right:0;top:300px";
   tl.set(headL, { transformOrigin: "540px 400px" }, 0);
-  tl.fromTo(headL, { scale: 1 }, { scale: 1.035, duration: 3.9, ease: "none" }, 4.1);
+  tl.fromTo(headL, { scale: 1 }, { scale: 1.02, duration: 3.9, ease: "none" }, 4.1);
 
   // ------------------------------------------------ background depth
   const glow = PP.el("div", "s2-vglow", back);
@@ -127,7 +129,7 @@ PP.scene("s2", function (tl, root, cam) {
   const pill0 = PP.el("div", "s2-pill0", tilt);
   pill0.style.cssText = `left:${cardL + PILL.dx}px;top:${cardT + PILL.dy}px;width:${PILL.w}px;height:${PILL.h}px`;
   tl.fromTo(pill0, { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.14, ease: "back.out(2.5)" }, 6.2);
-  tl.fromTo(pill0, { opacity: 1 }, { opacity: 0, duration: 0.2, ease: "power1.out", immediateRender: false }, 6.32);
+  tl.fromTo(pill0, { opacity: 1, scale: 1 }, { opacity: 0, scale: 1.25, duration: 0.18, ease: "power2.out", immediateRender: false }, 6.31);
 
   const card = PP.neonCard(tilt, { x: CARD.x, y: CARD.y, w: CARD.w, h: CARD.h, radius: 28 });
   card.el.classList.add("s2-card");
@@ -171,17 +173,19 @@ PP.scene("s2", function (tl, root, cam) {
   tl.set(chk.tick, { drawSVG: "0%" }, 0);
   tl.fromTo(badge, { scale: 1 }, { scale: 1.1, duration: 0.08, ease: "power2.out", immediateRender: false }, 6.91 - F);
   tl.fromTo(badge, { scale: 1.1 }, { scale: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 6.91 + 2 * F);
+  tilt.appendChild(pill0); // neon pill above the growing card
+  push.appendChild(vPos); // the vial dives into the pill, above the card
   const cardSheen = PP.el("div", "s2-card-sheen", card.el);
   PP.drive(tl, (p) => cardSheen.style.setProperty("--p", p.toFixed(1) + "%"), -30, 140, 6.9, 0.7, "power2.inOut");
 
   // 3D life of the card, then lift + push toward it (7.30 → 8.00)
   tl.fromTo(tilt, { rotationY: -14, rotationX: 8 }, { rotationY: -4, rotationX: 3, duration: 1.0, ease: "power3.out" }, 6.29);
-  tl.fromTo(tilt, { rotationY: -4, rotationX: 3, scale: 1 }, { rotationY: 9, rotationX: -7, scale: 1.05, duration: 0.7, ease: "power2.inOut", immediateRender: false }, 7.3);
+  tl.fromTo(tilt, { rotationY: -4, rotationX: 3, scale: 1 }, { rotationY: 9, rotationX: -7, scale: 1.03, duration: 0.7, ease: "power2.inOut", immediateRender: false }, 7.3);
   tl.set(push, { transformOrigin: `${CARD.x}px ${CARD.y}px` }, 0);
-  tl.fromTo(push, { scale: 1 }, { scale: 1.25, duration: 0.7, ease: "power2.in", immediateRender: false }, 7.3);
+  tl.fromTo(push, { scale: 1 }, { scale: 1.2, duration: 0.7, ease: "power2.in", immediateRender: false }, 7.3);
   tl.fromTo(chip, { opacity: 1 }, { opacity: 0.0, duration: 0.5, ease: "power1.in", immediateRender: false }, 7.35);
 
   // FLASH #1 at 8.00 on the card's on-screen centre (drift x at 8.00; push & tilt keep the centre fixed)
   PP.flashRing(tl, PP.layers.fx, 8.0, { x: CARD.x + driftAt(8.0), y: CARD.y, target: card.el });
-  tl.fromTo(cam, { opacity: 1 }, { opacity: 0, duration: 0.001, ease: "none", immediateRender: false }, 8.0 + 2 * F);
+  tl.fromTo(cam, { opacity: 1 }, { opacity: 0, duration: 0.001, ease: "none", immediateRender: false }, 8.0 + 2 * F - 0.002);
 });
