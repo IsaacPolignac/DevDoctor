@@ -91,8 +91,8 @@ function glassProfile() {
   // outer: push-up dome -> heel -> body -> shoulder -> neck -> lip
   p.push(...bez([0, 0.17], [0.45, 0.17], [0.8, 0.03], [1.02, 0.0], 10));
   p.push(...arc(R - 0.17, 0.17, 0.17, -Math.PI / 2, 0, 10)); // heel
-  p.push(...line(R, 0.17, R, D.bodyTop, 40));
-  p.push(...bez([R, D.bodyTop], [R, 3.78], [D.neckR + 0.02, 3.66], [D.neckR, 4.0], 72)); // shoulder
+  p.push(...line(R, 0.17, R, D.bodyTop, 2)); // straight wall: no need to subdivide
+  p.push(...bez([R, D.bodyTop], [R, 3.78], [D.neckR + 0.02, 3.66], [D.neckR, 4.0], 40)); // shoulder
   p.push(...line(D.neckR, 4.0, D.neckR, 4.14, 3));
   p.push(...bez([D.neckR, 4.14], [0.86, 4.14], [D.lipR, 4.16], [D.lipR, 4.3], 16)); // lip underside
   p.push(...line(D.lipR, 4.3, D.lipR, 4.52, 4));
@@ -101,9 +101,9 @@ function glassProfile() {
   // inner (walk back down)
   const iR = R - w, iN = D.neckR - 0.18;
   p.push(...line(0.56, D.lipTop, iN, 4.52, 2));
-  p.push(...line(iN, 4.52, iN, 3.98, 6));
-  p.push(...bez([iN, 3.98], [iN + 0.02, 3.62], [iR, 3.72], [iR, D.bodyTop], 72));
-  p.push(...line(iR, D.bodyTop, iR, 0.3, 24));
+  p.push(...line(iN, 4.52, iN, 3.98, 2));
+  p.push(...bez([iN, 3.98], [iN + 0.02, 3.62], [iR, 3.72], [iR, D.bodyTop], 40));
+  p.push(...line(iR, D.bodyTop, iR, 0.3, 2));
   p.push(...arc(iR - 0.12, 0.3, 0.12, 0, -Math.PI / 2, 8));
   p.push(...bez([iR - 0.12, 0.18], [0.75, 0.18], [0.45, 0.3], [0.0001, 0.3], 10));
   return p;
@@ -257,25 +257,6 @@ function glowTex() {
     g.putImageData(im, 0, 0);
   }, THREE.SRGBColorSpace);
 }
-function stripTex() {
-  // soft-edged vertical light strip (horizontal falloff + top/bottom fade)
-  return canvasTex(128, 512, (g, w, h) => {
-    const im = g.createImageData(w, h);
-    for (let y = 0; y < h; y++)
-      for (let x = 0; x < w; x++) {
-        const dx = Math.abs(x / (w - 1) - 0.5) * 2;
-        const hx = Math.pow(Math.max(0, 1 - dx), 1.6);
-        const vy = y / (h - 1);
-        const fv = Math.min(1, vy / 0.12) * Math.min(1, (1 - vy) / 0.2);
-        const v = Math.round(255 * hx * fv);
-        const i = (y * w + x) * 4;
-        im.data[i] = im.data[i + 1] = im.data[i + 2] = v;
-        im.data[i + 3] = 255;
-      }
-    g.putImageData(im, 0, 0);
-  }, THREE.SRGBColorSpace);
-}
-
 function softboxTex() {
   // bright core with soft rolled-off edges (diffusion fabric), linear values
   return canvasTex(128, 256, (g, w, h) => {
@@ -319,7 +300,7 @@ function buildEnv(renderer) {
 }
 
 // ------------------------------------------------------------------ the shot
-export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio = 1.5, duration = 12, antialias = true, transmissionScale = 1 }) {
+export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio = 1.5, duration = 12, antialias = true, transmissionScale = 1, glassSegs = 160 }) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias, alpha: false, preserveDrawingBuffer: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(pixelRatio);
   renderer.setSize(width, height, false);
@@ -371,6 +352,7 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
   seg(10, 1.1, { rim: 1, glow: 0.5 }, { rim: 2.6, glow: 1.0 }, "power2.inOut");
   seg(11.1, 0.9, { rim: 2.6, glow: 1.0 }, { rim: 1.5, glow: 0.75 }, "sine.out");
   tl.to({}, { duration: 0 }, duration); // pin length
+  tl.totalTime(duration, true).totalTime(0, true); // prime: forces every tween to write its t=0 values into S (GSAP skips a seek to 0 from 0)
 
   // ---------------- scene graph (materials/meshes created sync; label texture async)
   const noise = makeNoise(4242);
@@ -394,7 +376,7 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
     side: THREE.DoubleSide,
     transparent: false,
   });
-  const glass = new THREE.Mesh(new THREE.LatheGeometry(glassProfile(), 256), glassMat);
+  const glass = new THREE.Mesh(new THREE.LatheGeometry(glassProfile(), glassSegs), glassMat);
   glass.renderOrder = 2;
   vial.add(glass);
 
@@ -449,24 +431,16 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
   // ---------------- light rig (area lights mirror the env panels; the rig + env rotate together)
   const rig = new THREE.Group();
   scene.add(rig);
-  const area = (w, h, pos, intensity, color = 0xffffff) => {
-    const l = new THREE.RectAreaLight(color, intensity, w, h);
-    l.position.set(...pos);
-    l.lookAt(0, 2.6, 0);
-    rig.add(l);
-    return l;
-  };
-  const key = area(8, 12, [-9, 6.5, -9], 3.5);
-  area(1.4, 12, [-8.5, 6.5, 4.5], 5);
-  area(1.2, 12, [8.5, 6.5, 3], 4, 0xeef4ff);
-  const kicker = area(2.2, 12, [8, 6.5, -8], 3);
-  scene.add(new THREE.AmbientLight(0xffffff, 0.2)); // no frontal area light: it would print a rectangle on the glass
+  // No punctual/area lights on the product except the sweep: the glass would print them as hard CG lines.
+  // Diffuse parts are lit by the PMREM studio (irradiance from the same panels) + a little ambient + label emissive.
+  const rimBoost = new THREE.HemisphereLight(0xdfe8ff, 0x000000, 0); // pulses with S.rim (diffuse-only feel on cap/label)
+  scene.add(rimBoost);
   const sweep = new THREE.RectAreaLight(0xffffff, 0, 0.5, 16);
   sweep.position.set(0, 2.2, 4.2);
   sweep.lookAt(0, 2.2, 0);
   scene.add(sweep); // camera-independent, moves along x
 
-  // visible light strips *behind* the vial (placed each frame on the camera->vial axis): they are what the glass refracts
+  // halo behind the vial (placed each frame on the camera->vial axis): it is what the glass refracts
   const back = new THREE.Group();
   // soft dark-blue glow behind the vial (studio "halo")
   const glowMat = new THREE.MeshBasicMaterial({ map: glowTex(), fog: false, color: new THREE.Color(0.5, 0.5, 0.5) });
@@ -492,8 +466,7 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
     rig.rotation.y = S.rig;
     scene.environmentRotation.set(0, S.rig, 0);
     scene.environmentIntensity = S.envI;
-    key.intensity = 3.5 * S.rim;
-    kicker.intensity = 3 * S.rim;
+    rimBoost.intensity = 0.35 * (S.rim - 1);
     sweep.position.x = S.sweep;
     sweep.intensity = 28 * S.sweepI;
     // strips + glow sit 6 u behind the vial axis, facing the camera
@@ -507,8 +480,9 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
   let isReady = false;
   let lastT = NaN;
   function renderAt(t, force) {
-    const tt = Math.min(Math.max(0, t), duration);
-    if (tt === lastT && !force) return; // HyperFrames may dispatch the same time twice per frame
+    // Quantise to a 1/240 s grid: the hf-seek path (t) and the GSAP path (t + 0.001) collapse to one render per frame.
+    const tt = Math.min(Math.max(0, Math.round(t * 240) / 240), duration);
+    if (tt === lastT && !force) return;
     lastT = tt;
     tl.totalTime(tt, true); // GSAP writes S deterministically for time tt
     applyState();
@@ -529,6 +503,7 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
     scene.environment = buildEnv(renderer);
     renderer.compile(scene, cam);
     isReady = true;
+    renderAt(0, true); // warm-up: pays the (long, software-GL) shader link before the first captured frame
     return true;
   })();
 

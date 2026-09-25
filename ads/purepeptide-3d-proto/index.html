@@ -26,7 +26,7 @@
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="12">
-      <canvas id="gl" width="2880" height="1620"></canvas>
+      <canvas id="gl" width="2400" height="1350"></canvas>
       <div id="vignette"></div>
     </div>
 
@@ -36,12 +36,17 @@
       // Composition-local start of the 3D shot (in the main ad, set this to the scene's data-start).
       const SHOT_START = 0;
 
-      const shot = createVialShot({ canvas: document.getElementById("gl"), width: 1920, height: 1080, pixelRatio: 1.5, duration: 12 });
+      const shot = createVialShot({ canvas: document.getElementById("gl"), width: 1920, height: 1080, pixelRatio: 1.25, transmissionScale: 0.75, duration: 12 }); // 1.25x supersample + MSAA; tuned for software GL render time
       window.__vial3d = shot;
 
-      // Main timeline (DOM layer). The 3D shot owns its own paused GSAP timeline, seeked from hf-seek below.
+      // Main timeline. The 3D shot owns its own paused GSAP timeline (shot.timeline); renderAt(t) seeks it and draws.
+      // Two redundant triggers, deduped inside renderAt: (1) a setter tween on the main timeline (the GSAP adapter
+      // seeks it every frame), (2) the Three.js adapter's hf-seek event below.
       const tl = gsap.timeline({ paused: true });
       tl.fromTo("#vignette", { opacity: 1 }, { opacity: 1, duration: 12, ease: "none" }, 0);
+      let clock = 0;
+      const drive = { t(v) { if (v === undefined) return clock; clock = v; if (shot.isReady) shot.renderAt(v - SHOT_START); } };
+      tl.fromTo(drive, { t: SHOT_START }, { t: SHOT_START + 12, duration: 12, ease: "none", immediateRender: false }, SHOT_START);
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;
 

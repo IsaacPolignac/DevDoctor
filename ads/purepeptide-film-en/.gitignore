@@ -1,0 +1,8 @@
+node_modules/
+snapshots/
+renders/*
+!renders/purepeptide-film-en.mp4
+!renders/purepeptide-film-en-preview.mp4
+!renders/purepeptide-film-en-apercu.mp4
+.hyperframes/
+*.tmp.mjs
