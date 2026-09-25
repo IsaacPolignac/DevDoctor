@@ -74,7 +74,7 @@ PP.scene("s3", function (tl, root, cam) {
     rimL.style.background = o.cold ? "#bfe6ff" : "#2ee6c9";
     masked(rimL, src);
     const rimR = PP.el("div", "", rim);
-    rimR.style.background = o.cold ? "#5aa8ff" : "#5aa8ff";
+    rimR.style.background = "#5aa8ff";
     masked(rimR, src);
     const img = o.hero ? PP.heroVial(rig, H) : PP.vial(rig, src, H);
     const sweep = PP.el("div", "s3-sweep", rig);
@@ -173,7 +173,7 @@ PP.scene("s3", function (tl, root, cam) {
 
   const persp = PP.el("div", "s3-persp", B.c);
   const CW = 1080;
-  const card = PP.neonCard(persp, { x: 960, y: 660, w: CW, h: 460, radius: 32 });
+  const card = PP.neonCard(persp, { x: 960, y: 650, w: CW, h: 460, radius: 32 });
   card.el.classList.add("s3-card");
   const well = PP.el("div", "s3-well", card.body);
   const cv = PP.vial(well, PP.cfg.catalog[0].img, 360);
@@ -230,9 +230,9 @@ PP.scene("s3", function (tl, root, cam) {
   const NUM_TOP = 150;
   const num = PP.el("div", "s3-num", shake);
   num.style.top = NUM_TOP + "px";
-  PP.rollCounter(tl, num, PP.cfg.minPurity + "%", 23.52, 23.92, { stagger: 0.08, ease: "none" }); // constant spin, hard stop: last digit lands 24.00
+  PP.rollCounter(tl, num, PP.cfg.minPurity + "%", 23.3, 23.92, { stagger: 0.08, ease: "none" }); // pre-spun (already blurred on the 23.50 cut), constant spin, hard stop: last digit lands 24.00
   const NUM_CY = NUM_TOP + 225; // centre of the 450 px digit box
-  tl.fromTo(num, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.16, ease: "power2.out" }, T.C - 0.02);
+  tl.fromTo(num, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }, T.C - 0.08);
   PP.flashRing(tl, PP.layers.fx, 24.0, { x: 960, y: NUM_CY });
   const minEl = PP.headline(shake, ["minimum."], "mf s3-min");
   minEl.el.style.top = "650px";
@@ -266,19 +266,40 @@ PP.scene("s3", function (tl, root, cam) {
     return b;
   });
   PP.el("div", "s3-floor cold", D.c);
-  const VX = 1440; // vial centre x
+  const VX = 1460; // vial centre x
   const coldGlow = PP.el("div", "s3-cold-glow", D.c);
   coldGlow.style.left = VX - 600 + "px";
+  // frost crystals: SVG turbulence veins (seeded, static) inside a wrapper whose mask we animate (frost creeps in)
+  const frostTex = (parent, w, h, seed, freq, cls) => {
+    const id = PP.uid("s3-ff");
+    const wrap = PP.el("div", cls, parent);
+    wrap.innerHTML = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="display:block"><filter id="${id}" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="turbulence" baseFrequency="${freq}" numOctaves="5" seed="${seed}"/><feColorMatrix type="matrix" values="0 0 0 0 0.9  0 0 0 0 0.96  0 0 0 0 1  0 0 0 -13 2.9"/><feGaussianBlur stdDeviation="0.6"/></filter><rect width="${w}" height="${h}" filter="url(#${id})"/></svg>`;
+    return wrap;
+  };
   // frosted glass panel behind the vial
   const frost = PP.el("div", "s3-frost", D.c);
   const FW = 600, FH = 760, FT = 150;
   frost.style.cssText += `left:${VX - FW / 2}px;top:${FT}px;width:${FW}px;height:${FH}px;`;
-  frost.innerHTML = `<svg class="s3-frost-tex" width="${FW}" height="${FH}" viewBox="0 0 ${FW} ${FH}"><filter id="s3-frost-f" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.018 0.045" numOctaves="4" seed="11" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.86  0 0 0 0 0.94  0 0 0 0 1  0 0 0 1.9 -0.78"/></filter><rect width="${FW}" height="${FH}" filter="url(#s3-frost-f)"/></svg>`;
   const frostEdge = PP.el("div", "s3-frost-edge", frost);
+  const crystals = frostTex(frost, FW, FH, 11, 0.042, "s3-frost-tex");
+  PP.el("div", "s3-frost-spec", frost);
+  const setFrostMask = (p) => {
+    const m = `radial-gradient(ellipse 72% 66% at 50% 46%, rgba(0,0,0,0) ${p.toFixed(1)}%, #000 100%)`;
+    crystals.style.webkitMaskImage = crystals.style.maskImage = m;
+  };
+  PP.drive(tl, setFrostMask, 96, 50, 26.2, 0.9, "power2.out");
   const VH = 640;
   const cvD = vialRig(D.c, PP.cfg.catalog[3].img, VH * PP.VIAL_RATIO, VH, { x: VX, y: 905 - VH / 2, cold: true });
   gsap.set(cvD.rimL, { x: -10, scaleY: 1.008 });
   gsap.set(cvD.rimR, { x: 10, scaleY: 1.008 });
+  // frost on the vial glass (masked by the render's alpha), rising from the base
+  const vFrost = PP.el("div", "s3-vfrost", cvD.rig);
+  masked(vFrost, PP.cfg.catalog[3].img);
+  const vfIn = frostTex(vFrost, Math.round(VH * PP.VIAL_RATIO), VH, 5, 0.075, "s3-vfrost-in");
+  PP.drive(tl, (p) => {
+    const m = `linear-gradient(0deg, #000 0%, rgba(0,0,0,0.55) ${(p * 0.45).toFixed(1)}%, rgba(0,0,0,0) ${p.toFixed(1)}%)`;
+    vfIn.style.webkitMaskImage = vfIn.style.maskImage = m;
+  }, 0, 42, 26.2, 1.0, "power2.out");
   const mist = PP.el("div", "s3-mist", D.c);
   // frost particles (deterministic drift)
   const pLayer = PP.el("div", "s3-parts", D.c);
@@ -351,16 +372,16 @@ PP.scene("s3", function (tl, root, cam) {
   PP.wordIn(tl, d2.words[0], 26.49); // within
   PP.wordIn(tl, d2.words[1], 26.93); // 24
   PP.wordIn(tl, d2.words[2], 27.33); // hours
-  PP.popIn(tl, t2.tile, 26.52 - F, { from: 0.6, dur: 0.45 });
-  PP.draw(tl, clockC, 26.52, 0.4, { ease: "power2.out" });
-  tl.fromTo(ticks, { opacity: 0 }, { opacity: 0.8, duration: 0.2, ease: "none", stagger: 0.04 }, 26.7);
+  PP.popIn(tl, t2.tile, 26.96 - F, { from: 0.6, dur: 0.45 }); // clock pops with « 24 H » (pop 26.96)
+  PP.draw(tl, clockC, 26.93, 0.4, { ease: "power2.out" });
+  tl.fromTo(ticks, { opacity: 0 }, { opacity: 0.8, duration: 0.2, ease: "none", stagger: 0.04 }, 27.05);
   tl.fromTo(hMin, { rotation: 0, svgOrigin: "22 22" }, { rotation: 720, svgOrigin: "22 22", duration: 1.1, ease: "power3.out" }, 26.96);
   tl.fromTo(hHour, { rotation: 0, svgOrigin: "22 22" }, { rotation: 60, svgOrigin: "22 22", duration: 1.1, ease: "power3.out" }, 26.96);
   tl.fromTo(big, { opacity: 0 }, { opacity: 1, duration: 2 * F, ease: "none" }, 26.96 - F); // 24 H (pop)
   tl.fromTo(big, { scale: 0.62, filter: "blur(12px)" }, { scale: 1, filter: "blur(0px)", duration: 0.55, ease: "back.out(1.6)" }, 26.96 - F);
   // cold light: the panel frosts over and the light comes up on « cold »
-  gsap.set(frostEdge, { opacity: 0.35 });
-  tl.fromTo(frostEdge, { opacity: 0.35 }, { opacity: 1, duration: 0.5, ease: "power2.out", immediateRender: false }, 26.24);
+  gsap.set(frostEdge, { opacity: 0.4 });
+  tl.fromTo(frostEdge, { opacity: 0.4 }, { opacity: 1, duration: 0.5, ease: "power2.out", immediateRender: false }, 26.24);
   tl.fromTo(frost, { opacity: 0.55 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, 26.24 - F);
   gsap.set(coldGlow, { opacity: 0.55 });
   tl.fromTo(coldGlow, { opacity: 0.55, scale: 0.9 }, { opacity: 1, scale: 1.05, duration: 0.3, ease: "power2.out", immediateRender: false }, 26.24 - F);
