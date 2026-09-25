@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>PurePeptide — 3D glass vial showreel (12 s, 16:9)</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./assets/vendor/three/build/three.module.js",
+          "three/addons/": "./assets/vendor/three/jsm/"
+        }
+      }
+    </script>
+    <style>
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+      #gl { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block; }
+      #vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 75% at 50% 48%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.45) 100%); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="12">
+      <canvas id="gl" width="2880" height="1620"></canvas>
+      <div id="vignette"></div>
+    </div>
+
+    <script type="module">
+      import { createVialShot } from "./js/vial3d.js";
+
+      // Composition-local start of the 3D shot (in the main ad, set this to the scene's data-start).
+      const SHOT_START = 0;
+
+      const shot = createVialShot({ canvas: document.getElementById("gl"), width: 1920, height: 1080, pixelRatio: 1.5, duration: 12 });
+      window.__vial3d = shot;
+
+      // Main timeline (DOM layer). The 3D shot owns its own paused GSAP timeline, seeked from hf-seek below.
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#vignette", { opacity: 1 }, { opacity: 1, duration: 12, ease: "none" }, 0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+
+      // Three.js adapter: HyperFrames dispatches hf-seek (and sets __hfThreeTime) on every seek.
+      window.addEventListener("hf-seek", (e) => {
+        if (shot.isReady) shot.renderAt(e.detail.time - SHOT_START);
+      });
+      // Hold capture until label texture + PMREM env + shaders are ready, then draw the current time.
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      window.__hf.buildReady["vial3d"] = shot.ready.then(() => shot.renderAt((window.__hfThreeTime || 0) - SHOT_START));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+node_modules/
+snapshots/
+renders/*
+!renders/vial-3d-showreel.mp4
+.hyperframes/
+*.tmp.mjs

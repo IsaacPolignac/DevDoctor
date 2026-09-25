@@ -1,0 +1,17 @@
+{
+  "name": "purepeptide-3d-proto",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx hyperframes preview",
+    "lint": "npx hyperframes lint",
+    "render": "npx hyperframes render --quality standard -o renders/vial-3d-showreel.mp4"
+  },
+  "dependencies": {
+    "hyperframes": "^0.8.73"
+  },
+  "devDependencies": {
+    "gsap": "^3.14.2"
+  }
+}
