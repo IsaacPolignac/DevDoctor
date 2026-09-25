@@ -6,3 +6,7 @@ renders/*
 !renders/purepeptide-film-en-apercu.mp4
 .hyperframes/
 *.tmp.mjs
+plates3d/node_modules
+plates3d/assets
+plates3d/renders/*/
+plates3d/snapshots/

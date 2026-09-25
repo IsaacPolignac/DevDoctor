@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Film grade for every raster source (Blender plates, catalog vials, stills) so the whole film shares one look.
-The same curve is implemented in GLSL for the three.js shots (js/stage3d.js, GRADE_GLSL) — keep them in sync.
+The three.js shots are rendered raw (plates3d/) and graded here too, so every source shares one curve.
 
   grade(x): black crush (toe) -> filmic S-curve on mids -> soft shoulder -> specular-only bloom.
-usage: tools/grade.py all | video <in> <out> | still <in> <out> [crop x0,y0,x1,y1] [--w 2112]
+usage: tools/grade.py all | stills | vials | plates3d <png-seq-dir> | video <in> <out> | still <in> <out> [x0,y0,x1,y1]
 """
 import os, subprocess, sys
 import numpy as np
@@ -123,23 +123,10 @@ def vials():
 
 
 def all_():
+    """Rebuild every graded plate used by the film (the three.js plates need `plates3d <png-seq-dir>` after rendering plates3d/)."""
     os.makedirs(OUT, exist_ok=True)
-    F = os.path.join(ROOT, 'assets', 'footage')
-    video(os.path.join(F, 'hero.mp4'), os.path.join(OUT, 'hero_g.mp4'))
-    video(os.path.join(F, 'turntable.mp4'), os.path.join(OUT, 'turntable_g.mp4'))
-    tmp = '/tmp/claude-0/film/frames'
-    os.makedirs(tmp, exist_ok=True)
-    frame_of(os.path.join(F, 'hero.mp4'), 89, tmp + '/hero_89.png')
-    frame_of(os.path.join(F, 'turntable.mp4'), 60, tmp + '/tt_60.png')
-    frame_of(os.path.join(F, 'turntable.mp4'), 119, tmp + '/tt_119.png')
-    still(tmp + '/hero_89.png', os.path.join(OUT, 'hero_last.jpg'))
-    still(tmp + '/tt_60.png', os.path.join(OUT, 'tt_60.jpg'))
-    still(tmp + '/tt_119.png', os.path.join(OUT, 'tt_119.jpg'))
-    still(BL + '/_tests/macro_sweep/0045.png', os.path.join(OUT, 'macro_a.jpg'))
-    still(BL + '/_tests2/macro_sweep/0023.png', os.path.join(OUT, 'macro_b.jpg'))
-    still(BL + '/_tests/cap_top/0040.png', os.path.join(OUT, 'cap_a.jpg'))
-    still(BL + '/_tests2/cap_top/0038.png', os.path.join(OUT, 'cap_b.jpg'))
-    still(BL + '/cap_top/0001.png', os.path.join(OUT, 'cap_side.jpg'))
+    video(os.path.join(ROOT, 'assets', 'footage', 'turntable.mp4'), os.path.join(OUT, 'turntable_g.mp4'))
+    blender_stills()
     vials()
 
 
@@ -154,3 +141,69 @@ if __name__ == '__main__':
     elif cmd == 'still':
         crop = tuple(int(v) for v in sys.argv[4].split(',')) if len(sys.argv) > 4 and ',' in sys.argv[4] else None
         still(sys.argv[2], sys.argv[3], crop)
+
+
+STILLS = os.path.join(BL, 'stills')
+# name -> (source still, crop in 2560x1440 px or None)
+STILL_PLATES = {
+    'rim_full': ('rim_still', None),
+    'cap_full': ('cap_still', None),
+    'cap_ribs': ('cap_still', (480, 600, 1973, 1440)),
+    'hero_full': ('hero_still', None),
+    'label_full': ('label_still', None),
+    'label_logo': ('label_still', (720, 150, 2427, 1110)),
+    'label_word': ('label_still', (600, 520, 2020, 1319)),
+    'macro_full': ('macro_still', None),
+    'macro_crimp': ('macro_still', (560, 0, 2053, 840)),
+    'macro_shoulder': ('macro_still', (620, 200, 2020, 988)),
+}
+
+
+def blender_stills():
+    for name, (src, crop) in STILL_PLATES.items():
+        still(os.path.join(STILLS, src + '.png'), os.path.join(OUT, name + '.jpg'), crop)
+
+
+if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'stills':
+    blender_stills()
+
+
+def blue_match(img):
+    """three.js cap blue is deeper/more saturated than the Cycles cap: lift value, trim saturation on blue hues only."""
+    hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)  # float: H 0..360, S 0..1, V 0..1
+    h, s_, v = hsv[..., 0], hsv[..., 1], hsv[..., 2]
+    w = np.clip(1 - np.abs(h - 226) / 22, 0, 1) * np.clip((s_ - 0.35) / 0.2, 0, 1)
+    hsv[..., 1] = s_ * (1 - 0.2 * w)
+    hsv[..., 2] = np.clip(v * (1 + 0.32 * w), 0, 1)
+    return cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
+
+
+def plates3d(seqdir):
+    """three.js plate PNG sequence (plates3d/ render) -> graded per-shot mp4 plates + graded stills."""
+    import re, glob
+    segs = re.findall(r'name: "(\w+)", n: (\d+)', open(os.path.join(ROOT, 'plates3d', 'js', 'segments.js')).read())
+    frames = sorted(glob.glob(os.path.join(seqdir, '*.png')))
+    print(len(frames), 'frames in', seqdir)
+    f = 0
+    for name, n in segs:
+        n = int(n)
+        fr = frames[f:f + n]
+        f += n
+        if name.startswith('s3_'):
+            tmp = '/tmp/claude-0/film/frames/' + name + '.png'
+            save(tmp, blue_match(load(fr[1])))
+            still(tmp, os.path.join(OUT, name + '.jpg'))
+            continue
+        dst = os.path.join(OUT, name + '.mp4')
+        enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', '1920x1080', '-r', '30', '-i', '-',
+                                '-c:v', 'libx264', '-preset', 'slow', '-crf', '12', '-pix_fmt', 'yuv420p', '-g', '15', '-movflags', '+faststart', dst], stdin=subprocess.PIPE)
+        for p in fr:
+            img = blue_match(load(p))
+            enc.stdin.write((grade(img) * 255 + 0.5).astype(np.uint8).tobytes())
+        enc.stdin.close()
+        enc.wait()
+        print('plate3d', name, len(fr))
+
+
+if __name__ == '__main__' and len(sys.argv) > 2 and sys.argv[1] == 'plates3d':
+    plates3d(sys.argv[2])

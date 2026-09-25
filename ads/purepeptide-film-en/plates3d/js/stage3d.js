@@ -4,7 +4,6 @@
 // No clocks, no requestAnimationFrame, no Math.random. Seeking in any order gives identical frames.
 import * as THREE from "three";
 import { RectAreaLightUniformsLib } from "three/addons/lights/RectAreaLightUniformsLib.js";
-import { drawLabelCanvas } from "./label.js";
 
 // ------------------------------------------------------------------ helpers
 function rng(seed) {
@@ -408,7 +407,7 @@ export function createStage({ canvas, segments, width = 1920, height = 1080, pix
   vial.add(cap);
 
   const labelH = D.labelTop - D.labelBot;
-  const thetaLen = Math.PI * 2;
+  const thetaLen = 70 / (D.labelR * 10); // Blender label: 70 mm wrap, front centre at u = 0.5
   const labelGeo = new THREE.CylinderGeometry(D.labelR, D.labelR, labelH, 256, 1, true, -thetaLen / 2, thetaLen);
   labelGeo.translate(0, D.labelBot + labelH / 2, 0);
   const labelMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.42, metalness: 0, clearcoat: 0.35, clearcoatRoughness: 0.18, side: THREE.FrontSide });
@@ -496,9 +495,9 @@ export function createStage({ canvas, segments, width = 1920, height = 1080, pix
   }
 
   const ready = (async () => {
-    const arcLen = thetaLen * D.labelR;
-    const cv = await drawLabelCanvas({ arcLen, height: labelH, pxPerUnit: 900 });
-    const tex = new THREE.CanvasTexture(cv);
+    const img = await new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = "assets/label/label.png"; });
+    const tex = new THREE.Texture(img);
+    tex.needsUpdate = true;
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     tex.generateMipmaps = true;

@@ -35,8 +35,6 @@ export const PLATES = [
     from: { az: 1.0, el: 0.1, dist: 3.9, ty: 4.55, fov: 24, rig: -0.4 },
     to: { az: 1.14, el: 0.1, dist: 3.6, ty: 4.5, fov: 24, rig: -0.25 } },
   // --- stills (2D moves in the film)
-  { name: "s3_rim", n: 3, look: "rim", still: true, // 1.6-6.0 line of light (masked in the film)
-    from: { az: 0.2, el: 0.03, dist: 13.4, ty: 2.72, fov: 28, vialRot: 0 } },
   { name: "s3_macro", n: 3, look: "studio", still: true, // 30.0-31.5 crimp / shoulder, vial placed right in the film
     from: { az: -0.5, el: 0.1, dist: 5.4, ty: 4.2, fov: 26, vialRot: 0.3, rig: 0.1 } },
   { name: "s3_cold", n: 3, look: "cold", still: true, // 33-36 cold backlight silhouette
