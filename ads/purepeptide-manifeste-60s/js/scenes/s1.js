@@ -5,6 +5,8 @@
 PP.scene("s1", function (tl, root, cam) {
   const F = PP.F;
   const T_END = 12.1;
+  // the 30 fps frame on screen when an event at t is heard (applied 2 ms early so seeks land robustly)
+  const fr = (t) => Math.floor(t * 30 + 1e-6) / 30 - 0.002;
 
   // ------------------------------------------------------------------ plate (the still)
   const plate = PP.el("div", "s1-plate", cam);
@@ -23,7 +25,7 @@ PP.scene("s1", function (tl, root, cam) {
   for (let i = 0; i < 90; i++) {
     const z = 0.25 + 0.75 * rnd();
     const d = PP.el("div", "s1-mote", dustL);
-    const sz = 2 + 7 * z * z;
+    const sz = 2.5 + 9 * z * z;
     d.style.width = d.style.height = sz.toFixed(1) + "px";
     d.style.filter = `blur(${(z > 0.8 ? 1.6 + (z - 0.8) * 10 : 0.4 + z).toFixed(1)}px)`;
     dust.push({
@@ -36,7 +38,7 @@ PP.scene("s1", function (tl, root, cam) {
       wa: (6 + 14 * rnd()) * z,
       wf: 0.35 + 0.9 * rnd(),
       ph: rnd() * 6.283,
-      a: 0.18 + 0.5 * rnd(),
+      a: 0.3 + 0.6 * rnd(),
     });
   }
 
@@ -74,7 +76,7 @@ PP.scene("s1", function (tl, root, cam) {
       jx = 0,
       jy = 0;
     SLAMS.forEach((s) => {
-      const d = t - s.t + 0.0005;
+      const d = t - fr(s.t);
       if (d >= 0 && d < 1.2) {
         punch += 0.022 * s.k * Math.exp(-d * 7);
         const e = Math.exp(-d * 16) * s.k;
@@ -98,7 +100,7 @@ PP.scene("s1", function (tl, root, cam) {
 
     // tube light: hum + 2-frame dips
     let dip = false;
-    for (const d of DIPS) if (t >= d - 0.001 && t < d + 2 * F - 0.001) dip = true;
+    for (const d of DIPS) if (t >= fr(d) && t < fr(d) + 2 * F) dip = true;
     const hum = 0.9 + 0.06 * Math.sin(t * 23.0) + 0.04 * Math.sin(t * 57.0 + 1.3);
     const L = dip ? 0.08 : hum;
     tube.style.opacity = L.toFixed(3);
@@ -136,16 +138,16 @@ PP.scene("s1", function (tl, root, cam) {
   };
   // a word said by the voice: hard on (1 frame) + tiny settle
   const say = (el, t0) => {
-    tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: F, ease: "none", immediateRender: true }, t0 - F);
-    tl.fromTo(el, { y: 10, filter: "blur(5px)" }, { y: 0, filter: "blur(0px)", duration: 6 * F, ease: "expo.out" }, t0 - F);
+    tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0, ease: "none", immediateRender: true }, fr(t0));
+    tl.fromTo(el, { y: 12, filter: "blur(5px)" }, { y: 0, filter: "blur(0px)", duration: 6 * F, ease: "expo.out" }, fr(t0));
   };
   // manifesto slam: 1.15 -> 1 in ~4 frames with motion blur (impact shake is in the driver)
   const slam = (el, t0, s0) => {
-    tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: F, ease: "none", immediateRender: true }, t0 - F);
-    tl.fromTo(el, { scale: s0 || 1.15, filter: "blur(10px)" }, { scale: 1, filter: "blur(0px)", duration: 4 * F, ease: "power3.out" }, t0 - F);
+    tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0, ease: "none", immediateRender: true }, fr(t0));
+    tl.fromTo(el, { scale: s0 || 1.15, filter: "blur(10px)" }, { scale: 1, filter: "blur(0px)", duration: 4 * F, ease: "power3.out" }, fr(t0));
   };
   const hold = (el, t0, t1, amt) => tl.fromTo(el, { scale: 1 }, { scale: 1 + (amt || 0.035), duration: t1 - t0, ease: "none", immediateRender: false }, t0);
-  const cut = (el, at) => tl.set(el, { opacity: 0 }, at);
+  const cut = (el, at) => tl.set(el, { opacity: 0 }, fr(at));
 
   // ---- P1 « Vous en avez marre, hein ? » — centred
   const p1 = phrase("s1-p1");

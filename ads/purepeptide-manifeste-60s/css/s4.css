@@ -8,10 +8,10 @@
 #s4 .s4-win-glow { position: absolute; inset: -3px; box-shadow: 0 0 60px rgba(46,230,201,0.28), 0 0 160px rgba(56,189,248,0.14); }
 #s4 .s4-bar { position: absolute; left: 0; top: 0; width: 100%; background: linear-gradient(180deg, #1c222c 0%, #151a22 100%); border-bottom: 1.4px solid rgba(0,0,0,0.6); overflow: hidden; }
 #s4 .s4-bar-in { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
-#s4 .s4-dots { position: absolute; left: 18px; top: 16px; display: flex; gap: 8px; }
-#s4 .s4-dots i { display: block; width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.25); }
-#s4 .s4-nav { position: absolute; left: 92px; top: 13px; }
+#s4 .s4-dots { position: absolute; left: 22px; top: 21px; display: flex; gap: 9px; }
+#s4 .s4-dots i { display: block; width: 14px; height: 14px; border-radius: 50%; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.25); }
+#s4 .s4-nav { position: absolute; left: 104px; top: 19px; }
 #s4 .s4-nav svg { display: block; }
-#s4 .s4-url { position: absolute; left: 50%; top: 8px; width: 440px; margin-left: -220px; height: 28px; border-radius: 8px; background: #0c1017; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: center; gap: 9px; font-family: var(--body); font-weight: 500; font-size: 15px; color: #d6dde8; letter-spacing: 0.01em; }
+#s4 .s4-url { position: absolute; left: 50%; top: 8px; width: 500px; margin-left: -250px; height: 40px; border-radius: 10px; background: #0c1017; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: center; gap: 12px; font-family: var(--body); font-weight: 500; font-size: 24px; color: #d6dde8; letter-spacing: 0.01em; }
 #s4 .s4-url svg { display: block; }
 #s4 .s4-content { position: absolute; left: 0; width: 100%; background: #eef3f8; }

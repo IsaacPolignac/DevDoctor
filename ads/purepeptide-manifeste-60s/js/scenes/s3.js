@@ -25,10 +25,13 @@ PP.scene("s3", function (tl, root, cam) {
     tl.fromTo(w, { opacity: 0 }, { opacity: 1, duration: 2 * F, ease: "none" }, t - F);
     tl.fromTo(w, { scale: o.s || 1.3, filter: `blur(${o.blur == null ? 10 : o.blur}px)` }, { scale: 1, filter: "blur(0px)", duration: o.d || 0.34, ease: "expo.out" }, t - F);
   };
+  // fit an Anton line to maxW — measured on a canvas (the clip may be display:none at build time)
+  const ctx = document.createElement("canvas").getContext("2d");
   const fit = (el, size, maxW) => {
-    el.style.fontSize = size + "px";
-    const w = el.getBoundingClientRect().width;
-    if (w > maxW) el.style.fontSize = Math.floor((size * maxW) / w) + "px";
+    const txt = el.textContent.toUpperCase();
+    ctx.font = `400 ${size}px Anton`;
+    const w = ctx.measureText(txt).width + size * (0.005 * txt.length + 0.03);
+    el.style.fontSize = (w > maxW ? Math.floor((size * maxW) / w) : size) + "px";
     return el;
   };
   const masked = (el, src) => {
@@ -133,14 +136,14 @@ PP.scene("s3", function (tl, root, cam) {
   const h9 = PP.voHeadline(tl, B.c, "L9", ["On mesure sa *pureté.*"], "s3-b-h", { lead: 0.06 });
   PP.textOut(tl, h8.el, 21.9, { dur: 0.12 });
   const persp = PP.el("div", "s3-persp", B.c);
-  const card = PP.neonCard(persp, { x: 960, y: 640, w: 960, h: 420, radius: 30 });
+  const card = PP.neonCard(persp, { x: 960, y: 650, w: 1040, h: 460, radius: 32 });
   card.el.classList.add("s3-card");
   const well = PP.el("div", "s3-well", card.body);
-  const cv = PP.vial(well, PP.cfg.catalog[0].img, 330);
+  const cv = PP.vial(well, PP.cfg.catalog[0].img, 360);
   cv.el.style.left = 136 - cv.width / 2 + "px";
   cv.el.style.top = "22px";
   const scan = PP.el("div", "s3-scan", well);
-  PP.highlightBar(tl, card.body, 322, 614, [{ y: 60, h: 128 }, { y: 214, h: 150 }], [20.26, 22.08]);
+  PP.highlightBar(tl, card.body, 322, 694, [{ y: 64, h: 136 }, { y: 232, h: 164 }], [20.26, 22.08]);
   const mkRow = (y, label, withBar) => {
     const row = PP.el("div", "s3-row", card.body);
     row.style.top = y + "px";
@@ -154,8 +157,8 @@ PP.scene("s3", function (tl, root, cam) {
     if (withBar) fill = PP.el("div", "s3-bar-fill", PP.el("div", "s3-bar", col));
     return { row, on, lbl, fill };
   };
-  const r1 = mkRow(60 + 64 - 30, "Le bon produit");
-  const r2 = mkRow(214 + 20, "Pureté mesurée", true);
+  const r1 = mkRow(64 + 68 - 32, "Le bon produit");
+  const r2 = mkRow(232 + 26, "Pureté mesurée", true);
   const lightRow = (r, t) => {
     tl.fromTo(r.on.svg, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.4)" }, t - F);
     PP.draw(tl, r.on.tick, t - F, 0.22, { ease: "power2.out" });
@@ -167,7 +170,7 @@ PP.scene("s3", function (tl, root, cam) {
   lightRow(r2, 22.55);
   // scan line over the vial (checks) — two passes
   const scanPass = (a, b) => {
-    tl.fromTo(scan, { top: 40, opacity: 1 }, { top: 372, duration: b - a, ease: "power1.inOut", immediateRender: false }, a);
+    tl.fromTo(scan, { top: 40, opacity: 1 }, { top: 410, duration: b - a, ease: "power1.inOut", immediateRender: false }, a);
     tl.fromTo(scan, { opacity: 1 }, { opacity: 0, duration: 0.12, ease: "none", immediateRender: false }, b);
   };
   gsap.set(scan, { opacity: 0, top: 40 });
@@ -185,19 +188,19 @@ PP.scene("s3", function (tl, root, cam) {
   const cGlow = PP.el("div", "s3-c-glow", Cg.c);
   const shake = PP.el("div", "", Cg.c);
   shake.style.cssText = "position:absolute;left:0;top:0;width:1920px;height:1080px;";
-  const NUM_TOP = 90;
+  const NUM_TOP = 150;
   const num = PP.el("div", "s3-num", shake);
   num.style.top = NUM_TOP + "px";
-  PP.rollCounter(tl, num, PP.cfg.minPurity + "%", 23.62, 23.92, { stagger: 0.08, ease: "power3.out" }); // last digit lands 24.00
-  const NUM_CY = NUM_TOP + 250; // centre of the 500 px digit box
+  PP.rollCounter(tl, num, PP.cfg.minPurity + "%", 23.62, 23.92, { stagger: 0.08, ease: "none" }); // constant spin, hard stop: last digit lands 24.00
+  const NUM_CY = NUM_TOP + 225; // centre of the 450 px digit box
   tl.fromTo(num, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, 23.56);
   PP.flashRing(tl, PP.layers.fx, 24.0, { x: 960, y: NUM_CY });
   const minEl = PP.headline(shake, ["minimum."], "mf s3-min");
-  minEl.el.style.top = "640px";
+  minEl.el.style.top = "650px";
   slam(minEl.words[0], 24.48, { s: 1.6, blur: 16, d: 0.3 });
   const cap = PP.headline(shake, ["de pureté, mesurée par le laboratoire"], "s3-cap");
   cap.el.className = "s3-cap";
-  cap.el.style.top = "846px";
+  cap.el.style.top = "862px";
   PP.wordsIn(tl, cap.words, 24.88, { stagger: 0.045 });
   // punch + 3-frame shake on the landing
   const SH = [[0, 0], [16, -10], [-12, 8], [6, -4], [0, 0]];
@@ -211,7 +214,7 @@ PP.scene("s3", function (tl, root, cam) {
     shake.style.transform = k ? `translate(${k * 10}px, ${-k * 6}px)` : "translate(0px, 0px)";
   }, 0, 1, 24.48, 2 * F, "none");
   tl.fromTo(Cg.c, { scale: 1.03 }, { scale: 1, duration: 0.5, ease: "none", immediateRender: false }, T.C);
-  tl.fromTo(Cg.c, { scale: 1.09 }, { scale: 1, duration: 0.4, ease: "expo.out", immediateRender: false }, 24.0);
+  tl.fromTo(Cg.c, { scale: 1.06 }, { scale: 1, duration: 0.4, ease: "expo.out", immediateRender: false }, 24.0);
   tl.fromTo(Cg.c, { scale: 1 }, { scale: 1.045, duration: 26.9 - 24.4, ease: "none", immediateRender: false }, 24.4);
   gsap.set(cGlow, { opacity: 0.35 });
   tl.fromTo(cGlow, { opacity: 0.35, scale: 0.8 }, { opacity: 1.0, scale: 1.1, duration: 3 * F, ease: "none", immediateRender: false }, 24.0 - 3 * F);
@@ -240,7 +243,7 @@ PP.scene("s3", function (tl, root, cam) {
   slam(d2.words[2], 28.22, { s: 1.15, blur: 8 });
   slam(d2.words[3], 28.48, { s: 1.15, blur: 8 });
   slam(d3.words[0], 28.7, { s: 1.2, blur: 8 });
-  slam(d3.words[1], 28.88, { s: 1.5, blur: 18, d: 0.4 });
+  slam(d3.words[1], 28.88, { s: 1.2, blur: 18, d: 0.4 });
   tl.set(colD, { transformOrigin: "0px 540px" }, 0);
   tl.fromTo(colD, { scale: 1 }, { scale: 1.05, duration: T.END - T.D, ease: "none", immediateRender: false }, T.D);
   tl.fromTo(D.c, { scale: 1.035 }, { scale: 1, duration: 0.3, ease: "expo.out", immediateRender: false }, 28.88);

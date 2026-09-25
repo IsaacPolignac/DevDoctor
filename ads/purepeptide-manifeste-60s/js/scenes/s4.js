@@ -6,8 +6,8 @@ PP.scene("s4", function (tl, root, cam) {
   const ST = PP.cfg.siteTest; // 1920 x 1200 video px
   const VW = ST.w,
     VH = ST.h;
-  const K0 = 0.72; // base scale: content 1382.4 x 864 stage px
-  const TB = 44; // top bar height (stage px at base scale)
+  const K0 = 0.71; // base scale: content 1363.2 x 852 stage px
+  const TB = 56; // top bar height (stage px at base scale)
   const TBU = TB / K0; // top bar height in window-local units
   const RAD = 18 / K0; // window radius in local units
   const WIN_TOP = 146; // base window top (stage px)
@@ -24,12 +24,12 @@ PP.scene("s4", function (tl, root, cam) {
     { t: 36.3, f: [282, 560], s: [600, 562], z: 1.32, e: "power3.inOut" },
     { t: 37.1, f: [282, 560], s: [604, 560], z: 1.35, e: "sine.inOut" },
     // product page (37.07) — breathe out, then push to the purity line (video ≈ 1332, 506)
-    { t: 37.9, f: [1150, 560], s: [960, 575], z: 1.14, e: "power2.inOut" },
-    { t: 39.2, f: [1332, 506], s: [1060, 420], z: 1.35, e: "power3.inOut" },
-    { t: 40.9, f: [1332, 506], s: [1050, 430], z: 1.35, e: "sine.inOut" },
+    { t: 37.9, f: [1150, 560], s: [1010, 575], z: 1.14, e: "power2.inOut" },
+    { t: 39.2, f: [1332, 506], s: [1170, 420], z: 1.35, e: "power3.inOut" },
+    { t: 40.9, f: [1332, 506], s: [1160, 432], z: 1.35, e: "sine.inOut" },
     // 04 · perks list after « Ajouter au panier » (video ≈ 1350, 920)
-    { t: 41.8, f: [1350, 920], s: [980, 700], z: 1.28, e: "power3.inOut" },
-    { t: 42.15, f: [1350, 920], s: [976, 700], z: 1.29, e: "none" },
+    { t: 41.8, f: [1350, 880], s: [1150, 700], z: 1.3, e: "power3.inOut" },
+    { t: 42.15, f: [1350, 880], s: [1146, 700], z: 1.31, e: "none" },
     // cart drawer (right edge, video x 1416 → 1920)
     { t: 44.0, f: [1668, 380], s: [1480, 470], z: 1.32, e: "power2.inOut" },
     { t: 44.3, f: [1668, 380], s: [1480, 470], z: 1.335, e: "none" },
@@ -132,7 +132,7 @@ PP.scene("s4", function (tl, root, cam) {
   const nav = PP.el("div", "s4-nav", barIn);
   nav.innerHTML = `<svg width="44" height="18" viewBox="0 0 44 18"><path d="M11 3 L5 9 L11 15" fill="none" stroke="#8b95a7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M31 3 L37 9 L31 15" fill="none" stroke="#4a5363" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const url = PP.el("div", "s4-url", barIn);
-  url.innerHTML = `<svg width="13" height="15" viewBox="0 0 13 15"><rect x="1" y="6.5" width="11" height="8" rx="2" fill="#2EE6C9"/><path d="M3.6 6.5 V4.6 a2.9 2.9 0 0 1 5.8 0 V6.5" fill="none" stroke="#2EE6C9" stroke-width="1.7"/></svg><span>purepeptide.care</span>`;
+  url.innerHTML = `<svg width="17" height="20" viewBox="0 0 13 15"><rect x="1" y="6.5" width="11" height="8" rx="2" fill="#2EE6C9"/><path d="M3.6 6.5 V4.6 a2.9 2.9 0 0 1 5.8 0 V6.5" fill="none" stroke="#2EE6C9" stroke-width="1.7"/></svg><span>purepeptide.care</span>`;
   PP.el("div", "s4-content", win).style.cssText = `top:${TBU}px;height:${VH}px;`;
 
   const video = document.getElementById("sitetest");

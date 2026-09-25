@@ -4,6 +4,7 @@
 PP.scene("s2", function (tl, root, cam) {
   const F = PP.F;
   const DROP = 17.0;
+  const fr = (t) => Math.floor(t * 30 + 1e-6) / 30 - 0.002; // frame on screen at t (2 ms early for robust seeks)
   // s3's first frame: hero vial fully lit, centred (960, 560), 760 px high
   const VH = 760,
     VW = VH * PP.HERO_RATIO,
@@ -14,7 +15,7 @@ PP.scene("s2", function (tl, root, cam) {
   const blk = PP.el("div", "s2-black", cam);
   // binary switches (repeated props -> fromTo, immediateRender:false)
   const sw = (el, a, b, at) => tl.fromTo(el, { opacity: a }, { opacity: b, duration: 0, ease: "none", immediateRender: false }, at);
-  sw(blk, 0, 1, 12.0);
+  sw(blk, 0, 1, fr(12.0));
 
   const stage = PP.el("div", "s2-stage", cam);
 
@@ -49,13 +50,13 @@ PP.scene("s2", function (tl, root, cam) {
   nous.appendChild(document.createTextNode(" "));
   const wA = PP.el("span", "mf s2-w", nous, { text: "AUSSI." });
   const slam = (el, t0, s0) => {
-    tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: F, ease: "none" }, t0 - F);
-    tl.fromTo(el, { scale: s0 || 1.15, filter: "blur(12px)" }, { scale: 1, filter: "blur(0px)", duration: 4 * F, ease: "power3.out" }, t0 - F);
+    tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0, ease: "none" }, fr(t0));
+    tl.fromTo(el, { scale: s0 || 1.15, filter: "blur(12px)" }, { scale: 1, filter: "blur(0px)", duration: 4 * F, ease: "power3.out" }, fr(t0));
   };
   slam(wN, 12.34);
   slam(wA, 12.48);
   tl.fromTo(nous, { scale: 1 }, { scale: 1.045, duration: 13.6 - 12.34, ease: "none", immediateRender: false }, 12.34);
-  sw(nous, 1, 0, 13.6);
+  sw(nous, 1, 0, fr(13.6));
 
   const alors = PP.voHeadline(tl, typeL, "L6", ["Alors on a fait *autrement.*"], "s2-alors", { lead: F, rise: 12, blur: 8, dur: 0.45 });
   tl.fromTo(alors.el, { scale: 1 }, { scale: 1.035, duration: 2.0, ease: "none", immediateRender: false }, 13.6);
@@ -72,7 +73,7 @@ PP.scene("s2", function (tl, root, cam) {
     let jx = 0,
       jy = 0;
     SL.forEach((s) => {
-      const d = t - s.t + 0.0005;
+      const d = t - fr(s.t);
       if (d >= 0 && d < 1) {
         const e = Math.exp(-d * 15) * s.k;
         jx += 12 * e * Math.sin(d * 80 + 0.4);
@@ -125,7 +126,7 @@ PP.scene("s2", function (tl, root, cam) {
     const yy = 26 * (1 - pk);
     vialW.style.opacity = (e * e).toFixed(3);
     vialW.style.transform = `translateY(${yy.toFixed(2)}px) scale(${sc.toFixed(4)})`;
-    const br = 0.13 + 0.12 * Math.max(0, Math.min(1, (t - 16.2) / 0.77)) + 0.35 * g;
+    const br = 0.09 + 0.14 * Math.max(0, Math.min(1, (t - 16.2) / 0.77)) + 0.35 * g;
     const rim = 0.55 + 0.45 * u;
     vImg.style.filter = `brightness(${br.toFixed(3)}) drop-shadow(0 0 1.5px rgba(46,230,201,${rim.toFixed(3)})) drop-shadow(0 0 16px rgba(46,230,201,${(rim * 0.55).toFixed(3)}))`;
     // light sweep across the glass (two passes, the second faster, right before the drop)
@@ -139,9 +140,9 @@ PP.scene("s2", function (tl, root, cam) {
   // ------------------------------------------------------------------ DROP 17.00
   const fx = PP.layers.fx;
   const flash = PP.el("div", "s2-flash", fx);
-  tl.fromTo(flash, { opacity: 0 }, { opacity: 0.35, duration: 2 * F, ease: "power2.in", immediateRender: false }, DROP - 2 * F);
-  tl.fromTo(flash, { opacity: 0.92 }, { opacity: 0, duration: 10 * F, ease: "power2.out", immediateRender: false }, DROP);
+  tl.fromTo(flash, { opacity: 0 }, { opacity: 0.35, duration: 2 * F, ease: "power2.in", immediateRender: false }, fr(DROP) - 2 * F);
+  tl.fromTo(flash, { opacity: 0.92 }, { opacity: 0, duration: 10 * F, ease: "power2.out", immediateRender: false }, fr(DROP));
   PP.flashRing(tl, fx, DROP, { x: VX, y: VY });
-  sw(stage, 1, 0, DROP + 2 * F);
-  sw(blk, 1, 0, DROP + 2 * F);
+  sw(stage, 1, 0, fr(DROP + 2 * F));
+  sw(blk, 1, 0, fr(DROP + 2 * F));
 });
