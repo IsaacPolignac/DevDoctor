@@ -175,7 +175,7 @@ PP.scene("s4o", function (tl, root, cam) {
   const row = PP.el("div", "s4o-row", hdr);
   const lab = PP.el("div", "s4o-lab mf", row);
   const labL = [PP.el("span", "grad", lab, { text: "Check it" }), PP.el("span", "grad", lab, { text: "yourself." })];
-  PP.el("div", "s4o-sep", row);
+  const sep = PP.el("div", "s4o-sep", row);
   const stack = PP.el("div", "s4o-stack", row);
   const STEPS = [
     { t: 31.5, end: 35.4, n: "01", w: "Enter" },
@@ -209,6 +209,11 @@ PP.scene("s4o", function (tl, root, cam) {
   });
   gsap.set(fills, { scaleX: 0, transformOrigin: "0% 50%" });
   gsap.set([plate, meta], { opacity: 0 });
+  // nothing of the header exists before the window flies in (s3 owns the frame until 31.39)
+  gsap.set(hdr, { opacity: 0 });
+  tl.fromTo(hdr, { opacity: 0 }, { opacity: 1, duration: 0.001, ease: "none", immediateRender: false }, T.IN);
+  gsap.set(sep, { opacity: 0 });
+  fade(sep, 0, 1, 31.5, 0.25);
   fade(plate, 0, 1, 31.42, 0.3);
   PP.wordsIn(tl, labL, 31.44, { stagger: 0.07, rise: 16, blur: 6, dur: 0.4 });
   tl.fromTo(meta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out", immediateRender: false }, 31.6);
