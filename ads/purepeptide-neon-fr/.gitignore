@@ -1,0 +1,6 @@
+node_modules/
+snapshots/
+renders/*
+!renders/purepeptide-neon-fr.mp4
+.hyperframes/
+*.tmp.mjs

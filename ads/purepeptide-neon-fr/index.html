@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>PurePeptide — motion design néon 30 s (FR)</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/DrawSVGPlugin.min.js"></script>
+    <script src="assets/vendor/CustomEase.min.js"></script>
+    <script src="assets/vendor/qrcode.js"></script>
+    <style>
+      @font-face { font-family: "DM Sans"; src: url("assets/fonts/dm-sans-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+      @font-face { font-family: "DM Sans"; src: url("assets/fonts/dm-sans-latin-800-normal.woff2") format("woff2"); font-weight: 800; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+      @font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: block; }
+      @font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: block; }
+      /* ≥ → and the French narrow no-break space (U+202F), missing from the latin subsets */
+      @font-face { font-family: "PP Symbols"; src: url("assets/fonts/inter-symbols.woff2") format("woff2"); font-weight: 100 900; font-display: block; unicode-range: U+202F, U+2192, U+2264-2265; }
+      :root {
+        --bg: #04070d;
+        --card: #0b111c;
+        --card2: #101827;
+        --ink: #f3f6fa;
+        --ink-soft: #93a1b8;
+        --line: rgba(255, 255, 255, 0.1);
+        --neon: #2ee6c9;
+        --neon2: #38bdf8;
+        --grad: linear-gradient(100deg, #5aa8ff 0%, #38bdf8 45%, #2ee6c9 100%);
+        --display: "DM Sans", "PP Symbols", sans-serif;
+        --body: "Inter", "PP Symbols", sans-serif;
+        --mono: "IBM Plex Mono", "PP Symbols", monospace;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--body); color: var(--ink); -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+      .layer { position: absolute; inset: 0; pointer-events: none; }
+      /* permanent bottom stage light (reference DNA), brand blue -> teal */
+      #halo { left: -240px; right: -240px; top: auto; bottom: -520px; height: 1100px; border-radius: 50%; background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(46, 230, 201, 0.55) 0%, rgba(56, 189, 248, 0.22) 40%, rgba(4, 7, 13, 0) 72%); transform-origin: 50% 50%; }
+      #halo2 { left: 90px; right: 90px; top: auto; bottom: -300px; height: 560px; border-radius: 50%; background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(46, 230, 201, 0.5) 0%, rgba(46, 230, 201, 0) 70%); }
+      #dots { inset: auto; left: 0; top: 0; width: 1080px; height: 1980px; background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1.5px, transparent 1.8px); background-size: 36px 36px; -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 55%, #000 30%, transparent 100%); mask-image: radial-gradient(ellipse 75% 60% at 50% 55%, #000 30%, transparent 100%); }
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      .cam { position: absolute; inset: 0; transform-origin: 540px 960px; }
+      #s1 { z-index: 11; } #s2 { z-index: 12; } #s3 { z-index: 13; } #s4 { z-index: 14; } #s5 { z-index: 15; } #s6 { z-index: 16; } #s7 { z-index: 17; }
+      #fx { z-index: 30; overflow: hidden; }
+      #grain { z-index: 40; mix-blend-mode: soft-light; opacity: 0.07; }
+      #grain svg { display: block; }
+
+      /* ---- type ---- */
+      .pp-h { font-family: var(--display); font-weight: 800; letter-spacing: -0.035em; line-height: 1.06; color: var(--ink); text-align: center; white-space: nowrap; }
+      .pp-h.h0 { font-size: 132px; }
+      .pp-h.h1 { font-size: 100px; }
+      .pp-h.h2 { font-size: 80px; }
+      .pp-h.h3 { font-size: 60px; font-weight: 700; }
+      .pp-ln { display: block; padding: 0.04em 0.12em 0.12em; margin: -0.04em -0.12em -0.12em; }
+      .pp-w { display: inline-block; }
+      .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: 0.03em; }
+      .neon { color: var(--neon); }
+      .mono { font-family: var(--mono); font-weight: 500; text-transform: uppercase; letter-spacing: 0.14em; font-variant-numeric: tabular-nums; }
+      .soft { color: var(--ink-soft); }
+      .pp-c { display: inline; }
+
+      /* ---- neon components ---- */
+      .pp-ncard { position: absolute; background: linear-gradient(160deg, #111a2a 0%, #0a0f19 60%, #080c14 100%); box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.09); overflow: hidden; }
+      .pp-ncard-edge { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; padding: 1.5px; background: linear-gradient(135deg, rgba(46, 230, 201, 0.95) 0%, rgba(56, 189, 248, 0.35) 22%, rgba(255, 255, 255, 0) 45%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; z-index: 2; }
+      .pp-ncard-body { position: absolute; inset: 0; }
+      .pp-flash-fill { position: absolute; inset: 0; border-radius: inherit; background: var(--neon); z-index: 20; opacity: 0; }
+      .pp-ring { position: absolute; left: 0; top: 0; width: 16px; height: 16px; border-radius: 50%; border: 26px solid var(--neon); box-shadow: 0 0 40px rgba(46, 230, 201, 0.9), inset 0 0 40px rgba(46, 230, 201, 0.6); }
+      .pp-ring.thin { border-width: 4px; border-color: rgba(255, 255, 255, 0.9); box-shadow: 0 0 24px rgba(46, 230, 201, 0.8); }
+      .pp-bloom { position: absolute; inset: 0; mix-blend-mode: screen; }
+      .pp-cursor { position: absolute; left: 0; top: 0; z-index: 25; filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.6)); }
+      .pp-cursor svg { display: block; transform-origin: 4px 3px; }
+      .pp-cursor-pulse { position: absolute; left: -46px; top: -47px; width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--neon); opacity: 0; box-shadow: 0 0 20px rgba(46, 230, 201, 0.8); }
+      .pp-roll { display: inline-flex; align-items: flex-start; font-family: var(--display); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.04em; line-height: 1; }
+      .pp-roll-win { display: inline-block; height: 1em; overflow: hidden; }
+      .pp-roll-strip { display: flex; flex-direction: column; }
+      .pp-roll-d { display: block; height: 1em; text-align: center; }
+      .pp-roll-static { display: inline-block; }
+      .pp-wm { position: relative; }
+      .pp-wm img { display: block; }
+      .pp-wm-sheen { position: absolute; inset: 0; --p: -40%; background: linear-gradient(100deg, rgba(46, 230, 201, 0) calc(var(--p) - 18%), rgba(46, 230, 201, 1) var(--p), rgba(255, 255, 255, 1) calc(var(--p) + 3%), rgba(46, 230, 201, 0) calc(var(--p) + 20%)); }
+      .pp-hbar { position: absolute; left: 0; top: 0; border-radius: 16px; background: linear-gradient(90deg, rgba(46, 230, 201, 0.28) 0%, rgba(46, 230, 201, 0.08) 100%); box-shadow: inset 3px 0 0 var(--neon), 0 0 30px rgba(46, 230, 201, 0.18); transform-origin: 0 50%; }
+      .pp-globe { display: block; overflow: visible; }
+      .pp-pill { position: absolute; display: inline-flex; align-items: center; gap: 16px; padding: 20px 34px; border-radius: 999px; background: rgba(16, 24, 39, 0.92); border: 1px solid rgba(46, 230, 201, 0.45); box-shadow: 0 0 30px rgba(46, 230, 201, 0.15), 0 20px 50px rgba(0, 0, 0, 0.5); font-family: var(--body); font-weight: 600; font-size: 34px; color: var(--ink); white-space: nowrap; }
+      .pp-vial { position: absolute; }
+      .pp-vial img { display: block; width: 100%; height: 100%; filter: drop-shadow(0 40px 50px rgba(0, 0, 0, 0.65)); }
+      .pp-logo, .pp-symbol { display: block; }
+      .pp-lens { position: absolute; overflow: hidden; border-radius: 22px; background: #ffffff; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 2px var(--neon), 0 0 40px rgba(46, 230, 201, 0.35); }
+      .pp-lens img { position: absolute; display: block; }
+    </style>
+    <link rel="preload" as="image" href="assets/brand/brand-wordmark-light.svg" />
+    <link rel="preload" as="image" href="assets/brand/brand-wordmark.svg" />
+    <link rel="preload" as="image" href="assets/site/d-coa.jpg" />
+    <link rel="preload" as="image" href="assets/site/d-home.jpg" />
+    <link rel="preload" as="image" href="assets/site/d-product.jpg" />
+    <link rel="preload" as="image" href="assets/site/d-quality.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-coa.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-home-proof.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-home.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-product.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-quality.jpg" />
+    <link rel="preload" as="image" href="assets/site/m-shop.jpg" />
+    <link rel="preload" as="image" href="assets/vials/bpc157-tb500-10.png" />
+    <link rel="preload" as="image" href="assets/vials/cjc-1295-ipa-10.png" />
+    <link rel="preload" as="image" href="assets/vials/ghk-cu-50.png" />
+    <link rel="preload" as="image" href="assets/vials/hero.png" />
+    <link rel="preload" as="image" href="assets/vials/igf-1-lr3-1.png" />
+    <link rel="preload" as="image" href="assets/vials/selank-10.png" />
+    <link rel="preload" as="image" href="assets/vials/semax-10.png" />
+    
+    <link rel="preload" as="image" href="assets/brand/brand-symbol-neon.svg" />
+    <link rel="stylesheet" href="css/s1.css" />
+    <link rel="stylesheet" href="css/s2.css" />
+    <link rel="stylesheet" href="css/s3.css" />
+    <link rel="stylesheet" href="css/s4.css" />
+    <link rel="stylesheet" href="css/s5.css" />
+    <link rel="stylesheet" href="css/s6.css" />
+    <link rel="stylesheet" href="css/s7.css" />
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="30">
+      <div id="dots" class="layer"></div>
+      <div id="halo" class="layer"></div>
+      <div id="halo2" class="layer"></div>
+
+      <section id="s1" class="clip scene" data-start="0" data-duration="4.25" data-track-index="1"></section>
+      <section id="s2" class="clip scene" data-start="4.1" data-duration="4.2" data-track-index="2"></section>
+      <section id="s3" class="clip scene" data-start="8" data-duration="3.8" data-track-index="3"></section>
+      <section id="s4" class="clip scene" data-start="11.6" data-duration="2.5" data-track-index="4"></section>
+      <section id="s5" class="clip scene" data-start="13.9" data-duration="4.1" data-track-index="5"></section>
+      <section id="s6" class="clip scene" data-start="17.8" data-duration="4.4" data-track-index="6"></section>
+      <section id="s7" class="clip scene" data-start="21.9" data-duration="8.1" data-track-index="7"></section>
+
+      <div id="fx" class="layer"></div>
+      <div id="grain" class="layer">
+        <svg width="1080" height="1920" viewBox="0 0 1080 1920">
+          <filter id="grain-f" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+            <feTurbulence id="grain-turb" type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="0" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="1080" height="1920" filter="url(#grain-f)" />
+        </svg>
+      </div>
+
+      <audio id="mix" src="assets/audio/mix.wav" data-start="0" data-duration="30" data-track-index="10" data-volume="1"></audio>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/vo.js"></script>
+    <script src="js/lib.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/scenes/s1.js"></script>
+    <script src="js/scenes/s2.js"></script>
+    <script src="js/scenes/s3.js"></script>
+    <script src="js/scenes/s4.js"></script>
+    <script src="js/scenes/s5.js"></script>
+    <script src="js/scenes/s6.js"></script>
+    <script src="js/scenes/s7.js"></script>
+    <script>
+      gsap.registerPlugin(DrawSVGPlugin, CustomEase);
+      const fonts = ['800 100px "DM Sans"', '700 100px "DM Sans"', '400 40px "Inter"', '500 40px "Inter"', '600 40px "Inter"', '700 40px "Inter"', '400 30px "IBM Plex Mono"', '500 30px "IBM Plex Mono"'].map((f) => document.fonts.load(f));
+      fonts.push(document.fonts.load('600 40px "PP Symbols"', "≥→\u202F"));
+      Promise.all(fonts).then(() => {
+        const tl = window.PP.build();
+        window.__timelines["main"] = tl;
+        if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
+      });
+    </script>
+  </body>
+</html>
