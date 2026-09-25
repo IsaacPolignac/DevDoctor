@@ -1,9 +1,10 @@
 """Render one shot of the PurePeptide vial film (deterministic, CPU Cycles).
 
 usage: .venv/bin/python tools/render_shot.py <shot> <frames> [--pct N] [--samples N] [--out DIR]
-  shot   : macro_sweep | turntable | cap_top | hero | hero_still
+  shot   : macro_sweep | turntable | cap_top | hero   (sequences)
+           macro_still | cap_still | hero_still | rim_still | label_still  (2560x1440 stills -> renders/stills/)
   frames : "all" | "12" | "1-90" | "1,45,90"  (1-based frame numbers)
-Output : renders/<shot>/####.png  (hero_still -> renders/hero_still.png at 3840x2160)
+Output : renders/<shot>/####.png  |  renders/stills/<still>.png
 """
 import argparse
 import math
@@ -22,8 +23,9 @@ SHOTS = {  # name: (seconds, default lens)
     'turntable': 4.0,
     'cap_top': 2.5,
     'hero': 3.0,
-    'hero_still': 3.0,
 }
+# stills (2560x1440): name -> base shot evaluated at t=1 unless noted
+STILLS = ('macro_still', 'cap_still', 'hero_still', 'rim_still', 'label_still')
 FPS = 30   # delivery rate
 RFPS = 15  # render rate (frames are motion-interpolated to 30 fps at encode time)
 
@@ -143,6 +145,36 @@ def setup_frame(rig, shot, t):
         aim(cam, loc, (0, 0, 0.0285))
         rig.energy('Key_Rim', lerp(0.15, 1.0, e))
         rig.energy('Top', lerp(0.5, 1.0, e))
+    elif shot == 'macro_still':
+        setup_frame(rig, 'macro_sweep', 0.5)
+    elif shot == 'cap_still':
+        setup_frame(rig, 'cap_top', 1.0)
+    elif shot == 'rim_still':
+        # fragment of light in the dark: only the glass edges catch the strips, everything else black
+        setup_frame(rig, 'hero', 1.0)
+        for n in ('Key_Rim', 'Top', 'Fill', 'Card', 'CardLow'):
+            rig.energy(n, 0.0)
+        rig.strips_orbit(0)
+        for n, sgn in (('Strip_L', -1), ('Strip_R', 1)):
+            o = rig.L[n]
+            p = Vector((sgn * 0.16, 0.16, 0.05))  # behind-left / behind-right: edge refraction + rims
+            o.location = p
+            o.rotation_euler = (Vector((0, 0, 0.01)) - p).to_track_quat('-Z', 'Y').to_euler()
+            rig.energy(n, 1.6)
+    elif shot == 'label_still':
+        # close 3/4 on the label, logo sharp
+        cd.lens = 100
+        cd.dof.aperture_fstop = 4.0
+        az = math.radians(-32)
+        dist = 0.15
+        tgt = Vector((0, 0, 0.0185))
+        loc = tgt + Vector((dist * math.sin(az), -dist * math.cos(az), 0.012))
+        aim(cam, loc, tgt)
+        rig.vial.rotation_euler = (0, 0, math.radians(-18))  # logo turned partly toward the lens
+        a = math.radians(-90 - 18)
+        logo = Vector((0.0121 * math.cos(a), 0.0121 * math.sin(a), 0.0215))
+        cd.dof.focus_distance = (logo - loc).dot((tgt - loc).normalized())
+        rig.strips_orbit(-20)
     else:
         raise SystemExit('unknown shot ' + shot)
 
@@ -181,13 +213,22 @@ def main():
     if a.haze:
         bpy.data.objects['Haze'].hide_render = False
     rig = Rig(scene)
+    if a.shot in STILLS:
+        scene.render.resolution_x, scene.render.resolution_y = 2560, 1440
+        scene.cycles.samples = a.samples or 32
+        scene.cycles.adaptive_threshold = 0.03
+        path = os.path.join(ROOT, 'renders', 'stills', a.shot + '.png')
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        setup_frame(rig, a.shot, 1.0)
+        if a.exec:
+            exec(a.exec, {'bpy': bpy, 'scene': scene, 'rig': rig})
+        scene.render.filepath = path
+        t0 = time.time()
+        bpy.ops.render.render(write_still=True)
+        print('STILL %s %.1fs -> %s' % (a.shot, time.time() - t0, path), flush=True)
+        return
     n = int(round(SHOTS[a.shot] * a.fps))
-    if a.shot == 'hero_still':
-        scene.render.resolution_x, scene.render.resolution_y = 3840, 2160
-        scene.cycles.samples = a.samples or 128
-        frames = [n]
-    else:
-        frames = parse_frames(a.frames, n)
+    frames = parse_frames(a.frames, n)
     outdir = a.out or os.path.join(ROOT, 'renders', a.shot)
     os.makedirs(outdir, exist_ok=True)
     times = []
@@ -197,7 +238,7 @@ def main():
         scene.frame_set(f)
         if a.exec:
             exec(a.exec, {'bpy': bpy, 'scene': scene, 'rig': rig})
-        path = os.path.join(outdir, '%04d.png' % f) if a.shot != 'hero_still' else os.path.join(ROOT, 'renders', 'hero_still.png')
+        path = os.path.join(outdir, '%04d.png' % f)
         scene.render.filepath = path
         t0 = time.time()
         bpy.ops.render.render(write_still=True)
