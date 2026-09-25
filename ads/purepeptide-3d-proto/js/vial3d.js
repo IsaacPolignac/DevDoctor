@@ -75,7 +75,7 @@ const D = {
   lipR: 1.0,
   lipTop: 4.62,
   crimpR: 1.08,
-  crimpBot: 4.1,
+  crimpBot: 4.06,
   crimpTop: 4.97,
   capR: 1.12,
   capTop: 5.38,
@@ -91,10 +91,10 @@ function glassProfile() {
   // outer: push-up dome -> heel -> body -> shoulder -> neck -> lip
   p.push(...bez([0, 0.17], [0.45, 0.17], [0.8, 0.03], [1.02, 0.0], 10));
   p.push(...arc(R - 0.17, 0.17, 0.17, -Math.PI / 2, 0, 10)); // heel
-  p.push(...line(R, 0.17, R, D.bodyTop, 24));
-  p.push(...bez([R, D.bodyTop], [R, 3.78], [D.neckR + 0.02, 3.66], [D.neckR, 4.0], 24)); // shoulder
+  p.push(...line(R, 0.17, R, D.bodyTop, 40));
+  p.push(...bez([R, D.bodyTop], [R, 3.78], [D.neckR + 0.02, 3.66], [D.neckR, 4.0], 72)); // shoulder
   p.push(...line(D.neckR, 4.0, D.neckR, 4.14, 3));
-  p.push(...bez([D.neckR, 4.14], [0.86, 4.14], [D.lipR, 4.16], [D.lipR, 4.3], 8)); // lip underside
+  p.push(...bez([D.neckR, 4.14], [0.86, 4.14], [D.lipR, 4.16], [D.lipR, 4.3], 16)); // lip underside
   p.push(...line(D.lipR, 4.3, D.lipR, 4.52, 4));
   p.push(...arc(D.lipR - 0.1, 4.52, 0.1, 0, Math.PI / 2, 6)); // lip top round
   p.push(...line(D.lipR - 0.1, D.lipTop, 0.56, D.lipTop, 4));
@@ -102,7 +102,7 @@ function glassProfile() {
   const iR = R - w, iN = D.neckR - 0.18;
   p.push(...line(0.56, D.lipTop, iN, 4.52, 2));
   p.push(...line(iN, 4.52, iN, 3.98, 6));
-  p.push(...bez([iN, 3.98], [iN + 0.02, 3.62], [iR, 3.72], [iR, D.bodyTop], 24));
+  p.push(...bez([iN, 3.98], [iN + 0.02, 3.62], [iR, 3.72], [iR, D.bodyTop], 72));
   p.push(...line(iR, D.bodyTop, iR, 0.3, 24));
   p.push(...arc(iR - 0.12, 0.3, 0.12, 0, -Math.PI / 2, 8));
   p.push(...bez([iR - 0.12, 0.18], [0.75, 0.18], [0.45, 0.3], [0.0001, 0.3], 10));
@@ -111,8 +111,8 @@ function glassProfile() {
 
 function crimpProfile() {
   const r = D.crimpR, b = D.crimpBot, t = D.crimpTop;
-  const p = [new THREE.Vector2(0.8, b + 0.12)];
-  p.push(...bez([0.8, b + 0.12], [0.85, b - 0.02], [r - 0.08, b - 0.03], [r - 0.02, b + 0.02], 8)); // rolled under the lip
+  const p = [new THREE.Vector2(0.8, b + 0.03)];
+  p.push(...bez([0.8, b + 0.03], [0.84, b - 0.03], [r - 0.08, b - 0.03], [r - 0.02, b + 0.02], 12)); // rolled under the lip (clears the glass)
   p.push(...bez([r - 0.02, b + 0.02], [r, b + 0.05], [r, b + 0.08], [r, b + 0.12], 4));
   p.push(...line(r, b + 0.12, r, t - 0.05, 20));
   p.push(...arc(r - 0.05, t - 0.05, 0.05, 0, Math.PI / 2, 6));
@@ -145,7 +145,8 @@ function cakeGeometry(noise) {
     let h = hBase + (noise(x * 1.6 + 3, z * 1.6 + 7, 5) - 0.5) * 0.16; // lumpy
     h += (noise(x * 7 + 11, z * 7 - 5, 3) - 0.5) * 0.035; // grainy crust
     const edge = r / rMax;
-    h += Math.pow(edge, 8) * 0.06; // cake lifts at the wall (meniscus memory)
+    h += Math.pow(edge, 8) * 0.05; // cake lifts at the wall (meniscus memory)
+    h -= Math.pow(Math.max(0, edge - 0.93) / 0.07, 2) * 0.05; // crumbly rounded rim
     const crack = Math.abs(Math.sin(a * 3 + noise(x * 2, z * 2, 2) * 4));
     if (edge > 0.3 && crack < 0.04) h -= 0.06 * (1 - crack / 0.04);
     h -= (1 - edge) * 0.04; // slight central dip
@@ -172,7 +173,7 @@ function cakeGeometry(noise) {
   for (let k = 0; k <= vs; k++) {
     for (let j = 0; j <= segs; j++) {
       const a = (j / segs) * Math.PI * 2;
-      const rr = rMax - noise(Math.cos(a) * 3, Math.sin(a) * 3 + k * 0.4, 3) * 0.04;
+      const rr = rMax - 0.012 - noise(Math.cos(a) * 3 + k * 0.7, Math.sin(a) * 3 + k * 0.9, 4) * 0.06;
       const yt = topY(rMax, a);
       const y = y0 - 0.02 + (yt - y0 + 0.02) * (k / vs);
       pos.push(Math.cos(a) * rr, y, Math.sin(a) * rr);
@@ -296,7 +297,7 @@ function softboxTex() {
 function buildEnv(renderer) {
   const env = new THREE.Scene();
   env.background = new THREE.Color(0x000000);
-  const room = new THREE.Mesh(new THREE.BoxGeometry(40, 30, 40), new THREE.MeshBasicMaterial({ color: 0x010102, side: THREE.BackSide }));
+  const room = new THREE.Mesh(new THREE.BoxGeometry(40, 30, 40), new THREE.MeshBasicMaterial({ color: 0x050607, side: THREE.BackSide }));
   env.add(room);
   const sb = softboxTex();
   const panel = (w, h, pos, intensity, tint = 0xffffff) => {
@@ -306,10 +307,10 @@ function buildEnv(renderer) {
     env.add(m);
     return m;
   };
-  panel(8, 12, [-9, 6.5, -9], 10.0); // large soft key, behind-left -> rim on glass edges
-  panel(1.4, 12, [-8.5, 6.5, 4.5], 14.0); // strip left
-  panel(1.2, 12, [8.5, 6.5, 3], 11.0, 0xeef4ff); // strip right (slightly cool)
-  panel(2.2, 12, [8, 6.5, -8], 9.0); // kicker behind-right -> right rim
+  panel(8, 18, [-9, 4, -9], 10.0); // large soft key, behind-left -> rim on glass edges
+  panel(1.4, 18, [-8.5, 4, 4.5], 14.0); // strip left
+  panel(1.2, 18, [8.5, 4, 3], 11.0, 0xeef4ff); // strip right (slightly cool)
+  panel(2.2, 18, [8, 4, -8], 9.0); // kicker behind-right -> right rim
   panel(8, 8, [0, 14, 0], 0.35); // soft top
   const pm = new THREE.PMREMGenerator(renderer);
   const rt = pm.fromScene(env, 0.0, 0.1, 100, { size: 1024 });
@@ -350,7 +351,7 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
   const seg = (at, dur, from, to, ease = "power2.inOut") => tl.fromTo(S, { ...from }, { ...to, duration: dur, ease, immediateRender: false }, at);
 
   // Shot A 0–3 s: macro push along the glass edge (shoulder + label top edge), light sweep over the label
-  seg(0, 3, { az: -0.42, el: 0.12, dist: 4.6, tx: 0.95, ty: 1.55, tz: 0, fov: 24, vialRot: -0.9 }, { az: -0.3, el: 0.04, dist: 3.7, tx: 0.9, ty: 3.55, tz: 0, fov: 24, vialRot: -0.45 }, "sine.inOut");
+  seg(0, 3, { az: -0.5, el: 0.2, dist: 4.5, tx: 0.62, ty: 2.7, tz: 0, fov: 24, vialRot: -0.95 }, { az: -0.3, el: 0.02, dist: 3.6, tx: 0.55, ty: 4.0, tz: 0, fov: 24, vialRot: -0.5 }, "sine.inOut");
   seg(0, 3, { sweep: -7, sweepI: 1 }, { sweep: 7, sweepI: 1 }, "power1.inOut");
   seg(0, 3, { rig: 0.25, rim: 1, glow: 0.35, envI: 1, exposure: 1 }, { rig: 0.1, rim: 1, glow: 0.35, envI: 1, exposure: 1 }, "none");
 
@@ -392,7 +393,7 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
     side: THREE.DoubleSide,
     transparent: false,
   });
-  const glass = new THREE.Mesh(new THREE.LatheGeometry(glassProfile(), 192), glassMat);
+  const glass = new THREE.Mesh(new THREE.LatheGeometry(glassProfile(), 256), glassMat);
   glass.renderOrder = 2;
   vial.add(glass);
 
@@ -408,11 +409,11 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
 
   const brush = brushedBump(11);
   brush.wrapS = brush.wrapT = THREE.RepeatWrapping;
-  const crimpMat = new THREE.MeshPhysicalMaterial({ color: 0xd8dce1, metalness: 1, roughness: 0.36, anisotropy: 0.7, anisotropyRotation: Math.PI / 2, bumpMap: brush, bumpScale: 0.6, envMapIntensity: 1.1 });
-  const crimp = new THREE.Mesh(new THREE.LatheGeometry(crimpProfile(), 192), crimpMat);
+  const crimpMat = new THREE.MeshPhysicalMaterial({ color: 0xd8dce1, metalness: 1, roughness: 0.36, anisotropy: 0.7, anisotropyRotation: Math.PI / 2, bumpMap: brush, bumpScale: 0.12, envMapIntensity: 1.1 });
+  const crimp = new THREE.Mesh(new THREE.LatheGeometry(crimpProfile(), 256), crimpMat);
   vial.add(crimp);
 
-  const capMat = new THREE.MeshPhysicalMaterial({ color: 0x1f4fd1, roughness: 0.45, metalness: 0, clearcoat: 0.5, clearcoatRoughness: 0.28, specularIntensity: 0.7, envMapIntensity: 1.0 });
+  const capMat = new THREE.MeshPhysicalMaterial({ color: 0x1f4fd1, roughness: 0.55, metalness: 0, clearcoat: 0.25, clearcoatRoughness: 0.4, specularIntensity: 0.35, envMapIntensity: 0.9 });
   const cap = new THREE.Mesh(new THREE.LatheGeometry(capProfile(), 192), capMat);
   vial.add(cap);
 
@@ -458,10 +459,8 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
   area(1.4, 12, [-8.5, 6.5, 4.5], 5);
   area(1.2, 12, [8.5, 6.5, 3], 4, 0xeef4ff);
   const kicker = area(2.2, 12, [8, 6.5, -8], 3);
-  const top = area(6, 6, [0, 12, 1], 0.45);
-  const fill = area(8, 6, [0, 3, 14], 0.9); // soft frontal fill for the label (dim: keeps glass reflections off the front)
-  scene.add(new THREE.AmbientLight(0xffffff, 0.25));
-  const sweep = new THREE.RectAreaLight(0xffffff, 0, 0.5, 7);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.2)); // no frontal area light: it would print a rectangle on the glass
+  const sweep = new THREE.RectAreaLight(0xffffff, 0, 0.5, 16);
   sweep.position.set(0, 2.2, 4.2);
   sweep.lookAt(0, 2.2, 0);
   scene.add(sweep); // camera-independent, moves along x
@@ -494,7 +493,6 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
     scene.environmentIntensity = S.envI;
     key.intensity = 3.5 * S.rim;
     kicker.intensity = 3 * S.rim;
-    top.intensity = 0.45;
     sweep.position.x = S.sweep;
     sweep.intensity = 28 * S.sweepI;
     // strips + glow sit 6 u behind the vial axis, facing the camera
@@ -521,6 +519,8 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
     tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     tex.generateMipmaps = true;
     labelMat.map = tex;
+    labelMat.emissiveMap = tex; // printed paper reads bright without a frontal light that would mirror in the glass
+    labelMat.emissive = new THREE.Color(0.2, 0.2, 0.2);
     labelMat.needsUpdate = true;
     scene.environment = buildEnv(renderer);
     renderer.compile(scene, cam);
@@ -528,5 +528,5 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
     return true;
   })();
 
-  return { renderer, scene, camera: cam, timeline: tl, state: S, renderAt, ready, get isReady() { return isReady; } };
+  return { parts: { glass, cake, stopper, crimp, cap, label, labelBack, floor, mirror }, renderer, scene, camera: cam, timeline: tl, state: S, renderAt, ready, get isReady() { return isReady; } };
 }
