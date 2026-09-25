@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>PurePeptide — Proof (60 s, EN, 16:9)</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/DrawSVGPlugin.min.js"></script>
+    <script src="assets/vendor/CustomEase.min.js"></script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/anton-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: block; }
+      @font-face { font-family: "Archivo"; src: url("assets/fonts/archivo-latin-800-normal.woff2") format("woff2"); font-weight: 800; font-display: block; }
+      @font-face { font-family: "Archivo"; src: url("assets/fonts/archivo-latin-900-normal.woff2") format("woff2"); font-weight: 900; font-display: block; }
+      @font-face { font-family: "DM Sans"; src: url("assets/fonts/dm-sans-latin-800-normal.woff2") format("woff2"); font-weight: 800; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: block; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+      @font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: block; }
+      @font-face { font-family: "PP Symbols"; src: url("assets/fonts/inter-symbols.woff2") format("woff2"); font-weight: 100 900; font-display: block; unicode-range: U+202F, U+2192, U+2264-2265; }
+      :root {
+        --bg: #050608;
+        --ink: #f4f6f8;
+        --ink-soft: #9aa6b8;
+        --neon: #2ee6c9;
+        --neon2: #38bdf8;
+        --grad: linear-gradient(100deg, #5aa8ff 0%, #38bdf8 45%, #2ee6c9 100%);
+        --cond: "Anton", "PP Symbols", sans-serif;       /* big manifesto type (Nike-like condensed) */
+        --display: "Archivo", "PP Symbols", sans-serif;  /* heavy grotesk */
+        --body: "Inter", "PP Symbols", sans-serif;
+        --mono: "IBM Plex Mono", "PP Symbols", monospace;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--body); color: var(--ink); -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+      .layer { position: absolute; inset: 0; pointer-events: none; }
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      .cam { position: absolute; inset: 0; transform-origin: 960px 540px; }
+      #s1 { z-index: 11; } #s2 { z-index: 12; } #s3 { z-index: 13; } #s4 { z-index: 14; } #sitetest { position: absolute; left: 0; top: 0; width: 1920px; height: 1200px; z-index: 15; transform-origin: 0 0; } #s4o { z-index: 16; } #s5 { z-index: 17; }
+      #fx { z-index: 30; overflow: hidden; }
+      #vignette { z-index: 38; background: radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%); }
+      #grain { z-index: 40; mix-blend-mode: overlay; opacity: 0.16; }
+      #grain svg { display: block; }
+
+      /* ---- type ---- */
+      .mf { font-family: var(--cond); font-weight: 400; text-transform: uppercase; letter-spacing: 0.005em; line-height: 0.92; color: var(--ink); white-space: nowrap; }
+      .pp-h { font-family: var(--display); font-weight: 900; letter-spacing: -0.03em; line-height: 1.02; color: var(--ink); text-align: center; white-space: nowrap; }
+      .pp-h.h0 { font-size: 200px; } .pp-h.h1 { font-size: 132px; } .pp-h.h2 { font-size: 96px; } .pp-h.h3 { font-size: 64px; font-weight: 800; }
+      .pp-h.mf { font-family: var(--cond); font-weight: 400; letter-spacing: 0.005em; line-height: 0.92; text-transform: uppercase; }
+      .pp-ln { display: block; padding: 0.04em 0.12em 0.1em; margin: -0.04em -0.12em -0.1em; }
+      .pp-w { display: inline-block; }
+      .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: 0.03em; }
+      .mf .grad, .pp-h.mf .grad, .grad.mf { padding-top: 0.16em; margin-top: -0.16em; } /* keep accents above caps inside the text-clip */
+      .neon { color: var(--neon); }
+      .soft { color: var(--ink-soft); }
+      .mono { font-family: var(--mono); font-weight: 500; text-transform: uppercase; letter-spacing: 0.16em; font-variant-numeric: tabular-nums; }
+      .pp-c { display: inline; }
+
+      /* ---- shared components (from the neon ad library) ---- */
+      .pp-ncard { position: absolute; background: linear-gradient(160deg, #111a2a 0%, #0a0f19 60%, #080c14 100%); box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.09); overflow: hidden; }
+      .pp-ncard-edge { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; padding: 1.5px; background: linear-gradient(135deg, rgba(46,230,201,0.95) 0%, rgba(56,189,248,0.35) 22%, rgba(255,255,255,0) 45%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; z-index: 2; }
+      .pp-ncard-body { position: absolute; inset: 0; }
+      .pp-flash-fill { position: absolute; inset: 0; border-radius: inherit; background: var(--neon); z-index: 20; opacity: 0; }
+      .pp-ring { position: absolute; left: 0; top: 0; width: 16px; height: 16px; border-radius: 50%; border: 26px solid var(--neon); box-shadow: 0 0 40px rgba(46,230,201,0.9), inset 0 0 40px rgba(46,230,201,0.6); }
+      .pp-ring.thin { border-width: 4px; border-color: rgba(255,255,255,0.9); box-shadow: 0 0 24px rgba(46,230,201,0.8); }
+      .pp-bloom { position: absolute; inset: 0; mix-blend-mode: screen; }
+      .pp-cursor { position: absolute; left: 0; top: 0; z-index: 25; filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6)); }
+      .pp-cursor svg { display: block; transform-origin: 4px 3px; }
+      .pp-cursor-pulse { position: absolute; left: -46px; top: -47px; width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--neon); opacity: 0; box-shadow: 0 0 20px rgba(46,230,201,0.8); }
+      .pp-roll { display: inline-flex; align-items: flex-start; font-family: var(--cond); font-weight: 400; font-variant-numeric: tabular-nums; line-height: 1; }
+      .pp-roll-win { display: inline-block; height: 1em; overflow: hidden; }
+      .pp-roll-strip { display: flex; flex-direction: column; }
+      .pp-roll-d { display: block; height: 1em; text-align: center; }
+      .pp-roll-static { display: inline-block; }
+      .pp-wm { position: relative; }
+      .pp-wm img { display: block; }
+      .pp-wm-sheen { position: absolute; inset: 0; --p: -40%; background: linear-gradient(100deg, rgba(46,230,201,0) calc(var(--p) - 18%), rgba(46,230,201,1) var(--p), rgba(255,255,255,1) calc(var(--p) + 3%), rgba(46,230,201,0) calc(var(--p) + 20%)); }
+      .pp-hbar { position: absolute; left: 0; top: 0; border-radius: 16px; background: linear-gradient(90deg, rgba(46,230,201,0.28) 0%, rgba(46,230,201,0.08) 100%); box-shadow: inset 3px 0 0 var(--neon), 0 0 30px rgba(46,230,201,0.18); transform-origin: 0 50%; }
+      .pp-globe { display: block; overflow: visible; }
+      .pp-pill { position: absolute; display: inline-flex; align-items: center; gap: 16px; padding: 18px 32px; border-radius: 999px; background: rgba(16,24,39,0.92); border: 1px solid rgba(46,230,201,0.45); box-shadow: 0 0 30px rgba(46,230,201,0.15), 0 20px 50px rgba(0,0,0,0.5); font-family: var(--body); font-weight: 600; font-size: 32px; color: var(--ink); white-space: nowrap; }
+      .pp-vial { position: absolute; }
+      .pp-vial img { display: block; width: 100%; height: 100%; filter: drop-shadow(0 40px 50px rgba(0,0,0,0.65)); }
+      .pp-logo, .pp-symbol { display: block; }
+    </style>
+    <link rel="preload" as="image" href="assets/img/fake_shelf.png" />
+    <link rel="preload" as="image" href="assets/brand/brand-symbol-neon.svg" />
+    <link rel="preload" as="image" href="assets/brand/brand-wordmark-light.svg" />
+    <link rel="preload" as="image" href="assets/vials/hero.png" />
+    <link rel="preload" as="image" href="assets/vials/bpc157-tb500-10.png" />
+    <link rel="preload" as="image" href="assets/vials/ghk-cu-50.png" />
+    <link rel="preload" as="image" href="assets/vials/cjc-1295-ipa-10.png" />
+    <link rel="preload" as="image" href="assets/vials/selank-10.png" />
+    <link rel="preload" as="image" href="assets/vials/semax-10.png" />
+    <link rel="preload" as="image" href="assets/vials/igf-1-lr3-1.png" />
+    <link rel="stylesheet" href="css/s1.css" />
+    <link rel="stylesheet" href="css/s2.css" />
+    <link rel="stylesheet" href="css/s3.css" />
+    <link rel="stylesheet" href="css/s4.css" />
+    <link rel="stylesheet" href="css/s4o.css" />
+    <link rel="stylesheet" href="css/s5.css" />
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="60">
+      <section id="s1" class="clip scene" data-start="0" data-duration="12.1" data-track-index="1"></section>
+      <section id="s2" class="clip scene" data-start="11.95" data-duration="5.25" data-track-index="2"></section>
+      <section id="s3" class="clip scene" data-start="17" data-duration="14.5" data-track-index="3"></section>
+      <section id="s4" class="clip scene" data-start="30.9" data-duration="16.7" data-track-index="4"></section>
+      <video id="sitetest" class="clip" src="assets/site-test/site_test.mp4" data-start="31.4" data-duration="14.2" data-track-index="8" muted playsinline></video>
+      <section id="s4o" class="clip scene" data-start="30.9" data-duration="16.7" data-track-index="6"></section>
+      <section id="s5" class="clip scene" data-start="47.3" data-duration="12.7" data-track-index="5"></section>
+
+      <div id="fx" class="layer"></div>
+      <div id="vignette" class="layer"></div>
+      <div id="grain" class="layer">
+        <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+          <filter id="grain-f" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+            <feTurbulence id="grain-turb" type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="0" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="1920" height="1080" filter="url(#grain-f)" />
+        </svg>
+      </div>
+
+      <audio id="mix" src="assets/audio/mix.wav" data-start="0" data-duration="60" data-track-index="10" data-volume="1"></audio>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/vo.js"></script>
+    <script src="js/lib.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/scenes/s1.js"></script>
+    <script src="js/scenes/s2.js"></script>
+    <script src="js/scenes/s3.js"></script>
+    <script src="js/scenes/s4.js"></script>
+    <script src="js/scenes/s4o.js"></script>
+    <script src="js/scenes/s5.js"></script>
+    <script>
+      gsap.registerPlugin(DrawSVGPlugin, CustomEase);
+      const fonts = ['400 100px "Anton"', '800 100px "Archivo"', '900 100px "Archivo"', '800 100px "DM Sans"', '400 40px "Inter"', '500 40px "Inter"', '600 40px "Inter"', '700 40px "Inter"', '500 30px "IBM Plex Mono"'].map((f) => document.fonts.load(f, "AÉÈÀÇ’…"));
+      fonts.push(document.fonts.load('600 40px "PP Symbols"', "≥→ "));
+      Promise.all(fonts).then(() => {
+        const tl = window.PP.build();
+        window.__timelines["main"] = tl;
+        if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
+      });
+    </script>
+  </body>
+</html>

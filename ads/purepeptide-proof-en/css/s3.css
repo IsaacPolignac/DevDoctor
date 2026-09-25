@@ -1,0 +1,65 @@
+/* s3 — PROOF (17.00 → 30.20) */
+#s3 { background: #030407; }
+#s3 .s3-g { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+#s3 .s3-cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 960px 540px; }
+
+/* ---------- A · hero vial ---------- */
+#s3 .s3-a-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 55% at 50% 42%, #0c1420 0%, #05080d 55%, #020305 100%); }
+#s3 .s3-floor { position: absolute; left: -200px; right: -200px; top: 905px; height: 400px; background: linear-gradient(180deg, rgba(20,34,52,0.55) 0%, rgba(6,10,16,0.9) 30%, #020305 100%); }
+#s3 .s3-floor::before { content: ""; position: absolute; left: 10%; right: 10%; top: 0; height: 1px; background: linear-gradient(90deg, rgba(46,230,201,0) 0%, rgba(120,200,255,0.35) 50%, rgba(46,230,201,0) 100%); }
+#s3 .s3-beam { position: absolute; top: -200px; width: 520px; height: 1300px; background: linear-gradient(180deg, rgba(150,200,255,0.16) 0%, rgba(150,200,255,0.05) 55%, rgba(150,200,255,0) 80%); filter: blur(30px); transform-origin: 50% 0; mix-blend-mode: screen; }
+#s3 .s3-glow { position: absolute; border-radius: 50%; mix-blend-mode: screen; }
+#s3 .s3-rig { position: absolute; transform-origin: 50% 50%; }
+#s3 .s3-rig .pp-vial { left: 0; top: 0; }
+#s3 .s3-rig .pp-hero img { filter: drop-shadow(0 30px 40px rgba(0,0,0,0.7)); }
+#s3 .s3-refl { position: absolute; left: 0; transform: scaleY(-1); transform-origin: 50% 0; opacity: 0.32; -webkit-mask-image: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 32%); mask-image: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 32%); }
+#s3 .s3-refl img { display: block; width: 100%; height: 100%; filter: blur(1.5px) brightness(0.8); }
+#s3 .s3-rim { position: absolute; left: 0; top: 0; filter: blur(16px); }
+#s3 .s3-rim > div, #s3 .s3-sweep { position: absolute; inset: 0; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+#s3 .s3-sweep { mix-blend-mode: screen; background-image: linear-gradient(105deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 40%, rgba(210,240,255,0.55) 48%, rgba(255,255,255,0.85) 50%, rgba(46,230,201,0.35) 53%, rgba(255,255,255,0) 60%, rgba(255,255,255,0) 100%); background-size: 300% 100%; background-repeat: no-repeat; }
+#s3 .s3-contact { position: absolute; border-radius: 50%; background: radial-gradient(ellipse at 50% 50%, rgba(46,230,201,0.35) 0%, rgba(56,189,248,0.12) 40%, rgba(0,0,0,0) 70%); mix-blend-mode: screen; }
+
+#s3 .s3-a-type { position: absolute; left: 1000px; top: 0; height: 1080px; width: 824px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+#s3 .s3-a-type .pp-h { text-align: left; }
+#s3 .s3-a-type .s3-sm { color: var(--ink-soft); letter-spacing: 0.05em; margin: 14px 0 18px; }
+#s3 .s3-badge { margin-top: 40px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; transform-origin: 0 50%; }
+#s3 .s3-badge-pill { display: inline-flex; align-items: center; gap: 16px; padding: 14px 30px 14px 16px; border-radius: 999px; background: rgba(12,20,32,0.9); border: 1px solid rgba(46,230,201,0.55); box-shadow: 0 0 34px rgba(46,230,201,0.22), 0 18px 40px rgba(0,0,0,0.5); font-family: var(--display); font-weight: 800; font-size: 46px; letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+#s3 .s3-badge-lab { font-family: var(--body); font-weight: 500; font-size: 32px; color: var(--ink-soft); padding-left: 24px; white-space: nowrap; }
+
+/* ---------- B · verification card ---------- */
+#s3 .s3-b-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 55% 50% at 50% 62%, #0b1522 0%, #04070c 60%, #020305 100%); }
+#s3 .s3-b-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px); background-size: 80px 80px; -webkit-mask-image: radial-gradient(ellipse 50% 45% at 50% 60%, #000 0%, transparent 100%); mask-image: radial-gradient(ellipse 50% 45% at 50% 60%, #000 0%, transparent 100%); }
+#s3 .s3-b-h { position: absolute; left: 96px; width: 1728px; top: 120px; font-size: 84px; }
+#s3 .s3-persp { position: absolute; inset: 0; perspective: 2200px; perspective-origin: 960px 620px; }
+#s3 .s3-card { transform-style: flat; }
+#s3 .s3-well { position: absolute; left: 24px; top: 24px; width: 272px; bottom: 24px; border-radius: 20px; background: radial-gradient(ellipse 80% 60% at 50% 55%, #16243a 0%, #0a111c 70%); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); overflow: hidden; }
+#s3 .s3-well .pp-vial img { filter: drop-shadow(0 18px 22px rgba(0,0,0,0.6)); }
+#s3 .s3-scan { position: absolute; left: 0; width: 272px; height: 90px; margin-top: -88px; background: linear-gradient(180deg, rgba(46,230,201,0) 0%, rgba(46,230,201,0.22) 100%); border-bottom: 3px solid var(--neon); box-shadow: 0 6px 20px rgba(46,230,201,0.55); mix-blend-mode: screen; }
+#s3 .s3-row { position: absolute; left: 340px; width: 660px; display: flex; align-items: center; gap: 28px; }
+#s3 .s3-ic { position: relative; width: 60px; height: 60px; flex: 0 0 60px; }
+#s3 .s3-ic svg { position: absolute; left: 0; top: 0; }
+#s3 .s3-lbl { font-family: var(--display); font-weight: 800; font-size: 56px; letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+#s3 .s3-col { display: flex; flex-direction: column; gap: 18px; }
+#s3 .s3-bar { width: 520px; height: 12px; border-radius: 6px; background: rgba(255,255,255,0.08); overflow: hidden; }
+#s3 .s3-bar-fill { width: 100%; height: 100%; border-radius: 6px; background: var(--grad); transform-origin: 0 50%; box-shadow: 0 0 14px rgba(46,230,201,0.6); }
+
+/* ---------- C · 99 % ---------- */
+#s3 .s3-c-glow { position: absolute; left: 960px; top: 440px; width: 1500px; height: 900px; margin: -450px 0 0 -750px; border-radius: 50%; background: radial-gradient(ellipse at 50% 50%, rgba(46,230,201,0.22) 0%, rgba(56,189,248,0.08) 40%, rgba(0,0,0,0) 70%); mix-blend-mode: screen; }
+#s3 .s3-num { position: absolute; left: 0; width: 1920px; display: flex; justify-content: center; filter: drop-shadow(0 0 36px rgba(46,230,201,0.35)); }
+#s3 .s3-num .pp-roll { font-size: 450px; }
+#s3 .s3-num .pp-roll-d, #s3 .s3-num .pp-roll-static { background: linear-gradient(180deg, #ffffff 0%, #ffffff 42%, #9ff5e6 70%, #2ee6c9 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+#s3 .s3-num .pp-roll-static { font-size: 0.56em; line-height: 1; margin: 0.06em 0 0 0.06em; }
+#s3 .s3-min { position: absolute; left: 0; width: 1920px; text-align: center; font-size: 168px; letter-spacing: 0.06em; }
+#s3 .s3-min span { display: inline-block; }
+#s3 .s3-cap { position: absolute; left: 0; width: 1920px; text-align: center; font-family: var(--body); font-weight: 500; font-size: 34px; color: var(--ink-soft); white-space: nowrap; }
+#s3 .s3-cap .pp-w { display: inline-block; }
+
+/* ---------- D · ne nous croyez pas ---------- */
+#s3 .s3-d-bg { position: absolute; inset: 0; background: #020304; }
+#s3 .s3-d-type { position: absolute; left: 150px; top: 0; height: 1080px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+#s3 .s3-d-type .pp-h { text-align: left; }
+#s3 .s3-d1 { color: var(--ink-soft); }
+#s3 .s3-d3 { filter: drop-shadow(0 0 30px rgba(46,230,201,0.25)); }
+#s3 .s3-cover { position: absolute; inset: 0; background: #000; opacity: 0; }
+/* Anton accents (É) sit above the tight 0.92 line box: extend the gradient text box upward so they are painted */
+#s3 .mf .grad { padding-top: 0.16em; margin-top: -0.16em; }

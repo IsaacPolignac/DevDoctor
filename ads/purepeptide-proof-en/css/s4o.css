@@ -1,0 +1,49 @@
+/* s4o — TEST overlays (29.80 → 44.60), above #sitetest */
+#s4o .s4o-black { position: absolute; inset: 0; background: #000; }
+#s4o .s4o-fly { position: absolute; left: 0; top: 0; }
+#s4o .s4o-fly-in { font-size: 360px; color: var(--ink); display: inline-block; text-shadow: 0 0 80px rgba(46,230,201,0.18); }
+
+/* camera-locked window edge light + rounded bottom corners over the video */
+#s4o .s4o-edge { position: absolute; left: 0; top: 0; transform-origin: 0 0; opacity: 0; }
+#s4o .s4o-edge-ring { position: absolute; inset: 0; padding: 2.4px; background: linear-gradient(135deg, rgba(46,230,201,1) 0%, rgba(56,189,248,0.55) 18%, rgba(255,255,255,0.10) 42%, rgba(255,255,255,0.08) 70%, rgba(46,230,201,0.55) 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+#s4o .s4o-corner { position: absolute; }
+
+/* click ripple */
+#s4o .s4o-ripple { position: absolute; left: 0; top: 0; border-radius: 50%; border: 4px solid var(--neon); box-shadow: 0 0 22px rgba(46,230,201,0.8), inset 0 0 14px rgba(46,230,201,0.5); opacity: 0; }
+#s4o .s4o-ripple-dot { position: absolute; left: 0; top: 0; border-radius: 50%; background: radial-gradient(circle, rgba(46,230,201,0.9) 0%, rgba(46,230,201,0) 70%); opacity: 0; }
+#s4o .s4o-perk { position: absolute; left: 0; top: 0; border-radius: 14px; border: 3px solid var(--neon); box-shadow: inset 0 0 24px rgba(46,230,201,0.35); background: rgba(46,230,201,0.07); opacity: 0; }
+
+/* scrims behind lower thirds */
+#s4o .s4o-scrim { position: absolute; inset: 0; opacity: 0; }
+#s4o .s4o-scrim.br { background: radial-gradient(ellipse 62% 42% at 100% 100%, rgba(3,5,9,0.92) 0%, rgba(3,5,9,0.78) 45%, rgba(3,5,9,0) 100%); }
+#s4o .s4o-scrim.bl { background: radial-gradient(ellipse 62% 42% at 0% 100%, rgba(3,5,9,0.92) 0%, rgba(3,5,9,0.78) 45%, rgba(3,5,9,0) 100%); }
+
+/* lower thirds */
+#s4o .s4o-lt { position: absolute; bottom: 60px; }
+#s4o .s4o-lt.right { right: 96px; text-align: right; }
+#s4o .s4o-lt.left { left: 96px; text-align: left; }
+#s4o .s4o-kick { font-family: var(--display); font-weight: 800; font-size: 40px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--neon); margin-bottom: 8px; white-space: nowrap; text-shadow: 0 4px 24px rgba(0,0,0,0.7); }
+#s4o .s4o-big { font-size: 132px; text-shadow: 0 10px 50px rgba(0,0,0,0.6); }
+#s4o .s4o-big .pp-w { padding: 0.16em 0.03em 0.06em; margin-top: -0.14em; }
+#s4o .s4o-big .grad { text-shadow: none; filter: drop-shadow(0 8px 30px rgba(0,0,0,0.6)); }
+
+/* chips */
+#s4o .s4o-chips { position: absolute; left: 96px; top: 850px; width: 900px; height: 170px; }
+#s4o .s4o-chips .pp-pill { left: 0; }
+#s4o .pp-pill-ic { display: block; flex: none; }
+
+/* header */
+#s4o .s4o-hdr { position: absolute; left: 96px; top: 54px; }
+#s4o .s4o-plate { position: absolute; left: -22px; top: -16px; right: -26px; bottom: -14px; border-radius: 18px; background: rgba(6,9,14,0.82); box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 20px 50px rgba(0,0,0,0.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+#s4o .s4o-row { position: relative; display: flex; align-items: center; gap: 22px; }
+#s4o .s4o-testez { font-size: 64px; }
+#s4o .s4o-sep { width: 2px; height: 50px; background: rgba(255,255,255,0.22); }
+#s4o .s4o-stack { position: relative; height: 59px; }
+#s4o .s4o-step { position: absolute; left: 0; top: 0; font-size: 64px; }
+#s4o .s4o-dot { color: var(--ink-soft); }
+#s4o .s4o-meta { position: relative; display: flex; align-items: center; gap: 18px; margin-top: 10px; }
+#s4o .s4o-bars { flex: 1; display: flex; gap: 8px; }
+#s4o .s4o-bars b { flex: 1; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.16); overflow: hidden; display: block; }
+#s4o .s4o-bars i { display: block; width: 100%; height: 100%; background: var(--grad); box-shadow: 0 0 10px rgba(46,230,201,0.8); }
+#s4o .s4o-ctr { position: relative; font-size: 24px; color: var(--ink-soft); width: 176px; height: 30px; margin-left: 6px; align-self: center; }
+#s4o .s4o-ctr span { position: absolute; left: 0; top: 0; white-space: nowrap; }

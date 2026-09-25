@@ -1,0 +1,76 @@
+{
+ "fps": 30,
+ "frames": 426,
+ "marks": [
+  {
+   "name": "gate",
+   "frame": 0,
+   "t": 0
+  },
+  {
+   "name": "check1",
+   "frame": 30,
+   "t": 1
+  },
+  {
+   "name": "check2",
+   "frame": 48,
+   "t": 1.6
+  },
+  {
+   "name": "enter",
+   "frame": 68,
+   "t": 2.267
+  },
+  {
+   "name": "home",
+   "frame": 96,
+   "t": 3.2
+  },
+  {
+   "name": "catalog-click",
+   "frame": 123,
+   "t": 4.1
+  },
+  {
+   "name": "shop",
+   "frame": 124,
+   "t": 4.133
+  },
+  {
+   "name": "product-click",
+   "frame": 199,
+   "t": 6.633
+  },
+  {
+   "name": "product",
+   "frame": 200,
+   "t": 6.667
+  },
+  {
+   "name": "purity-hl",
+   "frame": 233,
+   "t": 7.767
+  },
+  {
+   "name": "add-click",
+   "frame": 320,
+   "t": 10.667
+  },
+  {
+   "name": "cart-click",
+   "frame": 353,
+   "t": 11.767
+  },
+  {
+   "name": "cart-open",
+   "frame": 360,
+   "t": 12
+  },
+  {
+   "name": "end",
+   "frame": 426,
+   "t": 14.2
+  }
+ ]
+}

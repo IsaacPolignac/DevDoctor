@@ -1,0 +1,17 @@
+/* s4 — TEST stage + browser window chrome (29.80 → 44.60), below #sitetest */
+#s4 { background: #030407; }
+#s4 .s4-stage { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 45%, #0a111b 0%, #05080d 55%, #030407 100%); }
+#s4 .s4-floor { position: absolute; left: -10%; right: -10%; bottom: -260px; height: 620px; background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(46,230,201,0.20) 0%, rgba(56,189,248,0.08) 40%, rgba(0,0,0,0) 72%); }
+#s4 .s4-halo { position: absolute; left: 160px; top: 90px; width: 1600px; height: 1000px; border-radius: 50%; background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(46,230,201,0.16) 0%, rgba(56,189,248,0.06) 45%, rgba(0,0,0,0) 70%); opacity: 0; }
+
+#s4 .s4-win { position: absolute; left: 0; top: 0; transform-origin: 0 0; background: #0b0f16; box-shadow: 0 0 0 1.4px rgba(255,255,255,0.10), 0 80px 160px rgba(0,0,0,0.85), 0 30px 60px rgba(0,0,0,0.6); opacity: 0; }
+#s4 .s4-win-glow { position: absolute; inset: -3px; box-shadow: 0 0 60px rgba(46,230,201,0.28), 0 0 160px rgba(56,189,248,0.14); }
+#s4 .s4-bar { position: absolute; left: 0; top: 0; width: 100%; background: linear-gradient(180deg, #1c222c 0%, #151a22 100%); border-bottom: 1.4px solid rgba(0,0,0,0.6); overflow: hidden; }
+#s4 .s4-bar-in { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+#s4 .s4-dots { position: absolute; left: 22px; top: 21px; display: flex; gap: 9px; }
+#s4 .s4-dots i { display: block; width: 14px; height: 14px; border-radius: 50%; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.25); }
+#s4 .s4-nav { position: absolute; left: 104px; top: 19px; }
+#s4 .s4-nav svg { display: block; }
+#s4 .s4-url { position: absolute; left: 50%; top: 8px; width: 500px; margin-left: -250px; height: 40px; border-radius: 10px; background: #0c1017; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: center; gap: 12px; font-family: var(--body); font-weight: 500; font-size: 24px; color: #d6dde8; letter-spacing: 0.01em; }
+#s4 .s4-url svg { display: block; }
+#s4 .s4-content { position: absolute; left: 0; width: 100%; background: #eef3f8; }
