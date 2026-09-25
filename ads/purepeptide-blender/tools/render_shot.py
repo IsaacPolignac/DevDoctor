@@ -24,7 +24,8 @@ SHOTS = {  # name: (seconds, default lens)
     'hero': 3.0,
     'hero_still': 3.0,
 }
-FPS = 30
+FPS = 30   # delivery rate
+RFPS = 15  # render rate (frames are motion-interpolated to 30 fps at encode time)
 
 
 def ease(t):  # smooth in/out
@@ -59,7 +60,7 @@ class Rig:
         self.s = scene
         self.cam = scene.camera
         self.vial = bpy.data.objects['Vial']
-        self.L = {n: bpy.data.objects[n] for n in ('Key_Rim', 'Strip_L', 'Strip_R', 'Top', 'Fill', 'Card')}
+        self.L = {n: bpy.data.objects[n] for n in ('Key_Rim', 'Strip_L', 'Strip_R', 'Top', 'Fill', 'Card', 'CardLow')}
         self.base = {n: (o.location.copy(), o.data.energy) for n, o in self.L.items()}
         self.pivot = bpy.data.objects.new('LightPivot', None)
         scene.collection.objects.link(self.pivot)
@@ -107,7 +108,7 @@ def setup_frame(rig, shot, t):
         cd.lens = 70
         cd.dof.aperture_fstop = 8.0
         az = math.radians(-28)
-        dist = 0.30
+        dist = 0.27
         loc = (dist * math.sin(az), -dist * math.cos(az), 0.016)
         aim(cam, loc, (0, 0, 0.0275))
         rig.vial.rotation_euler = (0, 0, math.radians(lerp(-60, 60, t)))
@@ -126,8 +127,11 @@ def setup_frame(rig, shot, t):
         cd.dof.focus_distance = (tgt - loc).length - 0.004
         rig.vial.rotation_euler = (0, 0, math.radians(-20))
         rig.strips_orbit(lerp(-10, 10, e))
-        rig.energy('Top', 0.5)
-        rig.energy('Fill', 0.4)
+        rig.energy('Top', 0.3)
+        rig.energy('Key_Rim', 0.35)
+        rig.energy('Strip_L', 0.25)
+        rig.energy('Strip_R', 0.25)
+        rig.energy('Fill', 0.75)
     elif shot in ('hero', 'hero_still'):
         # centred hero, slow push-in, rim light rises. Final frame = clean title frame.
         cd.lens = 85
@@ -165,6 +169,7 @@ def main():
     ap.add_argument('--samples', type=int, default=0)
     ap.add_argument('--out', default='')
     ap.add_argument('--haze', action='store_true')
+    ap.add_argument('--fps', type=int, default=RFPS)
     ap.add_argument('--exec', default='', help='debug: python run after setup of each frame')
     a = ap.parse_args(argv)
 
@@ -176,9 +181,10 @@ def main():
     if a.haze:
         bpy.data.objects['Haze'].hide_render = False
     rig = Rig(scene)
-    n = int(round(SHOTS[a.shot] * FPS))
+    n = int(round(SHOTS[a.shot] * a.fps))
     if a.shot == 'hero_still':
         scene.render.resolution_x, scene.render.resolution_y = 3840, 2160
+        scene.cycles.samples = a.samples or 128
         frames = [n]
     else:
         frames = parse_frames(a.frames, n)

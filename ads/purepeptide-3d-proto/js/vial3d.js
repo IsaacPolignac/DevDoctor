@@ -319,14 +319,15 @@ function buildEnv(renderer) {
 }
 
 // ------------------------------------------------------------------ the shot
-export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio = 1.5, duration = 12 }) {
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, preserveDrawingBuffer: true, powerPreference: "high-performance" });
+export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio = 1.5, duration = 12, antialias = true, transmissionScale = 1 }) {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias, alpha: false, preserveDrawingBuffer: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(pixelRatio);
   renderer.setSize(width, height, false);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;
   renderer.setClearColor(0x000000, 1);
+  renderer.transmissionResolutionScale = transmissionScale;
   RectAreaLightUniformsLib.init();
 
   const scene = new THREE.Scene();
@@ -504,8 +505,11 @@ export function createVialShot({ canvas, width = 1920, height = 1080, pixelRatio
   }
 
   let isReady = false;
-  function renderAt(t) {
+  let lastT = NaN;
+  function renderAt(t, force) {
     const tt = Math.min(Math.max(0, t), duration);
+    if (tt === lastT && !force) return; // HyperFrames may dispatch the same time twice per frame
+    lastT = tt;
     tl.totalTime(tt, true); // GSAP writes S deterministically for time tt
     applyState();
     renderer.render(scene, cam);

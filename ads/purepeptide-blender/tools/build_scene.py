@@ -148,7 +148,7 @@ cake, nt, out = new_mat('PowderCake')
 b = node(nt, 'ShaderNodeBsdfPrincipled', (0, 0))
 b.inputs['Base Color'].default_value = (0.86, 0.85, 0.82, 1)
 b.inputs['Roughness'].default_value = 0.92
-b.inputs['Subsurface Weight'].default_value = 0.35
+b.inputs['Subsurface Weight'].default_value = 0.0  # SSS off: too costly on 4 CPU cores
 b.inputs['Subsurface Radius'].default_value = (1.0, 0.9, 0.8)
 b.inputs['Subsurface Scale'].default_value = 0.0006
 tc = node(nt, 'ShaderNodeTexCoord', (-900, 0))
@@ -202,7 +202,7 @@ b = node(nt, 'ShaderNodeBsdfPrincipled', (0, 0))
 b.inputs['Base Color'].default_value = srgb('#1F4FD1')
 b.inputs['Roughness'].default_value = 0.42
 b.inputs['Specular IOR Level'].default_value = 0.35
-b.inputs['Subsurface Weight'].default_value = 0.08
+b.inputs['Subsurface Weight'].default_value = 0.0
 b.inputs['Subsurface Radius'].default_value = (0.2, 0.4, 1.0)
 b.inputs['Subsurface Scale'].default_value = 0.0005
 tc = node(nt, 'ShaderNodeTexCoord', (-900, 0))
@@ -420,12 +420,15 @@ sr = area('Strip_R', (0.20, 0.09, 0.05), 0.025, 0.55, 10.0, color=(1.0, 0.99, 0.
 # soft top light
 top = area('Top', (0.0, 0.02, 0.32), 0.30, 0.30, 3.0, shape='DISK', target=(0, 0, 0))
 # faint large front fill so the label reads (kept very low: product-film contrast)
-fill = area('Fill', (0.16, -0.50, 0.34), 0.3, 0.3, 8.0, color=(1.0, 1.0, 1.0))
+fill = area('Fill', (0.16, -0.50, 0.34), 0.3, 0.3, 5.0, color=(1.0, 1.0, 1.0))
 
 # large soft white card seen only by the metal crimp + cap (silver gradient on the aluminium)
-card = area('Card', (-0.10, -0.22, 0.16), 0.35, 0.20, 6.0, target=(0, 0, 0.048))
+card = area('Card', (-0.10, -0.22, 0.16), 0.35, 0.20, 3.0, target=(0, 0, 0.048))
 card_coll = bpy.data.collections.new('LL_CapCrimp')
 card.light_linking.receiver_collection = card_coll
+# low bounce card (like a white sheet on the table) seen by the crimp when viewed from above
+card_low = area('CardLow', (-0.02, -0.07, 0.004), 0.16, 0.08, 2.0, target=(0, 0, 0.048))
+card_low.light_linking.receiver_collection = card_coll
 
 # light linking: studio lights do not light / reflect in the floor, so the black acrylic only
 # mirrors the vial itself (no bright floor hotspots).
@@ -482,7 +485,7 @@ for cobj in FLOOR_LL.collection_objects:
 # ----------------------------------------------------------------------------- render settings
 r = scene.render
 r.engine = 'CYCLES'
-r.resolution_x, r.resolution_y, r.resolution_percentage = 1920, 1080, 100
+r.resolution_x, r.resolution_y, r.resolution_percentage = 1600, 900, 100  # upscale to 1080p in post
 r.fps = 30
 r.film_transparent = False
 r.use_persistent_data = True
@@ -491,7 +494,7 @@ r.image_settings.color_depth = '16'
 r.image_settings.color_mode = 'RGB'
 c = scene.cycles
 c.device = 'CPU'
-c.samples = 96
+c.samples = 40
 c.use_adaptive_sampling = True
 c.adaptive_threshold = 0.02
 c.adaptive_min_samples = 16
@@ -499,10 +502,10 @@ c.use_denoising = True
 c.denoiser = 'OPENIMAGEDENOISE'
 c.denoising_input_passes = 'RGB_ALBEDO_NORMAL'
 c.denoising_prefilter = 'ACCURATE'
-c.max_bounces = 16
-c.diffuse_bounces = 3
-c.glossy_bounces = 6
-c.transmission_bounces = 14
+c.max_bounces = 14
+c.diffuse_bounces = 2
+c.glossy_bounces = 4
+c.transmission_bounces = 12
 c.transparent_max_bounces = 16
 c.volume_bounces = 0
 c.caustics_reflective = False

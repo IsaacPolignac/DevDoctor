@@ -56,13 +56,13 @@ def main():
         d.rectangle([0, y, W, y + max(2, int(0.08 * mm))], fill=lerp(C1, PAPER, 0.55))
     # symbol
     sym = Image.open(os.path.join(A, 'brand-symbol.png')).convert('RGBA')
-    sh = int(7.6 * mm)
+    sh = int(6.6 * mm)
     sym = sym.resize((int(sym.width * sh / sym.height), sh), Image.LANCZOS)
-    sy = int(4.1 * mm)
+    sy = int(4.6 * mm)
     img.paste(sym, (cx - sym.width // 2, sy), sym)
     # wordmark
     wm = Image.open(os.path.join(A, 'brand-wordmark.png')).convert('RGBA')
-    ww = int(17.5 * mm)
+    ww = int(13.2 * mm)
     wm = wm.resize((ww, int(wm.height * ww / wm.width)), Image.LANCZOS)
     wy = sy + sh + int(1.5 * mm)
     img.paste(wm, (cx - ww // 2, wy), wm)
@@ -70,11 +70,11 @@ def main():
     ry = wy + wm.height + int(1.1 * mm)
     img.paste(grad_band(ww, max(3, int(0.12 * mm))), (cx - ww // 2, ry))
     # tagline
-    f_tag = ImageFont.truetype(FONT_B, int(1.05 * mm))
-    tracked_text(img, 'SCIENCE. PURITY. POTENTIAL.', f_tag, cx, ry + int(1.55 * mm), 0.33 * mm, C1)
+    f_tag = ImageFont.truetype(FONT_B, int(0.95 * mm))
+    tracked_text(img, 'SCIENCE. PURITY. POTENTIAL.', f_tag, cx, ry + int(1.55 * mm), 0.12 * mm, C1)
     # research use only (bottom)
     f_ruo = ImageFont.truetype(FONT_B, int(0.82 * mm))
-    tracked_text(img, 'RESEARCH USE ONLY', f_ruo, cx, H - int(4.25 * mm), 0.38 * mm, lerp(C1, C2, 0.35))
+    tracked_text(img, 'RESEARCH USE ONLY', f_ruo, cx, H - int(4.25 * mm), 0.22 * mm, lerp(C1, C2, 0.35))
     # side panels (seen when rotating): small repeated caps + gradient ticks
     f_side = ImageFont.truetype(FONT_R, int(0.72 * mm))
     for u in (0.2, 0.8):
