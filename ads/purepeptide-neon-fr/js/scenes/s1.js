@@ -182,7 +182,7 @@
     const DS = 1.035,
       DY = -14; // drift reached at 3.80, then held
     tl.fromTo(cam, { scale: 1, y: 0 }, { scale: DS, y: DY, duration: 3.8, ease: "sine.inOut" }, 0);
-    const PS = 1.22;
+    const PS = 1.15;
     tl.set(push, { transformOrigin: `${ox}px ${oy}px` }, 0);
     tl.fromTo(push, { scale: 1 }, { scale: PS, duration: 0.3, ease: "sine.in", immediateRender: false }, 3.8);
     const oxS = 540 + DS * (ox - 540),
