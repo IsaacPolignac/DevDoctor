@@ -43,8 +43,8 @@ PP.scene("s4", function (tl, root, cam) {
     { t: 41.85, f: [1330, 820], s: [1190, 640], z: 1.2, e: "power3.inOut" },
     { t: 43.15, f: [1330, 820], s: [1184, 640], z: 1.22, e: "none" },
     // cart drawer (43.2 → 45.6), framed on the right; offer cards over the dimmed page on the left
-    { t: 44.15, f: [1640, 380], s: [1488, 492], z: 1.34, e: "power2.inOut" },
-    { t: 45.6, f: [1640, 380], s: [1484, 494], z: 1.365, e: "none" },
+    { t: 44.15, f: [1640, 365], s: [1500, 540], z: 1.5, e: "power2.inOut" },
+    { t: 45.6, f: [1640, 365], s: [1496, 542], z: 1.53, e: "none" },
   ];
   const eases = {};
   const ez = (name) => eases[name] || (eases[name] = gsap.parseEase(name));

@@ -33,6 +33,14 @@ PP.scene("s1", function (tl, root, cam) {
   const open = PP.el("div", "s1-open", cam);
   PP.el("div", "s1-o-bg", open);
   const haze = PP.el("div", "s1-o-haze", open);
+  // out-of-focus specks of light on the dark stage (depth), deterministic
+  const bokeh = [
+    [205, 250, 90, 0.2], [330, 820, 140, 0.14], [120, 560, 60, 0.22], [1690, 330, 120, 0.16], [1790, 760, 80, 0.2], [1560, 930, 160, 0.1], [455, 90, 70, 0.14],
+  ].map(([x, y, d, a], i) => {
+    const b = PP.el("div", "s1-o-bokeh" + (i % 3 === 0 ? " teal" : ""), open);
+    b.style.cssText = `left:${x - d / 2}px;top:${y - d / 2}px;width:${d}px;height:${d}px;`;
+    return { el: b, x, a, ph: i * 1.7 };
+  });
   // vial 2000 px tall (2.6× the s3 hero): the label fills the frame, wordmark ≈ 640 px wide.
   // Logo cluster (png rows 640 → 990 of 1536) centred at y 525.
   const OH = 2000,
@@ -40,11 +48,18 @@ PP.scene("s1", function (tl, root, cam) {
     OCY = 0.535 * OH;
   const rig = PP.el("div", "s1-o-rig", open);
   rig.style.cssText = `left:${(960 - OW / 2).toFixed(1)}px;top:${(525 - OCY).toFixed(1)}px;width:${OW.toFixed(1)}px;height:${OH}px;transform-origin:${(OW / 2).toFixed(1)}px ${OCY.toFixed(1)}px;`;
-  const rim = PP.el("div", "s1-o-rim", rig);
-  const rimL = PP.el("div", "s1-o-rim-l", rim);
-  const rimR = PP.el("div", "s1-o-rim-r", rim);
-  masked(rimL);
-  masked(rimR);
+  // rim light = the vial silhouette in teal / blue offset behind the glass: a thin sharp edge + a soft halo
+  const rims = [
+    ["s1-o-rim s1-o-rim-halo", 16],
+    ["s1-o-rim s1-o-rim-edge", 5],
+  ].map(([cls, dx]) => {
+    const r = PP.el("div", cls, rig);
+    const l = PP.el("div", "s1-o-rim-l", r);
+    const rr = PP.el("div", "s1-o-rim-r", r);
+    masked(l);
+    masked(rr);
+    return { l, r: rr, dx };
+  });
   const hv = PP.heroVial(rig, OH);
   hv.el.style.left = hv.el.style.top = "0px";
   const shade = PP.el("div", "s1-o-shade", rig); // cylindrical key-light falloff on glass + label
@@ -65,25 +80,32 @@ PP.scene("s1", function (tl, root, cam) {
     const u = t / T_CUT;
     // slow, linear push into the logo (motion-control feel) + tiny rise
     rig.style.transform = `translateY(${(-10 * u).toFixed(2)}px) scale(${(1 + 0.055 * u).toFixed(4)})`;
-    // light sweep across the label 0.00 → 0.60 (already on the label's left edge on frame 0)
+    // light sweep across the label 0.00 → 0.60 (already on the label's left edge, on the glint, on frame 0)
     const k = clamp(t / 0.6);
-    const p = 16 + 124 * (1 - Math.pow(1 - k, 1.7));
+    // (100deg gradient over the 1333 x 2000 box: the label spans p ≈ 26 % → 75 %, the glint sits at p ≈ 31 %)
+    const p = 30 + 52 * (0.75 * k + 0.25 * (1 - Math.pow(1 - k, 2)));
     sweep.style.setProperty("--p", p.toFixed(2) + "%");
     veil.style.setProperty("--p", p.toFixed(2) + "%");
-    sweep.style.opacity = (t < 0.6 ? 1 : clamp(1 - (t - 0.6) / 0.15)).toFixed(3);
+    sweep.style.opacity = (t < 0.6 ? 1 : clamp(1 - (t - 0.6) / 0.12)).toFixed(3);
     // exposure kick on the tink, settling to the key level
     const fl = Math.exp(-t * 6.5);
-    hv.img.style.filter = `brightness(${(0.86 + 0.22 * fl).toFixed(3)}) contrast(1.05) saturate(1.05)`;
-    oFlash.style.opacity = (0.3 * Math.exp(-t * 11)).toFixed(3);
+    hv.img.style.filter = `brightness(${(0.84 + 0.14 * fl).toFixed(3)}) contrast(1.06)`;
+    oFlash.style.opacity = (0.28 * Math.exp(-t * 10)).toFixed(3);
     // glint: born bright on frame 0, twinkles out in ~0.5 s
     const g = Math.exp(-t * 5.2);
     glint.style.opacity = (t < 0.75 ? g : 0).toFixed(3);
     glint.style.transform = `translate(-50%, -50%) rotate(${(-8 + 22 * t).toFixed(2)}deg) scale(${(0.55 + 0.6 * g).toFixed(3)})`;
     // glass speculars drift with the push (parallax against the label)
-    spec.style.setProperty("--s", (13.5 + 2.2 * u).toFixed(2) + "%");
-    rimL.style.transform = `translateX(${(-24 + 5 * u).toFixed(2)}px)`;
-    rimR.style.transform = `translateX(${(24 - 5 * u).toFixed(2)}px)`;
+    spec.style.setProperty("--s", (21.5 + 1.6 * u).toFixed(2) + "%");
+    rims.forEach((r) => {
+      r.l.style.transform = `translateX(${(-r.dx * (1 - 0.15 * u)).toFixed(2)}px)`;
+      r.r.style.transform = `translateX(${(r.dx * (1 - 0.15 * u)).toFixed(2)}px)`;
+    });
     haze.style.opacity = (0.85 + 0.15 * Math.sin(t * 2.2)).toFixed(3);
+    bokeh.forEach((b) => {
+      b.el.style.opacity = (b.a * (0.8 + 0.2 * Math.sin(t * 1.3 + b.ph))).toFixed(3);
+      b.el.style.transform = `translateX(${((b.x - 960) * 0.03 * u).toFixed(1)}px)`;
+    });
   }
   PP.drive(tl, openFrame, 0, T_CUT, 0, T_CUT, "none");
   sw(open, 1, 0, fr(T_CUT)); // HARD CUT
@@ -249,17 +271,17 @@ PP.scene("s1", function (tl, root, cam) {
     <filter id="s1-print-f" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="5" result="w"/>
       <feDisplacementMap in="SourceGraphic" in2="w" scale="3" xChannelSelector="R" yChannelSelector="G" result="r"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="9" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -7 0 0 0 4.6" result="h"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="1" seed="9" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -16 0 0 0 11.2" result="h"/>
       <feComposite in="r" in2="h" operator="in"/>
     </filter>
     <filter id="s1-ink-f" x="-4%" y="-8%" width="108%" height="116%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="3" result="w"/>
       <feDisplacementMap in="SourceGraphic" in2="w" scale="7" xChannelSelector="R" yChannelSelector="G" result="r"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="11" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -8 0 0 0 4.9" result="h"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="21" result="lo"/>
-      <feColorMatrix in="lo" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.2 0 0 0 -0.75" result="dens"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.22" numOctaves="2" seed="11" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -14 0 0 0 9.4" result="h"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="2" seed="21" result="lo"/>
+      <feColorMatrix in="lo" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.6 0 0 0 0.2" result="dens"/>
       <feComposite in="h" in2="dens" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" result="hd"/>
       <feComposite in="r" in2="hd" operator="in"/>
     </filter>

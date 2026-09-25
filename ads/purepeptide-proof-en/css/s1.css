@@ -9,30 +9,35 @@
 #s1 .s1-o-rig { position: absolute; }
 #s1 .s1-o-rig .pp-hero { left: 0; top: 0; }
 #s1 .s1-o-rig .pp-hero img { filter: none; }
-#s1 .s1-o-rim { position: absolute; inset: 0; filter: blur(12px); }
+#s1 .s1-o-rim { position: absolute; inset: 0; }
 #s1 .s1-o-rim > div { position: absolute; inset: 0; }
-#s1 .s1-o-rim-l { background: #2ee6c9; opacity: 0.95; }
-#s1 .s1-o-rim-r { background: #5aa8ff; opacity: 0.85; }
+#s1 .s1-o-rim-halo { filter: blur(26px); opacity: 0.55; }
+#s1 .s1-o-rim-edge { filter: blur(2.5px); opacity: 0.9; }
+#s1 .s1-o-rim-l { background: #2ee6c9; }
+#s1 .s1-o-rim-r { background: #5aa8ff; }
+#s1 .s1-o-bokeh { position: absolute; border-radius: 50%; mix-blend-mode: screen; filter: blur(3px);
+  background: radial-gradient(circle, rgba(90,168,255,0.55) 0%, rgba(90,168,255,0.35) 55%, rgba(90,168,255,0.6) 66%, rgba(90,168,255,0) 72%); }
+#s1 .s1-o-bokeh.teal { background: radial-gradient(circle, rgba(46,230,201,0.5) 0%, rgba(46,230,201,0.3) 55%, rgba(46,230,201,0.55) 66%, rgba(46,230,201,0) 72%); }
 #s1 .s1-o-shade, #s1 .s1-o-spec, #s1 .s1-o-veil, #s1 .s1-o-sweep { position: absolute; inset: 0; }
-/* key light from the front-left: the edges of the cylinder fall off, the top (glass shoulder) and the bottom go dark */
+/* key light pooled on the logo: the cylinder's edges fall off, the glass shoulder and the lower label go dark */
 #s1 .s1-o-shade {
   background:
-    linear-gradient(90deg, rgba(2,4,8,0.86) 0%, rgba(2,4,8,0.5) 9%, rgba(2,4,8,0.16) 22%, rgba(2,4,8,0) 36%, rgba(2,4,8,0) 58%, rgba(2,4,8,0.2) 74%, rgba(2,4,8,0.58) 90%, rgba(2,4,8,0.9) 100%),
-    linear-gradient(180deg, rgba(2,4,8,0.55) 0%, rgba(2,4,8,0.2) 26%, rgba(2,4,8,0) 36%, rgba(2,4,8,0) 62%, rgba(2,4,8,0.35) 80%, rgba(2,4,8,0.7) 100%); }
-#s1 .s1-o-spec { --s: 14%; mix-blend-mode: screen;
+    linear-gradient(90deg, rgba(2,4,8,0) 19%, rgba(2,4,8,0.62) 19.6%, rgba(2,4,8,0.34) 23%, rgba(2,4,8,0.1) 30%, rgba(2,4,8,0) 38%, rgba(2,4,8,0) 58%, rgba(2,4,8,0.16) 67%, rgba(2,4,8,0.46) 76%, rgba(2,4,8,0.78) 80.9%),
+    radial-gradient(ellipse 44% 26% at 50% 51%, rgba(2,4,8,0) 0%, rgba(2,4,8,0) 45%, rgba(2,4,8,0.34) 78%, rgba(2,4,8,0.72) 100%); }
+#s1 .s1-o-spec { --s: 22%; mix-blend-mode: screen;
   background:
-    linear-gradient(90deg, rgba(255,255,255,0) calc(var(--s) - 2.6%), rgba(225,245,255,0.34) var(--s), rgba(255,255,255,0) calc(var(--s) + 2.6%)),
-    linear-gradient(90deg, rgba(255,255,255,0) 84%, rgba(160,220,255,0.2) 87.5%, rgba(255,255,255,0) 90%); }
-#s1 .s1-o-veil { --p: 0%; background: linear-gradient(100deg, rgba(2,4,8,0) calc(var(--p) - 4%), rgba(2,4,8,0.32) calc(var(--p) + 16%), rgba(2,4,8,0.32) 200%); }
+    linear-gradient(90deg, rgba(255,255,255,0) calc(var(--s) - 1.8%), rgba(225,245,255,0.42) var(--s), rgba(255,255,255,0) calc(var(--s) + 1.8%)),
+    linear-gradient(90deg, rgba(255,255,255,0) 73%, rgba(160,220,255,0.24) 75.5%, rgba(255,255,255,0) 78%); }
+#s1 .s1-o-veil { --p: 0%; background: linear-gradient(100deg, rgba(2,4,8,0) calc(var(--p) + 5%), rgba(2,4,8,0.24) calc(var(--p) + 18%), rgba(2,4,8,0.24) 200%); }
 #s1 .s1-o-sweep { --p: -40%; mix-blend-mode: screen;
-  background: linear-gradient(100deg, rgba(46,230,201,0) calc(var(--p) - 15%), rgba(56,189,248,0.3) calc(var(--p) - 6%), rgba(235,252,255,0.95) var(--p), rgba(46,230,201,0.4) calc(var(--p) + 3.5%), rgba(46,230,201,0) calc(var(--p) + 12%)); }
+  background: linear-gradient(100deg, rgba(46,230,201,0) calc(var(--p) - 9%), rgba(56,189,248,0.32) calc(var(--p) - 3.5%), rgba(240,253,255,0.95) var(--p), rgba(46,230,201,0.45) calc(var(--p) + 2%), rgba(46,230,201,0) calc(var(--p) + 7%)); }
 #s1 .s1-o-glint { position: absolute; left: 0; top: 0; width: 0; height: 0; mix-blend-mode: screen; }
 #s1 .s1-o-glint > div { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); border-radius: 50%; }
-#s1 .s1-o-glint-h { width: 720px; height: 5px; background: linear-gradient(90deg, rgba(160,240,255,0) 0%, rgba(210,250,255,0.9) 46%, #fff 50%, rgba(210,250,255,0.9) 54%, rgba(160,240,255,0) 100%); filter: blur(1px); }
-#s1 .s1-o-glint-v { width: 4px; height: 260px; background: linear-gradient(180deg, rgba(160,240,255,0) 0%, rgba(230,252,255,0.9) 47%, #fff 50%, rgba(230,252,255,0.9) 53%, rgba(160,240,255,0) 100%); filter: blur(1px); }
-#s1 .s1-o-glint-c { width: 120px; height: 120px; background: radial-gradient(circle, #ffffff 0%, rgba(200,250,255,0.85) 14%, rgba(46,230,201,0.35) 38%, rgba(46,230,201,0) 70%); }
+#s1 .s1-o-glint-h { width: 760px; height: 5px; background: linear-gradient(90deg, rgba(160,240,255,0) 0%, rgba(210,250,255,0.9) 46%, #fff 50%, rgba(210,250,255,0.9) 54%, rgba(160,240,255,0) 100%); filter: blur(1px); }
+#s1 .s1-o-glint-v { width: 4px; height: 280px; background: linear-gradient(180deg, rgba(160,240,255,0) 0%, rgba(230,252,255,0.9) 47%, #fff 50%, rgba(230,252,255,0.9) 53%, rgba(160,240,255,0) 100%); filter: blur(1px); }
+#s1 .s1-o-glint-c { width: 130px; height: 130px; background: radial-gradient(circle, #ffffff 0%, rgba(200,250,255,0.85) 14%, rgba(46,230,201,0.35) 38%, rgba(46,230,201,0) 70%); }
 #s1 .s1-o-falloff { position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 76%, rgba(0,0,0,0.55) 100%); }
+  background: linear-gradient(180deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.3) 12%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.6) 100%); }
 #s1 .s1-o-flash { position: absolute; inset: 0; mix-blend-mode: screen; opacity: 0;
   background: radial-gradient(ellipse 60% 60% at 38% 30%, rgba(220,250,255,0.9) 0%, rgba(46,230,201,0.25) 45%, rgba(46,230,201,0) 80%); }
 
@@ -76,6 +81,6 @@
 #s1 .s1-p1, #s1 .s1-p2 { top: 292px; }
 #s1 .s1-p1-tail { position: absolute; top: 400px; }
 #s1 .s1-p3 { top: 176px; }
-#s1 .s1-p3-big { font-size: 360px; }
+#s1 .s1-p3-big { font-size: 360px; filter: drop-shadow(0 10px 40px rgba(0,0,0,0.55)); }
 #s1 .s1-p3-big .s1-w { transform-origin: 0 60%; }
-#s1 .s1-hollow { color: transparent; -webkit-text-stroke: 6px #ffffff; text-shadow: none; filter: none; }
+#s1 .s1-hollow { color: transparent; -webkit-text-stroke: 7px #ffffff; text-shadow: none; filter: none; }

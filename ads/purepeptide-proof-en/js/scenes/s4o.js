@@ -1,39 +1,36 @@
-// s4o — TEST overlays (clip 29.80 → 44.60), ABOVE the stage-level #sitetest video. « TESTEZ. » slam on black →
-// flies to the header; step labels + progress; window edge light + corner masks (same camera as s4 via PP.s4cam);
-// click ripples on the real clicks; VO keywords (L13 / L14) as big lower thirds; shipping chips. Gone by 44.55.
+// s4o — TEST overlays + OFFER (clip 30.90 → 47.60, ENGLISH), ABOVE the stage-level #sitetest video (31.40 → 45.60).
+// Window edge light + corner masks and click ripples / highlights locked to the s4 camera (PP.s4cam); header
+// « CHECK IT YOURSELF. » + step labels + progress; « For laboratory research use only » tag; VO keyword lower thirds
+// (L12 · L13 · L14); OFFER: « 2 VIALS · 5% OFF » (43.36) and « 3+ VIALS · 8% OFF » (45.48) build as big cards over
+// the dimmed site, the window recedes (45.30 → 45.58) and the cards settle into a clean full-frame panel with
+// « OVER $200 · FREE SHIPPING » (pop 46.20) + « Applied automatically in the cart. »; exit whoosh 47.30, gone 47.55.
 PP.scene("s4o", function (tl, root, cam) {
   const F = PP.F;
   const C = PP.s4cam;
-  const T = { SLAM: 29.93, IN: 30.4, OUT: 44.3 };
+  const T = { IN: 31.4, REC: 45.3, PANEL: 45.6, EXIT: 47.3 };
 
-  // hard cut: visible on [on, off)
-  const vis = (el, on, off) => {
-    gsap.set(el, { autoAlpha: 0 });
-    tl.fromTo(el, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.001, ease: "none", immediateRender: false }, on - 0.002);
-    if (off) tl.fromTo(el, { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.001, ease: "none", immediateRender: false }, off - 0.002);
-  };
-  // offset of an element relative to the section (layout px, ignores transforms/preview scaling)
-  const offs = (el) => {
-    let x = 0,
-      y = 0,
-      e = el;
-    while (e && e !== root) {
-      x += e.offsetLeft;
-      y += e.offsetTop;
-      e = e.offsetParent;
-    }
-    return { x, y };
+  // text width from canvas (the clip may be hidden while the timeline is built)
+  const ctx = document.createElement("canvas").getContext("2d");
+  const textW = (font, s, ls) => {
+    ctx.font = font;
+    return ctx.measureText(s).width + (ls || 0) * s.length;
   };
   const wordIn = (w, at, o) => PP.wordIn(tl, w, at, o);
   const out = (els, at, o) => {
     o = o || {};
     tl.fromTo(els, { opacity: 1, y: 0, filter: "blur(0px)" }, { opacity: 0, y: o.y == null ? -18 : o.y, filter: `blur(${o.blur == null ? 6 : o.blur}px)`, duration: o.d || 0.18, ease: "power2.in", stagger: o.stagger || 0, immediateRender: false }, at);
   };
+  const fade = (el, a, b, at, d, ease) => tl.fromTo(el, { opacity: a }, { opacity: b, duration: d, ease: ease || "power2.out", immediateRender: false }, at);
+  // words: [[text, isGradient], …] → spans inside `parent`
+  const words = (parent, list) =>
+    list.map(([txt, g], i) => {
+      if (i) parent.appendChild(document.createTextNode(" "));
+      return PP.el("span", "pp-w" + (g ? " grad" : ""), parent, { text: txt });
+    });
 
   // ================================================================ window edge light + bottom corner masks (camera-locked)
-  let edge = null;
   if (C) {
-    edge = PP.el("div", "s4o-edge", cam);
+    const edge = PP.el("div", "s4o-edge", cam);
     edge.style.width = C.VW + "px";
     edge.style.height = C.VH + C.TBU + "px";
     edge.style.borderRadius = C.RAD + "px";
@@ -53,23 +50,23 @@ PP.scene("s4o", function (tl, root, cam) {
         edge.style.transform = C.tf(st);
         edge.style.opacity = st.op;
       },
-      29.8,
-      44.6,
-      29.8,
-      14.8,
+      30.9,
+      47.6,
+      30.9,
+      16.7,
       "none"
     );
   }
 
-  // ================================================================ click ripples (cursor positions measured in the recording, video px)
+  // ================================================================ click ripples (cursor tips template-matched in the English recording, video px)
   const CLICKS = [
-    [31.4, 695, 629],
-    [32.0, 695, 731],
-    [32.667, 959, 853],
-    [34.5, 394, 866],
-    [37.033, 281, 410],
-    [41.067, 1394, 700],
-    [42.167, 1787, 1138],
+    [32.4, 694, 615], // « I am at least 21 years of age. »
+    [33.0, 694, 717], // researcher confirmation
+    [33.667, 958, 839], // « Enter PurePeptide »
+    [35.5, 381, 847], // « Explore the catalog »
+    [38.033, 280, 410], // BPC-157 / TB-500 card
+    [42.067, 1390, 701], // « Add to cart · $84.99 »
+    [43.167, 1797, 1140], // floating « Cart »
   ];
   if (C)
     CLICKS.forEach(([tc, vx, vy]) => {
@@ -106,14 +103,14 @@ PP.scene("s4o", function (tl, root, cam) {
       );
     });
 
-  // ================================================================ perk highlight « Expédition sous 24 h » (41.07 → 42.1 in the recording)
-  if (C) {
+  // ================================================================ camera-locked highlights on the recording (video px rects)
+  // drawn on left → right; the page is dimmed by the cart drawer from 43.20, so both are gone by then
+  const camBox = (R, on, off, draw) => {
     const hb = PP.el("div", "s4o-perk", cam);
-    const R = [1022, 862, 652, 64]; // video px rect of the perk row
     PP.drive(
       tl,
       (t) => {
-        if (t <= 41.4 || t >= 42.25) {
+        if (t <= on || t >= off) {
           hb.style.opacity = "0";
           return;
         }
@@ -122,81 +119,69 @@ PP.scene("s4o", function (tl, root, cam) {
         hb.style.top = st.Y + R[1] * st.k + "px";
         hb.style.width = R[2] * st.k + "px";
         hb.style.height = R[3] * st.k + "px";
-        const a = Math.min(1, (t - 41.4) / 0.12) * Math.min(1, (42.25 - t) / 0.12);
-        hb.style.opacity = a.toFixed(3);
-        hb.style.clipPath = `inset(0 ${(100 * (1 - Math.min(1, (t - 41.4) / 0.3))).toFixed(1)}% 0 0 round 14px)`;
+        hb.style.opacity = (Math.min(1, (t - on) / 0.1) * Math.min(1, (off - t) / 0.08)).toFixed(3);
+        hb.style.clipPath = `inset(-8px ${(100 * (1 - Math.min(1, (t - on) / draw))).toFixed(1)}% -8px -8px round 14px)`;
       },
-      41.3,
-      42.35,
-      41.3,
-      1.05,
+      on - 0.1,
+      off + 0.1,
+      on - 0.1,
+      off - on + 0.2,
       "none"
     );
+  };
+  if (C) {
+    camBox([1024, 1108, 618, 80], 42.22, 43.19, 0.32); // « Ships within 24 h · … · Free shipping over $200 »
+    camBox([1228, 467, 208, 101], 42.8, 43.19, 0.16); // bundle « 2 VIALS −5% » (VO « Two vials » 42.80)
   }
 
   // ================================================================ lower thirds (VO keywords)
   const scrimBR = PP.el("div", "s4o-scrim br", cam);
   const scrimBL = PP.el("div", "s4o-scrim bl", cam);
+  const big = { rise: 40, blur: 10, dur: 0.45 };
+  const kick = { rise: 12, blur: 4 };
 
-  // L13 « Choisissez votre référence. » — bottom right (the focused card is on the left)
-  const lt13 = PP.el("div", "s4o-lt right", cam);
-  const k13 = PP.el("div", "s4o-kick", lt13);
-  const k13w = [PP.el("span", "pp-w", k13, { text: "Choisissez" })];
-  const b13 = PP.el("div", "s4o-big mf", lt13);
-  const b13w = [PP.el("span", "pp-w", b13, { text: "Votre" })];
-  b13.appendChild(document.createTextNode(" "));
-  b13w.push(PP.el("span", "pp-w grad", b13, { text: "référence." }));
-  wordIn(k13w[0], 35.03 - 0.06, { rise: 12, blur: 4 });
-  wordIn(b13w[0], 35.41 - 0.05, { rise: 40, blur: 10, dur: 0.45 });
-  wordIn(b13w[1], 35.61 - 0.05, { rise: 40, blur: 10, dur: 0.45 });
-  tl.fromTo(scrimBR, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out", immediateRender: false }, 34.95);
-  out([k13, b13], 36.4, { stagger: 0.03 });
-  tl.fromTo(scrimBR, { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, 36.45);
+  // L12 « Pick your compound. » (36.20 · 36.32 · 36.44) — bottom right (the focused card is on the left)
+  const lt12 = PP.el("div", "s4o-lt right", cam);
+  const k12 = words(PP.el("div", "s4o-kick", lt12), [["Pick"], ["your"]]);
+  const b12 = words(PP.el("div", "s4o-big mf", lt12), [["compound.", true]]);
+  wordIn(k12[0], 36.2 - 0.06, kick);
+  wordIn(k12[1], 36.32 - 0.06, kick);
+  wordIn(b12[0], 36.44 - 0.05, big);
+  fade(scrimBR, 0, 1, 36.1, 0.3);
+  out(Array.from(lt12.children), 38.72, { stagger: 0.03 });
+  fade(scrimBR, 1, 0, 38.76, 0.3, "power2.in");
 
-  // L14 « Regardez sa pureté, vérifiée. » — bottom left (purity line is upper right)
+  // L13 « See the purity. Verified. » (39.20 · 39.32 · 39.42 · 39.72) — bottom left (purity line is upper right)
+  const lt13 = PP.el("div", "s4o-lt left", cam);
+  const k13 = words(PP.el("div", "s4o-kick", lt13), [["See"], ["the"], ["purity."]]);
+  const b13 = words(PP.el("div", "s4o-big mf", lt13), [["Verified.", true]]);
+  wordIn(k13[0], 39.2 - 0.06, kick);
+  wordIn(k13[1], 39.32 - 0.06, kick);
+  wordIn(k13[2], 39.42 - 0.06, kick);
+  wordIn(b13[0], 39.72 - 0.05, big);
+  fade(scrimBL, 0, 1, 39.1, 0.3);
+  out(Array.from(lt13.children), 41.76, { stagger: 0.03 });
+
+  // L14 « Order. » (42.00) — bottom left, hands over to the offer cards (L15, 42.80)
   const lt14 = PP.el("div", "s4o-lt left", cam);
-  const k14 = PP.el("div", "s4o-kick", lt14);
-  const k14w = [PP.el("span", "pp-w", k14, { text: "Regardez" })];
-  k14.appendChild(document.createTextNode(" "));
-  k14w.push(PP.el("span", "pp-w", k14, { text: "sa" }));
-  const b14 = PP.el("div", "s4o-big mf", lt14);
-  const b14w = [PP.el("span", "pp-w", b14, { text: "Pureté" })];
-  b14.appendChild(document.createTextNode(" "));
-  b14w.push(PP.el("span", "pp-w grad", b14, { text: "vérifiée." }));
-  wordIn(k14w[0], 38.13 - 0.06, { rise: 12, blur: 4 });
-  wordIn(k14w[1], 38.56 - 0.06, { rise: 12, blur: 4 });
-  wordIn(b14w[0], 38.64 - 0.05, { rise: 40, blur: 10, dur: 0.45 });
-  wordIn(b14w[1], 39.31 - 0.05, { rise: 40, blur: 10, dur: 0.45 });
-  tl.fromTo(scrimBL, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out", immediateRender: false }, 38.05);
-  out([k14, b14], 40.3, { stagger: 0.03 });
-  tl.fromTo(scrimBL, { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.in", immediateRender: false }, 40.35);
+  const b14 = words(PP.el("div", "s4o-big mf", lt14), [["Order.", true]]);
+  wordIn(b14[0], 42.0 - 0.05, big);
+  out(Array.from(lt14.children), 42.68, { y: -24 });
+  fade(scrimBL, 1, 0, 42.62, 0.3, "power2.in");
 
-  // chips (pops 42.47 · 43.57) — bottom left, over the dimmed product page while the cart drawer opens on the right
-  const chips = PP.el("div", "s4o-chips", cam);
-  const c1 = PP.pill(chips, "Expédition sous " + PP.cfg.shipping, { check: true });
-  const c2 = PP.pill(chips, "Livraison vers " + PP.cfg.countries + " pays", { check: true });
-  c1.style.top = "0px";
-  c2.style.top = "88px";
-  gsap.set([c1, c2], { transformOrigin: "0% 50%" });
-  PP.popIn(tl, c1, 42.47 - F, { from: 0.6, dur: 0.5 });
-  PP.popIn(tl, c2, 43.57 - F, { from: 0.6, dur: 0.5 });
-  gsap.set([c1, c2], { opacity: 0 });
-  tl.fromTo(scrimBL, { opacity: 0 }, { opacity: 0.85, duration: 0.3, ease: "power2.out", immediateRender: false }, 42.4);
-  out([c1, c2], T.OUT, { y: -30, d: 0.16, stagger: 0.02 });
-  tl.fromTo(scrimBL, { opacity: 0.85 }, { opacity: 0, duration: 0.18, ease: "power2.in", immediateRender: false }, T.OUT);
-
-  // ================================================================ header: « TESTEZ. » + step label + progress
+  // ================================================================ header: « CHECK IT YOURSELF. » + step label + progress
   const hdr = PP.el("div", "s4o-hdr", cam);
   const plate = PP.el("div", "s4o-plate", hdr);
   const row = PP.el("div", "s4o-row", hdr);
-  const tLabel = PP.el("div", "s4o-testez mf grad", row, { text: "Testez." });
+  const lab = PP.el("div", "s4o-lab mf", row);
+  const labL = [PP.el("span", "grad", lab, { text: "Check it" }), PP.el("span", "grad", lab, { text: "yourself." })];
   PP.el("div", "s4o-sep", row);
   const stack = PP.el("div", "s4o-stack", row);
   const STEPS = [
-    { t: 30.62, end: 34.45, n: "01", w: "Entrez" },
-    { t: 34.5, end: 37.95, n: "02", w: "Choisissez" },
-    { t: 38.0, end: 40.95, n: "03", w: "Vérifiez" },
-    { t: 41.0, end: T.OUT, n: "04", w: "Commandez" },
+    { t: 31.5, end: 35.4, n: "01", w: "Enter" },
+    { t: 35.5, end: 38.9, n: "02", w: "Pick" },
+    { t: 39.0, end: 41.9, n: "03", w: "Verify" },
+    { t: 42.0, end: 45.5, n: "04", w: "Order" },
   ];
   const labs = STEPS.map((s) => {
     const l = PP.el("div", "s4o-step mf", stack);
@@ -205,15 +190,13 @@ PP.scene("s4o", function (tl, root, cam) {
     PP.el("span", "", l, { text: s.w });
     return l;
   });
-  const maxW = Math.max(...labs.map((l) => l.offsetWidth));
-  stack.style.width = maxW + "px";
+  stack.style.width = Math.ceil(Math.max(...STEPS.map((s) => textW('400 64px "Anton"', `${s.n} · ${s.w}`.toUpperCase(), 0.32)))) + 4 + "px";
   const meta = PP.el("div", "s4o-meta", hdr);
   const bars = PP.el("div", "s4o-bars", meta);
   const fills = STEPS.map(() => PP.el("i", "", PP.el("b", "", bars)));
   const ctr = PP.el("div", "s4o-ctr mono", row);
-  const ctrs = STEPS.map((s, i) => PP.el("span", "", ctr, { text: `Étape ${i + 1}/4` }));
+  const ctrs = STEPS.map((s, i) => PP.el("span", "", ctr, { text: `Step ${i + 1}/4` }));
 
-  // step label cuts
   STEPS.forEach((s, i) => {
     gsap.set([labs[i], ctrs[i]], { opacity: 0 });
     tl.fromTo(labs[i], { opacity: 0, y: 26, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.32, ease: "expo.out", immediateRender: false }, s.t);
@@ -226,31 +209,129 @@ PP.scene("s4o", function (tl, root, cam) {
   });
   gsap.set(fills, { scaleX: 0, transformOrigin: "0% 50%" });
   gsap.set([plate, meta], { opacity: 0 });
-  tl.fromTo(plate, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out", immediateRender: false }, 30.55);
-  tl.fromTo(meta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out", immediateRender: false }, 30.7);
-  tl.fromTo(hdr, { opacity: 1, y: 0 }, { opacity: 0, y: -40, duration: 0.18, ease: "power2.in", immediateRender: false }, T.OUT);
+  fade(plate, 0, 1, 31.42, 0.3);
+  PP.wordsIn(tl, labL, 31.44, { stagger: 0.07, rise: 16, blur: 6, dur: 0.4 });
+  tl.fromTo(meta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out", immediateRender: false }, 31.6);
 
-  // ================================================================ « TESTEZ. » slam on black (29.93) → flies into the header (30.40)
-  const black = PP.el("div", "s4o-black", cam);
-  vis(black, T.SLAM, T.IN);
-  const fly = PP.el("div", "s4o-fly", cam);
-  const inner = PP.el("div", "s4o-fly-in mf", fly, { text: "Testez." });
-  const BIG = 360;
-  const W = inner.offsetWidth,
-    H = inner.offsetHeight;
-  inner.style.transformOrigin = `${W / 2}px ${H / 2}px`;
-  const tp = offs(tLabel);
-  const sc = tLabel.offsetHeight / H;
-  const x0 = 960 - W / 2,
-    y0 = 540 - H / 2 + 10;
-  gsap.set(fly, { x: x0, y: y0, scale: 1, opacity: 0, transformOrigin: "0 0" });
-  gsap.set(tLabel, { opacity: 0 });
-  tl.fromTo(fly, { opacity: 0 }, { opacity: 1, duration: 2 * F, ease: "none", immediateRender: false }, T.SLAM - F);
-  tl.fromTo(inner, { scale: 1.32, filter: "blur(12px)" }, { scale: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out", immediateRender: false }, T.SLAM - F);
-  tl.fromTo(inner, { scale: 1 }, { scale: 1.045, duration: T.IN - (T.SLAM + 0.27), ease: "none", immediateRender: false }, T.SLAM + 0.27);
-  tl.fromTo(inner, { scale: 1.045 }, { scale: 1, duration: 0.5, ease: "power3.inOut", immediateRender: false }, T.IN);
-  tl.fromTo(fly, { x: x0, y: y0, scale: 1 }, { x: tp.x, y: tp.y, scale: sc, duration: 0.5, ease: "power3.inOut", immediateRender: false }, T.IN);
-  tl.fromTo(fly, { opacity: 1 }, { opacity: 0, duration: 0.08, ease: "none", immediateRender: false }, T.IN + 0.44);
-  tl.fromTo(tLabel, { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "none", immediateRender: false }, T.IN + 0.42);
-  gsap.set(inner, { opacity: 1 });
+  // research-use tag (third header row) during the demo
+  const rtag = PP.el("div", "s4o-rtag", hdr);
+  PP.el("i", "", rtag);
+  PP.el("span", "", rtag, { text: "For laboratory research use only" });
+  gsap.set(rtag, { opacity: 0 });
+  tl.fromTo(rtag, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out", immediateRender: false }, 31.72);
+  // header leaves as the window recedes
+  tl.fromTo(hdr, { opacity: 1, y: 0 }, { opacity: 0, y: -40, duration: 0.2, ease: "power2.in", immediateRender: false }, T.REC + 0.04);
+
+  // ================================================================ OFFER — cards over the dimmed site → full-frame panel
+  const off = PP.el("div", "s4o-offer", cam);
+  const scrimL = PP.el("div", "s4o-scrim l", off);
+  const offIn = PP.el("div", "s4o-offer-in", off); // panel content (slow living push from 45.60)
+  const glow = PP.el("div", "s4o-oglow", offIn);
+  gsap.set([scrimL, glow], { opacity: 0 });
+  fade(scrimL, 0, 1, 42.66, 0.4);
+  fade(scrimL, 1, 0, 45.42, 0.3, "power1.in");
+  fade(glow, 0, 1, 45.45, 0.6);
+
+  const CW = 500,
+    CH = 520,
+    GAP = 40,
+    CY = 536;
+  const SC = 0.92; // over-site pose scale
+  const vialSrc = PP.cfg.catalog[0].img; // BPC-157 / TB-500 — the product added to the cart in the recording
+  const truck = `<svg width="132" height="96" viewBox="0 0 66 48" fill="none" stroke="${PP.C.neon}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M3 9 H39 V36 H3 Z"/><path d="M39 17 H52 L62 28 V36 H39"/><path d="M47 17 V28 H62"/><circle cx="14" cy="38" r="6" fill="#0a0f19"/><circle cx="51" cy="38" r="6" fill="#0a0f19"/></svg>`;
+  const card = (i, o) => {
+    const cx = 960 + (i - 1) * (CW + GAP);
+    const pose = PP.el("div", "s4o-pose", offIn);
+    pose.style.cssText += `left:${cx - CW / 2}px;top:${CY - CH / 2}px;width:${CW}px;height:${CH}px;`;
+    const c = PP.neonCard(pose, { x: CW / 2, y: CH / 2, w: CW, h: CH, radius: 30 });
+    c.el.classList.add("s4o-ocard");
+    const burst = PP.el("div", "s4o-oc-burst", c.body);
+    const ico = PP.el("div", "s4o-oc-ico", c.body);
+    if (o.vials) for (let k = 0; k < o.vials; k++) PP.el("img", "", ico, { src: vialSrc, alt: "" });
+    else ico.innerHTML = truck;
+    const labEl = PP.el("div", "s4o-oc-lab", c.body, { text: o.label });
+    const num = PP.el("div", "s4o-oc-num mf", c.body);
+    const n = PP.el("span", "grad", num, { text: o.num });
+    const sub = PP.el("div", "s4o-oc-sub", c.body, { text: o.sub });
+    // slot-machine anticipation: the digit spins (blurred) in the number slot until the slam
+    let roll = null;
+    if (o.roll) {
+      roll = PP.el("div", "s4o-oc-roll mf", c.body);
+      PP.rollCounter(tl, roll, o.num, o.roll[0], o.roll[1], { ease: "power2.inOut" });
+      gsap.set(roll, { opacity: 0 });
+      tl.fromTo(roll, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "none", immediateRender: false }, o.roll[0]);
+      tl.fromTo(roll, { opacity: 1 }, { opacity: 0, duration: 0.08, ease: "none", immediateRender: false }, o.roll[1] - 0.02);
+    }
+    gsap.set(c.el, { opacity: 0 });
+    return { pose, el: c.el, burst, ico, lab: labEl, num, n, sub, roll, cx };
+  };
+  const c1 = card(0, { vials: 2, label: "2 vials", num: "5%", sub: "off", roll: [42.86, 43.36 - F] });
+  const c2 = card(1, { vials: 3, label: "3+ vials", num: "8%", sub: "off", roll: [44.7, 45.48 - F] });
+  const c3 = card(2, { label: "over $200", num: "Free", sub: "shipping" });
+  const cards = [c1, c2, c3];
+
+  // card body in (back.out pop), number slam (+ burst), caption
+  const cardIn = (c, at, from) => PP.popIn(tl, c.el, at - F, { from: from || 0.82, dur: 0.5, y: 26 });
+  const numSlam = (c, at) => {
+    tl.fromTo(c.num, { opacity: 0, scale: 1.55, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.34, ease: "expo.out", immediateRender: false }, at - F);
+    tl.fromTo(c.burst, { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.12, ease: "power2.out", immediateRender: false }, at - F);
+    tl.fromTo(c.burst, { opacity: 1, scale: 1 }, { opacity: 0, scale: 1.5, duration: 0.6, ease: "power2.out", immediateRender: false }, at + 0.12);
+  };
+  cards.forEach((c) => {
+    gsap.set([c.num, c.sub, c.burst], { opacity: 0 });
+    gsap.set(c.num, { transformOrigin: "50% 55%" });
+  });
+
+  // over-site pose for cards 1 · 2 (left of the cart drawer), then they settle into the panel
+  const POSE = [
+    { x: 396 - c1.cx, y: 572 - CY },
+    { x: 874 - c2.cx, y: 572 - CY },
+  ];
+  [c1, c2].forEach((c, i) => {
+    gsap.set(c.pose, { x: POSE[i].x, y: POSE[i].y, scale: SC });
+    tl.fromTo(c.pose, { x: POSE[i].x, y: POSE[i].y, scale: SC }, { x: 0, y: 0, scale: 1, duration: 0.6, ease: "power3.inOut", immediateRender: false }, 45.56 + i * 0.04);
+  });
+
+  // L15 « Two vials, 5% off. Three or more, 8%. » — 42.80 · 42.92 · 43.36 · 43.96 · 44.64 · 45.04 · 45.16 · 45.48
+  cardIn(c1, 42.8);
+  numSlam(c1, 43.36);
+  wordIn(c1.sub, 43.96 - 0.04, { rise: 10, blur: 4 });
+  cardIn(c2, 44.64);
+  numSlam(c2, 45.48);
+  wordIn(c2.sub, 45.6, { rise: 10, blur: 4 });
+  // pop 46.20 — free shipping over $200
+  cardIn(c3, 46.2, 0.6);
+  tl.fromTo(c3.num, { opacity: 0, scale: 1.3, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.34, ease: "expo.out", immediateRender: false }, 46.2 + 0.03);
+  tl.fromTo(c3.burst, { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.12, ease: "power2.out", immediateRender: false }, 46.2);
+  tl.fromTo(c3.burst, { opacity: 1, scale: 1 }, { opacity: 0, scale: 1.5, duration: 0.6, ease: "power2.out", immediateRender: false }, 46.32);
+  wordIn(c3.sub, 46.26, { rise: 10, blur: 4 });
+
+  // panel furniture: « BUNDLE & SAVE » (site wording) · « Applied automatically in the cart. » · research-use tag
+  const okick = PP.el("div", "s4o-okick", offIn);
+  const rules = [PP.el("i", "", okick), null, null];
+  const okText = PP.el("span", "", okick, { text: "Bundle & save" });
+  rules[1] = PP.el("i", "", okick);
+  const note = PP.el("div", "s4o-onote", offIn);
+  const ck = PP.checkIcon(note, 36, PP.C.neon);
+  PP.el("span", "", note, { text: "Applied automatically in the cart." });
+  const otag = PP.el("div", "s4o-otag", offIn);
+  PP.el("i", "", otag);
+  PP.el("span", "", otag, { text: "For laboratory research use only" });
+  gsap.set([okText, note, otag], { opacity: 0 });
+  gsap.set([rules[0], rules[1]], { scaleX: 0 });
+  gsap.set(rules[0], { transformOrigin: "100% 50%" });
+  gsap.set(rules[1], { transformOrigin: "0% 50%" });
+  wordIn(okText, 45.66, { rise: 18, blur: 6, dur: 0.45 });
+  tl.fromTo([rules[0], rules[1]], { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 45.72);
+  tl.fromTo(otag, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", immediateRender: false }, 45.8);
+  wordIn(note, 46.5, { rise: 14, blur: 5, dur: 0.4 });
+  PP.draw(tl, ck.tick, 46.56, 0.3);
+  tl.set(ck.tick, { drawSVG: "0%" }, 0);
+
+  gsap.set(offIn, { transformOrigin: "960px 540px" });
+  tl.fromTo(offIn, { scale: 1 }, { scale: 1.028, duration: T.EXIT - T.PANEL, ease: "none", immediateRender: false }, T.PANEL);
+
+  // exit whoosh 47.30 — everything lifts away, gone by 47.55
+  tl.fromTo(off, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }, { opacity: 0, y: -60, scale: 1.04, filter: "blur(8px)", duration: 0.22, ease: "power2.in", immediateRender: false }, T.EXIT);
+  gsap.set(off, { transformOrigin: "960px 540px" });
 });
