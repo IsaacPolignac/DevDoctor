@@ -1,15 +1,100 @@
-// s1 — PAIN (0.00 → 12.10). The AI still (dusty unlabeled vials under a fluorescent tube) shot as 3 "camera
-// angles" (hard cuts 4.20 / 8.00), cold grade, Ken Burns push + handheld micro-drift, dust in the beam, tube
-// flicker dips on the SOUND-EVENT TABLE, manifesto type slamming on Paul K's stressed words.
-// Every continuous state (camera, shake, flicker, dust) is a pure function of one driven clock `t`.
+// s1 — BRAND OPEN + PAIN (0.00 → 12.10).
+// 0.00–2.40 BRAND OPEN: macro of the PurePeptide hero vial on a dark stage, rim-lit; a light sweep crosses the label
+//   0.00→0.60 on the sonic logo (seal click + glass tink = star glint), slow push-in. 2.40 hard cut.
+// 2.40–12.10 PAIN: the AI still (dusty unlabeled vials under a fluorescent tube) in 3 framings (hard cuts on the first
+//   word of each VO line: 2.40 / 5.80 / 8.40), cold grade, Ken Burns + handheld micro-drift, dust in the beam, tube
+//   flicker dips on the SOUND-EVENT TABLE. The fake claims are physical props slapped on the shot: a cheap printed
+//   « 99% » sticker (3.39) and a « “LAB TESTED.” » rubber stamp (6.58); « PROOF. » (9.67) slams hollow — the one thing
+//   nobody shows. Every VO word appears on its onset. Darkening 10.1 → 12.0, the 11.70 flicker kills the type.
+// Every continuous state is a pure function of one driven clock `t`.
 PP.scene("s1", function (tl, root, cam) {
   const F = PP.F;
+  const T_CUT = 2.4;
   const T_END = 12.1;
   // the 30 fps frame on screen when an event at t is heard (applied 2 ms early so seeks land robustly)
   const fr = (t) => Math.floor(t * 30 + 1e-6) / 30 - 0.002;
+  // binary switch (repeated props -> fromTo, immediateRender:false)
+  const sw = (el, a, b, at) => tl.fromTo(el, { opacity: a }, { opacity: b, duration: 0, ease: "none", immediateRender: false }, at);
+  const clamp = (x) => Math.max(0, Math.min(1, x));
+  // Anton width measured on a canvas (the clip may be display:none at build time)
+  const ctx = document.createElement("canvas").getContext("2d");
+  const measure = (txt, size) => {
+    ctx.font = `400 ${size}px Anton`;
+    return ctx.measureText(txt).width + size * 0.005 * txt.length;
+  };
+  const HERO = PP.cfg.heroVial;
+  const masked = (el) => {
+    el.style.webkitMaskImage = el.style.maskImage = `url("${HERO}")`;
+    el.style.webkitMaskSize = el.style.maskSize = "100% 100%";
+    el.style.webkitMaskRepeat = el.style.maskRepeat = "no-repeat";
+  };
+
+  // ================================================================== BRAND OPEN (0.00 → 2.40)
+  const open = PP.el("div", "s1-open", cam);
+  PP.el("div", "s1-o-bg", open);
+  const haze = PP.el("div", "s1-o-haze", open);
+  // vial 2000 px tall (2.6× the s3 hero): the label fills the frame, wordmark ≈ 640 px wide.
+  // Logo cluster (png rows 640 → 990 of 1536) centred at y 525.
+  const OH = 2000,
+    OW = OH * PP.HERO_RATIO,
+    OCY = 0.535 * OH;
+  const rig = PP.el("div", "s1-o-rig", open);
+  rig.style.cssText = `left:${(960 - OW / 2).toFixed(1)}px;top:${(525 - OCY).toFixed(1)}px;width:${OW.toFixed(1)}px;height:${OH}px;transform-origin:${(OW / 2).toFixed(1)}px ${OCY.toFixed(1)}px;`;
+  const rim = PP.el("div", "s1-o-rim", rig);
+  const rimL = PP.el("div", "s1-o-rim-l", rim);
+  const rimR = PP.el("div", "s1-o-rim-r", rim);
+  masked(rimL);
+  masked(rimR);
+  const hv = PP.heroVial(rig, OH);
+  hv.el.style.left = hv.el.style.top = "0px";
+  const shade = PP.el("div", "s1-o-shade", rig); // cylindrical key-light falloff on glass + label
+  const spec = PP.el("div", "s1-o-spec", rig); // vertical specular stripes on the glass
+  const veil = PP.el("div", "s1-o-veil", rig); // label slightly darker ahead of the sweep (the sweep "lights" it)
+  const sweep = PP.el("div", "s1-o-sweep", rig);
+  [shade, spec, veil, sweep].forEach(masked);
+  const glint = PP.el("div", "s1-o-glint", rig); // the « tink »: star glint on the top label band
+  PP.el("div", "s1-o-glint-h", glint);
+  PP.el("div", "s1-o-glint-v", glint);
+  PP.el("div", "s1-o-glint-c", glint);
+  glint.style.left = (0.3 * OW).toFixed(1) + "px";
+  glint.style.top = ((588 / 1536) * OH).toFixed(1) + "px";
+  PP.el("div", "s1-o-falloff", open);
+  const oFlash = PP.el("div", "s1-o-flash", open);
+
+  function openFrame(t) {
+    const u = t / T_CUT;
+    // slow, linear push into the logo (motion-control feel) + tiny rise
+    rig.style.transform = `translateY(${(-10 * u).toFixed(2)}px) scale(${(1 + 0.055 * u).toFixed(4)})`;
+    // light sweep across the label 0.00 → 0.60 (already on the label's left edge on frame 0)
+    const k = clamp(t / 0.6);
+    const p = 16 + 124 * (1 - Math.pow(1 - k, 1.7));
+    sweep.style.setProperty("--p", p.toFixed(2) + "%");
+    veil.style.setProperty("--p", p.toFixed(2) + "%");
+    sweep.style.opacity = (t < 0.6 ? 1 : clamp(1 - (t - 0.6) / 0.15)).toFixed(3);
+    // exposure kick on the tink, settling to the key level
+    const fl = Math.exp(-t * 6.5);
+    hv.img.style.filter = `brightness(${(0.86 + 0.22 * fl).toFixed(3)}) contrast(1.05) saturate(1.05)`;
+    oFlash.style.opacity = (0.3 * Math.exp(-t * 11)).toFixed(3);
+    // glint: born bright on frame 0, twinkles out in ~0.5 s
+    const g = Math.exp(-t * 5.2);
+    glint.style.opacity = (t < 0.75 ? g : 0).toFixed(3);
+    glint.style.transform = `translate(-50%, -50%) rotate(${(-8 + 22 * t).toFixed(2)}deg) scale(${(0.55 + 0.6 * g).toFixed(3)})`;
+    // glass speculars drift with the push (parallax against the label)
+    spec.style.setProperty("--s", (13.5 + 2.2 * u).toFixed(2) + "%");
+    rimL.style.transform = `translateX(${(-24 + 5 * u).toFixed(2)}px)`;
+    rimR.style.transform = `translateX(${(24 - 5 * u).toFixed(2)}px)`;
+    haze.style.opacity = (0.85 + 0.15 * Math.sin(t * 2.2)).toFixed(3);
+  }
+  PP.drive(tl, openFrame, 0, T_CUT, 0, T_CUT, "none");
+  sw(open, 1, 0, fr(T_CUT)); // HARD CUT
+
+  // ================================================================== PAIN (2.40 → 12.10)
+  const pain = PP.el("div", "s1-pain", cam);
+  pain.style.opacity = "0";
+  sw(pain, 0, 1, fr(T_CUT));
 
   // ------------------------------------------------------------------ plate (the still)
-  const plate = PP.el("div", "s1-plate", cam);
+  const plate = PP.el("div", "s1-plate", pain);
   const shot = PP.el("div", "s1-shot", plate);
   PP.el("img", "s1-img", shot, { src: PP.cfg.fakeShelf, alt: "" });
   const tube = PP.el("div", "s1-tube", shot); // extra glow on the fluorescent tube (image coords)
@@ -18,8 +103,11 @@ PP.scene("s1", function (tl, root, cam) {
   PP.el("div", "s1-tint", plate); // cold grade
   PP.el("div", "s1-scrim", plate); // edge darkening for type legibility
 
+  // ------------------------------------------------------------------ props slapped on the shot (lit by the tube)
+  const world = PP.el("div", "s1-world", pain);
+
   // ------------------------------------------------------------------ dust
-  const dustL = PP.el("div", "s1-dust", cam);
+  const dustL = PP.el("div", "s1-dust", pain);
   const rnd = PP.rng(1701);
   const dust = [];
   for (let i = 0; i < 90; i++) {
@@ -43,32 +131,34 @@ PP.scene("s1", function (tl, root, cam) {
   }
 
   // ------------------------------------------------------------------ darkness (flicker dips + final fade)
-  const dark = PP.el("div", "s1-dark", cam);
+  const dark = PP.el("div", "s1-dark", pain);
 
   // ------------------------------------------------------------------ type
-  const typeL = PP.el("div", "s1-type", cam);
+  const typeL = PP.el("div", "s1-type", pain);
 
-  // shots: image point (cx, cy) is framed at screen centre; base scale; slow pan velocity (px/s, image coords)
+  // shots (hard cuts on the first word of each line): image point (cx, cy) framed at screen centre; base scale;
+  // slow pan velocity (px/s, image coords)
   const SHOTS = [
-    { t0: 0.0, cx: 1000, cy: 520, s: 1.05, vx: -4, vy: 2 }, // wide
-    { t0: 4.2, cx: 1150, cy: 690, s: 1.5, vx: 6, vy: -3 }, // tighter, the crowded middle of the shelf
-    { t0: 8.0, cx: 770, cy: 640, s: 1.62, vx: -5, vy: -4 }, // tight, open vials front-left under the light
+    { t0: T_CUT, cx: 1000, cy: 560, s: 1.06, vx: -4, vy: 2 }, // wide: the tube, the whole shelf
+    { t0: 5.8, cx: 1150, cy: 690, s: 1.5, vx: 6, vy: -3 }, // tighter, the crowded middle of the shelf
+    { t0: 8.4, cx: 770, cy: 640, s: 1.62, vx: -5, vy: -4 }, // tight, open vials front-left under the light
   ];
-  const DIPS = [0.35, 1.9, 2.05, 4.4, 6.7, 6.8, 9.3, 10.9, 11.0, 11.3];
+  const DIPS = [2.75, 4.3, 4.45, 6.8, 9.1, 9.2, 11.7];
   const SLAMS = [
-    { t: 1.54, k: 1 },
-    { t: 1.92, k: 0.35 },
-    { t: 4.3, k: 1 },
-    { t: 4.6, k: 0.55 },
-    { t: 6.9, k: 1 },
-    { t: 9.52, k: 1 },
-    { t: 10.0, k: 0.6 },
+    { t: 3.39, k: 1 },
+    { t: 4.79, k: 0.3 },
+    { t: 6.58, k: 1.1 },
+    { t: 9.67, k: 1 },
   ];
-  const kb = (t) => 1 + (0.17 / 1.05) * (t / 12); // continuous Ken Burns 1.05 -> 1.22 over 12 s (relative)
+  const kb = (t) => 1 + 0.15 * Math.max(0, t - T_CUT) / (12 - T_CUT); // continuous Ken Burns push (relative)
 
   function frame(t) {
+    if (t < T_CUT - 0.01) {
+      dust.forEach((p) => (p.el.style.opacity = "0"));
+      return;
+    }
     let si = 0;
-    for (let i = 0; i < SHOTS.length; i++) if (t >= SHOTS[i].t0 - 0.0005) si = i;
+    for (let i = 0; i < SHOTS.length; i++) if (t >= fr(SHOTS[i].t0)) si = i;
     const S = SHOTS[si];
     const lt = t - S.t0;
     // slam punch-in (decaying) + impact jolt
@@ -98,20 +188,22 @@ PP.scene("s1", function (tl, root, cam) {
     ty = Math.min(-m, Math.max(1080 - 1080 * sc + m, ty));
     shot.style.transform = `translate(${(tx + hx + jx).toFixed(2)}px, ${(ty + hy + jy).toFixed(2)}px) rotate(${rot.toFixed(3)}deg) scale(${sc.toFixed(4)})`;
 
-    // tube light: hum + 2-frame dips
+    // tube light: hum + 2-frame dips; the light sags through the silence (10.1 → 11.7), dies on the last flicker
     let dip = false;
     for (const d of DIPS) if (t >= fr(d) && t < fr(d) + 2 * F) dip = true;
-    const hum = 0.9 + 0.06 * Math.sin(t * 23.0) + 0.04 * Math.sin(t * 57.0 + 1.3);
-    const L = dip ? 0.08 : hum;
+    const sag = t > 10.1 ? clamp((t - 10.1) / 1.6) : 0;
+    const dead = t >= fr(11.7) + 2 * F;
+    const hum = (0.9 + 0.06 * Math.sin(t * 23.0) + 0.04 * Math.sin(t * 57.0 + 1.3)) * (1 - 0.35 * sag);
+    const L = dip ? 0.08 : dead ? 0.2 : hum;
     tube.style.opacity = L.toFixed(3);
-    tubeCore.style.opacity = (dip ? 0.05 : 0.85 + 0.15 * Math.sin(t * 31)).toFixed(3);
-    beam.style.opacity = (dip ? 0.1 : 0.75 + 0.25 * hum).toFixed(3);
-    let fade = 0;
-    if (t > 11.0) fade = Math.pow(Math.min(1, (t - 11.0) / 0.9), 1.5);
+    tubeCore.style.opacity = (dip ? 0.05 : dead ? 0.12 : (0.85 + 0.15 * Math.sin(t * 31)) * (1 - 0.3 * sag)).toFixed(3);
+    beam.style.opacity = (dip ? 0.1 : dead ? 0.15 : 0.75 + 0.25 * hum).toFixed(3);
+    let fade = 0.6 * sag * sag;
+    if (dead) fade = 0.8 + 0.2 * clamp((t - 11.77) / 0.18);
     dark.style.opacity = Math.max(dip ? 0.7 : 0, fade).toFixed(3);
 
     // dust (re-seeded per shot so each cut reads as a new angle), slight parallax with the camera shake
-    const dl = dip ? 0.35 : 1;
+    const dl = dip ? 0.35 : dead ? 0.2 : 1 - 0.5 * sag;
     const off = si * 613;
     dust.forEach((p, i) => {
       let x = p.x0 + off * (0.7 + (i % 5) * 0.13) + p.vx * t + p.wa * Math.sin(p.wf * t + p.ph) + (hx + jx) * p.z * 1.6;
@@ -124,13 +216,15 @@ PP.scene("s1", function (tl, root, cam) {
       p.el.style.opacity = Math.min(1, p.a * inBeam * tw * dl).toFixed(3);
     });
 
-    // type layer: impact shake only
+    // props ride on the plate (handheld + jolt); type layer: impact shake only
+    world.style.transform = `translate(${(hx + jx).toFixed(2)}px, ${(hy + jy).toFixed(2)}px) rotate(${rot.toFixed(3)}deg)`;
     typeL.style.transform = `translate(${(jx * 0.9).toFixed(2)}px, ${(jy * 0.9).toFixed(2)}px)`;
   }
   PP.drive(tl, frame, 0, T_END, 0, T_END, "none");
 
   // ------------------------------------------------------------------ type helpers
-  const phrase = (cls) => PP.el("div", "s1-ph " + cls, typeL);
+  const X0 = 132; // left type column (all three phrases share it: the « Anyone can… » anaphora rhymes on screen)
+  const phrase = (cls, parent) => PP.el("div", "s1-ph " + cls, parent || typeL);
   const line = (parent, cls) => PP.el("div", "s1-ln " + (cls || ""), parent);
   const word = (ln, text, cls) => {
     if (ln.childNodes.length) ln.appendChild(document.createTextNode(" "));
@@ -147,57 +241,121 @@ PP.scene("s1", function (tl, root, cam) {
     tl.fromTo(el, { scale: s0 || 1.15, filter: "blur(10px)" }, { scale: 1, filter: "blur(0px)", duration: 4 * F, ease: "power3.out" }, fr(t0));
   };
   const hold = (el, t0, t1, amt) => tl.fromTo(el, { scale: 1 }, { scale: 1 + (amt || 0.035), duration: t1 - t0, ease: "none", immediateRender: false }, t0);
-  const cut = (el, at) => tl.set(el, { opacity: 0 }, fr(at));
+  const cut = (el, at) => sw(el, 1, 0, fr(at));
 
-  // ---- P1 « Vous en avez marre, hein ? » — centred
+  // shared SVG defs: ink roughness for the printed sticker and the rubber stamp (static seeds = deterministic)
+  const defs = PP.svg("svg", { width: 0, height: 0, style: "position:absolute;width:0;height:0" }, pain);
+  defs.innerHTML = `<defs>
+    <filter id="s1-print-f" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="5" result="w"/>
+      <feDisplacementMap in="SourceGraphic" in2="w" scale="3" xChannelSelector="R" yChannelSelector="G" result="r"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="9" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -7 0 0 0 4.6" result="h"/>
+      <feComposite in="r" in2="h" operator="in"/>
+    </filter>
+    <filter id="s1-ink-f" x="-4%" y="-8%" width="108%" height="116%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="3" result="w"/>
+      <feDisplacementMap in="SourceGraphic" in2="w" scale="7" xChannelSelector="R" yChannelSelector="G" result="r"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="11" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -8 0 0 0 4.9" result="h"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="21" result="lo"/>
+      <feColorMatrix in="lo" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.2 0 0 0 -0.75" result="dens"/>
+      <feComposite in="h" in2="dens" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" result="hd"/>
+      <feComposite in="r" in2="hd" operator="in"/>
+    </filter>
+    <filter id="s1-paper-f" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" seed="14"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.35  0 0 0 0 0.33  0 0 0 0 0.28  0 0 0 -1.4 1.05"/>
+      <feComposite in2="SourceAlpha" operator="in"/>
+    </filter>
+    <linearGradient id="s1-paper-g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3efe4"/><stop offset="0.55" stop-color="#e6e0d0"/><stop offset="1" stop-color="#cfc7b3"/>
+    </linearGradient>
+    <linearGradient id="s1-stk-shade-g" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.6" stop-color="#000" stop-opacity="0.12"/><stop offset="1" stop-color="#000" stop-opacity="0.38"/>
+    </linearGradient>
+    <linearGradient id="s1-curl-g" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#fbf8f0"/><stop offset="0.5" stop-color="#d9d2c0"/><stop offset="1" stop-color="#a39a85"/>
+    </linearGradient>
+  </defs>`;
+
+  // ------------------------------------------------------------------ P1 « Anyone can print 99% on a label. »
   const p1 = phrase("s1-p1");
-  const l1a = line(p1, "s1-small");
-  const w1 = ["VOUS", "EN", "AVEZ"].map((w) => word(l1a, w));
-  [0.7, 1.16, 1.36].forEach((t, i) => say(w1[i], t));
-  const l1b = line(p1, "s1-big s1-p1-big");
-  const marre = word(l1b, "MARRE");
-  const q = PP.el("span", "mf s1-w s1-q", l1b, { text: "?" });
-  slam(marre, 1.54);
-  slam(q, 1.92, 1.3);
-  hold(p1, 0.7, 2.76, 0.03);
-  cut(p1, 2.76);
+  p1.style.left = X0 + "px";
+  const l1a = line(p1, "s1-mid");
+  const w1 = ["ANYONE", "CAN", "PRINT"].map((w) => word(l1a, w));
+  [2.6, 2.83, 3.11].forEach((t, i) => say(w1[i], t));
 
-  // ---- P2 « Marre des peptides vendus par de faux labos. » — left, low
+  // the cheap sticker (prop in the world, below the dips/darkness): wrapper = position + cut, inner = the slap
+  const STK = { fs: 300, padX: 66, padY: 58, x: X0 - 8, y: 492, rot: -5.5 };
+  const SW_ = Math.round(measure("99%", STK.fs) + 2 * STK.padX),
+    SH_ = Math.round(0.859 * STK.fs + 2 * STK.padY);
+  const stk = PP.el("div", "s1-prop s1-stk", world);
+  stk.style.cssText = `left:${STK.x}px;top:${STK.y}px;width:${SW_}px;height:${SH_}px;transform:rotate(${STK.rot}deg);`;
+  const stkIn = PP.el("div", "s1-prop-in", stk);
+  const stkShadow = PP.el("div", "s1-stk-shadow", stkIn);
+  const stkSvg = PP.svg("svg", { width: SW_, height: SH_, viewBox: `0 0 ${SW_} ${SH_}` }, stkIn);
+  const c = 34; // lifted corner
+  const paperD = `M18 0 H${SW_ - c} L${SW_} ${c} V${SH_ - 18} Q${SW_} ${SH_} ${SW_ - 18} ${SH_} H18 Q0 ${SH_} 0 ${SH_ - 18} V18 Q0 0 18 0 Z`;
+  const base = STK.padY + 0.859 * STK.fs;
+  stkSvg.innerHTML = `
+    <path d="${paperD}" fill="url(#s1-paper-g)"/>
+    <path d="${paperD}" fill="#000" filter="url(#s1-paper-f)" opacity="0.6" style="mix-blend-mode:multiply"/>
+    <path d="${paperD}" fill="url(#s1-stk-shade-g)"/>
+    <rect x="22" y="22" width="${SW_ - 44}" height="${SH_ - 44}" rx="8" fill="none" stroke="#17171a" stroke-width="5" filter="url(#s1-print-f)"/>
+    <text x="${SW_ / 2 + 5}" y="${base + 4}" text-anchor="middle" font-family="Anton" font-size="${STK.fs}" fill="#8f8a80" opacity="0.3">99%</text>
+    <text x="${SW_ / 2}" y="${base}" text-anchor="middle" font-family="Anton" font-size="${STK.fs}" fill="#141417" filter="url(#s1-print-f)">99%</text>
+    <path d="M${SW_ - c} 0 L${SW_} ${c} L${SW_ - c + 7} ${c - 7} Z" fill="url(#s1-curl-g)"/>`;
+  tl.fromTo(stkIn, { opacity: 0 }, { opacity: 1, duration: 0, ease: "none", immediateRender: true }, fr(3.39));
+  tl.fromTo(stkIn, { scale: 1.5, rotation: -9, filter: "blur(8px)" }, { scale: 1, rotation: 0, filter: "blur(0px)", duration: 5 * F, ease: "power4.out" }, fr(3.39));
+  tl.fromTo(stkShadow, { x: 34, y: 60, scale: 1.12, opacity: 0.35 }, { x: 8, y: 14, scale: 1, opacity: 0.7, duration: 5 * F, ease: "power3.out" }, fr(3.39));
+
+  const l1c = PP.el("div", "s1-ln s1-mid s1-p1-tail", p1);
+  l1c.style.left = STK.x + SW_ + 40 - X0 + "px";
+  const w1c = ["ON", "A", "LABEL."].map((w) => word(l1c, w));
+  [4.43, 4.69, 4.79].forEach((t, i) => say(w1c[i], t));
+  hold(p1, 2.6, 5.8, 0.025);
+  cut(p1, 5.8);
+  cut(stk, 5.8);
+
+  // ------------------------------------------------------------------ P2 « Anyone can say “lab tested.” »
   const p2 = phrase("s1-p2");
+  p2.style.left = X0 + "px";
   const l2a = line(p2, "s1-mid");
-  const l2b = line(p2, "s1-mid");
-  const l2c = line(p2, "s1-big s1-p2-big");
-  const w2 = [word(l2a, "MARRE"), word(l2a, "DES"), word(l2a, "PEPTIDES"), word(l2b, "VENDUS"), word(l2b, "PAR"), word(l2b, "DE")];
-  [2.76, 3.06, 3.16, 3.6, 3.98, 4.18].forEach((t, i) => say(w2[i], t));
-  slam(word(l2c, "FAUX"), 4.3);
-  slam(word(l2c, "LABOS."), 4.6, 1.1);
-  hold(p2, 2.76, 5.53, 0.03);
-  cut(p2, 5.53);
+  const w2 = ["ANYONE", "CAN", "SAY"].map((w) => word(l2a, w));
+  [5.8, 6.02, 6.22].forEach((t, i) => say(w2[i], t));
 
-  // ---- P3 « Des analyses… que personne ne montre. » — right, high
+  // rubber stamp (ink on the world)
+  const STP = { fs: 212, pad: 46, x: X0 - 4, y: 468, rot: -6 };
+  const stpTxt = "“LAB TESTED.”";
+  const stpTW = measure(stpTxt, STP.fs);
+  const PW = Math.round(stpTW + 2 * STP.pad + 24),
+    PH = Math.round(0.859 * STP.fs + 2 * STP.pad + 24);
+  const stp = PP.el("div", "s1-prop s1-stamp", world);
+  stp.style.cssText = `left:${STP.x}px;top:${STP.y}px;width:${PW}px;height:${PH}px;transform:rotate(${STP.rot}deg);`;
+  const stpIn = PP.el("div", "s1-prop-in", stp);
+  PP.el("div", "s1-stamp-scrim", stpIn);
+  const stpSvg = PP.svg("svg", { width: PW, height: PH, viewBox: `0 0 ${PW} ${PH}` }, stpIn);
+  stpSvg.innerHTML = `<g filter="url(#s1-ink-f)" fill="none" stroke="#ff5b4d">
+      <rect x="7" y="7" width="${PW - 14}" height="${PH - 14}" rx="16" stroke-width="12"/>
+      <rect x="25" y="25" width="${PW - 50}" height="${PH - 50}" rx="6" stroke-width="4"/>
+      <text x="${PW / 2}" y="${12 + STP.pad + 0.859 * STP.fs}" text-anchor="middle" font-family="Anton" font-size="${STP.fs}" fill="#ff5b4d" stroke="none" letter-spacing="${(STP.fs * 0.005).toFixed(2)}">${stpTxt}</text>
+    </g>`;
+  tl.fromTo(stpIn, { opacity: 0 }, { opacity: 1, duration: 0, ease: "none", immediateRender: true }, fr(6.58));
+  tl.fromTo(stpIn, { scale: 1.7, rotation: -5, filter: "blur(10px)" }, { scale: 1, rotation: 0, filter: "blur(0px)", duration: 4 * F, ease: "power4.out" }, fr(6.58));
+  hold(p2, 5.8, 8.4, 0.025);
+  cut(p2, 8.4);
+  cut(stp, 8.4);
+
+  // ------------------------------------------------------------------ P3 « Almost no one shows you the proof. »
   const p3 = phrase("s1-p3");
+  p3.style.left = X0 + "px";
   const l3a = line(p3, "s1-mid");
-  const l3b = line(p3, "s1-big s1-p3-big");
-  const l3c = line(p3, "s1-mid");
-  const w3 = [word(l3a, "DES"), word(l3a, "ANALYSES…"), word(l3a, "QUE")];
-  [5.53, 5.76, 6.18].forEach((t, i) => say(w3[i], t));
-  slam(word(l3b, "PERSONNE"), 6.9);
-  const w3c = [word(l3c, "NE"), word(l3c, "MONTRE.")];
-  [7.3, 7.58].forEach((t, i) => say(w3c[i], t));
-  hold(p3, 5.53, 8.43, 0.03);
-  cut(p3, 8.43);
-
-  // ---- P4 « Des fioles… sans aucune preuve. » — centred, stacked, the heaviest
-  const p4 = phrase("s1-p4");
-  const l4a = line(p4, "s1-mid");
-  const w4 = [word(l4a, "DES"), word(l4a, "FIOLES…"), word(l4a, "SANS")];
-  [8.43, 8.5, 8.92].forEach((t, i) => say(w4[i], t));
-  slam(word(line(p4, "s1-big s1-p4-big"), "AUCUNE"), 9.52);
-  const l4c = line(p4, "s1-big s1-p4-big");
-  const preuve = word(l4c, "PREUVE.");
-  slam(preuve, 10.0, 1.12);
-  const rule = PP.el("div", "s1-rule", p4);
-  tl.fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.55, ease: "expo.out" }, 10.18);
-  hold(p4, 8.43, 11.3, 0.04);
-  cut(p4, 11.3); // the last tube flicker kills the type; silence until the 12.00 hit
+  const l3b = line(p3, "s1-mid");
+  const w3 = [word(l3a, "ALMOST"), word(l3a, "NO"), word(l3a, "ONE"), word(l3b, "SHOWS"), word(l3b, "YOU"), word(l3b, "THE")];
+  [8.4, 8.63, 8.85, 9.09, 9.33, 9.53].forEach((t, i) => say(w3[i], t));
+  const proof = word(line(p3, "s1-big s1-p3-big"), "PROOF.", "s1-hollow");
+  slam(proof, 9.67, 1.18);
+  hold(p3, 8.4, 11.7, 0.04);
+  cut(p3, 11.7); // the last tube flicker kills the type; silence until the 12.00 hit
 });

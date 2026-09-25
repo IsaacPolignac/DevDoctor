@@ -1,7 +1,10 @@
-// s4 — TEST (clip 29.80 → 44.60), BELOW the stage-level #sitetest video. Black stage + teal floor glow + a dark
-// macOS-like browser window whose content area frames the real site recording exactly. One camera function of time
-// (PP.s4cam) drives the window chrome, the video and (from s4o) the edge light, corner masks and click ripples,
-// so every layer shares the exact same transform on every frame. All times absolute (s).
+// s4 — REAL SITE TEST (clip 30.90 → 47.60, ENGLISH), BELOW the stage-level #sitetest video (31.40 → 45.60).
+// Black stage + teal floor glow + a dark macOS-like browser window whose content area frames the real site
+// recording exactly. One camera function of time (PP.s4cam) drives the window chrome, the video and (from s4o) the
+// edge light, corner masks, click ripples and highlights, so every layer shares the exact same transform on every
+// frame. Transparent until 31.40 (s3's « CHECK IT YOURSELF. » slam shows through), then the window flies in from
+// black (whoosh 31.40); it recedes behind the offer cards 45.30 → 45.58 (video ends 45.60); the black stage stays
+// under the full-frame offer panel (s4o) and leaves with the exit whoosh 47.30. All times absolute (s).
 PP.scene("s4", function (tl, root, cam) {
   const ST = PP.cfg.siteTest; // 1920 x 1200 video px
   const VW = ST.w,
@@ -12,27 +15,36 @@ PP.scene("s4", function (tl, root, cam) {
   const RAD = 18 / K0; // window radius in local units
   const WIN_TOP = 146; // base window top (stage px)
   const BASE = { f: [VW / 2, VH / 2], s: [960, WIN_TOP + TB + (VH * K0) / 2], z: 1 };
-  const T_IN = 30.4,
-    T_OUT = 44.3;
+  const T_IN = 31.4, // whoosh: window flies in from black
+    T_REC = 45.3, // window recedes behind the offer cards
+    T_GONE = 45.58, // fully gone (video clip ends 45.60)
+    T_EXIT = 47.3; // exit whoosh (stage leaves)
 
   // ---------------------------------------------------------------- camera keyframes (video point f → stage point s, zoom z)
+  // English recording layout (video px): gate modal 614–1306 × 280–920 · home CTA (381, 847) · shop grid card
+  // BPC-157 / TB-500 70–494 × 144–936 after the 35.83–36.63 scroll · purity line 1010–1655 × 480–540 · page scrolls
+  // 347 px 40.57–41.27 → bundles 1020–1645 × 468–562, Add to cart (1390, 701), « Ships within 24 h … Free shipping
+  // over $200 » 1022–1643 × 1107–1190, Cart button (1797, 1140) · cart drawer 1360–1920 × 0–730 from 43.4.
   const K = [
-    { t: 30.4, ...BASE },
-    { t: 34.4, f: BASE.f, s: BASE.s, z: 1.045, e: "sine.inOut" },
-    { t: 34.9, f: BASE.f, s: BASE.s, z: 1.05, e: "none" },
-    // 02 · shop grid → first card (BPC-157 / TB-500), page scrolls at ~35.1–35.4 (card centre video ≈ 282, 560)
-    { t: 36.3, f: [282, 560], s: [600, 562], z: 1.32, e: "power3.inOut" },
-    { t: 37.1, f: [282, 560], s: [604, 560], z: 1.35, e: "sine.inOut" },
-    // product page (37.07) — breathe out, then push to the purity line (video ≈ 1332, 506)
-    { t: 37.9, f: [1150, 560], s: [1010, 575], z: 1.14, e: "power2.inOut" },
-    { t: 39.2, f: [1332, 506], s: [1170, 420], z: 1.35, e: "power3.inOut" },
-    { t: 40.9, f: [1332, 506], s: [1160, 432], z: 1.35, e: "sine.inOut" },
-    // 04 · perks list after « Ajouter au panier » (video ≈ 1350, 920)
-    { t: 41.8, f: [1350, 880], s: [1150, 700], z: 1.3, e: "power3.inOut" },
-    { t: 42.15, f: [1350, 880], s: [1146, 700], z: 1.31, e: "none" },
-    // cart drawer (right edge, video x 1416 → 1920)
-    { t: 44.0, f: [1668, 380], s: [1480, 470], z: 1.32, e: "power2.inOut" },
-    { t: 44.3, f: [1668, 380], s: [1480, 470], z: 1.335, e: "none" },
+    { t: 31.4, ...BASE },
+    // 01 · gate — slow push into the researcher verification
+    { t: 33.9, f: [960, 640], s: [960, 612], z: 1.12, e: "sine.inOut" },
+    // home — breathe out, CTA « Explore the catalog » stays in frame
+    { t: 34.6, f: [900, 620], s: [940, 622], z: 1.05, e: "power2.inOut" },
+    { t: 35.55, f: [900, 620], s: [940, 622], z: 1.07, e: "none" },
+    // 02 · shop grid → first card (BPC-157 / TB-500)
+    { t: 37.3, f: [282, 540], s: [600, 566], z: 1.32, e: "power3.inOut" },
+    { t: 38.1, f: [282, 540], s: [604, 562], z: 1.35, e: "sine.inOut" },
+    // product page (38.067) — breathe out, then push to the purity line (outlined 39.167 → 40.57)
+    { t: 38.85, f: [1150, 600], s: [1010, 580], z: 1.14, e: "power2.inOut" },
+    { t: 40.05, f: [1332, 510], s: [1170, 424], z: 1.36, e: "power3.inOut" },
+    { t: 40.6, f: [1332, 510], s: [1164, 430], z: 1.37, e: "sine.inOut" },
+    // 04 · page scrolled: bundles + Add to cart + shipping line (right half of the frame; lower third / cards left)
+    { t: 41.85, f: [1330, 820], s: [1190, 640], z: 1.2, e: "power3.inOut" },
+    { t: 43.15, f: [1330, 820], s: [1184, 640], z: 1.22, e: "none" },
+    // cart drawer (43.2 → 45.6), framed on the right; offer cards over the dimmed page on the left
+    { t: 44.15, f: [1640, 380], s: [1488, 492], z: 1.34, e: "power2.inOut" },
+    { t: 45.6, f: [1640, 380], s: [1484, 494], z: 1.365, e: "none" },
   ];
   const eases = {};
   const ez = (name) => eases[name] || (eases[name] = gsap.parseEase(name));
@@ -63,7 +75,7 @@ PP.scene("s4", function (tl, root, cam) {
       rx = 0,
       op = 1,
       br = 1;
-    // entry (whoosh 30.40): from below, tilted, small, dark → expo.out 0.62 s
+    // entry (whoosh 31.40): from below, tilted, small, dark → expo.out 0.62 s
     if (t < T_IN) op = 0;
     else if (t < T_IN + 0.62) {
       const e = ez("expo.out")((t - T_IN) / 0.62);
@@ -73,18 +85,19 @@ PP.scene("s4", function (tl, root, cam) {
       br = lerp(0.35, 1, e);
       op = clamp01((t - T_IN) / 0.1 + 0.001);
     }
-    // exit (whoosh 44.30): whip up + zoom, gone by 44.55
-    if (t > T_OUT) {
-      const u = clamp01((t - T_OUT) / 0.24);
-      const e = ez("expo.in")(u);
-      dy = -1300 * e;
-      zm = 1 + 0.35 * e;
-      rx = -14 * e;
-      br = 1 + 0.8 * e;
-      op = 1 - ez("power2.in")(u);
-      if (t >= T_OUT + 0.24) op = 0;
+    // recede (45.30 → 45.58): dolly back + sink + darken behind the offer cards, gone before the video ends
+    if (t > T_REC) {
+      const u = clamp01((t - T_REC) / (T_GONE - T_REC));
+      const e = ez("power2.in")(u);
+      zm = 1 - 0.16 * ez("power2.out")(u);
+      dy = 90 * e;
+      rx = 8 * e;
+      br = 1 - 0.65 * e;
+      op = 1 - e;
+      if (t >= T_GONE) op = 0;
     }
     const kk = K0 * z * zm;
+    // zoom about the frame focus: keep stage point s fixed while zm scales
     const X = sx - fx * kk; // content (video) top-left, stage px
     const Y = sy + dy - fy * kk;
     return { k: kk, X, Y, rx, op, br, winTop: Y - TBU * kk };
@@ -107,9 +120,10 @@ PP.scene("s4", function (tl, root, cam) {
     return { x: st.X + vx * st.k, y: st.Y + vy * st.k, k: st.k };
   };
 
-  // ---------------------------------------------------------------- stage
+  // ---------------------------------------------------------------- stage (transparent until 31.40)
   const stage = PP.el("div", "s4-stage", cam);
-  PP.el("div", "s4-floor", stage);
+  const amb = PP.el("div", "s4-amb", stage);
+  const floor = PP.el("div", "s4-floor", stage);
   const halo = PP.el("div", "s4-halo", stage);
 
   // ---------------------------------------------------------------- window (local units: 1920 wide, TBU + 1200 tall)
@@ -132,14 +146,14 @@ PP.scene("s4", function (tl, root, cam) {
   const nav = PP.el("div", "s4-nav", barIn);
   nav.innerHTML = `<svg width="44" height="18" viewBox="0 0 44 18"><path d="M11 3 L5 9 L11 15" fill="none" stroke="#8b95a7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M31 3 L37 9 L31 15" fill="none" stroke="#4a5363" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const url = PP.el("div", "s4-url", barIn);
-  url.innerHTML = `<svg width="17" height="20" viewBox="0 0 13 15"><rect x="1" y="6.5" width="11" height="8" rx="2" fill="#2EE6C9"/><path d="M3.6 6.5 V4.6 a2.9 2.9 0 0 1 5.8 0 V6.5" fill="none" stroke="#2EE6C9" stroke-width="1.7"/></svg><span>purepeptide.care</span>`;
+  url.innerHTML = `<svg width="17" height="20" viewBox="0 0 13 15"><rect x="1" y="6.5" width="11" height="8" rx="2" fill="#2EE6C9"/><path d="M3.6 6.5 V4.6 a2.9 2.9 0 0 1 5.8 0 V6.5" fill="none" stroke="#2EE6C9" stroke-width="1.7"/></svg><span>${PP.cfg.url}</span>`;
   PP.el("div", "s4-content", win).style.cssText = `top:${TBU}px;height:${VH}px;`;
 
   const video = document.getElementById("sitetest");
 
   // ---------------------------------------------------------------- one driver: t → window + video transform
-  const t0 = 29.8,
-    t1 = 44.6;
+  const t0 = 30.9,
+    t1 = 47.6;
   PP.drive(
     tl,
     (t) => {
@@ -162,6 +176,9 @@ PP.scene("s4", function (tl, root, cam) {
     "none"
   );
 
-  // stage fades with the exit whip
-  tl.fromTo(stage, { opacity: 1 }, { opacity: 0, duration: 0.2, ease: "power2.in", immediateRender: false }, T_OUT + 0.05);
+  // stage: invisible while s3 finishes (the section is above s3), black from the whoosh, leaves with the exit whoosh
+  gsap.set(stage, { opacity: 0 });
+  tl.fromTo(stage, { opacity: 0 }, { opacity: 1, duration: 0.001, ease: "none", immediateRender: false }, T_IN - 0.002);
+  tl.fromTo([amb, floor], { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power2.out", immediateRender: false }, T_IN);
+  tl.fromTo(stage, { opacity: 1 }, { opacity: 0, duration: 0.22, ease: "power2.in", immediateRender: false }, T_EXIT);
 });

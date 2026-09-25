@@ -1,5 +1,43 @@
-/* s1 — PAIN */
+/* s1 — BRAND OPEN + PAIN */
 #s1 { background: #000; }
+
+/* ---------- brand open (0.00 → 2.40) ---------- */
+#s1 .s1-open { position: absolute; inset: 0; overflow: hidden; }
+#s1 .s1-o-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 62% 70% at 50% 46%, #0d1826 0%, #070b12 48%, #020305 100%); }
+#s1 .s1-o-haze { position: absolute; left: 260px; top: -120px; width: 1400px; height: 1320px; mix-blend-mode: screen;
+  background: radial-gradient(ellipse 50% 46% at 50% 50%, rgba(56,189,248,0.16) 0%, rgba(46,230,201,0.07) 45%, rgba(46,230,201,0) 75%); }
+#s1 .s1-o-rig { position: absolute; }
+#s1 .s1-o-rig .pp-hero { left: 0; top: 0; }
+#s1 .s1-o-rig .pp-hero img { filter: none; }
+#s1 .s1-o-rim { position: absolute; inset: 0; filter: blur(12px); }
+#s1 .s1-o-rim > div { position: absolute; inset: 0; }
+#s1 .s1-o-rim-l { background: #2ee6c9; opacity: 0.95; }
+#s1 .s1-o-rim-r { background: #5aa8ff; opacity: 0.85; }
+#s1 .s1-o-shade, #s1 .s1-o-spec, #s1 .s1-o-veil, #s1 .s1-o-sweep { position: absolute; inset: 0; }
+/* key light from the front-left: the edges of the cylinder fall off, the top (glass shoulder) and the bottom go dark */
+#s1 .s1-o-shade {
+  background:
+    linear-gradient(90deg, rgba(2,4,8,0.86) 0%, rgba(2,4,8,0.5) 9%, rgba(2,4,8,0.16) 22%, rgba(2,4,8,0) 36%, rgba(2,4,8,0) 58%, rgba(2,4,8,0.2) 74%, rgba(2,4,8,0.58) 90%, rgba(2,4,8,0.9) 100%),
+    linear-gradient(180deg, rgba(2,4,8,0.55) 0%, rgba(2,4,8,0.2) 26%, rgba(2,4,8,0) 36%, rgba(2,4,8,0) 62%, rgba(2,4,8,0.35) 80%, rgba(2,4,8,0.7) 100%); }
+#s1 .s1-o-spec { --s: 14%; mix-blend-mode: screen;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0) calc(var(--s) - 2.6%), rgba(225,245,255,0.34) var(--s), rgba(255,255,255,0) calc(var(--s) + 2.6%)),
+    linear-gradient(90deg, rgba(255,255,255,0) 84%, rgba(160,220,255,0.2) 87.5%, rgba(255,255,255,0) 90%); }
+#s1 .s1-o-veil { --p: 0%; background: linear-gradient(100deg, rgba(2,4,8,0) calc(var(--p) - 4%), rgba(2,4,8,0.32) calc(var(--p) + 16%), rgba(2,4,8,0.32) 200%); }
+#s1 .s1-o-sweep { --p: -40%; mix-blend-mode: screen;
+  background: linear-gradient(100deg, rgba(46,230,201,0) calc(var(--p) - 15%), rgba(56,189,248,0.3) calc(var(--p) - 6%), rgba(235,252,255,0.95) var(--p), rgba(46,230,201,0.4) calc(var(--p) + 3.5%), rgba(46,230,201,0) calc(var(--p) + 12%)); }
+#s1 .s1-o-glint { position: absolute; left: 0; top: 0; width: 0; height: 0; mix-blend-mode: screen; }
+#s1 .s1-o-glint > div { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); border-radius: 50%; }
+#s1 .s1-o-glint-h { width: 720px; height: 5px; background: linear-gradient(90deg, rgba(160,240,255,0) 0%, rgba(210,250,255,0.9) 46%, #fff 50%, rgba(210,250,255,0.9) 54%, rgba(160,240,255,0) 100%); filter: blur(1px); }
+#s1 .s1-o-glint-v { width: 4px; height: 260px; background: linear-gradient(180deg, rgba(160,240,255,0) 0%, rgba(230,252,255,0.9) 47%, #fff 50%, rgba(230,252,255,0.9) 53%, rgba(160,240,255,0) 100%); filter: blur(1px); }
+#s1 .s1-o-glint-c { width: 120px; height: 120px; background: radial-gradient(circle, #ffffff 0%, rgba(200,250,255,0.85) 14%, rgba(46,230,201,0.35) 38%, rgba(46,230,201,0) 70%); }
+#s1 .s1-o-falloff { position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 76%, rgba(0,0,0,0.55) 100%); }
+#s1 .s1-o-flash { position: absolute; inset: 0; mix-blend-mode: screen; opacity: 0;
+  background: radial-gradient(ellipse 60% 60% at 38% 30%, rgba(220,250,255,0.9) 0%, rgba(46,230,201,0.25) 45%, rgba(46,230,201,0) 80%); }
+
+/* ---------- pain (2.40 → 12.10) ---------- */
+#s1 .s1-pain { position: absolute; inset: 0; }
 #s1 .s1-plate { position: absolute; inset: 0; overflow: hidden; background: #000; }
 #s1 .s1-shot { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
 #s1 .s1-img { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block; filter: grayscale(0.6) contrast(1.15) brightness(0.75); }
@@ -12,33 +50,32 @@
   background: radial-gradient(ellipse 48% 62% at 58% 24%, rgba(175,215,222,0.20) 0%, rgba(150,195,205,0.08) 45%, rgba(0,0,0,0) 75%); }
 #s1 .s1-tint { position: absolute; inset: 0; mix-blend-mode: soft-light; background: linear-gradient(180deg, rgba(40,95,125,0.55) 0%, rgba(20,55,80,0.6) 100%); }
 #s1 .s1-scrim { position: absolute; inset: 0;
-  background: radial-gradient(ellipse 80% 75% at 55% 42%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%), linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.45) 100%); }
+  background: radial-gradient(ellipse 80% 75% at 55% 42%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%), linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.45) 100%),
+    linear-gradient(90deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 40%, rgba(0,0,0,0) 62%); }
 #s1 .s1-dust { position: absolute; inset: 0; overflow: hidden; mix-blend-mode: screen; }
 #s1 .s1-mote { position: absolute; left: 0; top: 0; border-radius: 50%; background: radial-gradient(circle, rgba(240,248,250,1) 0%, rgba(235,245,248,0.5) 45%, rgba(235,245,248,0) 72%); }
 #s1 .s1-dark { position: absolute; inset: 0; background: #000; opacity: 0; }
 
+/* props: the cheap « 99% » sticker and the « “LAB TESTED.” » rubber stamp */
+#s1 .s1-world { position: absolute; inset: 0; }
+#s1 .s1-prop { position: absolute; }
+#s1 .s1-prop-in { position: absolute; inset: 0; transform-origin: 50% 55%; }
+#s1 .s1-prop svg { position: absolute; left: 0; top: 0; overflow: visible; }
+#s1 .s1-stk-shadow { position: absolute; inset: 6px; border-radius: 22px; background: rgba(0,0,0,0.85); filter: blur(16px); }
+#s1 .s1-stamp-scrim { position: absolute; inset: -70px -90px; background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0) 100%); }
+
 /* type */
 #s1 .s1-type { position: absolute; inset: 0; }
-#s1 .s1-ph { position: absolute; }
+#s1 .s1-ph { position: absolute; transform-origin: 0 0; }
 #s1 .s1-ln { display: block; white-space: nowrap; font-family: var(--cond); line-height: 0.92; }
-#s1 .s1-w { display: inline-block; color: #fff; text-shadow: 0 8px 60px rgba(0,0,0,0.55), 0 2px 12px rgba(0,0,0,0.35); }
-#s1 .s1-small { font-size: 66px; letter-spacing: 0.06em; }
-#s1 .s1-small .s1-w { color: #e4e9ee; }
-#s1 .s1-mid { font-size: 112px; }
-#s1 .s1-mid .s1-w { color: #e9edf1; }
-#s1 .s1-mid + .s1-mid { margin-top: 6px; }
-#s1 .s1-big { margin-top: 14px; }
-#s1 .s1-big + .s1-big { margin-top: 4px; }
-#s1 .s1-big + .s1-mid { margin-top: 14px; }
-#s1 .s1-p1 { left: 0; right: 0; top: 290px; text-align: center; transform-origin: 960px 250px; }
-#s1 .s1-p1-big { font-size: 350px; }
-#s1 .s1-q { margin-left: 0.12em; }
-#s1 .s1-p2 { left: 132px; top: 432px; text-align: left; transform-origin: 0 100%; }
-#s1 .s1-p2-big { font-size: 300px; }
-#s1 .s1-p2-big .s1-w { transform-origin: 0 60%; }
-#s1 .s1-p3 { right: 132px; top: 118px; text-align: right; transform-origin: 100% 0; }
-#s1 .s1-p3-big { font-size: 370px; }
-#s1 .s1-p3-big .s1-w { transform-origin: 100% 55%; }
-#s1 .s1-p4 { left: 0; right: 0; top: 150px; text-align: center; transform-origin: 960px 400px; }
-#s1 .s1-p4-big { font-size: 300px; }
-#s1 .s1-rule { width: 560px; height: 5px; margin: 34px auto 0; background: #fff; box-shadow: 0 0 18px rgba(255,255,255,0.35); transform-origin: 50% 50%; }
+#s1 .s1-w { display: inline-block; color: #fff; text-shadow: 0 8px 60px rgba(0,0,0,0.6), 0 2px 14px rgba(0,0,0,0.45); }
+#s1 .s1-mid { font-size: 124px; }
+#s1 .s1-mid .s1-w { color: #eef1f4; }
+#s1 .s1-mid + .s1-mid { margin-top: 8px; }
+#s1 .s1-big { margin-top: 18px; }
+#s1 .s1-p1, #s1 .s1-p2 { top: 292px; }
+#s1 .s1-p1-tail { position: absolute; top: 400px; }
+#s1 .s1-p3 { top: 176px; }
+#s1 .s1-p3-big { font-size: 360px; }
+#s1 .s1-p3-big .s1-w { transform-origin: 0 60%; }
+#s1 .s1-hollow { color: transparent; -webkit-text-stroke: 6px #ffffff; text-shadow: none; filter: none; }
