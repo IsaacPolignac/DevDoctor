@@ -1,1 +1,24 @@
-/* s7 */
+/* s7 — flash #3, symbol + typed wordmark, tagline, CTA click, legal */
+#s7 .s7-glow { position: absolute; left: 90px; top: 280px; width: 900px; height: 700px; border-radius: 50%; background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(46, 230, 201, 0.26) 0%, rgba(56, 189, 248, 0.1) 40%, rgba(4, 7, 13, 0) 70%); }
+#s7 .s7-bokeh { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(120, 240, 225, 0.9) 0%, rgba(46, 230, 201, 0.35) 45%, rgba(46, 230, 201, 0) 72%); }
+#s7 .s7-disc { position: absolute; left: 480px; top: 760px; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, #eafffb 0%, #2ee6c9 55%, #38bdf8 100%); box-shadow: 0 0 60px rgba(46, 230, 201, 0.9); }
+
+#s7 .s7-sym { position: absolute; }
+#s7 .s7-sym .pp-symbol { filter: drop-shadow(0 0 18px rgba(46, 230, 201, 0.55)) drop-shadow(0 0 50px rgba(56, 189, 248, 0.35)); }
+#s7 .s7-sym-ring { position: absolute; overflow: visible; filter: drop-shadow(0 0 6px rgba(46, 230, 201, 0.7)); }
+
+#s7 .s7-wm { position: absolute; }
+#s7 .s7-wm .pp-wm { filter: drop-shadow(0 0 22px rgba(46, 230, 201, 0.18)); }
+
+#s7 .s7-tag { text-shadow: 0 6px 40px rgba(0, 0, 0, 0.6); }
+#s7 .s7-tag .pp-ln + .pp-ln { filter: drop-shadow(0 0 26px rgba(46, 230, 201, 0.4)); }
+#s7 .s7-ul { position: absolute; overflow: visible; filter: drop-shadow(0 0 10px rgba(46, 230, 201, 0.9)) drop-shadow(0 0 26px rgba(46, 230, 201, 0.5)); }
+
+#s7 .s7-ctawrap { position: absolute; left: 0; right: 0; top: 1188px; height: 100px; display: flex; justify-content: center; align-items: center; }
+#s7 .s7-cta { position: relative; display: inline-flex; align-items: center; gap: 26px; padding: 22px 26px 22px 48px; border-radius: 999px; background: rgba(11, 17, 28, 0.95); border: 2px solid var(--neon); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55); overflow: hidden; }
+#s7 .s7-cta-fill { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(100deg, rgba(90, 168, 255, 0.32) 0%, rgba(46, 230, 201, 0.4) 100%); opacity: 0; }
+#s7 .s7-cta-txt { position: relative; font-family: var(--body); font-weight: 600; font-size: 40px; letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+#s7 .s7-cta-arrow { position: relative; display: block; flex: none; filter: drop-shadow(0 0 10px rgba(46, 230, 201, 0.7)); }
+#s7 .s7-cta-burst { position: absolute; left: 50%; top: 50%; width: 520px; height: 100px; margin: -50px 0 0 -260px; border-radius: 999px; border: 3px solid var(--neon); box-shadow: 0 0 30px rgba(46, 230, 201, 0.7); opacity: 0; pointer-events: none; }
+
+#s7 .s7-legal { position: absolute; left: 150px; width: 780px; top: 1316px; text-align: center; font-family: var(--body); font-weight: 500; font-size: 24px; line-height: 1.45; color: #a9b6ca; text-wrap: balance; z-index: 5; }

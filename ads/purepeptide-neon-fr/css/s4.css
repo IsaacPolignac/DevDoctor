@@ -1,1 +1,23 @@
-/* s4 */
+/* s4 — giant 99 % */
+#s4 .s4-drift, #s4 .s4-numin, #s4 .s4-punch { position: absolute; inset: 0; }
+#s4 .s4-numin, #s4 .s4-punch { transform-origin: 540px 850px; }
+
+#s4 .s4-bgword { position: absolute; left: -400px; right: -400px; top: 850px; margin-top: -560px; height: 1120px; line-height: 1120px; text-align: center; font-family: var(--display); font-weight: 800; font-size: 1060px; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 3px rgba(46, 230, 201, 0.09); white-space: nowrap; }
+#s4 .s4-glow { position: absolute; left: 540px; top: 850px; width: 1100px; height: 900px; margin: -450px 0 0 -550px; border-radius: 50%; background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(46, 230, 201, 0.35) 0%, rgba(56, 189, 248, 0.12) 40%, rgba(4, 7, 13, 0) 70%); }
+
+#s4 .s4-sparks { position: absolute; width: 0; height: 0; }
+#s4 .s4-arm { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+#s4 .s4-spark { position: absolute; left: -2px; top: 0; width: 4px; border-radius: 2px; background: linear-gradient(180deg, #ffffff 0%, #2ee6c9 60%, rgba(46, 230, 201, 0) 100%); box-shadow: 0 0 10px rgba(46, 230, 201, 0.9); transform-origin: 50% 0; opacity: 0; }
+
+#s4 .s4-row { position: absolute; left: 0; right: 0; top: 850px; height: 420px; margin-top: -210px; display: flex; justify-content: center; align-items: center; }
+#s4 .s4-digits { font-size: 420px; line-height: 1; filter: drop-shadow(0 0 24px rgba(46, 230, 201, 0.55)) drop-shadow(0 0 70px rgba(46, 230, 201, 0.3)); }
+#s4 .s4-digits .pp-roll { letter-spacing: 0; }
+#s4 .s4-digits .pp-roll-win { margin: 0 -0.06em; }
+#s4 .s4-digits .pp-roll-d { background: linear-gradient(180deg, #ffffff 8%, #d8fff7 40%, #2ee6c9 92%); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 0.04em; }
+#s4 .s4-pct { margin-left: 14px; align-self: center; font-family: var(--display); font-weight: 800; font-size: 200px; line-height: 1; letter-spacing: -0.02em; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 0.04em 0.06em; filter: drop-shadow(0 0 22px rgba(56, 189, 248, 0.45)); }
+
+#s4 .s4-min { position: absolute; left: 0; right: 0; top: 1085px; text-align: center; }
+#s4 .s4-min .pp-h.h1 { font-size: 112px; transform-origin: 50% 60%; }
+#s4 .s4-rule { width: 300px; height: 4px; margin: 26px auto 0; border-radius: 2px; background: var(--grad); box-shadow: 0 0 18px rgba(46, 230, 201, 0.8); }
+#s4 .s4-cap { margin-top: 30px; }
+#s4 .s4-cap .pp-h.s4-capline { font-family: var(--body); font-weight: 500; font-size: 38px; letter-spacing: -0.005em; color: var(--ink-soft); }
