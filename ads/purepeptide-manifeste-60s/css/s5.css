@@ -1,1 +1,61 @@
-/* s5 */
+/* s5 — BRAND end-card: six-vial line-up, « PAS DE PROMESSES. DES PREUVES. », wordmark, tagline, CTA, legal */
+#s5 { background: #04070D; }
+#s5 .s5-abs { position: absolute; left: 0; top: 0; }
+#s5 .s5-full { position: absolute; inset: 0; }
+
+/* ---- line-up stage ---- */
+#s5 .s5-spot { position: absolute; inset: 0; background:
+  radial-gradient(ellipse 46% 62% at 50% 8%, rgba(120,190,255,0.16) 0%, rgba(56,189,248,0.06) 45%, rgba(0,0,0,0) 75%),
+  radial-gradient(ellipse 60% 22% at 50% 77%, rgba(46,230,201,0.10) 0%, rgba(46,230,201,0) 70%); }
+#s5 .s5-floor { position: absolute; left: -200px; right: -200px; top: 820px; bottom: -40px;
+  background: linear-gradient(180deg, #0B121C 0%, #070B12 30%, #04070D 100%); }
+#s5 .s5-horizon { position: absolute; left: 0; width: 1920px; top: 819px; height: 2px;
+  background: linear-gradient(90deg, rgba(46,230,201,0) 0%, rgba(46,230,201,0.55) 30%, rgba(210,255,248,0.95) 50%, rgba(46,230,201,0.55) 70%, rgba(46,230,201,0) 100%);
+  box-shadow: 0 0 18px rgba(46,230,201,0.55); }
+#s5 .s5-row { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 960px 820px; }
+#s5 .s5-unit { position: absolute; top: 0; }
+#s5 .s5-back { position: absolute; border-radius: 50%; background: radial-gradient(ellipse at 50% 50%, rgba(46,230,201,0.42) 0%, rgba(56,189,248,0.16) 40%, rgba(0,0,0,0) 70%); mix-blend-mode: screen; }
+#s5 .pp-vial.s5-v { transform-origin: 50% 100%; }
+#s5 .pp-vial.s5-v img { filter: drop-shadow(0 0 1.5px rgba(160,255,240,0.95)) drop-shadow(0 0 16px rgba(46,230,201,0.38)); }
+#s5 .s5-sheen { position: absolute; inset: 0; --p: -40%; mix-blend-mode: screen;
+  background: linear-gradient(105deg, rgba(255,255,255,0) calc(var(--p) - 14%), rgba(255,255,255,0.55) var(--p), rgba(255,255,255,0) calc(var(--p) + 14%));
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%; }
+#s5 .s5-refl { position: absolute; overflow: hidden; }
+#s5 .s5-refl img { display: block; width: 100%; transform: scaleY(-1); transform-origin: 50% 50%; opacity: 0.32; filter: blur(1.5px); }
+#s5 .s5-refl { -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0) 62%); mask-image: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0) 62%); }
+#s5 .s5-streak { position: absolute; height: 4px; border-radius: 4px;
+  background: linear-gradient(90deg, rgba(46,230,201,0) 0%, rgba(46,230,201,0.8) 30%, #FFFFFF 50%, rgba(46,230,201,0.8) 70%, rgba(46,230,201,0) 100%);
+  box-shadow: 0 0 22px rgba(46,230,201,0.9); mix-blend-mode: screen; }
+#s5 .s5-burst { position: absolute; border-radius: 50%; mix-blend-mode: screen;
+  background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(160,255,240,0.6) 12%, rgba(46,230,201,0.25) 35%, rgba(46,230,201,0) 68%); }
+#s5 .s5-ripple { position: absolute; border-radius: 50%; border: 2px solid rgba(120,255,235,0.9); box-shadow: 0 0 14px rgba(46,230,201,0.7); }
+#s5 .s5-dim { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(4,7,13,0.55) 0%, rgba(4,7,13,0.82) 100%); }
+
+/* ---- manifesto ---- */
+#s5 .s5-mf { position: absolute; left: 0; width: 1920px; top: 0; height: 1080px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; transform-origin: 960px 540px; }
+#s5 .s5-mf .mf { font-size: 200px; text-align: center; text-shadow: 0 10px 60px rgba(0,0,0,0.6); }
+#s5 .s5-mf .s5-line { display: block; }
+#s5 .s5-mf .grad { text-shadow: none; filter: drop-shadow(0 0 30px rgba(46,230,201,0.35)); }
+
+/* ---- end card ---- */
+#s5 .s5-card { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 960px 540px; }
+#s5 .s5-center { position: absolute; left: 0; width: 1920px; display: flex; justify-content: center; }
+#s5 .s5-symglow { position: absolute; left: 760px; top: 123px; width: 400px; height: 280px; border-radius: 50%; mix-blend-mode: screen;
+  background: radial-gradient(ellipse at 50% 50%, rgba(46,230,201,0.28) 0%, rgba(56,189,248,0.08) 45%, rgba(0,0,0,0) 70%); }
+#s5 .s5-tag { font-size: 120px; line-height: 1; }
+#s5 .s5-tag .pp-w { display: inline-block; }
+#s5 .s5-under { position: relative; display: inline-block; }
+#s5 .s5-under svg { position: absolute; left: 2%; top: 100%; margin-top: 4px; overflow: visible; }
+#s5 .s5-cta { position: relative; display: inline-flex; align-items: center; gap: 26px; padding: 24px 56px 26px; border-radius: 999px;
+  background: linear-gradient(180deg, rgba(20,32,48,0.95) 0%, rgba(9,15,24,0.95) 100%);
+  box-shadow: 0 0 0 2px rgba(46,230,201,0.85), 0 0 34px rgba(46,230,201,0.35), inset 0 0 26px rgba(46,230,201,0.12), 0 24px 60px rgba(0,0,0,0.6);
+  font-family: var(--body); font-weight: 600; font-size: 40px; line-height: 1.2; color: #F3F6FA; white-space: nowrap; }
+#s5 .s5-cta .s5-arrow { color: #2EE6C9; font-weight: 700; }
+#s5 .s5-cta .s5-url { font-weight: 700; color: #FFFFFF; }
+#s5 .s5-cta-fill { position: absolute; inset: 0; border-radius: inherit; opacity: 0;
+  background: linear-gradient(100deg, rgba(90,168,255,0.55) 0%, rgba(56,189,248,0.45) 45%, rgba(46,230,201,0.6) 100%); }
+#s5 .s5-cta > span { position: relative; }
+#s5 .s5-cta-ring { position: absolute; inset: 0; border-radius: 999px; box-shadow: 0 0 0 3px rgba(120,255,235,0.95), 0 0 30px rgba(46,230,201,0.8); opacity: 0; }
+#s5 .s5-legal { position: absolute; left: 0; width: 1920px; top: 990px; text-align: center; font-family: var(--body); font-weight: 500; font-size: 26px; line-height: 32px; color: #A9B6CA; letter-spacing: 0.01em; }
+#s5 .s5-endglow { position: absolute; left: 260px; width: 1400px; top: 700px; height: 420px; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(46,230,201,0.13) 0%, rgba(56,189,248,0.05) 45%, rgba(0,0,0,0) 70%); }
