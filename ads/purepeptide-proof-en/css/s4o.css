@@ -70,6 +70,6 @@
 #s4o .s4o-okick i { display: block; width: 150px; height: 3px; border-radius: 2px; background: var(--grad); box-shadow: 0 0 12px rgba(46,230,201,0.6); }
 #s4o .s4o-okick i:first-child { background: linear-gradient(90deg, rgba(46,230,201,0) 0%, #38bdf8 60%, #2ee6c9 100%); }
 #s4o .s4o-okick i:last-child { background: linear-gradient(90deg, #2ee6c9 0%, #38bdf8 40%, rgba(56,189,248,0) 100%); }
-#s4o .s4o-onote { position: absolute; left: 0; right: 0; top: 832px; display: flex; align-items: center; justify-content: center; gap: 16px; font-family: var(--body); font-weight: 600; font-size: 38px; line-height: 1.2; color: var(--ink); white-space: nowrap; }
+#s4o .s4o-onote { position: absolute; left: 0; right: 0; top: 832px; display: flex; align-items: center; justify-content: center; gap: 16px; font-family: var(--body); font-weight: 600; font-size: 36px; line-height: 1.2; color: #e2e8f0; white-space: nowrap; }
 #s4o .s4o-onote .pp-check { display: block; flex: none; }
 #s4o .s4o-otag { position: absolute; left: 0; right: 0; margin: 0 auto; width: max-content; top: 944px; display: flex; align-items: center; gap: 12px; padding: 10px 22px; border-radius: 999px; background: rgba(12,17,26,0.9); box-shadow: 0 0 0 1px rgba(255,255,255,0.12); font-family: var(--body); font-weight: 500; font-size: 24px; line-height: 1.2; color: #c9d2de; white-space: nowrap; }

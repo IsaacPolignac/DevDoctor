@@ -262,7 +262,7 @@ PP.scene("s4o", function (tl, root, cam) {
     let roll = null;
     if (o.roll) {
       roll = PP.el("div", "s4o-oc-roll mf", c.body);
-      PP.rollCounter(tl, roll, o.num, o.roll[0], o.roll[1], { ease: "power2.inOut" });
+      PP.rollCounter(tl, roll, o.num, o.roll[0], o.roll[1], { ease: "sine.out" }); // starts fast, still turning when the slam lands
       gsap.set(roll, { opacity: 0 });
       tl.fromTo(roll, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "none", immediateRender: false }, o.roll[0]);
       tl.fromTo(roll, { opacity: 1 }, { opacity: 0, duration: 0.08, ease: "none", immediateRender: false }, o.roll[1] - 0.02);
@@ -294,7 +294,7 @@ PP.scene("s4o", function (tl, root, cam) {
   ];
   [c1, c2].forEach((c, i) => {
     gsap.set(c.pose, { x: POSE[i].x, y: POSE[i].y, scale: SC });
-    tl.fromTo(c.pose, { x: POSE[i].x, y: POSE[i].y, scale: SC }, { x: 0, y: 0, scale: 1, duration: 0.6, ease: "power3.inOut", immediateRender: false }, 45.56 + i * 0.04);
+    tl.fromTo(c.pose, { x: POSE[i].x, y: POSE[i].y, scale: SC }, { x: 0, y: 0, scale: 1, duration: 0.6, ease: "power3.inOut", immediateRender: false }, 45.46 + i * 0.05);
   });
 
   // L15 « Two vials, 5% off. Three or more, 8%. » — 42.80 · 42.92 · 43.36 · 43.96 · 44.64 · 45.04 · 45.16 · 45.48
