@@ -2,6 +2,7 @@ node_modules/
 snapshots/
 renders/*
 !renders/purepeptide-proof-en.mp4
+!renders/purepeptide-proof-en-preview.mp4
 !renders/purepeptide-proof-en-apercu.mp4
 .hyperframes/
 *.tmp.mjs
