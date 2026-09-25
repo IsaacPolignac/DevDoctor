@@ -11,7 +11,7 @@ PX_PER_MM = W / 70.0
 FONT_B = '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf'
 FONT_R = '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf'
 C1, C2, C3 = (0x12, 0x3A, 0x78), (0x2A, 0x9A, 0xC2), (0x16, 0xA4, 0x8F)
-PAPER = (246, 247, 246)
+PAPER = (229, 231, 230)  # ~0.8 linear albedo so the white never clips under AgX
 
 def lerp(a, b, t):
     return tuple(int(round(a[i] + (b[i] - a[i]) * t)) for i in range(3))
@@ -28,6 +28,24 @@ def grad_band(w, h):
             px[x, y] = c
     return im
 
+def deep_brand(im_rgba, bold_px):
+    """recolour artwork: full-opacity deep brand gradient #123A78 -> #2A9AC2, strokes thickened."""
+    a = im_rgba.split()[3]
+    if bold_px:
+        a = a.filter(ImageFilter.MaxFilter(bold_px * 2 + 1))
+    a = a.point(lambda v: min(255, int(v * 1.6)))
+    w, h = im_rgba.size
+    g = Image.new('RGB', (w, h))
+    px = g.load()
+    for x in range(w):
+        c = lerp(C1, C2, x / (w - 1))
+        for y in range(h):
+            px[x, y] = c
+    out = g.convert('RGBA')
+    out.putalpha(a)
+    return out
+
+
 def tracked_text(draw_img, text, font, cx, cy, tracking, fill):
     d = ImageDraw.Draw(draw_img)
     widths = [d.textlength(ch, font=font) for ch in text]
@@ -43,11 +61,11 @@ def main():
     # very faint paper fibre noise
     rnd = random.Random(7)
     noise = Image.effect_noise((W // 4, H // 4), 18).resize((W, H), Image.BICUBIC).filter(ImageFilter.GaussianBlur(2))
-    img = Image.blend(img, Image.merge('RGB', [noise.point(lambda v: 238 + v * 0.06)] * 3), 0.25)
+    img = Image.blend(img, Image.merge('RGB', [noise.point(lambda v: 222 + v * 0.06)] * 3), 0.25)
     cx = W // 2
     mm = PX_PER_MM
     # top + bottom brand-gradient bands (full wrap)
-    band_h = int(0.55 * mm)
+    band_h = int(0.95 * mm)
     for y in (int(1.6 * mm), H - int(1.6 * mm) - band_h):
         img.paste(grad_band(W, band_h), (0, y))
     # hairlines next to bands
@@ -57,18 +75,18 @@ def main():
     # symbol
     sym = Image.open(os.path.join(A, 'brand-symbol.png')).convert('RGBA')
     sh = int(6.6 * mm)
-    sym = sym.resize((int(sym.width * sh / sym.height), sh), Image.LANCZOS)
+    sym = deep_brand(sym.resize((int(sym.width * sh / sym.height), sh), Image.LANCZOS), 2)
     sy = int(4.6 * mm)
     img.paste(sym, (cx - sym.width // 2, sy), sym)
     # wordmark
     wm = Image.open(os.path.join(A, 'brand-wordmark.png')).convert('RGBA')
     ww = int(13.2 * mm)
-    wm = wm.resize((ww, int(wm.height * ww / wm.width)), Image.LANCZOS)
+    wm = deep_brand(wm.resize((ww, int(wm.height * ww / wm.width)), Image.LANCZOS), 3)
     wy = sy + sh + int(1.5 * mm)
     img.paste(wm, (cx - ww // 2, wy), wm)
     # thin gradient rule under wordmark
     ry = wy + wm.height + int(1.1 * mm)
-    img.paste(grad_band(ww, max(3, int(0.12 * mm))), (cx - ww // 2, ry))
+    img.paste(grad_band(ww, max(6, int(0.2 * mm))), (cx - ww // 2, ry))
     # tagline
     f_tag = ImageFont.truetype(FONT_B, int(0.95 * mm))
     tracked_text(img, 'SCIENCE. PURITY. POTENTIAL.', f_tag, cx, ry + int(1.55 * mm), 0.12 * mm, C1)

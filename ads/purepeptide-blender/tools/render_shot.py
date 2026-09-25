@@ -141,6 +141,8 @@ def setup_frame(rig, shot, t):
         e = ease(t) if shot == 'hero' else 1.0
         tt = t if shot == 'hero' else 1.0
         dist = lerp(0.40, 0.355, 1 - (1 - tt) ** 2)
+        if shot == 'hero_still':
+            dist = 0.322  # tighter end card: vial ~75 % of frame height
         loc = (0, -dist, 0.03)
         aim(cam, loc, (0, 0, 0.0285))
         rig.energy('Key_Rim', lerp(0.15, 1.0, e))
@@ -164,9 +166,9 @@ def setup_frame(rig, shot, t):
     elif shot == 'label_still':
         # close 3/4 on the label, logo sharp
         cd.lens = 100
-        cd.dof.aperture_fstop = 4.0
+        cd.dof.aperture_fstop = 5.6
         az = math.radians(-32)
-        dist = 0.15
+        dist = 0.165
         tgt = Vector((0, 0, 0.0185))
         loc = tgt + Vector((dist * math.sin(az), -dist * math.cos(az), 0.012))
         aim(cam, loc, tgt)
