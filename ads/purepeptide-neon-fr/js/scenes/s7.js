@@ -48,8 +48,8 @@ PP.scene("s7", function (tl, root, cam) {
   };
   const rA = mkRing();
   const rB = mkRing();
-  PP.svg("circle", { cx: 0, cy: 0, r: 132, fill: "none", stroke: "rgba(46,230,201,0.55)", "stroke-width": 1.6, "stroke-dasharray": "2 10", "stroke-linecap": "round" }, rA.svg);
-  const ringB = PP.svg("circle", { cx: 0, cy: 0, r: 146, fill: "none", stroke: C.neon, "stroke-width": 2.2, "stroke-linecap": "round", opacity: 0.8, transform: "rotate(-90)" }, rB.svg);
+  PP.svg("circle", { cx: 0, cy: 0, r: 126, fill: "none", stroke: "rgba(46,230,201,0.55)", "stroke-width": 1.6, "stroke-dasharray": "2 10", "stroke-linecap": "round" }, rA.svg);
+  const ringB = PP.svg("circle", { cx: 0, cy: 0, r: 116, fill: "none", stroke: C.neon, "stroke-width": 2.2, "stroke-linecap": "round", opacity: 0.8, transform: "rotate(-90)" }, rB.svg);
   gsap.set(symWrap, { transformPerspective: 900 });
   tl.fromTo(symWrap, { opacity: 0 }, { opacity: 1, duration: 2 * F, ease: "none", immediateRender: false }, 22.2 - F);
   tl.set(symWrap, { opacity: 0 }, 0);
