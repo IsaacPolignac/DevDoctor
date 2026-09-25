@@ -23,7 +23,7 @@
 #s4o .s4o-lt.right { right: 96px; text-align: right; }
 #s4o .s4o-lt.left { left: 96px; text-align: left; }
 #s4o .s4o-kick { font-family: var(--display); font-weight: 800; font-size: 40px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--neon); margin-bottom: 8px; white-space: nowrap; text-shadow: 0 4px 24px rgba(0,0,0,0.7); }
-#s4o .s4o-big { font-size: 150px; text-shadow: 0 10px 50px rgba(0,0,0,0.6); }
+#s4o .s4o-big { font-size: 132px; text-shadow: 0 10px 50px rgba(0,0,0,0.6); }
 #s4o .s4o-big .pp-w { padding: 0.16em 0.03em 0.06em; margin-top: -0.14em; }
 #s4o .s4o-big .grad { text-shadow: none; filter: drop-shadow(0 8px 30px rgba(0,0,0,0.6)); }
 

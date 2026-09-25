@@ -126,7 +126,7 @@ PP.scene("s2", function (tl, root, cam) {
     const yy = 26 * (1 - pk);
     vialW.style.opacity = (e * e).toFixed(3);
     vialW.style.transform = `translateY(${yy.toFixed(2)}px) scale(${sc.toFixed(4)})`;
-    const br = 0.09 + 0.14 * Math.max(0, Math.min(1, (t - 16.2) / 0.77)) + 0.35 * g;
+    const br = 0.09 + 0.09 * Math.max(0, Math.min(1, (t - 16.2) / 0.77)) + 0.3 * g;
     const rim = 0.55 + 0.45 * u;
     vImg.style.filter = `brightness(${br.toFixed(3)}) drop-shadow(0 0 1.5px rgba(46,230,201,${rim.toFixed(3)})) drop-shadow(0 0 16px rgba(46,230,201,${(rim * 0.55).toFixed(3)}))`;
     // light sweep across the glass (two passes, the second faster, right before the drop)
@@ -141,7 +141,7 @@ PP.scene("s2", function (tl, root, cam) {
   const fx = PP.layers.fx;
   const flash = PP.el("div", "s2-flash", fx);
   tl.fromTo(flash, { opacity: 0 }, { opacity: 0.35, duration: 2 * F, ease: "power2.in", immediateRender: false }, fr(DROP) - 2 * F);
-  tl.fromTo(flash, { opacity: 0.92 }, { opacity: 0, duration: 10 * F, ease: "power2.out", immediateRender: false }, fr(DROP));
+  tl.fromTo(flash, { opacity: 0.92 }, { opacity: 0, duration: 8 * F, ease: "power2.out", immediateRender: false }, fr(DROP));
   PP.flashRing(tl, fx, DROP, { x: VX, y: VY });
   sw(stage, 1, 0, fr(DROP + 2 * F));
   sw(blk, 1, 0, fr(DROP + 2 * F));
