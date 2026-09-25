@@ -7,8 +7,8 @@ export const PLATES = [
     from: { az: -0.42, el: 0.06, dist: 3.5, tx: 0.55, ty: 3.72, fov: 22, vialRot: -0.6, rig: 0.95, sweep: -6, sweepI: 0.8 },
     to: { az: -0.38, el: 0.05, dist: 3.42, tx: 0.55, ty: 3.72, fov: 22, vialRot: -0.6, rig: 0.35, sweep: 3, sweepI: 0.8 } },
   { name: "p3_cake", n: 30, look: "studio", ease: "lin", // 16.0-17.0 powder cake through the glass (heel band under the label)
-    from: { az: 0.2, el: 0.1, dist: 4.7, tx: 0, ty: 0.55, fov: 24, vialRot: 2.4, rig: 0.35 },
-    to: { az: 0.24, el: 0.1, dist: 4.62, tx: 0, ty: 0.55, fov: 24, vialRot: 2.4, rig: 0.25 } },
+    from: { az: 0.2, el: 0.16, dist: 3.9, tx: 0, ty: 0.42, fov: 24, vialRot: 2.4, rig: 0.35 },
+    to: { az: 0.24, el: 0.16, dist: 3.82, tx: 0, ty: 0.42, fov: 24, vialRot: 2.4, rig: 0.25 } },
   { name: "p3_capridge", n: 15, look: "studio", ease: "lin", // 17.4-17.9 cap ridge
     from: { az: 0.5, el: 0.42, dist: 3.7, tx: 0, ty: 5.12, fov: 24, rig: -0.3 },
     to: { az: 0.56, el: 0.42, dist: 3.65, tx: 0, ty: 5.12, fov: 24, rig: -0.2 } },
@@ -32,8 +32,8 @@ export const PLATES = [
     from: { az: 0.45, el: 0.2, dist: 3.4, tx: 0.5, ty: 0.4, fov: 24, vialRot: 2.6, rig: 0.2 },
     to: { az: 0.5, el: 0.2, dist: 3.05, tx: 0.5, ty: 0.4, fov: 24, vialRot: 2.6, rig: 0.1 } },
   { name: "p3_crimp", n: 8, look: "studio", ease: "o", // 45.5-45.75 crimp ribs
-    from: { az: 1.0, el: 0.1, dist: 3.1, ty: 4.5, fov: 24, rig: -0.4 },
-    to: { az: 1.14, el: 0.1, dist: 2.9, ty: 4.5, fov: 24, rig: -0.25 } },
+    from: { az: 1.0, el: 0.1, dist: 3.9, ty: 4.55, fov: 24, rig: -0.4 },
+    to: { az: 1.14, el: 0.1, dist: 3.6, ty: 4.5, fov: 24, rig: -0.25 } },
   // --- stills (2D moves in the film)
   { name: "s3_rim", n: 3, look: "rim", still: true, // 1.6-6.0 line of light (masked in the film)
     from: { az: 0.2, el: 0.03, dist: 13.4, ty: 2.72, fov: 28, vialRot: 0 } },

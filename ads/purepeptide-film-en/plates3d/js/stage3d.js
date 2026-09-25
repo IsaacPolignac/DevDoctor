@@ -300,8 +300,8 @@ function glowTexW() {
     for (let y = 0; y < h; y++)
       for (let x = 0; x < w; x++) {
         const u = x / (w - 1) - 0.5, v = 1 - y / (h - 1);
-        const r = Math.hypot(u * 1.5, (v - 0.55) * 0.95) * 2;
-        let k = Math.exp(-r * r * 3.4);
+        const r = Math.hypot(u * 1.1, (v - 0.55) * 0.8) * 2;
+        let k = Math.exp(-r * r * 2.2);
         const f = Math.min(1, Math.max(0, (v - 0.33) / 0.12));
         k *= f * f * (3 - 2 * f);
         const i = (y * w + x) * 4;
@@ -341,10 +341,10 @@ const ENV = {
   back: [[6, 14, [0, 4, -10], 7.0, 0xfff8f0], [0.8, 20, [-7, 4, -6], 10.0], [0.8, 20, [7, 4, -6], 10.0]],
 };
 const LOOK = {
-  studio: { env: "studio", envI: 1.0, labelE: 0.2, glow: [0, 0, 0], hemi: 0 },
+  studio: { env: "studio", envI: 1.0, labelE: 0.13, glow: [0, 0, 0], hemi: 0 },
   rim: { env: "rim", envI: 1.0, labelE: 0.0, glow: [0, 0, 0], hemi: 0 },
-  cold: { env: "cold", envI: 1.0, labelE: 0.035, glow: [0.34, 0.44, 0.62], hemi: 0 },
-  back: { env: "back", envI: 1.0, labelE: 0.02, glow: [0.62, 0.6, 0.58], hemi: 0 },
+  cold: { env: "cold", envI: 1.0, labelE: 0.035, glow: [0.22, 0.29, 0.42], hemi: 0 },
+  back: { env: "back", envI: 1.0, labelE: 0.02, glow: [0.36, 0.35, 0.34], hemi: 0 },
 };
 
 // ------------------------------------------------------------------ easing
@@ -387,7 +387,7 @@ export function createStage({ canvas, segments, width = 1920, height = 1080, pix
   glass.renderOrder = 2;
   vial.add(glass);
 
-  const cakeMat = new THREE.MeshPhysicalMaterial({ color: 0xf4f1e8, roughness: 0.92, metalness: 0, bumpMap: cakeBump(noise), bumpScale: 1.2, sheen: 0.4, sheenRoughness: 0.9, sheenColor: 0xffffff });
+  const cakeMat = new THREE.MeshPhysicalMaterial({ color: 0xf4f1e8, roughness: 0.92, metalness: 0, bumpMap: cakeBump(noise), bumpScale: 0.6, sheen: 0.4, sheenRoughness: 0.9, sheenColor: 0xffffff });
   const cake = new THREE.Mesh(cakeGeometry(noise), cakeMat);
   vial.add(cake);
 
@@ -399,7 +399,7 @@ export function createStage({ canvas, segments, width = 1920, height = 1080, pix
 
   const ribs = ribBump(11);
   ribs.wrapS = ribs.wrapT = THREE.RepeatWrapping;
-  const crimpMat = new THREE.MeshPhysicalMaterial({ color: 0xd8dce1, metalness: 1, roughness: 0.3, anisotropy: 0.6, anisotropyRotation: 0, bumpMap: ribs, bumpScale: 0.9, envMapIntensity: 1.05 });
+  const crimpMat = new THREE.MeshPhysicalMaterial({ color: 0xd8dce1, metalness: 1, roughness: 0.34, anisotropy: 0.7, anisotropyRotation: Math.PI / 2, bumpMap: ribs, bumpScale: 0.16, envMapIntensity: 1.15 });
   const crimp = new THREE.Mesh(new THREE.LatheGeometry(crimpProfile(), 384), crimpMat);
   vial.add(crimp);
 
