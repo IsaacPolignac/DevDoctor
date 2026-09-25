@@ -57,8 +57,8 @@ PP.scene("s4", function (tl, root, cam) {
   // « % » slides in on the voice (« 99 % », 11.76)
   tl.fromTo(pct, { x: 120, opacity: 0, filter: "blur(14px)", scale: 0.7 }, { x: 0, opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.42, ease: "expo.out" }, 11.74);
   // punch + brightness flash on the hit
-  tl.fromTo(punch, { scale: 1 }, { scale: 1.12, duration: F, ease: "none" }, HIT - F);
-  tl.fromTo(punch, { scale: 1.12 }, { scale: 1, duration: 0.5, ease: "expo.out", immediateRender: false }, HIT);
+  tl.fromTo(punch, { scale: 1 }, { scale: 1.1, duration: F, ease: "none" }, HIT - F);
+  tl.fromTo(punch, { scale: 1.1 }, { scale: 1, duration: 0.5, ease: "expo.out", immediateRender: false }, HIT);
   tl.fromTo(punch, { filter: "brightness(1)" }, { filter: "brightness(1.9)", duration: F, ease: "none" }, HIT - F);
   tl.fromTo(punch, { filter: "brightness(1.9)" }, { filter: "brightness(1)", duration: 0.45, ease: "power2.out", immediateRender: false }, HIT);
 

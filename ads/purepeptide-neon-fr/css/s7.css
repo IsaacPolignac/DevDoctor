@@ -5,7 +5,9 @@
 
 #s7 .s7-sym { position: absolute; }
 #s7 .s7-sym .pp-symbol { filter: drop-shadow(0 0 18px rgba(46, 230, 201, 0.55)) drop-shadow(0 0 50px rgba(56, 189, 248, 0.35)); }
-#s7 .s7-sym-ring { position: absolute; overflow: visible; filter: drop-shadow(0 0 6px rgba(46, 230, 201, 0.7)); }
+#s7 .s7-sym-ring { position: absolute; filter: drop-shadow(0 0 6px rgba(46, 230, 201, 0.7)); }
+#s7 .s7-ring-rot { position: absolute; inset: 0; transform-origin: 50% 50%; }
+#s7 .s7-ring-rot svg { display: block; overflow: visible; }
 
 #s7 .s7-wm { position: absolute; }
 #s7 .s7-wm .pp-wm { filter: drop-shadow(0 0 22px rgba(46, 230, 201, 0.18)); }

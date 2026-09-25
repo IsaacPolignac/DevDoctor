@@ -198,8 +198,8 @@
 
     // ------------------------------------------------ hero vial rises behind the question (2.00, soft whoosh)
     const qm = PP.el("div", "s1-qmark", vialL, { text: "?" });
-    tl.fromTo(qm, { opacity: 0, scale: 0.8, rotation: -14 }, { opacity: 1, scale: 1, rotation: 0, duration: 1.2, ease: "expo.out" }, 2.05);
-    tl.fromTo(qm, { rotation: 0, y: 0 }, { rotation: 6, y: -40, duration: 2.05, ease: "none", immediateRender: false }, 2.05 + 1.2 - 1.15);
+    tl.fromTo(qm, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1.2, ease: "expo.out" }, 2.05);
+    tl.fromTo(qm, { rotation: -12, y: 30 }, { rotation: 6, y: -40, duration: 2.05, ease: "power1.out" }, 2.05);
     const glow = PP.el("div", "s1-vglow", vialL);
     tl.fromTo(glow, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }, 2.0);
     const vw = PP.el("div", "s1-vwrap", vialL);

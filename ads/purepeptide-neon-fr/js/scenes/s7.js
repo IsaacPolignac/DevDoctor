@@ -40,21 +40,27 @@ PP.scene("s7", function (tl, root, cam) {
   const symWrap = PP.el("div", "s7-sym", cam);
   const sym = PP.symbol(symWrap, 170);
   symWrap.style.cssText = `left:${540 - sym.width / 2}px;top:${SYM_Y - 85}px;width:${sym.width}px;height:170px`;
-  const ringSvg = PP.svg("svg", { width: 300, height: 300, viewBox: "-150 -150 300 300", class: "s7-sym-ring" }, cam);
-  ringSvg.style.cssText = `left:390px;top:${SYM_Y - 150}px`;
-  const ringA = PP.svg("circle", { cx: 0, cy: 0, r: 132, fill: "none", stroke: "rgba(46,230,201,0.55)", "stroke-width": 1.6, "stroke-dasharray": "2 10", "stroke-linecap": "round" }, ringSvg);
-  const ringB = PP.svg("circle", { cx: 0, cy: 0, r: 146, fill: "none", stroke: C.neon, "stroke-width": 2.2, "stroke-linecap": "round", opacity: 0.8 }, ringSvg);
+  const ringWrap = PP.el("div", "s7-sym-ring", cam);
+  ringWrap.style.cssText = `left:390px;top:${SYM_Y - 150}px;width:300px;height:300px`;
+  const mkRing = () => {
+    const d = PP.el("div", "s7-ring-rot", ringWrap);
+    return { d, svg: PP.svg("svg", { width: 300, height: 300, viewBox: "-150 -150 300 300" }, d) };
+  };
+  const rA = mkRing();
+  const rB = mkRing();
+  PP.svg("circle", { cx: 0, cy: 0, r: 132, fill: "none", stroke: "rgba(46,230,201,0.55)", "stroke-width": 1.6, "stroke-dasharray": "2 10", "stroke-linecap": "round" }, rA.svg);
+  const ringB = PP.svg("circle", { cx: 0, cy: 0, r: 146, fill: "none", stroke: C.neon, "stroke-width": 2.2, "stroke-linecap": "round", opacity: 0.8, transform: "rotate(-90)" }, rB.svg);
   gsap.set(symWrap, { transformPerspective: 900 });
   tl.fromTo(symWrap, { opacity: 0 }, { opacity: 1, duration: 2 * F, ease: "none", immediateRender: false }, 22.2 - F);
   tl.set(symWrap, { opacity: 0 }, 0);
   tl.fromTo(symWrap, { scale: 0.2, rotation: -25, filter: "blur(12px)" }, { scale: 1, rotation: 0, filter: "blur(0px)", duration: 0.6, ease: "back.out(2.4)", immediateRender: false }, 22.2 - F);
   tl.fromTo(symWrap, { rotationY: 0, y: 0 }, { rotationY: 16, y: -8, duration: 3.8, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 22.4);
-  tl.fromTo(ringSvg, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 22.25);
-  tl.set(ringSvg, { opacity: 0 }, 0);
-  tl.fromTo(ringA, { rotation: 0 }, { rotation: 90, svgOrigin: "0 0", duration: 7.8, ease: "none", immediateRender: false }, 22.2);
+  tl.fromTo(ringWrap, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 22.25);
+  tl.set(ringWrap, { opacity: 0 }, 0);
+  tl.fromTo(rA.d, { rotation: 0 }, { rotation: 90, duration: 7.8, ease: "none", immediateRender: false }, 22.2);
   PP.draw(tl, ringB, 22.25, 0.7, { ease: "expo.out" });
   tl.set(ringB, { drawSVG: "0%" }, 0);
-  tl.fromTo(ringB, { rotation: -90 }, { rotation: 30, svgOrigin: "0 0", duration: 7.8, ease: "none", immediateRender: false }, 22.2);
+  tl.fromTo(rB.d, { rotation: 0 }, { rotation: 120, duration: 7.8, ease: "none", immediateRender: false }, 22.2);
 
   // ---------------------------------------------------------------- typed wordmark (22.36 → 22.91)
   const WM_W = 760;
