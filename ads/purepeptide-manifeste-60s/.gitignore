@@ -1,0 +1,6 @@
+node_modules/
+snapshots/
+renders/*
+!renders/purepeptide-manifeste-60s.mp4
+.hyperframes/
+*.tmp.mjs
