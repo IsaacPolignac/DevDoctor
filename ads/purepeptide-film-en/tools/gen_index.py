@@ -16,14 +16,11 @@ EDL = [
     ('s10a', 27.0, 28.5, 'div'), ('s10b', 28.5, 30.0, 'div'), ('s10c', 30.0, 31.5, 'div'), ('s10d', 31.5, 33.0, 'div'),
     ('s11', 33.0, 36.0, 'div'), ('s12', 36.0, 38.0, 'div'), ('s13', 38.0, 39.0, 'div'),
     ('v14a', 39.0, 40.0, 'video', 'p3_orbit.mp4', 0, 1), ('v14b', 40.0, 41.0, 'video', 'turntable_g.mp4', 0, 2),
-    ('v14c', 41.0, 42.0, 'video', 'p3_glide.mp4', 0, 1), ('s14d', 42.0, 43.0, 'div'),
-    ('v14e', 43.0, 43.5, 'video', 'p3_captop.mp4', 0, 1), ('s14f', 43.5, 44.0, 'div'),
-    ('v14g', 44.0, 44.5, 'video', 'p3_labelpush.mp4', 0, 1), ('v14h', 44.5, 45.0, 'video', 'turntable_g.mp4', 2.0, 2),
-    ('v14i', 45.0, 45.25, 'video', 'p3_heel.mp4', 0, 1), ('s14j', 45.25, 45.5, 'div'),
-    ('v14k', 45.5, 45.75, 'video', 'p3_crimp.mp4', 0, 1), ('s14l', 45.75, 46.0, 'div'),
+    ('v14c', 41.0, 42.0, 'video', 'p3_glide.mp4', 0, 1),
+    ('s18', 42.0, 44.0, 'div'), ('s19', 44.0, 46.0, 'div'),   # promo: white studio (2 vials, 5 %) · brand blue (3+ vials, 8 %)
     ('s15', 46.0, 50.0, 'div'), ('s16', 50.0, 53.0, 'div'), ('s17', 53.0, 60.0, 'div'),
     # text layers (above picture)
-    ('t09', 24.0, 27.0, 'text'), ('t10', 30.0, 33.0, 'text'), ('t11', 33.0, 36.0, 'text'),
+    ('t09', 24.0, 27.0, 'text'), ('t10', 30.0, 33.0, 'text'), ('t11', 33.0, 36.0, 'text'), ('t14', 39.2, 41.0, 'text'),
 ]
 PRELOAD = ['rim_full', 'macro_crimp', 'cap_full', 'hero_full', 'label_logo', 'cap_ribs', 'label_word', 'macro_shoulder', 'label_full',
            'macro_full', 's3_macro', 's3_cold', 's3_back']

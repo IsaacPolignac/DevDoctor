@@ -1,4 +1,4 @@
-# PurePeptide — product film, 60 s, 16:9, English, NO voice-over · edit decision list
+# PurePeptide — product film, 60 s, 16:9, English, PROMO cut with voice-over · edit decision list
 
 Built on the measured grammar in `../recherche-pubs/04-analyse-image-par-image.md` (read « La grammaire Apple / premium,
 mesurée » + the blueprint). 1920×1080, 30 fps, 60.00 s, one paused GSAP timeline, absolute seconds. Soundtrack is
@@ -52,6 +52,26 @@ final: `assets/audio/mix.wav` (`tools/mix_audio.py`) — the picture must land o
 | 15 | 46.00 → 50.00 | line-up of the six vials aligned, final light sweep ~20 %/s | assets/vials/*.png on glossy black floor with reflections | — |
 | 16 | 50.00 → 53.00 | single vial backlit in smoke (volumetric look) | hero_still/rim_still + 2D animated smoke (SVG feTurbulence driven by timeline) | — |
 | 17 | 53.00 → 60.00 | **cut to logo** (final hit 53.00): symbol ≈ 13 % height + wordmark, one light sweep across in 1.2 s; 54.20 « Purity, proven. » (≈ 3.5 % height); 55.00 « purepeptide.care »; legal line from 53.4; hold, silence from 58.9 | SVG | as listed |
+
+## Promo cut (v2) — voice, worlds, offers
+Voice-over: Kokoro `am_fenrir` (ElevenLabs credits exhausted), one file per line in `assets/audio/vo/`, placed at the
+times in `assets/audio/vo/lines.tsv`, word timings in `vo_words.json` (Whisper large-v3). Music ducked −8 dB under
+the voice. Changes to the EDL above:
+| T | Shot | VO / text |
+| --- | --- | --- |
+| 2.4 · 6.3 | (as above) | « Most labels promise purity. » · « Few can prove it. » |
+| 12.75 | brand card | « This is PurePeptide. » |
+| 20.3 | turntable | « Identity, confirmed. Purity, measured. » |
+| 24.15 · 30.0 · 33.15 | cards as above | VO says the card |
+| 36–38 | burst: each vial on a different world (white · brand blue · black · grey · navy · sky · white · blue) | « Six compounds. One standard. » |
+| 39–42 | acceleration trimmed to 3 × 1 s | « Buy more, save more. » (text 39.2–41) |
+| 42–44 | **white studio**, 2 vials | « 2 vials / 5% off » on « Two vials, five percent off. » |
+| 44–46 | **brand blue**, 3 vials | « 3+ vials / 8% off » |
+| 46–50 | line-up on **white studio** | « Free shipping over $200. » + « Discounts applied automatically in the cart. » |
+| 50–53 | smoke (black) | « No promises. Just proof. » |
+| 53–60 | logo on **navy** world; « Purity, proven. » 54.26; **« Shop now » button** 55.7 (click 56.6); purepeptide.care 56.14; legal from 53.4 | « PurePeptide. Purity, proven. » · « Shop now, at purepeptide dot care. » |
+Offers are the site's own (shop + cart, applied automatically). The v1 no-VO grammar rules (black world only, rare text) are
+deliberately relaxed for this promo cut.
 
 ## Sound cues already in the mix (land the picture on them)
 2.0 sub bed + light shimmer · 6.00 tick (crimp) · 8.00 cap click · 10.00 glass tink (reveal, music hit) · 12.50 sonic

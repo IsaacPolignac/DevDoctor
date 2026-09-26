@@ -135,32 +135,41 @@
       const { ws } = words($("t11"), ["Shipped cold.", "Within 24 hours."], "left:300px;top:476px");
       [33.15, 33.42, 33.85, 34.1, 34.38].forEach((t, i) => wordIn(tl, ws[i], t));
     }
-    // 12 · 36–38 burst: 8 x 250 ms, identical framing, only the product changes
+    // 12 · 36–38 burst: 8 x 250 ms, identical framing, only the product AND the world change (Apple colour-way cut)
     {
       const s = $("s12");
-      PP.el("div", "pool", s, { style: "left:610px;top:860px;width:700px;height:120px" });
+      const worlds = [BG.white, BG.blue, BG.black, BG.grey, BG.navy, BG.sky, BG.white, BG.blue];
       const order = ["selank-10", "ghk-cu-50", "cjc-1295-ipa-10", "semax-10", "igf-1-lr3-1", "bpc157-tb500-10", "ghk-cu-50", "selank-10"];
-      const vs = order.map((n) => vial(s, n, 960, 120, 800).box);
+      const slots = order.map((n, i) => {
+        const g = PP.el("div", "layer", s, { style: `background:${worlds[i].bg}` });
+        PP.el("div", worlds[i].light ? "shadow" : "pool", g, { style: "left:610px;top:860px;width:700px;height:120px" });
+        vial(g, n, 960, 120, 800);
+        return g;
+      });
       PP.drive(tl, (v) => {
         const k = Math.min(7, Math.floor(v + 1e-6));
-        vs.forEach((el, i) => (el.style.opacity = i === k ? 1 : 0));
+        slots.forEach((el, i) => (el.style.opacity = i === k ? 1 : 0));
       }, 0, 8, 36, 2, "none");
     }
     // 13 · 38–39 match cut: the photoreal vial at the burst's exact size, held 1 s
     plate(tl, $("s13"), P("hero_full"), 38, 39, ...push(0.8, 1, 1.0));
     // 14 · 39–46 acceleration (beats 39 + 0.5k): speed ramps 8–15 %/s
     vmove(tl, "v14b", 40, 41, { s: 1.0 }, { s: 1.12 }, "power2.in");
-    plate(tl, $("s14d"), P("label_full"), 42, 43, { s: 1.0 }, { s: 1.13 }, "power2.in");
-    plate(tl, $("s14f"), P("macro_full"), 43.5, 44, { s: 1.02 }, { s: 1.09 }, "power2.in");
-    vmove(tl, "v14h", 44.5, 45, { s: 1.04 }, { s: 1.1 }, "power2.in");
-    plate(tl, $("s14j"), P("cap_ribs"), 45.25, 45.5, { s: 1.0 }, { s: 1.035 }, "none");
-    plate(tl, $("s14l"), P("hero_full"), 45.75, 46, { s: 2.3, y: 520 }, { s: 2.38, y: 540 }, "none");
-    [39.0, 41.0, 43.0, 45.0].forEach((t, i) => flare(tl, t, [372, 610, 455, 700][i], i % 2 ? -1 : 1));
+    [39.0, 41.0].forEach((t, i) => flare(tl, t, [372, 610][i], i % 2 ? -1 : 1));
+    {
+      const { ws } = words($("t14"), ["Buy more. Save more."], "left:0;width:1920px;text-align:center;top:900px;font-size:60px;text-shadow:0 2px 24px rgba(0,0,0,0.85)");
+      [39.2, 39.34, 39.48, 39.76].forEach((t, i) => wordIn(tl, ws[i], t));
+    }
+    // 18 · 42–44 PROMO white studio: two vials, « 2 vials · 5% off » on the VO words
+    offer(tl, $("s18"), 42, 44, BG.white, ["bpc157-tb500-10", "ghk-cu-50"], "2 vials", "5% off", [42.15, 42.63], "#0b1f4d", "#1f4fd1");
+    // 19 · 44–46 PROMO brand blue: three vials, « 3+ vials · 8% off »
+    offer(tl, $("s19"), 44, 46, BG.blue, ["selank-10", "semax-10", "igf-1-lr3-1"], "3+ vials", "8% off", [44.15, 44.49], "#e8eefc", "#ffffff");
     // 15 · 46–50 line-up on glossy black, final light sweep ~20 %/s
     {
       const s = $("s15");
+      s.style.background = BG.white.bg;
       const g = PP.el("div", "layer", s);
-      PP.el("div", "pool", g, { style: "left:120px;top:735px;width:1680px;height:200px" });
+      PP.el("div", "shadow", g, { style: "left:120px;top:770px;width:1680px;height:130px" });
       const names = ["bpc157-tb500-10", "cjc-1295-ipa-10", "ghk-cu-50", "igf-1-lr3-1", "selank-10", "semax-10"];
       const h = 520, gap = 292;
       const vs = names.map((n, i) => vial(g, n, 960 + (i - 2.5) * gap, 290, h, true));
@@ -170,6 +179,10 @@
           v.sheen.style.background = `linear-gradient(100deg, rgba(255,255,255,0) ${x - v.x - 170}px, rgba(255,255,255,0.5) ${x - v.x}px, rgba(255,255,255,0) ${x - v.x + 170}px)`;
         });
       }, 150, 150 + 0.2 * 1920 * 3.8, 46.1, 3.8, "none");
+      const { ws } = words(s, ["Free shipping over $200."], "left:0;width:1920px;text-align:center;top:112px;font-size:60px;color:#0b1f4d");
+      [46.3, 46.44, 47.36, 47.7].forEach((t, i) => wordIn(tl, ws[i], t));
+      const sub = PP.el("div", "t", s, { text: "Discounts applied automatically in the cart.", style: "left:0;width:1920px;text-align:center;top:196px;font-size:30px;font-weight:500;color:#3f4a5a" });
+      cutIn(tl, sub, 48.4);
     }
     // 16 · 50–53 single vial backlit in smoke
     {
@@ -181,6 +194,7 @@
     // 17 · 53–60 logo (final hit 53.00), sweep 1.2 s, tagline 54.20, URL 55.00, legal from 53.40
     {
       const s = $("s17");
+      s.style.background = BG.navy.bg;
       const symH = 140, symW = (symH * 405) / 456;
       const symTop = 318;
       const sym = PP.el("div", "", s, { style: `position:absolute;left:${960 - symW / 2}px;top:${symTop}px;width:${symW}px;height:${symH}px` });
@@ -199,13 +213,39 @@
         sh1.style.background = band(symL);
         sh2.style.background = band(wmL);
       }, 960 - 330, 960 + 330, 53.0, 1.2, "power1.inOut");
-      const tag = PP.el("div", "t", s, { text: "Purity, proven.", style: "left:0;width:1920px;text-align:center;top:560px;font-size:40px" });
-      const url = PP.el("div", "t soft", s, { text: "purepeptide.care", style: "left:0;width:1920px;text-align:center;top:632px;font-size:28px;font-weight:500;letter-spacing:0.01em" });
-      const legal = PP.el("div", "t", s, { text: "For laboratory research use only · Not for human or veterinary consumption · 21+", style: "left:0;width:1920px;text-align:center;top:986px;font-size:24px;font-weight:500;color:#8b939d;letter-spacing:0.005em" });
-      cutIn(tl, tag, 54.2);
-      cutIn(tl, url, 55.0);
+      const tag = PP.el("div", "t", s, { text: "Purity, proven.", style: "left:0;width:1920px;text-align:center;top:556px;font-size:40px" });
+      const cta = PP.el("div", "cta", s, { text: "Shop now", style: "left:840px;top:640px;width:240px;height:68px" });
+      const url = PP.el("div", "t soft", s, { text: "purepeptide.care", style: "left:0;width:1920px;text-align:center;top:736px;font-size:30px;font-weight:500;letter-spacing:0.01em;color:#c3cbd6" });
+      const legal = PP.el("div", "t", s, { text: "For laboratory research use only · Not for human or veterinary consumption · 21+", style: "left:0;width:1920px;text-align:center;top:986px;font-size:24px;font-weight:500;color:#9aa3b0;letter-spacing:0.005em" });
+      cutIn(tl, tag, 54.26);
+      tl.fromTo(cta, { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.35, ease: "expo.out", immediateRender: true }, 55.7);
+      tl.fromTo(cta, { scale: 1 }, { scale: 0.96, duration: 0.08, ease: "power1.in", yoyo: true, repeat: 1, immediateRender: false }, 56.6); // the « click »
+      cutIn(tl, url, 56.14);
       cutIn(tl, legal, 53.4);
     }
+  }
+
+  // worlds (backgrounds) for the promo / colour-way shots
+  const BG = {
+    white: { bg: "radial-gradient(ellipse 90% 70% at 50% 38%, #ffffff 0%, #f1f3f6 55%, #d9dee5 100%)", light: true },
+    grey: { bg: "linear-gradient(180deg, #e9ecf0 0%, #e9ecf0 68%, #cfd5dd 100%)", light: true },
+    blue: { bg: "radial-gradient(ellipse 80% 90% at 62% 42%, #2e66ea 0%, #163f9f 48%, #071a47 100%)", light: false },
+    navy: { bg: "radial-gradient(ellipse 70% 80% at 50% 42%, #10285e 0%, #081536 55%, #02060f 100%)", light: false },
+    sky: { bg: "linear-gradient(165deg, #9fd3ff 0%, #4d8ff0 55%, #1d4fc4 100%)", light: false },
+    black: { bg: "#000", light: false },
+  };
+  // promo offer shot: world + vials on the right + two-line offer on the left (words land on the VO)
+  function offer(tl, s, t0, t1, world, names, l1, l2, at, c1, c2) {
+    s.style.background = world.bg;
+    const g = PP.el("div", "layer", s);
+    const h = 600, gap = 250, cx = 1320 - ((names.length - 1) * gap) / 2;
+    PP.el("div", world.light ? "shadow" : "pool", g, { style: `left:${cx - 260}px;top:${250 + h - 60}px;width:${(names.length - 1) * gap + 520}px;height:120px` });
+    names.forEach((n, i) => vial(g, n, cx + i * gap, 250, h));
+    tl.fromTo(g, { scale: 1 }, { scale: 1.02, duration: t1 - t0, ease: "none", immediateRender: true }, t0);
+    const a = PP.el("div", "t", s, { text: l1, style: `left:200px;top:372px;font-size:84px;color:${c1}` });
+    const b = PP.el("div", "t", s, { text: l2, style: `left:192px;top:470px;font-size:168px;line-height:1;letter-spacing:-0.03em;color:${c2}` });
+    wordIn(tl, a, at[0]);
+    tl.fromTo(b, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: "expo.out", immediateRender: true }, at[1]);
   }
 
   // soft specular band sweeping horizontally across a shot (x in % of width)

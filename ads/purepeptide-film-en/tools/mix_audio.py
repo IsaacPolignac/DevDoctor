@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""PurePeptide product film 60 s (EN, no voice-over) — soundtrack, built on the measured premium grammar
+"""PurePeptide product film 60 s (EN, promo cut with voice-over: Kokoro am_fenrir, assets/audio/vo/L*.wav placed at the
+times in assets/audio/vo/lines.tsv; music ducked under the voice) — soundtrack, built on the measured premium grammar
 (ads/recherche-pubs/04-analyse-image-par-image.md): music-led, sound designed to the PICTURE (glass tinks, crimp
 clicks, cap snap, light shimmers), sonic logo on the brand card and on the end logo, silence at the head and tail.
 
@@ -45,6 +46,26 @@ def build_music():
     out *= db(np.interp(t, [2.0, 3.5], [-12.0, 0.0]))            # the head swells in from silence
     out *= np.clip((53.12 - t) / 0.12, 0, 1)                      # hard stop on the final hit
     return out * db(-3.0)
+
+
+def build_vo():
+    """Places each line at its time (lines.tsv), levels it, voice chain (HPF, presence, 2:1 comp). Mono, N samples."""
+    track = np.zeros(N)
+    last = 0
+    for ln in open(AUD / "vo" / "lines.tsv"):
+        lid, at, _, _ = ln.rstrip("\n").split("\t")
+        x, sr = A.decode(AUD / "vo" / f"{lid}.wav", 1)
+        x = A.to_48k(x, sr)[0]
+        x = A.fade_out(x, 0.02)
+        l = A.lufs_integrated(np.vstack([x, x])) - 10 * np.log10(2)
+        x *= db(float(np.clip(-16.0 - l, -4, 6)))
+        i = S(float(at))
+        assert i >= last, f"{lid} overlaps the previous line"
+        track[i:i + x.size] += x[: N - i]
+        last = i + x.size
+    track = A.peaking(A.hp(track, 90.0), 4000.0, 1.5, 0.7)
+    track, _ = A.vo_compressor(track)
+    return track * db(A.VO_REF_LUFS - A.lufs_integrated(np.vstack([track, track])))
 
 
 def sonic_logo(seed=90):
@@ -113,17 +134,24 @@ def main():
     for k in range(8):                        # burst 36–38: one tick per label change, rising
         put(A.tick(2200 + 180 * k, seed=40 + k), 36.0 + 0.25 * k, -13 + 0.4 * k, 0.2 * (-1) ** k)
     put(glass_tick("C7", 50), 38.0, -12)
-    for t in [39.0, 41.0, 43.0, 45.0]:        # acceleration: speed-ramp whooshes
+    for t in [39.0, 41.0]:                    # acceleration: speed-ramp whooshes
         put(whoosh, t - wpk, -12)
-    for k, t in enumerate([45.0, 45.25, 45.5, 45.75]):
-        put(A.tick(3000 + 200 * k, seed=60 + k), t, -14)
+    put(glass_tick("E7", 55), 42.0, -14)      # cut to the white studio: 2 vials, 5% off
+    put(A.stat_hit("C6", seed=56), 42.63, -16)
+    put(glass_tick("G7", 57), 44.0, -14)      # cut to brand blue: 3+ vials, 8% off
+    put(A.stat_hit("E6", seed=58), 44.49, -16)
     put(shimmer(3.8, 70), 46.1, -20)          # line-up sweep
     put(shimmer(2.8, 71), 50.1, -22)          # smoke / backlight
     put(A.impact(seed=80), 53.00, -8)         # final hit on the cut to the logo
     put(logo, 53.00, -4)
     put(tail(), 53.05, -14)
 
-    mix = music + sfx
+    vo = build_vo()
+    key = A.vo_key(vo)
+    duck = A.ctrl_to_audio(A.duck_curve(key, -8.0))
+    music = music * db(duck)
+    sfx = sfx * db(A.ctrl_to_audio(A.duck_curve(key, -3.0)))
+    mix = music + sfx + A.to_stereo(vo * db(3.0), 0.0)
     out, gain, _, lim = A.master(mix)
     t = np.arange(N) / SR
     out = out * np.clip((58.9 - t) / 0.4, 0, 1)   # 1 s of silence at the end
