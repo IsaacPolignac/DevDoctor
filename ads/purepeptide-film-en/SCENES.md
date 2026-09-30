@@ -20,6 +20,30 @@ final: `assets/audio/mix.wav` (`tools/mix_audio.py`) — the picture must land o
   consumption · 21+ » (legal visible on the end card ≥ 3 s, ≥ 24 px).
 
 ## Picture sources
+0. **AI video — the current source of every vial shot** (all but the shot-2 silhouette, still `rim_full.jpg`):
+   `assets/plates/ai/` — `turn.mp4` (~4 s turntable, 3/4 low angle, black glossy floor), `hero.mp4` (~3 s centred hero, slow
+   push-in, rim rising), `cold.mp4` / `smoke.mp4` (hero framing; cold blue-white backlight + frost / backlit smoke), `cap.mp4`
+   (~2.5 s descent to a top 3/4 view of cap + crimp), `macro.mp4` (~3 s 100 mm glide along shoulder / label top edge).
+   Made with **Kling O3 video edit**: the Blender animation (`../purepeptide-blender/renders/guides/`, `keys/`) as motion
+   guide + the real PurePeptide vial photo as reference. They are stage-level `<video>` clips in the EDL
+   (`tools/gen_index.py`, which asserts no window seeks past 3.9 s turn · 2.9 s hero/cold/smoke/macro · 2.4 s cap, hence
+   rates 0.95–0.97 on the 3–4 s windows); haze, sweep, edge feathers and the cap falloff are separate transparent `o..`
+   overlay clips listed after the video. Re-dropping a clip under the same name needs no code change (tune framing in
+   `js/film.js` `vpush`/`vmove`). The Blender stills and three.js clips below stay on disk but are no longer used.
+
+   | # | window | clip @ media in (rate) | framing |
+   | --- | --- | --- | --- |
+   | 3 | 6–8 | macro @0 | push 1 %/s |
+   | 4 | 8–10 | cap @0.3 | push 0.8 %/s, bottom falloff overlay |
+   | 5 | 10–12.5 | hero @0.3 | the clip's own push |
+   | 7 | 14.5–20 | turn @1.8 logo · macro @1.2 shoulder · cap @1.4 cap top · cap @0.6 crimp · turn @0.6 heel · turn @2.4 wordmark (+ sweep overlay) · hero @2.0 label · macro @2.2 shoulder | punch-ins ×1.3–2.0, push 1.2–1.6 %/s |
+   | 8 | 20–24 | turn @0 (0.97) | still |
+   | 9 | 24–27 | hero @0 (0.96) | x −330, right-edge feather |
+   | 10 | 27–33 | turn @0.2 label ×1.7 · macro @0.6 · cap @0.8 x −400 · hero @1.2 shoulder ×2 x −400 | pull-out −2 %/s, right feather 30–33 |
+   | 11 | 33–36 | cold @0 (0.95) | x +380, haze + left-edge feather |
+   | 13 | 38–39 | hero @1.88 | push 0.8 %/s (burst vial size) |
+   | 14 | 39–42 | turn @0 ×2 · turn @1.95 ×2 (ramp) · macro @0 ×1.5 | flares |
+   | 16 | 50–53 | smoke @0 (0.95) | push 1 %/s, 2D haze at 60 % of the old opacity |
 1. **Blender Cycles (photoreal, preferred for hero moments)** — `assets/footage/hero.mp4` (3.0 s, 1920×1080, centred hero,
    slow push, rim light rising) and `assets/footage/turntable.mp4` (4.0 s, 120° turntable on glossy black floor).
    Hi-res STILLS are being rendered at 2560×1440 into `../purepeptide-blender/renders/` (look for `*still*.png`:
@@ -33,6 +57,7 @@ final: `assets/audio/mix.wav` (`tools/mix_audio.py`) — the picture must land o
 4. Brand SVGs `assets/brand/` (brand-symbol.svg, brand-wordmark-light.svg).
 
 ## Edit decision list (T = video time, s)
+Cut times and text are as below; the « Source / move » column is the original plan — vial shots now come from the AI clips (Picture sources 0).
 | # | T in → out | Shot | Source / move | Text |
 | --- | --- | --- | --- | --- |
 | 1 | 0.00 → 2.00 | black, silence (fade in from 1.6) | — | — |

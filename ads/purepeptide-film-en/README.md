@@ -1,6 +1,11 @@
 # PurePeptide — product film, 60 s, 16:9, English (promo cut)
 
-Apple-style product film (Blender Cycles stills, three.js plates, real catalog renders) turned into a promotional ad:
+Apple-style product film turned into a promotional ad. **Every vial shot is now photoreal AI video of the real
+PurePeptide vial**: the Blender animation is the motion guide (same camera move, framing and timing) and the real vial
+photo + a label close-up are the appearance references, through Kling O3 video edit on ElevenLabs (flow
+https://elevenlabs.io/app/flows/jbDvQy3OTpz7jagyYNSP; compared against Runway Aleph 2 — label text warped — and
+Seedance 2.5 edit — ignored the rotation, 7× the cost). Clips in `assets/plates/ai/` (turn, hero, cold, smoke, cap,
+macro); only the opening rim-light silhouette (no label visible) is still the Blender render. Also:
 English voice-over, coloured « worlds » on some shots (white studio, brand blue, navy) and the site's real offers.
 Deliverable: [`renders/purepeptide-film-en.mp4`](renders/purepeptide-film-en.mp4) (preview: `renders/purepeptide-film-en-preview.mp4`).
 

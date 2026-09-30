@@ -109,12 +109,12 @@
       tl.fromTo(g, { scale: 1 }, { scale: 1.016, duration: 2, ease: "none", immediateRender: true }, 12.5);
     }
     // 7 · 14.5–20 details / inserts: punch-ins into the AI clips, each on a different detail (media times in the EDL)
-    vpush(tl, "v07a", 14.5, 15.5, 1.4, 2.0, -140, -80); //  turn 1.8: label logo
+    vpush(tl, "v07a", 14.5, 15.5, 1.4, 2.0, 0, -80); //  turn 0.1: label logo, front-facing
     vpush(tl, "v07b", 15.5, 16.0, 1.6, 1.5, -60, 255); //   macro 1.2: glass shoulder
     vpush(tl, "v07c", 16.0, 17.0, 1.5, 1.3, 0, 160); //     cap 1.4: cap top
     vpush(tl, "v07d", 17.0, 17.4, 1.5, 1.4, 0, -182); //    cap 0.6: crimp ribs
     vpush(tl, "v07e", 17.4, 17.9, 1.5, 2.0, 0, -520); //    turn 0.6: glass heel on the mirror floor
-    vpush(tl, "v07f", 17.9, 18.9, 1.2, 1.8, -180, -252); // turn 2.4: label wordmark
+    vpush(tl, "v07f", 17.9, 18.9, 1.2, 2.2, 0, -330); // hero 1.6: label wordmark, front-facing
     sweep(tl, $("o07f"), 17.9, 18.9, -10, 40, 0.18); //     + soft specular sweep across the label (overlay)
     vpush(tl, "v07g", 18.9, 19.4, 1.5, 1.7, 0, -187); //    hero 2.0: label, sweep of the key light
     vpush(tl, "v07h", 19.4, 20.0, 1.6, 1.5, 285, 245); //   macro 2.2: shoulder
@@ -136,12 +136,11 @@
       const { ws } = words($("t10"), ["99% purity.", "Minimum."], "left:1250px;top:476px");
       [0, 2, 3].map((k) => W("L06", k)).forEach((t, i) => wordIn(tl, ws[i], t)); // « 99% » on « ninety-nine »
     }
-    // 11 · 33–36 cold light: backlit vial (ai/cold.mp4 shifted right), frost-like haze above it (overlay o11)
+    // 11 · 33–36 cold light: backlit vial (ai/cold.mp4, centred), frost-like haze above it (overlay o11)
     {
       const s = $("o11");
-      vmove(tl, "v11", 33, 36, { s: 1.0, x: 380 }, { s: 1.0 * 1.03, x: 386 });
-      feather(s, "linear-gradient(to right, #000 362px, rgba(0,0,0,0) 520px)"); // video edge at x ~360–380
-      haze(tl, s, 33, 36, { op: 0.16, x0: 60, x1: -40, y0: 20, y1: -30, src: "smoke0", tint: "hue-rotate(0deg)", mask: "radial-gradient(ellipse 34% 58% at 70% 48%, #000 25%, rgba(0,0,0,0) 100%)" });
+      vmove(tl, "v11", 33, 36, { s: 1.0, x: 0 }, { s: 1.0 * 1.03, x: 0 }); // the AI cold shot keeps the vial centred; text sits left of it
+      haze(tl, s, 33, 36, { op: 0.16, x0: 60, x1: -40, y0: 20, y1: -30, src: "smoke0", tint: "hue-rotate(0deg)", mask: "radial-gradient(ellipse 34% 58% at 50% 48%, #000 25%, rgba(0,0,0,0) 100%)" });
       const { ws } = words($("t11"), ["Shipped cold.", "Within 24 hours."], "left:300px;top:476px");
       [0, 1, 2, 3, 4].map((k) => W("L07", k)).forEach((t, i) => wordIn(tl, ws[i], t));
     }
