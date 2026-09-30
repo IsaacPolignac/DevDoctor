@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""PurePeptide product film 60 s (EN, promo cut with voice-over: Kokoro am_fenrir, assets/audio/vo/L*.wav placed at the
-times in assets/audio/vo/lines.tsv; music ducked under the voice) — soundtrack, built on the measured premium grammar
+"""PurePeptide product film 60 s (EN, promo cut with voice-over: ElevenLabs v4, voice « Markmont », one performance cut
+into assets/audio/vo/L*.wav by tools/build_vo.py and placed at the times in assets/audio/vo/lines.tsv; music ducked
+under the voice) — soundtrack, built on the measured premium grammar
 (ads/recherche-pubs/04-analyse-image-par-image.md): music-led, sound designed to the PICTURE (glass tinks, crimp
 clicks, cap snap, light shimmers), sonic logo on the brand card and on the end logo, silence at the head and tail.
 
@@ -49,7 +50,8 @@ def build_music():
 
 
 def build_vo():
-    """Places each line at its time (lines.tsv), levels it, voice chain (HPF, presence, 2:1 comp). Mono, N samples."""
+    """Places each line at its time (lines.tsv), voice chain (HPF, presence, 2:1 comp). Mono, N samples. No per-line
+    levelling: the lines come from one continuous v4 performance, so its soft/loud contrasts are kept."""
     track = np.zeros(N)
     last = 0
     for ln in open(AUD / "vo" / "lines.tsv"):
@@ -57,8 +59,6 @@ def build_vo():
         x, sr = A.decode(AUD / "vo" / f"{lid}.wav", 1)
         x = A.to_48k(x, sr)[0]
         x = A.fade_out(x, 0.02)
-        l = A.lufs_integrated(np.vstack([x, x])) - 10 * np.log10(2)
-        x *= db(float(np.clip(-16.0 - l, -4, 6)))
         i = S(float(at))
         assert i >= last, f"{lid} overlaps the previous line"
         track[i:i + x.size] += x[: N - i]
@@ -137,9 +137,9 @@ def main():
     for t in [39.0, 41.0]:                    # acceleration: speed-ramp whooshes
         put(whoosh, t - wpk, -12)
     put(glass_tick("E7", 55), 42.0, -14)      # cut to the white studio: 2 vials, 5% off
-    put(A.stat_hit("C6", seed=56), 42.63, -16)
+    put(A.stat_hit("C6", seed=56), 42.66, -16)   # on « five »
     put(glass_tick("G7", 57), 44.0, -14)      # cut to brand blue: 3+ vials, 8% off
-    put(A.stat_hit("E6", seed=58), 44.49, -16)
+    put(A.stat_hit("E6", seed=58), 44.78, -16)   # on « eight »
     put(shimmer(3.8, 70), 46.1, -20)          # line-up sweep
     put(shimmer(2.8, 71), 50.1, -22)          # smoke / backlight
     put(A.impact(seed=80), 53.00, -8)         # final hit on the cut to the logo

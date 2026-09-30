@@ -54,13 +54,15 @@ final: `assets/audio/mix.wav` (`tools/mix_audio.py`) — the picture must land o
 | 17 | 53.00 → 60.00 | **cut to logo** (final hit 53.00): symbol ≈ 13 % height + wordmark, one light sweep across in 1.2 s; 54.20 « Purity, proven. » (≈ 3.5 % height); 55.00 « purepeptide.care »; legal line from 53.4; hold, silence from 58.9 | SVG | as listed |
 
 ## Promo cut (v2) — voice, worlds, offers
-Voice-over: Kokoro `am_fenrir` (ElevenLabs credits exhausted), one file per line in `assets/audio/vo/`, placed at the
-times in `assets/audio/vo/lines.tsv`, word timings in `vo_words.json` (Whisper large-v3). Music ducked −8 dB under
-the voice. Changes to the EDL above:
+Voice-over: **ElevenLabs v4** (emotion tags), voice « Markmont », ONE continuous performance
+(`assets/audio/vo_v4/take_markmont_b.mp3`, best of 6 takes / 3 voices by pitch variance, all word-perfect) cut into 15
+lines on its silences by `tools/build_vo.py` (each clip re-checked by Whisper large-v3) → `assets/audio/vo/L*.wav`,
+placements in `assets/audio/vo/lines.tsv`, word onsets in `js/vo.js` (every on-screen word lands on its spoken word).
+Music ducked −8 dB under the voice, no per-line levelling (the performance's soft/loud contrasts are kept). Changes to the EDL above:
 | T | Shot | VO / text |
 | --- | --- | --- |
 | 2.4 · 6.3 | (as above) | « Most labels promise purity. » · « Few can prove it. » |
-| 12.75 | brand card | « This is PurePeptide. » |
+| 12.72 | brand card | « This is PurePeptide. » |
 | 20.3 | turntable | « Identity, confirmed. Purity, measured. » |
 | 24.15 · 30.0 · 33.15 | cards as above | VO says the card |
 | 36–38 | burst: each vial on a different world (white · brand blue · black · grey · navy · sky · white · blue) | « Six compounds. One standard. » |
@@ -69,7 +71,7 @@ the voice. Changes to the EDL above:
 | 44–46 | **brand blue**, 3 vials | « 3+ vials / 8% off » |
 | 46–50 | line-up on **white studio** | « Free shipping over $200. » + « Discounts applied automatically in the cart. » |
 | 50–53 | smoke (black) | « No promises. Just proof. » |
-| 53–60 | logo on **navy** world; « Purity, proven. » 54.26; **« Shop now » button** 55.7 (click 56.6); purepeptide.care 56.14; legal from 53.4 | « PurePeptide. Purity, proven. » · « Shop now, at purepeptide dot care. » |
+| 53–60 | logo on **navy** world; « Purity, proven. » on the voice (54.19); **« Shop now » button** on « Shop » (56.10, click 56.58); purepeptide.care on the word (56.99); legal from 53.4 | « PurePeptide. Purity, proven. » · « Shop now, at purepeptide dot care. » |
 Offers are the site's own (shop + cart, applied automatically). The v1 no-VO grammar rules (black world only, rare text) are
 deliberately relaxed for this promo cut.
 
