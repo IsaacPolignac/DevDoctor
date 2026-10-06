@@ -1,0 +1,9545 @@
+{
+ "home": {
+  "url": "https://purepeptide.care/?lang=en",
+  "height_pt": 9117,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n0",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "0",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "eyebrow",
+    "text": "RESEARCH PEPTIDES",
+    "x": 129,
+    "y": 337,
+    "w": 143,
+    "h": 11
+   },
+   {
+    "tag": "H1",
+    "cls": "hero__title",
+    "text": "Purity,\nproven.",
+    "x": 41,
+    "y": 354,
+    "w": 320,
+    "h": 67
+   },
+   {
+    "tag": "SPAN",
+    "cls": "hero__accent",
+    "text": "Purity,",
+    "x": 154,
+    "y": 349,
+    "w": 94,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "accent-dot",
+    "text": ".",
+    "x": 249,
+    "y": 382,
+    "w": 7,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "hero__jano",
+    "text": "See the tests",
+    "x": 106,
+    "y": 503,
+    "w": 189,
+    "h": 32
+   },
+   {
+    "tag": "IMG",
+    "cls": "hero__jano__logo",
+    "text": "Janoshik",
+    "x": 136,
+    "y": 514,
+    "w": 42,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "hero__jano__txt",
+    "text": "See the tests",
+    "x": 187,
+    "y": 510,
+    "w": 72,
+    "h": 18
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg",
+    "text": "Explore the catalog",
+    "x": 41,
+    "y": 542,
+    "w": 320,
+    "h": 50
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--ghost btn--lg",
+    "text": "Learn more",
+    "x": 41,
+    "y": 602,
+    "w": 320,
+    "h": 50
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "PurePeptide research vial",
+    "x": 119,
+    "y": 122,
+    "w": 164,
+    "h": 216
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "HPLC ≥ 99% PURITY",
+    "x": -1024,
+    "y": 698,
+    "w": 164,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": -844,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "THIRD-PARTY TESTED",
+    "x": -825,
+    "y": 698,
+    "w": 175,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": -635,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SHIPS TO 10 COUNTRIES",
+    "x": -615,
+    "y": 698,
+    "w": 191,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": -408,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "24H DISPATCH",
+    "x": -389,
+    "y": 698,
+    "w": 122,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": -251,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "COLD-CHAIN SHIPPING",
+    "x": -231,
+    "y": 698,
+    "w": 182,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": -34,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SECURE CHECKOUT",
+    "x": -14,
+    "y": 698,
+    "w": 157,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 158,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "HPLC ≥ 99% PURITY",
+    "x": 178,
+    "y": 698,
+    "w": 164,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 358,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "THIRD-PARTY TESTED",
+    "x": 377,
+    "y": 698,
+    "w": 175,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 568,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SHIPS TO 10 COUNTRIES",
+    "x": 587,
+    "y": 698,
+    "w": 191,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 794,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "24H DISPATCH",
+    "x": 813,
+    "y": 698,
+    "w": 122,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 952,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "COLD-CHAIN SHIPPING",
+    "x": 971,
+    "y": 698,
+    "w": 182,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 1169,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SECURE CHECKOUT",
+    "x": 1188,
+    "y": 698,
+    "w": 157,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 1360,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "HPLC ≥ 99% PURITY",
+    "x": 1380,
+    "y": 698,
+    "w": 164,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 1560,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "THIRD-PARTY TESTED",
+    "x": 1579,
+    "y": 698,
+    "w": 175,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 1770,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SHIPS TO 10 COUNTRIES",
+    "x": 1789,
+    "y": 698,
+    "w": 191,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 1996,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "24H DISPATCH",
+    "x": 2015,
+    "y": 698,
+    "w": 122,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 2154,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "COLD-CHAIN SHIPPING",
+    "x": 2173,
+    "y": 698,
+    "w": 182,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 2371,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SECURE CHECKOUT",
+    "x": 2390,
+    "y": 698,
+    "w": 157,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 2563,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "HPLC ≥ 99% PURITY",
+    "x": 2582,
+    "y": 698,
+    "w": 164,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 2762,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "THIRD-PARTY TESTED",
+    "x": 2781,
+    "y": 698,
+    "w": 175,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 2972,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SHIPS TO 10 COUNTRIES",
+    "x": 2991,
+    "y": 698,
+    "w": 191,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 3198,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "24H DISPATCH",
+    "x": 3218,
+    "y": 698,
+    "w": 122,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 3356,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "COLD-CHAIN SHIPPING",
+    "x": 3375,
+    "y": 698,
+    "w": 182,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 3573,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SECURE CHECKOUT",
+    "x": 3592,
+    "y": 698,
+    "w": 157,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 3765,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "HPLC ≥ 99% PURITY",
+    "x": 3784,
+    "y": 698,
+    "w": 164,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 3964,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "THIRD-PARTY TESTED",
+    "x": 3983,
+    "y": 698,
+    "w": 175,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 4174,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SHIPS TO 10 COUNTRIES",
+    "x": 4193,
+    "y": 698,
+    "w": 191,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 4400,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "24H DISPATCH",
+    "x": 4420,
+    "y": 698,
+    "w": 122,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 4558,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "COLD-CHAIN SHIPPING",
+    "x": 4577,
+    "y": 698,
+    "w": 182,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 4775,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SECURE CHECKOUT",
+    "x": 4794,
+    "y": 698,
+    "w": 157,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 4967,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "HPLC ≥ 99% PURITY",
+    "x": 4986,
+    "y": 698,
+    "w": 164,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 5166,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "THIRD-PARTY TESTED",
+    "x": 5186,
+    "y": 698,
+    "w": 175,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 5376,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SHIPS TO 10 COUNTRIES",
+    "x": 5396,
+    "y": 698,
+    "w": 191,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 5602,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "24H DISPATCH",
+    "x": 5622,
+    "y": 698,
+    "w": 122,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 5760,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "COLD-CHAIN SHIPPING",
+    "x": 5779,
+    "y": 698,
+    "w": 182,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 5977,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "SECURE CHECKOUT",
+    "x": 5996,
+    "y": 698,
+    "w": 157,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 6169,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "HPLC purity",
+    "x": 81,
+    "y": 810,
+    "w": 65,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Lab tested",
+    "x": 251,
+    "y": 810,
+    "w": 57,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Dispatch",
+    "x": 81,
+    "y": 887,
+    "w": 48,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Per batch",
+    "x": 251,
+    "y": 887,
+    "w": 52,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "eyebrow",
+    "text": "CATALOG",
+    "x": 169,
+    "y": 1013,
+    "w": 64,
+    "h": 11
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Most requested compounds",
+    "x": 18,
+    "y": 1036,
+    "w": 366,
+    "h": 63
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Metabolic",
+    "x": 23,
+    "y": 1146,
+    "w": 168,
+    "h": 209
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Metabolic",
+    "x": 132,
+    "y": 1160,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "Retatrutide vial",
+    "x": 70,
+    "y": 1188,
+    "w": 73,
+    "h": 149
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "Retatrutide",
+    "x": 40,
+    "y": 1372,
+    "w": 83,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt is-active",
+    "text": "10 mg",
+    "x": 40,
+    "y": 1401,
+    "w": 54,
+    "h": 33
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt",
+    "text": "20 mg\n−21%",
+    "x": 100,
+    "y": 1401,
+    "w": 56,
+    "h": 33
+   },
+   {
+    "tag": "SPAN",
+    "cls": "save",
+    "text": "−21%",
+    "x": 118,
+    "y": 1392,
+    "w": 43,
+    "h": 13
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$94.99",
+    "x": 40,
+    "y": 1448,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 40,
+    "y": 1448,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 40,
+    "y": 1486,
+    "w": 133,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Longevity",
+    "x": 212,
+    "y": 1146,
+    "w": 168,
+    "h": 209
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Longevity",
+    "x": 320,
+    "y": 1160,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "GHK-Cu vial",
+    "x": 259,
+    "y": 1188,
+    "w": 73,
+    "h": 149
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "GHK-Cu",
+    "x": 229,
+    "y": 1372,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt is-active",
+    "text": "50 mg",
+    "x": 229,
+    "y": 1401,
+    "w": 56,
+    "h": 33
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt",
+    "text": "100 mg\n−14%",
+    "x": 291,
+    "y": 1401,
+    "w": 62,
+    "h": 33
+   },
+   {
+    "tag": "SPAN",
+    "cls": "save",
+    "text": "−14%",
+    "x": 314,
+    "y": 1392,
+    "w": 43,
+    "h": 13
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$37.99",
+    "x": 229,
+    "y": 1448,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 229,
+    "y": 1448,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 229,
+    "y": 1486,
+    "w": 133,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Growth",
+    "x": 23,
+    "y": 1576,
+    "w": 168,
+    "h": 209
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Growth",
+    "x": 143,
+    "y": 1589,
+    "w": 45,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "CJC-1295 / Ipamorelin vial",
+    "x": 70,
+    "y": 1618,
+    "w": 73,
+    "h": 149
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "CJC-1295 / Ipamorelin",
+    "x": 40,
+    "y": 1802,
+    "w": 82,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "10 MG",
+    "x": 132,
+    "y": 1803,
+    "w": 42,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$79.99",
+    "x": 40,
+    "y": 1855,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 40,
+    "y": 1855,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 40,
+    "y": 1893,
+    "w": 133,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Recovery",
+    "x": 212,
+    "y": 1576,
+    "w": 168,
+    "h": 209
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Recovery",
+    "x": 323,
+    "y": 1589,
+    "w": 55,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "BPC-157 / TB-500 vial",
+    "x": 259,
+    "y": 1618,
+    "w": 73,
+    "h": 149
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "BPC-157 / TB-500",
+    "x": 229,
+    "y": 1802,
+    "w": 82,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "10 MG",
+    "x": 321,
+    "y": 1803,
+    "w": 42,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 229,
+    "y": 1855,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 229,
+    "y": 1855,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 229,
+    "y": 1893,
+    "w": 133,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--dark btn--lg",
+    "text": "View the full catalog",
+    "x": 18,
+    "y": 1957,
+    "w": 227,
+    "h": 50
+   },
+   {
+    "tag": "A",
+    "cls": "pill pill--new",
+    "text": "New\n·\nMembership",
+    "x": 18,
+    "y": 2109,
+    "w": 149,
+    "h": 35
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Earn points on every order.",
+    "x": 18,
+    "y": 2189,
+    "w": 366,
+    "h": 31
+   },
+   {
+    "tag": "SPAN",
+    "cls": "qtl-accent",
+    "text": "every order",
+    "x": 210,
+    "y": 2186,
+    "w": 148,
+    "h": 37
+   },
+   {
+    "tag": "SPAN",
+    "cls": "accent-dot",
+    "text": ".",
+    "x": 358,
+    "y": 2186,
+    "w": 6,
+    "h": 37
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Use points on any product, up to 100% of product value",
+    "x": 18,
+    "y": 2359,
+    "w": 366,
+    "h": 44
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "48-hour early access to launches and restocks",
+    "x": 18,
+    "y": 2415,
+    "w": 366,
+    "h": 22
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Shipping included on every order, no minimum (Founder)",
+    "x": 18,
+    "y": 2448,
+    "w": 366,
+    "h": 44
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Priority preparation of your orders (Founder)",
+    "x": 18,
+    "y": 2504,
+    "w": 366,
+    "h": 22
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg",
+    "text": "View plans",
+    "x": 18,
+    "y": 2554,
+    "w": 137,
+    "h": 50
+   },
+   {
+    "tag": "SPAN",
+    "cls": "promo__note",
+    "text": "Monthly or yearly, cancel anytime.",
+    "x": 173,
+    "y": 2569,
+    "w": 195,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "mscard__row mscard__row--free",
+    "text": "Free Member\nFree\n1 point per $1 of products",
+    "x": 61,
+    "y": 2719,
+    "w": 280,
+    "h": 61
+   },
+   {
+    "tag": "SPAN",
+    "cls": "mscard__price",
+    "text": "Free",
+    "x": 302,
+    "y": 2740,
+    "w": 26,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "mscard__row mscard__row--vip",
+    "text": "VIP\n$19.99 / month\n5 points per $1 of products",
+    "x": 61,
+    "y": 2788,
+    "w": 280,
+    "h": 61
+   },
+   {
+    "tag": "SPAN",
+    "cls": "mscard__price",
+    "text": "$19.99 / month",
+    "x": 240,
+    "y": 2809,
+    "w": 88,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "mscard__row mscard__row--founder",
+    "text": "Founder\n$99.99 / month\n10 points per $1 of products",
+    "x": 61,
+    "y": 2857,
+    "w": 280,
+    "h": 61
+   },
+   {
+    "tag": "SPAN",
+    "cls": "mscard__price",
+    "text": "$99.99 / month",
+    "x": 237,
+    "y": 2878,
+    "w": 91,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "promo__badge",
+    "text": "10 pts / $1\nFOUNDER",
+    "x": 308,
+    "y": 2603,
+    "w": 65,
+    "h": 65
+   },
+   {
+    "tag": "A",
+    "cls": "pill pill--new reveal",
+    "text": "Volume pricing",
+    "x": 141,
+    "y": 3126,
+    "w": 119,
+    "h": 35
+   },
+   {
+    "tag": "H2",
+    "cls": "reveal",
+    "text": "Stocking up? Save on every extra vial.",
+    "x": 18,
+    "y": 3203,
+    "w": 366,
+    "h": 63
+   },
+   {
+    "tag": "SPAN",
+    "cls": "qtl-accent",
+    "text": "Save on every extra vial",
+    "x": 139,
+    "y": 3200,
+    "w": 238,
+    "h": 68
+   },
+   {
+    "tag": "SPAN",
+    "cls": "accent-dot",
+    "text": ".",
+    "x": 257,
+    "y": 3231,
+    "w": 6,
+    "h": 37
+   },
+   {
+    "tag": "A",
+    "cls": "bulk__pill is-dark",
+    "text": "2 vials · 5% off",
+    "x": 69,
+    "y": 3352,
+    "w": 123,
+    "h": 34
+   },
+   {
+    "tag": "A",
+    "cls": "bulk__pill is-soft",
+    "text": "3+ vials · 8% off",
+    "x": 200,
+    "y": 3352,
+    "w": 132,
+    "h": 34
+   },
+   {
+    "tag": "A",
+    "cls": "bulk__pill",
+    "text": "Free shipping over $200.00",
+    "x": 99,
+    "y": 3393,
+    "w": 204,
+    "h": 34
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Retatrutide",
+    "x": 145,
+    "y": 3491,
+    "w": 213,
+    "h": 25
+   },
+   {
+    "tag": "P",
+    "cls": "bulk__sub",
+    "text": "3 vials · 10 mg",
+    "x": 145,
+    "y": 3517,
+    "w": 213,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bulk__applied",
+    "text": "8% OFF APPLIED",
+    "x": 145,
+    "y": 3545,
+    "w": 102,
+    "h": 21
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg reveal",
+    "text": "Explore the catalog",
+    "x": 104,
+    "y": 3679,
+    "w": 195,
+    "h": 50
+   },
+   {
+    "tag": "P",
+    "cls": "bulk__note reveal",
+    "text": "No subscription. The discount is applied per line in your cart.",
+    "x": 18,
+    "y": 3729,
+    "w": 366,
+    "h": 48
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Everything your research needs, in one place.",
+    "x": 18,
+    "y": 3869,
+    "w": 366,
+    "h": 63
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Third-party lab tested",
+    "x": 99,
+    "y": 4063,
+    "w": 259,
+    "h": 19
+   },
+   {
+    "tag": "A",
+    "cls": "bento__link",
+    "text": "See how we test",
+    "x": 99,
+    "y": 4163,
+    "w": 131,
+    "h": 14
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Controlled cold chain",
+    "x": 99,
+    "y": 4237,
+    "w": 259,
+    "h": 19
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Dispatch within 24h",
+    "x": 99,
+    "y": 4380,
+    "w": 259,
+    "h": 19
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Your order ships within 24 hours with real-time tracking.",
+    "x": 99,
+    "y": 4405,
+    "w": 259,
+    "h": 43
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Complete documentation",
+    "x": 99,
+    "y": 4502,
+    "w": 259,
+    "h": 19
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Safety data sheets, COAs and batch traceability, available from your account.",
+    "x": 99,
+    "y": 4527,
+    "w": 259,
+    "h": 65
+   },
+   {
+    "tag": "A",
+    "cls": "bento__link",
+    "text": "View COA",
+    "x": 99,
+    "y": 4601,
+    "w": 87,
+    "h": 14
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Secure payments",
+    "x": 99,
+    "y": 4676,
+    "w": 259,
+    "h": 19
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Encrypted transactions and compliant invoicing for institutions and laboratories.",
+    "x": 99,
+    "y": 4701,
+    "w": 259,
+    "h": 65
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Specialist support",
+    "x": 99,
+    "y": 4819,
+    "w": 259,
+    "h": 19
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "A scientific team on hand to answer your technical questions.",
+    "x": 99,
+    "y": 4844,
+    "w": 259,
+    "h": 43
+   },
+   {
+    "tag": "A",
+    "cls": "bento__link",
+    "text": "Contact",
+    "x": 99,
+    "y": 4897,
+    "w": 72,
+    "h": 14
+   },
+   {
+    "tag": "SPAN",
+    "cls": "eyebrow",
+    "text": "QUALITY WITHOUT COMPROMISE",
+    "x": 18,
+    "y": 5031,
+    "w": 230,
+    "h": 11
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "A purity standard you can verify yourself.",
+    "x": 18,
+    "y": 5054,
+    "w": 366,
+    "h": 63
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "HPLC purity",
+    "x": 97,
+    "y": 5222,
+    "w": 47,
+    "h": 33
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Analytical methods",
+    "x": 195,
+    "y": 5222,
+    "w": 64,
+    "h": 33
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "COA per batch",
+    "x": 306,
+    "y": 5222,
+    "w": 64,
+    "h": 33
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "is-active",
+    "text": "Purity",
+    "x": 18,
+    "y": 5289,
+    "w": 84,
+    "h": 32
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "Identity",
+    "x": 108,
+    "y": 5289,
+    "w": 94,
+    "h": 32
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "Third-party",
+    "x": 207,
+    "y": 5289,
+    "w": 119,
+    "h": 32
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "COA",
+    "x": 332,
+    "y": 5289,
+    "w": 75,
+    "h": 32
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "Cold chain",
+    "x": 413,
+    "y": 5289,
+    "w": 113,
+    "h": 32
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Verified purity",
+    "x": 37,
+    "y": 5361,
+    "w": 122,
+    "h": 22
+   },
+   {
+    "tag": "SPAN",
+    "cls": "qpanel__tag",
+    "text": "✓\nHPLC",
+    "x": 171,
+    "y": 5360,
+    "w": 69,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg",
+    "text": "Explore the catalog",
+    "x": 18,
+    "y": 5618,
+    "w": 219,
+    "h": 50
+   },
+   {
+    "tag": "SPAN",
+    "cls": "quality__free",
+    "text": "Certificate of analysis for every batch",
+    "x": 18,
+    "y": 5686,
+    "w": 273,
+    "h": 22
+   },
+   {
+    "tag": "SPAN",
+    "cls": "qvis__chip",
+    "text": "✓\nHPLC ≥ 99% purity\nStated on every product page",
+    "x": 133,
+    "y": 5760,
+    "w": 235,
+    "h": 62
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "HPLC ≥ 99% purity\nStated on every product page",
+    "x": 187,
+    "y": 5770,
+    "w": 169,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "qvis__proof",
+    "text": "See the tests\nCertificates of analysis, batch by batch",
+    "x": 34,
+    "y": 6028,
+    "w": 334,
+    "h": 90
+   },
+   {
+    "tag": "SPAN",
+    "cls": "qvis__proof-txt",
+    "text": "See the tests\nCertificates of analysis, batch by batch",
+    "x": 106,
+    "y": 6042,
+    "w": 198,
+    "h": 62
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Why choose PurePeptide?",
+    "x": 18,
+    "y": 6222,
+    "w": 366,
+    "h": 31
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Purity you can check",
+    "x": 99,
+    "y": 6299,
+    "w": 259,
+    "h": 20
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Volume pricing",
+    "x": 99,
+    "y": 6438,
+    "w": 259,
+    "h": 20
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Free shipping over $200.00",
+    "x": 99,
+    "y": 6578,
+    "w": 259,
+    "h": 20
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "10 countries served",
+    "x": 99,
+    "y": 6718,
+    "w": 259,
+    "h": 20
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Points on every order",
+    "x": 99,
+    "y": 6857,
+    "w": 259,
+    "h": 20
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Every account earns points on every order and can use them like store credit.",
+    "x": 99,
+    "y": 6881,
+    "w": 259,
+    "h": 42
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Six languages",
+    "x": 99,
+    "y": 6975,
+    "w": 259,
+    "h": 20
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Product pages, cart and checkout in English, French, German, Italian, Spanish and Dutch.",
+    "x": 99,
+    "y": 6999,
+    "w": 259,
+    "h": 62
+   },
+   {
+    "tag": "SPAN",
+    "cls": "eyebrow",
+    "text": "FAQ",
+    "x": 187,
+    "y": 7175,
+    "w": 28,
+    "h": 11
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Frequently asked questions",
+    "x": 20,
+    "y": 7198,
+    "w": 362,
+    "h": 31
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Everything you need to know before ordering.",
+    "x": 20,
+    "y": 7244,
+    "w": 362,
+    "h": 24
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "acc-q",
+    "text": "Are your products intended for human consumption?",
+    "x": 20,
+    "y": 7290,
+    "w": 362,
+    "h": 74
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "acc-q",
+    "text": "Do you provide a certificate of analysis?",
+    "x": 20,
+    "y": 7364,
+    "w": 362,
+    "h": 62
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "acc-q",
+    "text": "What are the delivery times?",
+    "x": 20,
+    "y": 7427,
+    "w": 362,
+    "h": 62
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "acc-q",
+    "text": "How should I store the peptides I receive?",
+    "x": 20,
+    "y": 7490,
+    "w": 362,
+    "h": 62
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Ready to equip your lab?",
+    "x": 18,
+    "y": 7645,
+    "w": 366,
+    "h": 31
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Create a free account for wholesale pricing, certificates of analysis and order tracking.",
+    "x": 18,
+    "y": 7691,
+    "w": 366,
+    "h": 54
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg",
+    "text": "Explore the catalog",
+    "x": 18,
+    "y": 7775,
+    "w": 366,
+    "h": 50
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--ghost-light btn--lg",
+    "text": "Create an account",
+    "x": 18,
+    "y": 7837,
+    "w": 366,
+    "h": 50
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 7963,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Pharmaceutical-grade research peptides, supplied with full transparency.",
+    "x": 18,
+    "y": 8003,
+    "w": 340,
+    "h": 48
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Catalog",
+    "x": 18,
+    "y": 8142,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "New arrivals",
+    "x": 18,
+    "y": 8179,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Membership",
+    "x": 18,
+    "y": 8215,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Certificates of analysis",
+    "x": 18,
+    "y": 8252,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Quality",
+    "x": 208,
+    "y": 8142,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Science",
+    "x": 208,
+    "y": 8179,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "FAQ",
+    "x": 208,
+    "y": 8215,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Research guides",
+    "x": 208,
+    "y": 8252,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "How to read a COA",
+    "x": 208,
+    "y": 8288,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Contact",
+    "x": 18,
+    "y": 8380,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Shipping",
+    "x": 18,
+    "y": 8416,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Returns",
+    "x": 18,
+    "y": 8453,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "About",
+    "x": 18,
+    "y": 8489,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Privacy",
+    "x": 208,
+    "y": 8380,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Terms",
+    "x": 208,
+    "y": 8416,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Disclaimer",
+    "x": 208,
+    "y": 8453,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "P",
+    "cls": "fda-bar__label",
+    "text": "FDA DISCLAIMER",
+    "x": 70,
+    "y": 8558,
+    "w": 297,
+    "h": 18
+   },
+   {
+    "tag": "A",
+    "cls": "fda-bar__link",
+    "text": "Read the full disclaimer →",
+    "x": 153,
+    "y": 8846,
+    "w": 148,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "We accept",
+    "x": 27,
+    "y": 8932,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Visa",
+    "x": 106,
+    "y": 8934,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Mastercard",
+    "x": 154,
+    "y": 8934,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "American Express",
+    "x": 201,
+    "y": 8934,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Discover",
+    "x": 248,
+    "y": 8934,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Apple Pay",
+    "x": 295,
+    "y": 8934,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Google Pay",
+    "x": 343,
+    "y": 8934,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "© 2026 PurePeptide. For laboratory research use only. Not for human consumption.",
+    "x": 18,
+    "y": 8992,
+    "w": 366,
+    "h": 38
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Secure checkout",
+    "x": 18,
+    "y": 9042,
+    "w": 120,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "HPLC ≥ 99% purity",
+    "x": 156,
+    "y": 9042,
+    "w": 136,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party tested",
+    "x": 18,
+    "y": 9073,
+    "w": 127,
+    "h": 19
+   }
+  ]
+ },
+ "nav": {
+  "note": "sticky header: page y 46..117 pt, sticks at viewport top once scrolled past 46 pt"
+ },
+ "shop": {
+  "url": "https://purepeptide.care/shop/",
+  "height_pt": 4402,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n0",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "0",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "H1",
+    "cls": "",
+    "text": "Shop",
+    "x": 18,
+    "y": 161,
+    "w": 366,
+    "h": 31
+   },
+   {
+    "tag": "A",
+    "cls": "chip is-active",
+    "text": "All",
+    "x": 18,
+    "y": 355,
+    "w": 52,
+    "h": 40
+   },
+   {
+    "tag": "A",
+    "cls": "chip",
+    "text": "Cognitive",
+    "x": 80,
+    "y": 355,
+    "w": 100,
+    "h": 40
+   },
+   {
+    "tag": "A",
+    "cls": "chip",
+    "text": "Essentials",
+    "x": 190,
+    "y": 355,
+    "w": 104,
+    "h": 40
+   },
+   {
+    "tag": "A",
+    "cls": "chip",
+    "text": "Growth",
+    "x": 304,
+    "y": 355,
+    "w": 84,
+    "h": 40
+   },
+   {
+    "tag": "A",
+    "cls": "chip",
+    "text": "Longevity",
+    "x": 398,
+    "y": 355,
+    "w": 102,
+    "h": 40
+   },
+   {
+    "tag": "A",
+    "cls": "chip",
+    "text": "Metabolic",
+    "x": 510,
+    "y": 355,
+    "w": 102,
+    "h": 40
+   },
+   {
+    "tag": "A",
+    "cls": "chip",
+    "text": "Recovery",
+    "x": 622,
+    "y": 355,
+    "w": 99,
+    "h": 40
+   },
+   {
+    "tag": "SPAN",
+    "cls": "shop-promo__badge",
+    "text": "−8%\nPER VIAL",
+    "x": 33,
+    "y": 440,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Volume pricing",
+    "x": 89,
+    "y": 432,
+    "w": 178,
+    "h": 23
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary",
+    "text": "How it works",
+    "x": 33,
+    "y": 500,
+    "w": 113,
+    "h": 36
+   },
+   {
+    "tag": "SPAN",
+    "cls": "shop-promo__badge",
+    "text": "pts\nPER ORDER",
+    "x": 307,
+    "y": 440,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Membership",
+    "x": 363,
+    "y": 432,
+    "w": 178,
+    "h": 23
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary",
+    "text": "View plans",
+    "x": 307,
+    "y": 500,
+    "w": 100,
+    "h": 36
+   },
+   {
+    "tag": "SPAN",
+    "cls": "shop-promo__badge",
+    "text": "COA\nPER BATCH",
+    "x": 585,
+    "y": 468,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Certificates of analysis",
+    "x": 638,
+    "y": 460,
+    "w": 170,
+    "h": 22
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary",
+    "text": "View COA",
+    "x": 585,
+    "y": 526,
+    "w": 90,
+    "h": 35
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Essentials",
+    "x": 19,
+    "y": 558,
+    "w": 175,
+    "h": 217
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Essentials",
+    "x": 119,
+    "y": 572,
+    "w": 61,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "BAC Water vial",
+    "x": 69,
+    "y": 602,
+    "w": 76,
+    "h": 155
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "BAC Water",
+    "x": 37,
+    "y": 794,
+    "w": 81,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "10 ML",
+    "x": 135,
+    "y": 795,
+    "w": 41,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$18.99",
+    "x": 37,
+    "y": 849,
+    "w": 60,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 37,
+    "y": 849,
+    "w": 11,
+    "h": 26
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 37,
+    "y": 888,
+    "w": 139,
+    "h": 44
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Recovery",
+    "x": 208,
+    "y": 558,
+    "w": 175,
+    "h": 217
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Recovery",
+    "x": 312,
+    "y": 572,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "BPC-157 / TB-500 vial",
+    "x": 258,
+    "y": 602,
+    "w": 76,
+    "h": 155
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "BPC-157 / TB-500",
+    "x": 226,
+    "y": 794,
+    "w": 86,
+    "h": 40
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "10 MG",
+    "x": 322,
+    "y": 795,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 226,
+    "y": 849,
+    "w": 60,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 226,
+    "y": 849,
+    "w": 11,
+    "h": 26
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 226,
+    "y": 888,
+    "w": 139,
+    "h": 44
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Growth",
+    "x": 23,
+    "y": 999,
+    "w": 168,
+    "h": 209
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Growth",
+    "x": 143,
+    "y": 1012,
+    "w": 45,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "CJC-1295 / Ipamorelin vial",
+    "x": 70,
+    "y": 1040,
+    "w": 73,
+    "h": 149
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "CJC-1295 / Ipamorelin",
+    "x": 40,
+    "y": 1225,
+    "w": 82,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "10 MG",
+    "x": 132,
+    "y": 1226,
+    "w": 42,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$79.99",
+    "x": 40,
+    "y": 1301,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 40,
+    "y": 1301,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 40,
+    "y": 1339,
+    "w": 133,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Longevity",
+    "x": 212,
+    "y": 999,
+    "w": 168,
+    "h": 209
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Longevity",
+    "x": 320,
+    "y": 1012,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "GHK-Cu vial",
+    "x": 259,
+    "y": 1040,
+    "w": 73,
+    "h": 149
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "GHK-Cu",
+    "x": 229,
+    "y": 1225,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt is-active",
+    "text": "50 mg",
+    "x": 229,
+    "y": 1254,
+    "w": 56,
+    "h": 33
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt",
+    "text": "100 mg\n−14%",
+    "x": 291,
+    "y": 1254,
+    "w": 62,
+    "h": 33
+   },
+   {
+    "tag": "SPAN",
+    "cls": "save",
+    "text": "−14%",
+    "x": 314,
+    "y": 1245,
+    "w": 43,
+    "h": 13
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$37.99",
+    "x": 229,
+    "y": 1301,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 229,
+    "y": 1301,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 229,
+    "y": 1339,
+    "w": 133,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Recovery",
+    "x": 23,
+    "y": 1428,
+    "w": 168,
+    "h": 209
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Recovery",
+    "x": 134,
+    "y": 1442,
+    "w": 55,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "IGF-1 LR3 vial",
+    "x": 70,
+    "y": 1470,
+    "w": 73,
+    "h": 149
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "IGF-1 LR3",
+    "x": 40,
+    "y": 1654,
+    "w": 68,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "1 MG",
+    "x": 141,
+    "y": 1655,
+    "w": 33,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$79.99",
+    "x": 40,
+    "y": 1688,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 40,
+    "y": 1688,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 40,
+    "y": 1726,
+    "w": 133,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Longevity",
+    "x": 212,
+    "y": 1428,
+    "w": 168,
+    "h": 209
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Longevity",
+    "x": 320,
+    "y": 1442,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "MT-2 vial",
+    "x": 259,
+    "y": 1470,
+    "w": 73,
+    "h": 149
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "MT-2",
+    "x": 229,
+    "y": 1654,
+    "w": 39,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "10 MG",
+    "x": 321,
+    "y": 1655,
+    "w": 42,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$40.99",
+    "x": 229,
+    "y": 1688,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 229,
+    "y": 1688,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 229,
+    "y": 1726,
+    "w": 133,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Metabolic",
+    "x": 23,
+    "y": 1815,
+    "w": 168,
+    "h": 209
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Metabolic",
+    "x": 132,
+    "y": 1829,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "Retatrutide vial",
+    "x": 70,
+    "y": 1857,
+    "w": 73,
+    "h": 149
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "Retatrutide",
+    "x": 40,
+    "y": 2041,
+    "w": 83,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt is-active",
+    "text": "10 mg",
+    "x": 40,
+    "y": 2070,
+    "w": 54,
+    "h": 33
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt",
+    "text": "20 mg\n−21%",
+    "x": 100,
+    "y": 2070,
+    "w": 56,
+    "h": 33
+   },
+   {
+    "tag": "SPAN",
+    "cls": "save",
+    "text": "−21%",
+    "x": 118,
+    "y": 2062,
+    "w": 43,
+    "h": 13
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$94.99",
+    "x": 40,
+    "y": 2117,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 40,
+    "y": 2117,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 40,
+    "y": 2155,
+    "w": 133,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Cognitive",
+    "x": 212,
+    "y": 1815,
+    "w": 168,
+    "h": 209
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Cognitive",
+    "x": 322,
+    "y": 1829,
+    "w": 56,
+    "h": 20
+   },
+   {
+    "tag": "IMG",
+    "cls": "product__photo vial-swap",
+    "text": "Selank vial",
+    "x": 259,
+    "y": 1857,
+    "w": 73,
+    "h": 149
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "Selank",
+    "x": 229,
+    "y": 2041,
+    "w": 48,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "10 MG",
+    "x": 321,
+    "y": 2042,
+    "w": 42,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$47.99",
+    "x": 229,
+    "y": 2117,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 229,
+    "y": 2117,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 229,
+    "y": 2155,
+    "w": 133,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Cognitive",
+    "x": 23,
+    "y": 2245,
+    "w": 168,
+    "h": 209
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Cognitive",
+    "x": 133,
+    "y": 2258,
+    "w": 56,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "Semax",
+    "x": 40,
+    "y": 2471,
+    "w": 49,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "10 MG",
+    "x": 132,
+    "y": 2472,
+    "w": 42,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$49.99",
+    "x": 40,
+    "y": 2505,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 40,
+    "y": 2505,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 40,
+    "y": 2543,
+    "w": 133,
+    "h": 42
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Stocking up? Save on every extra vial.",
+    "x": 18,
+    "y": 2723,
+    "w": 366,
+    "h": 63
+   },
+   {
+    "tag": "SPAN",
+    "cls": "qtl-accent",
+    "text": "Save on every extra vial",
+    "x": 139,
+    "y": 2720,
+    "w": 238,
+    "h": 68
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bulk__pill is-dark",
+    "text": "2 vials · 5% off",
+    "x": 69,
+    "y": 2845,
+    "w": 123,
+    "h": 34
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bulk__pill is-soft",
+    "text": "3+ vials · 8% off",
+    "x": 200,
+    "y": 2845,
+    "w": 132,
+    "h": 34
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Need a specific compound?",
+    "x": 18,
+    "y": 2993,
+    "w": 366,
+    "h": 31
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Our team can source custom peptides for your research protocols.",
+    "x": 18,
+    "y": 3038,
+    "w": 366,
+    "h": 54
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg",
+    "text": "Request a quote",
+    "x": 18,
+    "y": 3123,
+    "w": 366,
+    "h": 50
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 3248,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Pharmaceutical-grade research peptides, supplied with full transparency.",
+    "x": 18,
+    "y": 3289,
+    "w": 340,
+    "h": 48
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Catalog",
+    "x": 18,
+    "y": 3428,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "New arrivals",
+    "x": 18,
+    "y": 3464,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Membership",
+    "x": 18,
+    "y": 3501,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Certificates of analysis",
+    "x": 18,
+    "y": 3537,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Quality",
+    "x": 208,
+    "y": 3428,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Science",
+    "x": 208,
+    "y": 3464,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "FAQ",
+    "x": 208,
+    "y": 3501,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Research guides",
+    "x": 208,
+    "y": 3537,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "How to read a COA",
+    "x": 208,
+    "y": 3574,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Contact",
+    "x": 18,
+    "y": 3666,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Shipping",
+    "x": 18,
+    "y": 3702,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Returns",
+    "x": 18,
+    "y": 3738,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "About",
+    "x": 18,
+    "y": 3775,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Privacy",
+    "x": 208,
+    "y": 3666,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Terms",
+    "x": 208,
+    "y": 3702,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Disclaimer",
+    "x": 208,
+    "y": 3738,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "P",
+    "cls": "fda-bar__label",
+    "text": "FDA DISCLAIMER",
+    "x": 70,
+    "y": 3844,
+    "w": 297,
+    "h": 18
+   },
+   {
+    "tag": "A",
+    "cls": "fda-bar__link",
+    "text": "Read the full disclaimer →",
+    "x": 153,
+    "y": 4132,
+    "w": 148,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "We accept",
+    "x": 27,
+    "y": 4218,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Visa",
+    "x": 106,
+    "y": 4219,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Mastercard",
+    "x": 154,
+    "y": 4219,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "American Express",
+    "x": 201,
+    "y": 4219,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Discover",
+    "x": 248,
+    "y": 4219,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Apple Pay",
+    "x": 295,
+    "y": 4219,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Google Pay",
+    "x": 343,
+    "y": 4219,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "© 2026 PurePeptide. For laboratory research use only. Not for human consumption.",
+    "x": 18,
+    "y": 4277,
+    "w": 366,
+    "h": 38
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Secure checkout",
+    "x": 18,
+    "y": 4328,
+    "w": 120,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "HPLC ≥ 99% purity",
+    "x": 156,
+    "y": 4328,
+    "w": 136,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party tested",
+    "x": 18,
+    "y": 4359,
+    "w": 127,
+    "h": 19
+   }
+  ]
+ },
+ "product": {
+  "url": "https://purepeptide.care/product/bpc-157-tb-500/",
+  "height_pt": 5748,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n0",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "0",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "CATALOG",
+    "x": 20,
+    "y": 170,
+    "w": 63,
+    "h": 14
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "/",
+    "x": 93,
+    "y": 170,
+    "w": 6,
+    "h": 14
+   },
+   {
+    "tag": "IMG",
+    "cls": "pd__photo vial-swap",
+    "text": "BPC-157 / TB-500 vial",
+    "x": 129,
+    "y": 225,
+    "w": 143,
+    "h": 260
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill pd__mediapill--dot",
+    "text": "THIRD-PARTY TESTED",
+    "x": 31,
+    "y": 481,
+    "w": 149,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "PURITY 99.0%",
+    "x": 188,
+    "y": 481,
+    "w": 96,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "RESEARCH USE ONLY",
+    "x": 31,
+    "y": 515,
+    "w": 131,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__cat",
+    "text": "RECOVERY",
+    "x": 20,
+    "y": 662,
+    "w": 90,
+    "h": 30
+   },
+   {
+    "tag": "H1",
+    "cls": "pd__name",
+    "text": "BPC-157 / TB-500",
+    "x": 20,
+    "y": 614,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "P",
+    "cls": "pd__subtitle",
+    "text": "BPC-157 (PENTADECAPEPTIDE) + TB-500 (THYMOSIN Β4 FRAGMENT)",
+    "x": 20,
+    "y": 568,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "badge badge--green",
+    "text": "Verified",
+    "x": 20,
+    "y": 706,
+    "w": 66,
+    "h": 24
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__chip",
+    "text": "10 mg",
+    "x": 20,
+    "y": 889,
+    "w": 47,
+    "h": 22
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 25,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "INPUT",
+    "cls": "",
+    "text": "1",
+    "x": 79,
+    "y": 969,
+    "w": 56,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 145,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt is-active",
+    "text": "1 vial",
+    "x": 20,
+    "y": 1084,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 280,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 34,
+    "h": 17
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "MOST POPULAR\n2 vials\n−5%",
+    "x": 20,
+    "y": 1160,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--popular",
+    "text": "MOST POPULAR",
+    "x": 268,
+    "y": 1183,
+    "w": 99,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "2 vials\n−5%",
+    "x": 87,
+    "y": 1183,
+    "w": 167,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "2 vials",
+    "x": 87,
+    "y": 1184,
+    "w": 45,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−5%",
+    "x": 140,
+    "y": 1183,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "BEST VALUE\n3+ vials\n−8%",
+    "x": 20,
+    "y": 1236,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--value",
+    "text": "BEST VALUE",
+    "x": 287,
+    "y": 1259,
+    "w": 80,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "3+ vials\n−8%",
+    "x": 90,
+    "y": 1259,
+    "w": 183,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "3+ vials",
+    "x": 90,
+    "y": 1260,
+    "w": 55,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−8%",
+    "x": 153,
+    "y": 1259,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 20,
+    "y": 1323,
+    "w": 94,
+    "h": 41
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 20,
+    "y": 1323,
+    "w": 17,
+    "h": 41
+   },
+   {
+    "tag": "A",
+    "cls": "pd__coa",
+    "text": "COA",
+    "x": 20,
+    "y": 1379,
+    "w": 78,
+    "h": 52
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--primary btn--lg add-btn",
+    "text": "Add to cart · $84.99",
+    "x": 20,
+    "y": 1443,
+    "w": 362,
+    "h": 52
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__pairs-text",
+    "text": "Pairs with bacteriostatic water for reconstitution",
+    "x": 59,
+    "y": 1510,
+    "w": 188,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__pairs-price",
+    "text": "10 ml · $18.99",
+    "x": 283,
+    "y": 1517,
+    "w": 86,
+    "h": 21
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost pd__pairs-btn",
+    "text": "Add",
+    "x": 33,
+    "y": 1555,
+    "w": 336,
+    "h": 30
+   },
+   {
+    "tag": "P",
+    "cls": "pp-express__or",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 20,
+    "y": 1632,
+    "w": 362,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 108,
+    "y": 1632,
+    "w": 186,
+    "h": 18
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Ships within 24 h · Delivery in 7–10 business days · Free shipping over $200",
+    "x": 21,
+    "y": 1830,
+    "w": 360,
+    "h": 63
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party lab tested (HPLC + mass spectrometry)",
+    "x": 21,
+    "y": 1893,
+    "w": 360,
+    "h": 63
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Refrigerated shipping with real-time tracking",
+    "x": 21,
+    "y": 1955,
+    "w": 360,
+    "h": 44
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__accept-txt",
+    "text": "We accept",
+    "x": 37,
+    "y": 2012,
+    "w": 55,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__accept-secure",
+    "text": "SECURE CHECKOUT",
+    "x": 233,
+    "y": 2013,
+    "w": 132,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "pd__rpo",
+    "text": "For laboratory research use only. Not for human or animal consumption.",
+    "x": 20,
+    "y": 2091,
+    "w": 362,
+    "h": 38
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "About the compound",
+    "x": 20,
+    "y": 2177,
+    "w": 362,
+    "h": 29
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Compound details",
+    "x": 41,
+    "y": 2485,
+    "w": 320,
+    "h": 29
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Research context",
+    "x": 41,
+    "y": 3220,
+    "w": 320,
+    "h": 29
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Two repair peptides with complementary mechanisms.",
+    "x": 41,
+    "y": 3265,
+    "w": 320,
+    "h": 76
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Studied for angiogenesis and cell migration.",
+    "x": 41,
+    "y": 3341,
+    "w": 320,
+    "h": 77
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Widely documented pairing in recovery research.",
+    "x": 41,
+    "y": 3418,
+    "w": 320,
+    "h": 77
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Reconstitution & storage",
+    "x": 41,
+    "y": 2922,
+    "w": 320,
+    "h": 29
+   },
+   {
+    "tag": "SPAN",
+    "cls": "eyebrow",
+    "text": "CONTINUE YOUR RESEARCH",
+    "x": 104,
+    "y": 3595,
+    "w": 194,
+    "h": 11
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Related research peptides",
+    "x": 20,
+    "y": 3618,
+    "w": 362,
+    "h": 31
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Recovery",
+    "x": 24,
+    "y": 3685,
+    "w": 166,
+    "h": 206
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Recovery",
+    "x": 134,
+    "y": 3698,
+    "w": 55,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "IGF-1 LR3",
+    "x": 42,
+    "y": 3908,
+    "w": 68,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "1 MG",
+    "x": 141,
+    "y": 3909,
+    "w": 33,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$79.99",
+    "x": 42,
+    "y": 3990,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 42,
+    "y": 3990,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 42,
+    "y": 4028,
+    "w": 132,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Metabolic",
+    "x": 211,
+    "y": 3685,
+    "w": 166,
+    "h": 206
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Metabolic",
+    "x": 319,
+    "y": 3698,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "Retatrutide",
+    "x": 229,
+    "y": 3908,
+    "w": 83,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt is-active",
+    "text": "10 mg",
+    "x": 229,
+    "y": 3937,
+    "w": 54,
+    "h": 38
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt",
+    "text": "20 mg\n−21%",
+    "x": 289,
+    "y": 3937,
+    "w": 56,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "save",
+    "text": "−21%",
+    "x": 301,
+    "y": 3928,
+    "w": 48,
+    "h": 15
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$94.99",
+    "x": 229,
+    "y": 3990,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 229,
+    "y": 3990,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 229,
+    "y": 4028,
+    "w": 132,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Longevity",
+    "x": 24,
+    "y": 4118,
+    "w": 166,
+    "h": 206
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Longevity",
+    "x": 132,
+    "y": 4132,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "GHK-Cu",
+    "x": 42,
+    "y": 4342,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt is-active",
+    "text": "50 mg",
+    "x": 42,
+    "y": 4371,
+    "w": 56,
+    "h": 38
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt",
+    "text": "100 mg\n−14%",
+    "x": 104,
+    "y": 4371,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "save",
+    "text": "−14%",
+    "x": 121,
+    "y": 4362,
+    "w": 49,
+    "h": 15
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$37.99",
+    "x": 42,
+    "y": 4424,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 42,
+    "y": 4424,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 42,
+    "y": 4462,
+    "w": 132,
+    "h": 42
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 4594,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Pharmaceutical-grade research peptides, supplied with full transparency.",
+    "x": 18,
+    "y": 4635,
+    "w": 340,
+    "h": 48
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Catalog",
+    "x": 18,
+    "y": 4774,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "New arrivals",
+    "x": 18,
+    "y": 4810,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Membership",
+    "x": 18,
+    "y": 4847,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Certificates of analysis",
+    "x": 18,
+    "y": 4883,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Quality",
+    "x": 208,
+    "y": 4774,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Science",
+    "x": 208,
+    "y": 4810,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "FAQ",
+    "x": 208,
+    "y": 4847,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Research guides",
+    "x": 208,
+    "y": 4883,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "How to read a COA",
+    "x": 208,
+    "y": 4919,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Contact",
+    "x": 18,
+    "y": 5011,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Shipping",
+    "x": 18,
+    "y": 5048,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Returns",
+    "x": 18,
+    "y": 5084,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "About",
+    "x": 18,
+    "y": 5121,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Privacy",
+    "x": 208,
+    "y": 5011,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Terms",
+    "x": 208,
+    "y": 5048,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Disclaimer",
+    "x": 208,
+    "y": 5084,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "P",
+    "cls": "fda-bar__label",
+    "text": "FDA DISCLAIMER",
+    "x": 70,
+    "y": 5190,
+    "w": 297,
+    "h": 18
+   },
+   {
+    "tag": "A",
+    "cls": "fda-bar__link",
+    "text": "Read the full disclaimer →",
+    "x": 153,
+    "y": 5478,
+    "w": 148,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "We accept",
+    "x": 29,
+    "y": 5564,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Visa",
+    "x": 108,
+    "y": 5565,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Mastercard",
+    "x": 155,
+    "y": 5565,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "American Express",
+    "x": 203,
+    "y": 5565,
+    "w": 26,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Discover",
+    "x": 250,
+    "y": 5565,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Apple Pay",
+    "x": 298,
+    "y": 5565,
+    "w": 24,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Google Pay",
+    "x": 343,
+    "y": 5565,
+    "w": 23,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "© 2026 PurePeptide. For laboratory research use only. Not for human consumption.",
+    "x": 18,
+    "y": 5623,
+    "w": 366,
+    "h": 38
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Secure checkout",
+    "x": 18,
+    "y": 5674,
+    "w": 120,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "HPLC ≥ 99% purity",
+    "x": 156,
+    "y": 5674,
+    "w": 136,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party tested",
+    "x": 18,
+    "y": 5705,
+    "w": 127,
+    "h": 19
+   }
+  ]
+ },
+ "product_2": {
+  "url": "https://purepeptide.care/product/bpc-157-tb-500/",
+  "height_pt": 5748,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n0",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "0",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "CATALOG",
+    "x": 20,
+    "y": 170,
+    "w": 63,
+    "h": 14
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "/",
+    "x": 93,
+    "y": 170,
+    "w": 6,
+    "h": 14
+   },
+   {
+    "tag": "IMG",
+    "cls": "pd__photo vial-swap",
+    "text": "BPC-157 / TB-500 vial",
+    "x": 129,
+    "y": 225,
+    "w": 143,
+    "h": 260
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill pd__mediapill--dot",
+    "text": "THIRD-PARTY TESTED",
+    "x": 31,
+    "y": 481,
+    "w": 149,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "PURITY 99.0%",
+    "x": 188,
+    "y": 481,
+    "w": 96,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "RESEARCH USE ONLY",
+    "x": 31,
+    "y": 515,
+    "w": 131,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__cat",
+    "text": "RECOVERY",
+    "x": 20,
+    "y": 662,
+    "w": 90,
+    "h": 30
+   },
+   {
+    "tag": "H1",
+    "cls": "pd__name",
+    "text": "BPC-157 / TB-500",
+    "x": 20,
+    "y": 614,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "P",
+    "cls": "pd__subtitle",
+    "text": "BPC-157 (PENTADECAPEPTIDE) + TB-500 (THYMOSIN Β4 FRAGMENT)",
+    "x": 20,
+    "y": 568,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "badge badge--green",
+    "text": "Verified",
+    "x": 20,
+    "y": 706,
+    "w": 66,
+    "h": 24
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__chip",
+    "text": "10 mg",
+    "x": 20,
+    "y": 889,
+    "w": 47,
+    "h": 22
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 25,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "INPUT",
+    "cls": "",
+    "text": "2",
+    "x": 79,
+    "y": 969,
+    "w": 56,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 145,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "1 vial",
+    "x": 20,
+    "y": 1084,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 280,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 34,
+    "h": 17
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt is-active",
+    "text": "MOST POPULAR\n2 vials\n−5%",
+    "x": 20,
+    "y": 1160,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--popular",
+    "text": "MOST POPULAR",
+    "x": 268,
+    "y": 1183,
+    "w": 99,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "2 vials\n−5%",
+    "x": 87,
+    "y": 1183,
+    "w": 167,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "2 vials",
+    "x": 87,
+    "y": 1184,
+    "w": 45,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−5%",
+    "x": 140,
+    "y": 1183,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "BEST VALUE\n3+ vials\n−8%",
+    "x": 20,
+    "y": 1236,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--value",
+    "text": "BEST VALUE",
+    "x": 287,
+    "y": 1259,
+    "w": 80,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "3+ vials\n−8%",
+    "x": 90,
+    "y": 1259,
+    "w": 183,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "3+ vials",
+    "x": 90,
+    "y": 1260,
+    "w": 55,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−8%",
+    "x": 153,
+    "y": 1259,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "A",
+    "cls": "pd__coa",
+    "text": "COA",
+    "x": 20,
+    "y": 1379,
+    "w": 78,
+    "h": 52
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--primary btn--lg add-btn",
+    "text": "Add to cart · $161.48",
+    "x": 20,
+    "y": 1443,
+    "w": 362,
+    "h": 52
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__pairs-text",
+    "text": "Pairs with bacteriostatic water for reconstitution",
+    "x": 59,
+    "y": 1510,
+    "w": 188,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__pairs-price",
+    "text": "10 ml · $18.99",
+    "x": 283,
+    "y": 1517,
+    "w": 86,
+    "h": 21
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost pd__pairs-btn",
+    "text": "Add",
+    "x": 33,
+    "y": 1555,
+    "w": 336,
+    "h": 30
+   },
+   {
+    "tag": "P",
+    "cls": "pp-express__or",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 20,
+    "y": 1632,
+    "w": 362,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 108,
+    "y": 1632,
+    "w": 186,
+    "h": 18
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Ships within 24 h · Delivery in 7–10 business days · Free shipping over $200",
+    "x": 21,
+    "y": 1830,
+    "w": 360,
+    "h": 63
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party lab tested (HPLC + mass spectrometry)",
+    "x": 21,
+    "y": 1893,
+    "w": 360,
+    "h": 63
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Refrigerated shipping with real-time tracking",
+    "x": 21,
+    "y": 1955,
+    "w": 360,
+    "h": 44
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__accept-txt",
+    "text": "We accept",
+    "x": 37,
+    "y": 2012,
+    "w": 55,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__accept-secure",
+    "text": "SECURE CHECKOUT",
+    "x": 233,
+    "y": 2013,
+    "w": 132,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "pd__rpo",
+    "text": "For laboratory research use only. Not for human or animal consumption.",
+    "x": 20,
+    "y": 2091,
+    "w": 362,
+    "h": 38
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "About the compound",
+    "x": 20,
+    "y": 2177,
+    "w": 362,
+    "h": 29
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Compound details",
+    "x": 41,
+    "y": 2485,
+    "w": 320,
+    "h": 29
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Research context",
+    "x": 41,
+    "y": 3220,
+    "w": 320,
+    "h": 29
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Two repair peptides with complementary mechanisms.",
+    "x": 41,
+    "y": 3265,
+    "w": 320,
+    "h": 76
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Studied for angiogenesis and cell migration.",
+    "x": 41,
+    "y": 3341,
+    "w": 320,
+    "h": 77
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Widely documented pairing in recovery research.",
+    "x": 41,
+    "y": 3418,
+    "w": 320,
+    "h": 77
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Reconstitution & storage",
+    "x": 41,
+    "y": 2922,
+    "w": 320,
+    "h": 29
+   },
+   {
+    "tag": "SPAN",
+    "cls": "eyebrow",
+    "text": "CONTINUE YOUR RESEARCH",
+    "x": 104,
+    "y": 3595,
+    "w": 194,
+    "h": 11
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Related research peptides",
+    "x": 20,
+    "y": 3618,
+    "w": 362,
+    "h": 31
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Recovery",
+    "x": 24,
+    "y": 3685,
+    "w": 166,
+    "h": 206
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Recovery",
+    "x": 134,
+    "y": 3698,
+    "w": 55,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "IGF-1 LR3",
+    "x": 42,
+    "y": 3908,
+    "w": 68,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "1 MG",
+    "x": 141,
+    "y": 3909,
+    "w": 33,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$79.99",
+    "x": 42,
+    "y": 3990,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 42,
+    "y": 3990,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 42,
+    "y": 4028,
+    "w": 132,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Metabolic",
+    "x": 211,
+    "y": 3685,
+    "w": 166,
+    "h": 206
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Metabolic",
+    "x": 319,
+    "y": 3698,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "Retatrutide",
+    "x": 229,
+    "y": 3908,
+    "w": 83,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt is-active",
+    "text": "10 mg",
+    "x": 229,
+    "y": 3937,
+    "w": 54,
+    "h": 38
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt",
+    "text": "20 mg\n−21%",
+    "x": 289,
+    "y": 3937,
+    "w": 56,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "save",
+    "text": "−21%",
+    "x": 301,
+    "y": 3928,
+    "w": 48,
+    "h": 15
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$94.99",
+    "x": 229,
+    "y": 3990,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 229,
+    "y": 3990,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 229,
+    "y": 4028,
+    "w": 132,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Longevity",
+    "x": 24,
+    "y": 4118,
+    "w": 166,
+    "h": 206
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Longevity",
+    "x": 132,
+    "y": 4132,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "GHK-Cu",
+    "x": 42,
+    "y": 4342,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt is-active",
+    "text": "50 mg",
+    "x": 42,
+    "y": 4371,
+    "w": 56,
+    "h": 38
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt",
+    "text": "100 mg\n−14%",
+    "x": 104,
+    "y": 4371,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "save",
+    "text": "−14%",
+    "x": 121,
+    "y": 4362,
+    "w": 49,
+    "h": 15
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$37.99",
+    "x": 42,
+    "y": 4424,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 42,
+    "y": 4424,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 42,
+    "y": 4462,
+    "w": 132,
+    "h": 42
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 4594,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Pharmaceutical-grade research peptides, supplied with full transparency.",
+    "x": 18,
+    "y": 4635,
+    "w": 340,
+    "h": 48
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Catalog",
+    "x": 18,
+    "y": 4774,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "New arrivals",
+    "x": 18,
+    "y": 4810,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Membership",
+    "x": 18,
+    "y": 4847,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Certificates of analysis",
+    "x": 18,
+    "y": 4883,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Quality",
+    "x": 208,
+    "y": 4774,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Science",
+    "x": 208,
+    "y": 4810,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "FAQ",
+    "x": 208,
+    "y": 4847,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Research guides",
+    "x": 208,
+    "y": 4883,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "How to read a COA",
+    "x": 208,
+    "y": 4919,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Contact",
+    "x": 18,
+    "y": 5011,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Shipping",
+    "x": 18,
+    "y": 5048,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Returns",
+    "x": 18,
+    "y": 5084,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "About",
+    "x": 18,
+    "y": 5121,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Privacy",
+    "x": 208,
+    "y": 5011,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Terms",
+    "x": 208,
+    "y": 5048,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Disclaimer",
+    "x": 208,
+    "y": 5084,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "P",
+    "cls": "fda-bar__label",
+    "text": "FDA DISCLAIMER",
+    "x": 70,
+    "y": 5190,
+    "w": 297,
+    "h": 18
+   },
+   {
+    "tag": "A",
+    "cls": "fda-bar__link",
+    "text": "Read the full disclaimer →",
+    "x": 153,
+    "y": 5478,
+    "w": 148,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "We accept",
+    "x": 29,
+    "y": 5564,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Visa",
+    "x": 108,
+    "y": 5565,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Mastercard",
+    "x": 155,
+    "y": 5565,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "American Express",
+    "x": 203,
+    "y": 5565,
+    "w": 26,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Discover",
+    "x": 250,
+    "y": 5565,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Apple Pay",
+    "x": 298,
+    "y": 5565,
+    "w": 24,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Google Pay",
+    "x": 343,
+    "y": 5565,
+    "w": 23,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "© 2026 PurePeptide. For laboratory research use only. Not for human consumption.",
+    "x": 18,
+    "y": 5623,
+    "w": 366,
+    "h": 38
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Secure checkout",
+    "x": 18,
+    "y": 5674,
+    "w": 120,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "HPLC ≥ 99% purity",
+    "x": 156,
+    "y": 5674,
+    "w": 136,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party tested",
+    "x": 18,
+    "y": 5705,
+    "w": 127,
+    "h": 19
+   }
+  ]
+ },
+ "product_3": {
+  "url": "https://purepeptide.care/product/bpc-157-tb-500/",
+  "height_pt": 5748,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n0",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "0",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "CATALOG",
+    "x": 20,
+    "y": 170,
+    "w": 63,
+    "h": 14
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "/",
+    "x": 93,
+    "y": 170,
+    "w": 6,
+    "h": 14
+   },
+   {
+    "tag": "IMG",
+    "cls": "pd__photo vial-swap",
+    "text": "BPC-157 / TB-500 vial",
+    "x": 129,
+    "y": 225,
+    "w": 143,
+    "h": 260
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill pd__mediapill--dot",
+    "text": "THIRD-PARTY TESTED",
+    "x": 31,
+    "y": 481,
+    "w": 149,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "PURITY 99.0%",
+    "x": 188,
+    "y": 481,
+    "w": 96,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "RESEARCH USE ONLY",
+    "x": 31,
+    "y": 515,
+    "w": 131,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__cat",
+    "text": "RECOVERY",
+    "x": 20,
+    "y": 662,
+    "w": 90,
+    "h": 30
+   },
+   {
+    "tag": "H1",
+    "cls": "pd__name",
+    "text": "BPC-157 / TB-500",
+    "x": 20,
+    "y": 614,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "P",
+    "cls": "pd__subtitle",
+    "text": "BPC-157 (PENTADECAPEPTIDE) + TB-500 (THYMOSIN Β4 FRAGMENT)",
+    "x": 20,
+    "y": 568,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "badge badge--green",
+    "text": "Verified",
+    "x": 20,
+    "y": 706,
+    "w": 66,
+    "h": 24
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__chip",
+    "text": "10 mg",
+    "x": 20,
+    "y": 889,
+    "w": 47,
+    "h": 22
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 25,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "INPUT",
+    "cls": "",
+    "text": "3",
+    "x": 79,
+    "y": 969,
+    "w": 56,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 145,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "1 vial",
+    "x": 20,
+    "y": 1084,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 280,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 34,
+    "h": 17
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "MOST POPULAR\n2 vials\n−5%",
+    "x": 20,
+    "y": 1160,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--popular",
+    "text": "MOST POPULAR",
+    "x": 268,
+    "y": 1183,
+    "w": 99,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "2 vials\n−5%",
+    "x": 87,
+    "y": 1183,
+    "w": 167,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "2 vials",
+    "x": 87,
+    "y": 1184,
+    "w": 45,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−5%",
+    "x": 140,
+    "y": 1183,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt is-active",
+    "text": "BEST VALUE\n3+ vials\n−8%",
+    "x": 20,
+    "y": 1235,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--value",
+    "text": "BEST VALUE",
+    "x": 287,
+    "y": 1258,
+    "w": 80,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "3+ vials\n−8%",
+    "x": 90,
+    "y": 1258,
+    "w": 183,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "3+ vials",
+    "x": 90,
+    "y": 1259,
+    "w": 55,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−8%",
+    "x": 153,
+    "y": 1258,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "A",
+    "cls": "pd__coa",
+    "text": "COA",
+    "x": 20,
+    "y": 1379,
+    "w": 78,
+    "h": 52
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--primary btn--lg add-btn",
+    "text": "Add to cart · $234.57",
+    "x": 20,
+    "y": 1443,
+    "w": 362,
+    "h": 52
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__pairs-text",
+    "text": "Pairs with bacteriostatic water for reconstitution",
+    "x": 59,
+    "y": 1510,
+    "w": 188,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__pairs-price",
+    "text": "10 ml · $18.99",
+    "x": 283,
+    "y": 1517,
+    "w": 86,
+    "h": 21
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost pd__pairs-btn",
+    "text": "Add",
+    "x": 33,
+    "y": 1555,
+    "w": 336,
+    "h": 30
+   },
+   {
+    "tag": "P",
+    "cls": "pp-express__or",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 20,
+    "y": 1632,
+    "w": 362,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 108,
+    "y": 1632,
+    "w": 186,
+    "h": 18
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Ships within 24 h · Delivery in 7–10 business days · Free shipping over $200",
+    "x": 21,
+    "y": 1830,
+    "w": 360,
+    "h": 63
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party lab tested (HPLC + mass spectrometry)",
+    "x": 21,
+    "y": 1893,
+    "w": 360,
+    "h": 63
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Refrigerated shipping with real-time tracking",
+    "x": 21,
+    "y": 1955,
+    "w": 360,
+    "h": 44
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__accept-txt",
+    "text": "We accept",
+    "x": 37,
+    "y": 2012,
+    "w": 55,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__accept-secure",
+    "text": "SECURE CHECKOUT",
+    "x": 233,
+    "y": 2013,
+    "w": 132,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "pd__rpo",
+    "text": "For laboratory research use only. Not for human or animal consumption.",
+    "x": 20,
+    "y": 2091,
+    "w": 362,
+    "h": 38
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "About the compound",
+    "x": 20,
+    "y": 2177,
+    "w": 362,
+    "h": 29
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Compound details",
+    "x": 41,
+    "y": 2485,
+    "w": 320,
+    "h": 29
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Research context",
+    "x": 41,
+    "y": 3220,
+    "w": 320,
+    "h": 29
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Two repair peptides with complementary mechanisms.",
+    "x": 41,
+    "y": 3265,
+    "w": 320,
+    "h": 76
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Studied for angiogenesis and cell migration.",
+    "x": 41,
+    "y": 3341,
+    "w": 320,
+    "h": 77
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Widely documented pairing in recovery research.",
+    "x": 41,
+    "y": 3418,
+    "w": 320,
+    "h": 77
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Reconstitution & storage",
+    "x": 41,
+    "y": 2922,
+    "w": 320,
+    "h": 29
+   },
+   {
+    "tag": "SPAN",
+    "cls": "eyebrow",
+    "text": "CONTINUE YOUR RESEARCH",
+    "x": 104,
+    "y": 3595,
+    "w": 194,
+    "h": 11
+   },
+   {
+    "tag": "H2",
+    "cls": "",
+    "text": "Related research peptides",
+    "x": 20,
+    "y": 3618,
+    "w": 362,
+    "h": 31
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Recovery",
+    "x": 24,
+    "y": 3685,
+    "w": 166,
+    "h": 206
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Recovery",
+    "x": 134,
+    "y": 3698,
+    "w": 55,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "IGF-1 LR3",
+    "x": 42,
+    "y": 3908,
+    "w": 68,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__size",
+    "text": "1 MG",
+    "x": 141,
+    "y": 3909,
+    "w": 33,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$79.99",
+    "x": 42,
+    "y": 3990,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 42,
+    "y": 3990,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 42,
+    "y": 4028,
+    "w": 132,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Metabolic",
+    "x": 211,
+    "y": 3685,
+    "w": 166,
+    "h": 206
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Metabolic",
+    "x": 319,
+    "y": 3698,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "Retatrutide",
+    "x": 229,
+    "y": 3908,
+    "w": 83,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt is-active",
+    "text": "10 mg",
+    "x": 229,
+    "y": 3937,
+    "w": 54,
+    "h": 38
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt",
+    "text": "20 mg\n−21%",
+    "x": 289,
+    "y": 3937,
+    "w": 56,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "save",
+    "text": "−21%",
+    "x": 301,
+    "y": 3928,
+    "w": 48,
+    "h": 15
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$94.99",
+    "x": 229,
+    "y": 3990,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 229,
+    "y": 3990,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 229,
+    "y": 4028,
+    "w": 132,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "product__media",
+    "text": "Longevity",
+    "x": 24,
+    "y": 4118,
+    "w": 166,
+    "h": 206
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__tag",
+    "text": "Longevity",
+    "x": 132,
+    "y": 4132,
+    "w": 57,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "product__name",
+    "text": "GHK-Cu",
+    "x": 42,
+    "y": 4342,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt is-active",
+    "text": "50 mg",
+    "x": 42,
+    "y": 4371,
+    "w": 56,
+    "h": 38
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "size-opt",
+    "text": "100 mg\n−14%",
+    "x": 104,
+    "y": 4371,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "save",
+    "text": "−14%",
+    "x": 121,
+    "y": 4362,
+    "w": 49,
+    "h": 15
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$37.99",
+    "x": 42,
+    "y": 4424,
+    "w": 58,
+    "h": 25
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 42,
+    "y": 4424,
+    "w": 10,
+    "h": 25
+   },
+   {
+    "tag": "A",
+    "cls": "add-btn add_to_cart_button ajax_add_to_cart",
+    "text": "Add",
+    "x": 42,
+    "y": 4462,
+    "w": 132,
+    "h": 42
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 4594,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Pharmaceutical-grade research peptides, supplied with full transparency.",
+    "x": 18,
+    "y": 4635,
+    "w": 340,
+    "h": 48
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Catalog",
+    "x": 18,
+    "y": 4774,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "New arrivals",
+    "x": 18,
+    "y": 4810,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Membership",
+    "x": 18,
+    "y": 4847,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Certificates of analysis",
+    "x": 18,
+    "y": 4883,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Quality",
+    "x": 208,
+    "y": 4774,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Science",
+    "x": 208,
+    "y": 4810,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "FAQ",
+    "x": 208,
+    "y": 4847,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Research guides",
+    "x": 208,
+    "y": 4883,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "How to read a COA",
+    "x": 208,
+    "y": 4919,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Contact",
+    "x": 18,
+    "y": 5011,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Shipping",
+    "x": 18,
+    "y": 5048,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Returns",
+    "x": 18,
+    "y": 5084,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "About",
+    "x": 18,
+    "y": 5121,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Privacy",
+    "x": 208,
+    "y": 5011,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Terms",
+    "x": 208,
+    "y": 5048,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Disclaimer",
+    "x": 208,
+    "y": 5084,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "P",
+    "cls": "fda-bar__label",
+    "text": "FDA DISCLAIMER",
+    "x": 70,
+    "y": 5190,
+    "w": 297,
+    "h": 18
+   },
+   {
+    "tag": "A",
+    "cls": "fda-bar__link",
+    "text": "Read the full disclaimer →",
+    "x": 153,
+    "y": 5478,
+    "w": 148,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "We accept",
+    "x": 29,
+    "y": 5564,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Visa",
+    "x": 108,
+    "y": 5565,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Mastercard",
+    "x": 155,
+    "y": 5565,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "American Express",
+    "x": 203,
+    "y": 5565,
+    "w": 26,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Discover",
+    "x": 250,
+    "y": 5565,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Apple Pay",
+    "x": 298,
+    "y": 5565,
+    "w": 24,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Google Pay",
+    "x": 343,
+    "y": 5565,
+    "w": 23,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "© 2026 PurePeptide. For laboratory research use only. Not for human consumption.",
+    "x": 18,
+    "y": 5623,
+    "w": 366,
+    "h": 38
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Secure checkout",
+    "x": 18,
+    "y": 5674,
+    "w": 120,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "HPLC ≥ 99% purity",
+    "x": 156,
+    "y": 5674,
+    "w": 136,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party tested",
+    "x": 18,
+    "y": 5705,
+    "w": 127,
+    "h": 19
+   }
+  ]
+ },
+ "cart_from_product": {
+  "url": "https://purepeptide.care/cart/",
+  "height_pt": 2733,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n3",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "3",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "H1",
+    "cls": "",
+    "text": "Cart",
+    "x": 20,
+    "y": 169,
+    "w": 362,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ship-bar__msg",
+    "text": "Free shipping unlocked!",
+    "x": 62,
+    "y": 259,
+    "w": 161,
+    "h": 22
+   },
+   {
+    "tag": "H2",
+    "cls": "cart-h",
+    "text": "Your cart",
+    "x": 20,
+    "y": 340,
+    "w": 362,
+    "h": 32
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "BPC-157 / TB-500",
+    "x": 51,
+    "y": 441,
+    "w": 32,
+    "h": 66
+   },
+   {
+    "tag": "A",
+    "cls": "ci__name",
+    "text": "BPC-157 / TB-500",
+    "x": 117,
+    "y": 405,
+    "w": 141,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$78.19",
+    "x": 165,
+    "y": 432,
+    "w": 46,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 165,
+    "y": 432,
+    "w": 8,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ci__discount",
+    "text": "Volume discount −8%",
+    "x": 117,
+    "y": 453,
+    "w": 139,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "ci__remove",
+    "text": "Remove",
+    "x": 117,
+    "y": 483,
+    "w": 50,
+    "h": 21
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 117,
+    "y": 515,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "INPUT",
+    "cls": "ci__qty-input",
+    "text": "3",
+    "x": 157,
+    "y": 515,
+    "w": 44,
+    "h": 30
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 211,
+    "y": 515,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$234.57",
+    "x": 301,
+    "y": 557,
+    "w": 67,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 301,
+    "y": 557,
+    "w": 11,
+    "h": 20
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Apply",
+    "x": 289,
+    "y": 614,
+    "w": 93,
+    "h": 45
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Update cart",
+    "x": 20,
+    "y": 671,
+    "w": 137,
+    "h": 45
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "BAC Water",
+    "x": 56,
+    "y": 780,
+    "w": 28,
+    "h": 58
+   },
+   {
+    "tag": "P",
+    "cls": "cart-addon__kicker",
+    "text": "COMPLETE YOUR ORDER",
+    "x": 113,
+    "y": 754,
+    "w": 250,
+    "h": 18
+   },
+   {
+    "tag": "H3",
+    "cls": "cart-addon__title",
+    "text": "BAC Water",
+    "x": 113,
+    "y": 775,
+    "w": 250,
+    "h": 26
+   },
+   {
+    "tag": "P",
+    "cls": "cart-addon__desc",
+    "text": "Bacteriostatic water — the standard solvent for reconstituting your peptides.",
+    "x": 113,
+    "y": 803,
+    "w": 250,
+    "h": 61
+   },
+   {
+    "tag": "SPAN",
+    "cls": "cart-addon__price",
+    "text": "$18.99/ vial",
+    "x": 41,
+    "y": 886,
+    "w": 87,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$18.99",
+    "x": 41,
+    "y": 888,
+    "w": 56,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 41,
+    "y": 888,
+    "w": 10,
+    "h": 20
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--primary cart-addon__btn",
+    "text": "Add",
+    "x": 283,
+    "y": 876,
+    "w": 80,
+    "h": 45
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Summary",
+    "x": 45,
+    "y": 990,
+    "w": 312,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Subtotal",
+    "x": 45,
+    "y": 1042,
+    "w": 58,
+    "h": 24
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$234.57",
+    "x": 295,
+    "y": 1044,
+    "w": 62,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 295,
+    "y": 1044,
+    "w": 10,
+    "h": 19
+   },
+   {
+    "tag": "A",
+    "cls": "shipping-calculator-button",
+    "text": "Calculate shipping",
+    "x": 45,
+    "y": 1133,
+    "w": 126,
+    "h": 22
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Total",
+    "x": 45,
+    "y": 1171,
+    "w": 41,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$234.57",
+    "x": 267,
+    "y": 1172,
+    "w": 90,
+    "h": 32
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 267,
+    "y": 1172,
+    "w": 14,
+    "h": 32
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg cart-checkout",
+    "text": "Proceed to checkout",
+    "x": 45,
+    "y": 1249,
+    "w": 312,
+    "h": 50
+   },
+   {
+    "tag": "P",
+    "cls": "pp-express__or",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 45,
+    "y": 1315,
+    "w": 312,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 108,
+    "y": 1315,
+    "w": 186,
+    "h": 18
+   },
+   {
+    "tag": "P",
+    "cls": "cart-note",
+    "text": "For laboratory research use only.",
+    "x": 45,
+    "y": 1442,
+    "w": 312,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 1579,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Pharmaceutical-grade research peptides, supplied with full transparency.",
+    "x": 18,
+    "y": 1620,
+    "w": 340,
+    "h": 48
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Catalog",
+    "x": 18,
+    "y": 1759,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "New arrivals",
+    "x": 18,
+    "y": 1796,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Membership",
+    "x": 18,
+    "y": 1832,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Certificates of analysis",
+    "x": 18,
+    "y": 1868,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Quality",
+    "x": 208,
+    "y": 1759,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Science",
+    "x": 208,
+    "y": 1796,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "FAQ",
+    "x": 208,
+    "y": 1832,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Research guides",
+    "x": 208,
+    "y": 1868,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "How to read a COA",
+    "x": 208,
+    "y": 1905,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Contact",
+    "x": 18,
+    "y": 1997,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Shipping",
+    "x": 18,
+    "y": 2033,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Returns",
+    "x": 18,
+    "y": 2069,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "About",
+    "x": 18,
+    "y": 2106,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Privacy",
+    "x": 208,
+    "y": 1997,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Terms",
+    "x": 208,
+    "y": 2033,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Disclaimer",
+    "x": 208,
+    "y": 2069,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "P",
+    "cls": "fda-bar__label",
+    "text": "FDA DISCLAIMER",
+    "x": 70,
+    "y": 2175,
+    "w": 297,
+    "h": 18
+   },
+   {
+    "tag": "A",
+    "cls": "fda-bar__link",
+    "text": "Read the full disclaimer →",
+    "x": 153,
+    "y": 2463,
+    "w": 148,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "We accept",
+    "x": 29,
+    "y": 2549,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Visa",
+    "x": 108,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Mastercard",
+    "x": 155,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "American Express",
+    "x": 203,
+    "y": 2551,
+    "w": 26,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Discover",
+    "x": 250,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Apple Pay",
+    "x": 298,
+    "y": 2551,
+    "w": 24,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Google Pay",
+    "x": 343,
+    "y": 2551,
+    "w": 23,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "© 2026 PurePeptide. For laboratory research use only. Not for human consumption.",
+    "x": 18,
+    "y": 2609,
+    "w": 366,
+    "h": 38
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Secure checkout",
+    "x": 18,
+    "y": 2659,
+    "w": 120,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "HPLC ≥ 99% purity",
+    "x": 156,
+    "y": 2659,
+    "w": 136,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party tested",
+    "x": 18,
+    "y": 2690,
+    "w": 127,
+    "h": 19
+   }
+  ]
+ },
+ "cart1": {
+  "url": "https://purepeptide.care/cart/",
+  "height_pt": 2712,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n1",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "1",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "H1",
+    "cls": "",
+    "text": "Cart",
+    "x": 20,
+    "y": 169,
+    "w": 362,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ship-bar__msg",
+    "text": "$115.01 away from free shipping",
+    "x": 62,
+    "y": 259,
+    "w": 223,
+    "h": 22
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$115.01",
+    "x": 62,
+    "y": 261,
+    "w": 58,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 62,
+    "y": 261,
+    "w": 9,
+    "h": 17
+   },
+   {
+    "tag": "H2",
+    "cls": "cart-h",
+    "text": "Your cart",
+    "x": 20,
+    "y": 340,
+    "w": 362,
+    "h": 32
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "BPC-157 / TB-500",
+    "x": 51,
+    "y": 431,
+    "w": 32,
+    "h": 66
+   },
+   {
+    "tag": "A",
+    "cls": "ci__name",
+    "text": "BPC-157 / TB-500",
+    "x": 117,
+    "y": 405,
+    "w": 141,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 165,
+    "y": 432,
+    "w": 46,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 165,
+    "y": 432,
+    "w": 8,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "ci__remove",
+    "text": "Remove",
+    "x": 117,
+    "y": 462,
+    "w": 50,
+    "h": 21
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 117,
+    "y": 495,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "INPUT",
+    "cls": "ci__qty-input",
+    "text": "1",
+    "x": 157,
+    "y": 495,
+    "w": 44,
+    "h": 30
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 211,
+    "y": 495,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 311,
+    "y": 537,
+    "w": 56,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 311,
+    "y": 537,
+    "w": 11,
+    "h": 20
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Apply",
+    "x": 289,
+    "y": 593,
+    "w": 93,
+    "h": 45
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Update cart",
+    "x": 20,
+    "y": 650,
+    "w": 137,
+    "h": 45
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "BAC Water",
+    "x": 56,
+    "y": 759,
+    "w": 28,
+    "h": 58
+   },
+   {
+    "tag": "P",
+    "cls": "cart-addon__kicker",
+    "text": "COMPLETE YOUR ORDER",
+    "x": 113,
+    "y": 733,
+    "w": 250,
+    "h": 18
+   },
+   {
+    "tag": "H3",
+    "cls": "cart-addon__title",
+    "text": "BAC Water",
+    "x": 113,
+    "y": 754,
+    "w": 250,
+    "h": 26
+   },
+   {
+    "tag": "P",
+    "cls": "cart-addon__desc",
+    "text": "Bacteriostatic water — the standard solvent for reconstituting your peptides.",
+    "x": 113,
+    "y": 782,
+    "w": 250,
+    "h": 61
+   },
+   {
+    "tag": "SPAN",
+    "cls": "cart-addon__price",
+    "text": "$18.99/ vial",
+    "x": 41,
+    "y": 865,
+    "w": 87,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$18.99",
+    "x": 41,
+    "y": 867,
+    "w": 56,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 41,
+    "y": 867,
+    "w": 10,
+    "h": 20
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--primary cart-addon__btn",
+    "text": "Add",
+    "x": 283,
+    "y": 855,
+    "w": 80,
+    "h": 45
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Summary",
+    "x": 45,
+    "y": 969,
+    "w": 312,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Subtotal",
+    "x": 45,
+    "y": 1021,
+    "w": 58,
+    "h": 24
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 304,
+    "y": 1023,
+    "w": 53,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 304,
+    "y": 1023,
+    "w": 10,
+    "h": 19
+   },
+   {
+    "tag": "A",
+    "cls": "shipping-calculator-button",
+    "text": "Calculate shipping",
+    "x": 45,
+    "y": 1113,
+    "w": 126,
+    "h": 22
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Total",
+    "x": 45,
+    "y": 1150,
+    "w": 41,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 281,
+    "y": 1151,
+    "w": 76,
+    "h": 32
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 281,
+    "y": 1151,
+    "w": 14,
+    "h": 32
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg cart-checkout",
+    "text": "Proceed to checkout",
+    "x": 45,
+    "y": 1228,
+    "w": 312,
+    "h": 50
+   },
+   {
+    "tag": "P",
+    "cls": "pp-express__or",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 45,
+    "y": 1294,
+    "w": 312,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 108,
+    "y": 1294,
+    "w": 186,
+    "h": 18
+   },
+   {
+    "tag": "P",
+    "cls": "cart-note",
+    "text": "For laboratory research use only.",
+    "x": 45,
+    "y": 1421,
+    "w": 312,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 1559,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Pharmaceutical-grade research peptides, supplied with full transparency.",
+    "x": 18,
+    "y": 1599,
+    "w": 340,
+    "h": 48
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Catalog",
+    "x": 18,
+    "y": 1738,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "New arrivals",
+    "x": 18,
+    "y": 1775,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Membership",
+    "x": 18,
+    "y": 1811,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Certificates of analysis",
+    "x": 18,
+    "y": 1847,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Quality",
+    "x": 208,
+    "y": 1738,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Science",
+    "x": 208,
+    "y": 1775,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "FAQ",
+    "x": 208,
+    "y": 1811,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Research guides",
+    "x": 208,
+    "y": 1847,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "How to read a COA",
+    "x": 208,
+    "y": 1884,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Contact",
+    "x": 18,
+    "y": 1976,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Shipping",
+    "x": 18,
+    "y": 2012,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Returns",
+    "x": 18,
+    "y": 2049,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "About",
+    "x": 18,
+    "y": 2085,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Privacy",
+    "x": 208,
+    "y": 1976,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Terms",
+    "x": 208,
+    "y": 2012,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Disclaimer",
+    "x": 208,
+    "y": 2049,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "P",
+    "cls": "fda-bar__label",
+    "text": "FDA DISCLAIMER",
+    "x": 70,
+    "y": 2154,
+    "w": 297,
+    "h": 18
+   },
+   {
+    "tag": "A",
+    "cls": "fda-bar__link",
+    "text": "Read the full disclaimer →",
+    "x": 153,
+    "y": 2442,
+    "w": 148,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "We accept",
+    "x": 27,
+    "y": 2528,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Visa",
+    "x": 106,
+    "y": 2530,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Mastercard",
+    "x": 154,
+    "y": 2530,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "American Express",
+    "x": 201,
+    "y": 2530,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Discover",
+    "x": 248,
+    "y": 2530,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Apple Pay",
+    "x": 295,
+    "y": 2530,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Google Pay",
+    "x": 343,
+    "y": 2530,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "© 2026 PurePeptide. For laboratory research use only. Not for human consumption.",
+    "x": 18,
+    "y": 2588,
+    "w": 366,
+    "h": 38
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Secure checkout",
+    "x": 18,
+    "y": 2638,
+    "w": 120,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "HPLC ≥ 99% purity",
+    "x": 156,
+    "y": 2638,
+    "w": 136,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party tested",
+    "x": 18,
+    "y": 2669,
+    "w": 127,
+    "h": 19
+   }
+  ]
+ },
+ "cart2": {
+  "url": "https://purepeptide.care/cart/",
+  "height_pt": 2733,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n2",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "2",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "H1",
+    "cls": "",
+    "text": "Cart",
+    "x": 20,
+    "y": 169,
+    "w": 362,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ship-bar__msg",
+    "text": "$38.52 away from free shipping",
+    "x": 62,
+    "y": 259,
+    "w": 214,
+    "h": 22
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$38.52",
+    "x": 62,
+    "y": 261,
+    "w": 49,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 62,
+    "y": 261,
+    "w": 9,
+    "h": 17
+   },
+   {
+    "tag": "H2",
+    "cls": "cart-h",
+    "text": "Your cart",
+    "x": 20,
+    "y": 340,
+    "w": 362,
+    "h": 32
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "BPC-157 / TB-500",
+    "x": 51,
+    "y": 441,
+    "w": 32,
+    "h": 66
+   },
+   {
+    "tag": "A",
+    "cls": "ci__name",
+    "text": "BPC-157 / TB-500",
+    "x": 117,
+    "y": 405,
+    "w": 141,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$80.74",
+    "x": 165,
+    "y": 432,
+    "w": 46,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 165,
+    "y": 432,
+    "w": 8,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ci__discount",
+    "text": "Volume discount −5%",
+    "x": 117,
+    "y": 453,
+    "w": 138,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "ci__remove",
+    "text": "Remove",
+    "x": 117,
+    "y": 483,
+    "w": 50,
+    "h": 21
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 117,
+    "y": 515,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "INPUT",
+    "cls": "ci__qty-input",
+    "text": "2",
+    "x": 157,
+    "y": 515,
+    "w": 44,
+    "h": 30
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 211,
+    "y": 515,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$161.48",
+    "x": 301,
+    "y": 557,
+    "w": 67,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 301,
+    "y": 557,
+    "w": 11,
+    "h": 20
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Apply",
+    "x": 289,
+    "y": 614,
+    "w": 93,
+    "h": 45
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Update cart",
+    "x": 20,
+    "y": 671,
+    "w": 137,
+    "h": 45
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "BAC Water",
+    "x": 56,
+    "y": 780,
+    "w": 28,
+    "h": 58
+   },
+   {
+    "tag": "P",
+    "cls": "cart-addon__kicker",
+    "text": "COMPLETE YOUR ORDER",
+    "x": 113,
+    "y": 754,
+    "w": 250,
+    "h": 18
+   },
+   {
+    "tag": "H3",
+    "cls": "cart-addon__title",
+    "text": "BAC Water",
+    "x": 113,
+    "y": 775,
+    "w": 250,
+    "h": 26
+   },
+   {
+    "tag": "P",
+    "cls": "cart-addon__desc",
+    "text": "Bacteriostatic water — the standard solvent for reconstituting your peptides.",
+    "x": 113,
+    "y": 803,
+    "w": 250,
+    "h": 61
+   },
+   {
+    "tag": "SPAN",
+    "cls": "cart-addon__price",
+    "text": "$18.99/ vial",
+    "x": 41,
+    "y": 886,
+    "w": 87,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$18.99",
+    "x": 41,
+    "y": 888,
+    "w": 56,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 41,
+    "y": 888,
+    "w": 10,
+    "h": 20
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--primary cart-addon__btn",
+    "text": "Add",
+    "x": 283,
+    "y": 876,
+    "w": 80,
+    "h": 45
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Summary",
+    "x": 45,
+    "y": 990,
+    "w": 312,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Subtotal",
+    "x": 45,
+    "y": 1042,
+    "w": 58,
+    "h": 24
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$161.48",
+    "x": 295,
+    "y": 1044,
+    "w": 62,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 295,
+    "y": 1044,
+    "w": 10,
+    "h": 19
+   },
+   {
+    "tag": "A",
+    "cls": "shipping-calculator-button",
+    "text": "Calculate shipping",
+    "x": 45,
+    "y": 1133,
+    "w": 126,
+    "h": 22
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Total",
+    "x": 45,
+    "y": 1171,
+    "w": 41,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$161.48",
+    "x": 267,
+    "y": 1172,
+    "w": 90,
+    "h": 32
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 267,
+    "y": 1172,
+    "w": 14,
+    "h": 32
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg cart-checkout",
+    "text": "Proceed to checkout",
+    "x": 45,
+    "y": 1249,
+    "w": 312,
+    "h": 50
+   },
+   {
+    "tag": "P",
+    "cls": "pp-express__or",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 45,
+    "y": 1315,
+    "w": 312,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 108,
+    "y": 1315,
+    "w": 186,
+    "h": 18
+   },
+   {
+    "tag": "P",
+    "cls": "cart-note",
+    "text": "For laboratory research use only.",
+    "x": 45,
+    "y": 1442,
+    "w": 312,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 1579,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Pharmaceutical-grade research peptides, supplied with full transparency.",
+    "x": 18,
+    "y": 1620,
+    "w": 340,
+    "h": 48
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Catalog",
+    "x": 18,
+    "y": 1759,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "New arrivals",
+    "x": 18,
+    "y": 1796,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Membership",
+    "x": 18,
+    "y": 1832,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Certificates of analysis",
+    "x": 18,
+    "y": 1868,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Quality",
+    "x": 208,
+    "y": 1759,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Science",
+    "x": 208,
+    "y": 1796,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "FAQ",
+    "x": 208,
+    "y": 1832,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Research guides",
+    "x": 208,
+    "y": 1868,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "How to read a COA",
+    "x": 208,
+    "y": 1905,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Contact",
+    "x": 18,
+    "y": 1997,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Shipping",
+    "x": 18,
+    "y": 2033,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Returns",
+    "x": 18,
+    "y": 2069,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "About",
+    "x": 18,
+    "y": 2106,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Privacy",
+    "x": 208,
+    "y": 1997,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Terms",
+    "x": 208,
+    "y": 2033,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Disclaimer",
+    "x": 208,
+    "y": 2069,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "P",
+    "cls": "fda-bar__label",
+    "text": "FDA DISCLAIMER",
+    "x": 70,
+    "y": 2175,
+    "w": 297,
+    "h": 18
+   },
+   {
+    "tag": "A",
+    "cls": "fda-bar__link",
+    "text": "Read the full disclaimer →",
+    "x": 153,
+    "y": 2463,
+    "w": 148,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "We accept",
+    "x": 27,
+    "y": 2549,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Visa",
+    "x": 106,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Mastercard",
+    "x": 154,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "American Express",
+    "x": 201,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Discover",
+    "x": 248,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Apple Pay",
+    "x": 295,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Google Pay",
+    "x": 343,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "© 2026 PurePeptide. For laboratory research use only. Not for human consumption.",
+    "x": 18,
+    "y": 2609,
+    "w": 366,
+    "h": 38
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Secure checkout",
+    "x": 18,
+    "y": 2659,
+    "w": 120,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "HPLC ≥ 99% purity",
+    "x": 156,
+    "y": 2659,
+    "w": 136,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party tested",
+    "x": 18,
+    "y": 2690,
+    "w": 127,
+    "h": 19
+   }
+  ]
+ },
+ "cart3": {
+  "url": "https://purepeptide.care/cart/",
+  "height_pt": 2733,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n3",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "3",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "H1",
+    "cls": "",
+    "text": "Cart",
+    "x": 20,
+    "y": 169,
+    "w": 362,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ship-bar__msg",
+    "text": "Free shipping unlocked!",
+    "x": 62,
+    "y": 259,
+    "w": 161,
+    "h": 22
+   },
+   {
+    "tag": "H2",
+    "cls": "cart-h",
+    "text": "Your cart",
+    "x": 20,
+    "y": 340,
+    "w": 362,
+    "h": 32
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "BPC-157 / TB-500",
+    "x": 51,
+    "y": 441,
+    "w": 32,
+    "h": 66
+   },
+   {
+    "tag": "A",
+    "cls": "ci__name",
+    "text": "BPC-157 / TB-500",
+    "x": 117,
+    "y": 405,
+    "w": 141,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$78.19",
+    "x": 165,
+    "y": 432,
+    "w": 46,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 165,
+    "y": 432,
+    "w": 8,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ci__discount",
+    "text": "Volume discount −8%",
+    "x": 117,
+    "y": 453,
+    "w": 139,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "ci__remove",
+    "text": "Remove",
+    "x": 117,
+    "y": 483,
+    "w": 50,
+    "h": 21
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 117,
+    "y": 515,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "INPUT",
+    "cls": "ci__qty-input",
+    "text": "3",
+    "x": 157,
+    "y": 515,
+    "w": 44,
+    "h": 30
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 211,
+    "y": 515,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$234.57",
+    "x": 301,
+    "y": 557,
+    "w": 67,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 301,
+    "y": 557,
+    "w": 11,
+    "h": 20
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Apply",
+    "x": 289,
+    "y": 614,
+    "w": 93,
+    "h": 45
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Update cart",
+    "x": 20,
+    "y": 671,
+    "w": 137,
+    "h": 45
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "BAC Water",
+    "x": 56,
+    "y": 780,
+    "w": 28,
+    "h": 58
+   },
+   {
+    "tag": "P",
+    "cls": "cart-addon__kicker",
+    "text": "COMPLETE YOUR ORDER",
+    "x": 113,
+    "y": 754,
+    "w": 250,
+    "h": 18
+   },
+   {
+    "tag": "H3",
+    "cls": "cart-addon__title",
+    "text": "BAC Water",
+    "x": 113,
+    "y": 775,
+    "w": 250,
+    "h": 26
+   },
+   {
+    "tag": "P",
+    "cls": "cart-addon__desc",
+    "text": "Bacteriostatic water — the standard solvent for reconstituting your peptides.",
+    "x": 113,
+    "y": 803,
+    "w": 250,
+    "h": 61
+   },
+   {
+    "tag": "SPAN",
+    "cls": "cart-addon__price",
+    "text": "$18.99/ vial",
+    "x": 41,
+    "y": 886,
+    "w": 87,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$18.99",
+    "x": 41,
+    "y": 888,
+    "w": 56,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 41,
+    "y": 888,
+    "w": 10,
+    "h": 20
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--primary cart-addon__btn",
+    "text": "Add",
+    "x": 283,
+    "y": 876,
+    "w": 80,
+    "h": 45
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Summary",
+    "x": 45,
+    "y": 990,
+    "w": 312,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Subtotal",
+    "x": 45,
+    "y": 1042,
+    "w": 58,
+    "h": 24
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$234.57",
+    "x": 295,
+    "y": 1044,
+    "w": 62,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 295,
+    "y": 1044,
+    "w": 10,
+    "h": 19
+   },
+   {
+    "tag": "A",
+    "cls": "shipping-calculator-button",
+    "text": "Calculate shipping",
+    "x": 45,
+    "y": 1133,
+    "w": 126,
+    "h": 22
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Total",
+    "x": 45,
+    "y": 1171,
+    "w": 41,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$234.57",
+    "x": 267,
+    "y": 1172,
+    "w": 90,
+    "h": 32
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 267,
+    "y": 1172,
+    "w": 14,
+    "h": 32
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg cart-checkout",
+    "text": "Proceed to checkout",
+    "x": 45,
+    "y": 1249,
+    "w": 312,
+    "h": 50
+   },
+   {
+    "tag": "P",
+    "cls": "pp-express__or",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 45,
+    "y": 1315,
+    "w": 312,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "OR CHECK OUT INSTANTLY",
+    "x": 108,
+    "y": 1315,
+    "w": 186,
+    "h": 18
+   },
+   {
+    "tag": "P",
+    "cls": "cart-note",
+    "text": "For laboratory research use only.",
+    "x": 45,
+    "y": 1442,
+    "w": 312,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 1579,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "Pharmaceutical-grade research peptides, supplied with full transparency.",
+    "x": 18,
+    "y": 1620,
+    "w": 340,
+    "h": 48
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Catalog",
+    "x": 18,
+    "y": 1759,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "New arrivals",
+    "x": 18,
+    "y": 1796,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Membership",
+    "x": 18,
+    "y": 1832,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Certificates of analysis",
+    "x": 18,
+    "y": 1868,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Quality",
+    "x": 208,
+    "y": 1759,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Science",
+    "x": 208,
+    "y": 1796,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "FAQ",
+    "x": 208,
+    "y": 1832,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Research guides",
+    "x": 208,
+    "y": 1868,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "How to read a COA",
+    "x": 208,
+    "y": 1905,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Contact",
+    "x": 18,
+    "y": 1997,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Shipping",
+    "x": 18,
+    "y": 2033,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Returns",
+    "x": 18,
+    "y": 2069,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "About",
+    "x": 18,
+    "y": 2106,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Privacy",
+    "x": 208,
+    "y": 1997,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Terms",
+    "x": 208,
+    "y": 2033,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "Disclaimer",
+    "x": 208,
+    "y": 2069,
+    "w": 176,
+    "h": 36
+   },
+   {
+    "tag": "P",
+    "cls": "fda-bar__label",
+    "text": "FDA DISCLAIMER",
+    "x": 70,
+    "y": 2175,
+    "w": 297,
+    "h": 18
+   },
+   {
+    "tag": "A",
+    "cls": "fda-bar__link",
+    "text": "Read the full disclaimer →",
+    "x": 153,
+    "y": 2463,
+    "w": 148,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "We accept",
+    "x": 27,
+    "y": 2549,
+    "w": 60,
+    "h": 19
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Visa",
+    "x": 106,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Mastercard",
+    "x": 154,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "American Express",
+    "x": 201,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Discover",
+    "x": 248,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Apple Pay",
+    "x": 295,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "Google Pay",
+    "x": 343,
+    "y": 2551,
+    "w": 25,
+    "h": 16
+   },
+   {
+    "tag": "P",
+    "cls": "",
+    "text": "© 2026 PurePeptide. For laboratory research use only. Not for human consumption.",
+    "x": 18,
+    "y": 2609,
+    "w": 366,
+    "h": 38
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Secure checkout",
+    "x": 18,
+    "y": 2659,
+    "w": 120,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "HPLC ≥ 99% purity",
+    "x": 156,
+    "y": 2659,
+    "w": 136,
+    "h": 19
+   },
+   {
+    "tag": "LI",
+    "cls": "",
+    "text": "Third-party tested",
+    "x": 18,
+    "y": 2690,
+    "w": 127,
+    "h": 19
+   }
+  ]
+ }
+}
