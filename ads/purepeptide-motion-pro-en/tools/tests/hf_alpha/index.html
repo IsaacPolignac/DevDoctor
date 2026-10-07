@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>T5b: two overlapping VP9-alpha videos</title>
+<script src="vendor/gsap.min.js"></script>
+<style>
+  html, body { margin: 0; background: #000; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+           background: linear-gradient(90deg, #0b1a3a 0%, #1f6fb0 50%, #f2f5fa 100%); }
+  .stage-v { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+  #vb { transform: translate(420px, 0) scale(0.8); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div id="stage" class="clip" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="1">
+  <video id="va" class="clip stage-v" src="assets/iphone/flyin_land.webm" data-start="0" data-duration="1" data-media-start="0" muted playsinline style="z-index:1"></video>
+  <video id="vb" class="clip stage-v" src="assets/iphone/tiltout.webm" data-start="0" data-duration="1" data-media-start="0" muted playsinline style="z-index:2"></video>
+</div>
+<script>
+  const tl = gsap.timeline({ paused: true });
+  tl.to({}, { duration: 1 });
+  window.__timelines = { main: tl };
+</script>
+</body>
+</html>
