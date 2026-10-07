@@ -2,3 +2,13 @@
 screen texture: /home/user/DevDoctor/ads/purepeptide-motion-pro-en/assets/site/clean/screen_cart.png (1206, 2622)
 00:06.875  render           | Saved: '/home/user/DevDoctor/ads/purepeptide-motion-pro-en/tools/tests/out/bench/phone_720p_s16.png'
 BENCH phone_720p_s16                        6.45 s  (load 2.68)
+00:12.787  render           | Saved: '/home/user/DevDoctor/ads/purepeptide-motion-pro-en/tools/tests/out/bench/phone_720p_s48.png'
+BENCH phone_720p_s48                        5.91 s  (load 3.03)
+00:23.686  render           | Saved: '/home/user/DevDoctor/ads/purepeptide-motion-pro-en/tools/tests/out/bench/phone_1080p_s16.png'
+BENCH phone_1080p_s16                      10.90 s  (load 3.11)
+00:36.045  render           | Saved: '/home/user/DevDoctor/ads/purepeptide-motion-pro-en/tools/tests/out/bench/phone_1080p_s48.png'
+BENCH phone_1080p_s48                      12.36 s  (load 3.13)
+00:44.063  render           | Saved: '/home/user/DevDoctor/ads/purepeptide-motion-pro-en/tools/tests/out/bench/phone_1080p_s48_nodenoise.png'
+BENCH phone_1080p_s48_nodenoise             8.02 s  (load 3.27)
+00:49.522  render           | Saved: '/home/user/DevDoctor/ads/purepeptide-motion-pro-en/tools/tests/out/bench/phone_1080p_s16_border.png'
+BENCH phone_1080p_s16_border                5.46 s  (load 3.86)

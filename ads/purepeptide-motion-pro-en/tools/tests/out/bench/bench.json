@@ -13,6 +13,56 @@
    "border": false,
    "seconds": 6.45,
    "loadavg_before": 2.68
+  },
+  {
+   "name": "phone_720p_s48",
+   "scene": "phone",
+   "res": "1280x720",
+   "samples": 48,
+   "oidn": true,
+   "border": false,
+   "seconds": 5.91,
+   "loadavg_before": 3.03
+  },
+  {
+   "name": "phone_1080p_s16",
+   "scene": "phone",
+   "res": "1920x1080",
+   "samples": 16,
+   "oidn": true,
+   "border": false,
+   "seconds": 10.9,
+   "loadavg_before": 3.11
+  },
+  {
+   "name": "phone_1080p_s48",
+   "scene": "phone",
+   "res": "1920x1080",
+   "samples": 48,
+   "oidn": true,
+   "border": false,
+   "seconds": 12.36,
+   "loadavg_before": 3.13
+  },
+  {
+   "name": "phone_1080p_s48_nodenoise",
+   "scene": "phone",
+   "res": "1920x1080",
+   "samples": 48,
+   "oidn": false,
+   "border": false,
+   "seconds": 8.02,
+   "loadavg_before": 3.27
+  },
+  {
+   "name": "phone_1080p_s16_border",
+   "scene": "phone",
+   "res": "1920x1080",
+   "samples": 16,
+   "oidn": true,
+   "border": true,
+   "seconds": 5.46,
+   "loadavg_before": 3.86
   }
  ]
 }
