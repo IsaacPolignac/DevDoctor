@@ -1,0 +1,90 @@
+/* PurePeptide "SPELLED OUT" — tokens and global layers (BRIEF §2–4, SCENES §0.1, §0.8).
+   assemble.py INLINES every css/*.css into index.html, so url(...) paths are root-relative ("assets/...").
+   The @font-face rules live in tools/assemble.py (FONTS). */
+
+:root {
+  /* INK world (S01–S04) */
+  --ink-bg: #000000;
+  --ink-text: #f3f6fa;
+  --ink-soft: #93a1b8;
+  --ink-accent: #2ee6c9;
+  --ink-cap: #3f7fe8;
+  --ink-crimp: #c3cbd6;
+  /* PAPER world (S05–S09) */
+  --paper-bg: #f5f8fb;
+  --paper-key: radial-gradient(1400px 900px at 20% 10%, #ffffff, #f5f8fb 70%);
+  --paper-ink: #16233f;
+  --paper-ink-soft: #5c697f;
+  --paper-line: #e6ebf2;
+  --h1-teal: #0e7d6c;
+  --h1-ink: #1b1e24;
+  --callout-teal: #0b6b5d;
+  --site-teal: #16a48f; /* fill only, never text */
+  --bar-green: #2bb58a; /* fill only, never text */
+  /* NAVY world (S09 end–S11) */
+  --navy-bg: radial-gradient(circle at 50% 45%, #123a78 0%, #0c2558 55%, #081536 100%);
+  --navy-text: #f3f6fa;
+  --navy-accent: #2ee6c9;
+  --navy-legal: #c3cbd6;
+  --pill-fill: rgba(255, 255, 255, 0.08);
+  --pill-stroke: rgba(255, 255, 255, 0.32);
+  --button-navy: #123a78;
+  /* type */
+  --display: "DM Sans", "PP Symbols", sans-serif;
+  --body: "Inter", "PP Symbols", sans-serif;
+  --mono: "IBM Plex Mono", "PP Symbols", monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+#stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #000; font-family: var(--body); color: var(--ink-text);
+  -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+.layer { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
+
+/* z-order (SCENES §0.8): world 0 · stage videos 10–12 · type behind phone 20 · flyin/phone 30 · type in front 40 · dive/pill 50/55 · fx 90 */
+#world { z-index: 0; }
+#world .w { position: absolute; inset: 0; opacity: 0; }
+#world .w-ink { background: var(--ink-bg); }
+#world .w-paper { background: var(--paper-key), var(--paper-bg); }
+#world .w-navy { background: var(--navy-bg); }
+.stage-v { opacity: 0; position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; transform-origin: 50% 50%; display: block; }
+/* A scene section never creates a stacking context: its children use the global z-indexes (.z-back 20 / .z-front 40). */
+.scene { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; pointer-events: none; }
+.z-back { position: absolute; inset: 0; z-index: 20; }
+.z-front { position: absolute; inset: 0; z-index: 40; }
+/* #fx must NOT be a stacking context (z-index:auto), else the grain's overlay blend would be isolated from the picture */
+#fx { z-index: auto; }
+#vignette { z-index: 90; background: radial-gradient(ellipse 78% 74% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.25) 100%); }
+#grain { z-index: 91; mix-blend-mode: overlay; background-repeat: repeat; opacity: 0.07; }
+
+/* stub label (removed when a scene is built) */
+.stub-label { position: absolute; left: 0; right: 0; top: 480px; text-align: center; font-family: var(--display); font-weight: 800; font-size: 120px;
+  letter-spacing: -0.02em; line-height: 1; color: #f3f6fa; z-index: 40; }
+.stub-label small { display: block; margin-top: 18px; font-family: var(--body); font-weight: 600; font-size: 30px; letter-spacing: 0.14em; color: #93a1b8; }
+.stub-label.on-paper { color: #16233f; }
+.stub-label.on-paper small { color: #5c697f; }
+
+/* ---- lib.js components ---- */
+.pp-h { font-family: var(--display); font-weight: 800; letter-spacing: -0.02em; line-height: 1; white-space: nowrap; }
+.pp-ln { display: block; }
+.pp-mask { display: block; overflow: hidden; padding: 0.06em 0.1em 0.14em; margin: -0.06em -0.1em -0.14em; }
+.pp-w { display: inline-block; }
+.pp-c { display: inline-block; white-space: pre; }
+.pp-ring { position: absolute; left: 0; top: 0; width: 16px; height: 16px; border-radius: 50%; border: 26px solid var(--ink-accent);
+  box-shadow: 0 0 40px rgba(46, 230, 201, 0.9), inset 0 0 40px rgba(46, 230, 201, 0.6); }
+.pp-ring.thin { border-width: 4px; border-color: rgba(255, 255, 255, 0.9); box-shadow: 0 0 24px rgba(46, 230, 201, 0.8); }
+.pp-bloom { position: absolute; inset: 0; mix-blend-mode: screen; }
+.pp-flash-fill { position: absolute; inset: 0; border-radius: inherit; background: var(--ink-accent); z-index: 20; opacity: 0; }
+.pp-roll { display: inline-flex; align-items: flex-start; font-family: var(--display); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1; }
+.pp-roll-win { display: inline-block; height: 1em; overflow: hidden; }
+.pp-roll-strip { display: flex; flex-direction: column; }
+.pp-roll-d { display: block; height: 1em; text-align: center; }
+.pp-roll-static { display: inline-block; }
+.pp-wm { position: relative; }
+.pp-wm img { display: block; }
+.pp-wm-sheen { position: absolute; inset: 0; --p: -40%; background: linear-gradient(100deg, rgba(46, 230, 201, 0) calc(var(--p) - 18%), rgba(46, 230, 201, 1) var(--p),
+  rgba(255, 255, 255, 1) calc(var(--p) + 3%), rgba(46, 230, 201, 0) calc(var(--p) + 20%)); }
+.pp-vial { position: absolute; }
+.pp-vial img { display: block; width: 100%; height: 100%; }
+.pp-logo, .pp-symbol { display: block; }
+.pp-sweep { mix-blend-mode: screen; }

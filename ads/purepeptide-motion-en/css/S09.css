@@ -1,0 +1,15 @@
+/* S09 · checkout → dive — every selector prefixed by #S09. #pill lives on #stage (outside this section) and is styled
+   inline by js/scenes/S09.js. */
+#S09 .s9-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* the dive: z 50, above the rig (30) and S08's #offers (40), under #pill (55) and #fx (90) */
+#S09 .s9-dive { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 50; opacity: 0; pointer-events: none; }
+#S09 .s9-dive-clip { position: absolute; inset: 0; clip-path: inset(50% 50% 50% 50%); }
+#S09 .s9-dive-solid { position: absolute; inset: 0; background: var(--button-navy); }
+/* same gradient as #world .w-navy, laid out on the same 1920x1080 box: at f1086 the hand-off is pixel-identical */
+#S09 .s9-dive-navy { position: absolute; inset: 0; background: var(--navy-bg); opacity: 0; }
+/* the button's own label (a crop of the cart3 capture, inner navy area only: no anti-aliased rim) rides the dive */
+#S09 .s9-dive-label { position: absolute; left: 0; top: 0; transform-origin: 0 0; background-repeat: no-repeat; opacity: 0; }
+/* light sweep across the swelling button (f1066–1078): a specular band clipped to the dive's own shape, above its label */
+#S09 .s9-dive-sheen { position: absolute; inset: 0; opacity: 0; --x: -400px;
+  background: linear-gradient(105deg, rgba(255,255,255,0) calc(var(--x) - 110px), rgba(255,255,255,.07) calc(var(--x) - 40px),
+    rgba(255,255,255,.26) var(--x), rgba(255,255,255,.07) calc(var(--x) + 40px), rgba(255,255,255,0) calc(var(--x) + 110px)); }

@@ -24,7 +24,10 @@ shown on a light background.
 | `front_shadow.png` | 3840x2160 RGBA. Soft drop shadow in navy-black for a light background: three layers (contact, key, ambient), synthesised from the silhouette. |
 | `screen_rect.json` | The screen opening and the Dynamic Island in px, at 3840x2160 and 1920x1080, plus the alpha verification. |
 | `front_full_test.png` | 1920x1080 QC composite: background, shadow, `screen_home.png`, body, glass. |
-| `renders/flyin/0000-0089.png` | Fly-in, 90 frames at 30 fps, 1920x1080 RGBA, with motion blur. **Frame 89 is the front pose.** |
+| `renders/flyin/0000-0089.png` | Fly-in, 90 frames at 30 fps, 1920x1080 RGBA, with motion blur. **Frame 89 is the front pose.** Its screen is the old `screen_home.png` (uncleaned lede): **not allowed in the film** (BRIEF §10). |
+| `renders/flyin_blank/0000-0089.png` | The same fly-in with `../site/clean/screen_blank.png` (status bar + Safari bar + home hero background, no page content). Source of `flyin_land.webm`. |
+| `renders/flyin_land/0000-0067.png` | The 68-frame retime of `flyin_blank` (see below). |
+| `flyin_land.webm` | **The film's fly-in** (S06 `v-flyin`, f682–f749): 68 frames, VP9 + alpha, crf 18. Last frame = REST front pose with the blank screen. |
 | `renders/tiltout/0000-0044.png` | Tilt-out, 45 frames at 30 fps, 1920x1080 RGBA. **Frame 0 is the front pose.** The screen shows `screen_cart.png`. |
 | `hero_34.png` | 1920x1080 RGBA 3/4 hero still (the last pose of the tilt-out). |
 | `back.png` | 1920x1080 RGBA back 3/4 still (QC). |
@@ -169,3 +172,26 @@ ffmpeg -framerate 30 -i renders/flyin/%04d.png -c:v libvpx-vp9 -pix_fmt yuva420p
 ffmpeg -framerate 30 -i renders/tiltout/%04d.png -c:v libvpx-vp9 -pix_fmt yuva420p -b:v 0 -crf 18 -row-mt 1 -auto-alt-ref 0 tiltout.webm
 ```
 `<video src="assets/iphone/flyin.webm" ...>` keeps its transparency in `npx hyperframes render` (tested over a gradient).
+
+## The film's fly-in: `flyin_land.webm` (P0-B, 2026-10-07)
+
+```bash
+PY=/home/user/DevDoctor/ads/purepeptide-blender/.venv/bin/python
+cd assets/iphone
+$PY tools/render_iphone.py flyin --screen $PWD/../site/clean/screen_blank.png --out $PWD/renders/flyin_blank   # 90 f, 524 s (5.82 s/frame)
+# retime 90 -> 68 frames: output n <- source 2n (n = 0..21), then source n+22 (n = 22..67); uniform steps, no judder
+mkdir -p renders/flyin_land
+for n in $(seq 0 67); do s=$([ $n -le 21 ] && echo $((2*n)) || echo $((n+22))); cp renders/flyin_blank/$(printf %04d $s).png renders/flyin_land/$(printf %04d $n).png; done
+ffmpeg -framerate 30 -i renders/flyin_land/%04d.png -c:v libvpx-vp9 -pix_fmt yuva420p -b:v 0 -crf 18 -row-mt 1 -auto-alt-ref 0 flyin_land.webm
+```
+
+- Output: 1920x1080, 30 fps, 68 frames, `alpha_mode=1`, 1.05 MB. Decoded alpha spans 0–255 on every frame.
+- Timing in the film (start f682): source frames 0–42 play at double speed (output 0–21), then 44–89 at 1:1 (output 22–67).
+  The edge-on frame (source 20) lands on output 10 = **f692**. Because the first part is played at 2x, the glass glint
+  (source 19–21) now shows on a single output frame (10); it was 3 frames at 1:1.
+- Checked by eye at output 0 / 20 / 40 / 67: 0 is the back (camera plateau, no logo) entering from the lower right; 20 is a
+  3/4 front with the lit blank screen; 40 is nearly settled; 67 is the REST front pose.
+- **QC of the cut (f749 → f750):** source frame 89 composited over the PAPER world + `front_shadow.png`, against a browser
+  snapshot of the real 2D rig (`js/phone.js`, `.ps` showing `blank`, REST) at f750:
+  phone region mean **2.09 levels** (p99 31.7, only on the rim/border edges), screen below the status bar mean 1.32
+  (p99 18); with the decoded webm's last frame instead of the PNG: mean **2.47**. Both pass the < 3 levels target.

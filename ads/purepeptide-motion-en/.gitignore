@@ -1,3 +1,9 @@
 assets/iphone/renders/flyin/
 assets/iphone/renders/tiltout/
 *.blend1
+renders/qc*/
+renders/draft*.mp4
+renders/master_video.mp4
+assets/iphone/renders/flyin_blank/
+renders/work-*/
+renders/*.png

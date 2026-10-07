@@ -1,0 +1,30 @@
+/* S01 · hook · f0–f105 (SCENES §S01). Every selector prefixed by #S01. */
+#S01 .s01 { position: absolute; inset: 0; z-index: 20; }
+#S01 .s01-vial, #S01 .s01-clean { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+#S01 .s01-ol { fill: none; stroke: var(--ink-soft); stroke-width: 2px; stroke-linecap: round; stroke-linejoin: round; }
+#S01 .s01-tip { fill: none; stroke: var(--ink-text); stroke-width: 2.5px; stroke-linecap: round; }
+
+/* cheap stamps: ink #93A1B8 over a misregistered 3 px #3F7FE8 ghost at (3,-2), worn by a seeded rubber mask */
+#S01 .s01-stamps { position: absolute; inset: 0; }
+#S01 .s01-st { position: absolute; left: 0; top: 0; opacity: 0; white-space: nowrap; line-height: 1; color: var(--ink-soft);
+  -webkit-mask-image: url("assets/s01/distress.png"); mask-image: url("assets/s01/distress.png");
+  -webkit-mask-size: 640px 320px; mask-size: 640px 320px; -webkit-mask-repeat: repeat; mask-repeat: repeat; }
+#S01 .s01-st .g, #S01 .s01-st .i { display: block; border-color: currentColor; }
+#S01 .s01-st .g { position: absolute; left: 3px; top: -2px; color: var(--ink-cap); }
+#S01 .s01-st .i { position: relative; color: var(--ink-soft); }
+
+#S01 .f-anton { font-family: "Anton", sans-serif; font-weight: 400; }
+#S01 .f-arch9 { font-family: "Archivo", sans-serif; font-weight: 900; }
+#S01 .f-arch8 { font-family: "Archivo", sans-serif; font-weight: 800; }
+#S01 .f-plex { font-family: "IBM Plex Mono", monospace; font-weight: 500; }
+#S01 .f-tight { font-family: "Inter Tight", sans-serif; font-weight: 300; }
+#S01 .b-box { border: 5px solid; border-radius: 6px; padding: 12px 18px 10px; }
+#S01 .b-dbl { border: 10px double; border-radius: 4px; padding: 12px 18px 10px; }
+#S01 .b-pill { border: 4px solid; border-radius: 999px; padding: 8px 26px 12px; }
+#S01 .b-rule { border-bottom: 5px solid; padding-bottom: 6px; }
+
+/* the clean word: DM Sans 800, 150 px, #F3F6FA, display tracking −0.02em (placement measured by tools/s01_build.py) */
+#S01 .s01-pure { font-family: "DM Sans", sans-serif; font-weight: 800; font-size: 150px; letter-spacing: -3px; fill: var(--ink-text); opacity: 0; }
+
+/* polish: light pulses running the glass outline from the clean-word impact (js: S01 "rings through the glass") */
+#S01 .s01-ring { fill: none; stroke: var(--ink-text); stroke-width: 2.5px; stroke-linecap: round; opacity: 0; }

@@ -1,0 +1,43 @@
+/* S03 · proof on glass — every selector prefixed by #S03. Baselines: DM Sans top = base − 0.841em, Inter top = base − 0.8633em
+   (line-height 1). Left edge x 150 for every line (the 99% ink edge, the line start, the claims). */
+
+/* plate guards: z 13 sits above v-hero / v-turn (11) and below the type (20) */
+#S03 .s3-feather { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 13; opacity: 0; }
+/* hero: a soft frame-edge guard while the plate drifts right and pushes in (left seam + top/bottom edges) */
+#S03 .s3-fh {
+  background:
+    linear-gradient(90deg, #000 0, rgba(0, 0, 0, 0.92) 170px, rgba(0, 0, 0, 0) 420px),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0, rgba(0, 0, 0, 0) 140px),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0, rgba(0, 0, 0, 0) 160px);
+}
+/* turn: left feather, black at x 0 → transparent at x 760, so the claims on the left read on black */
+#S03 .s3-ft { background: linear-gradient(90deg, #000 0, rgba(0, 0, 0, 0.94) 300px, rgba(0, 0, 0, 0) 760px); }
+
+/* glass sweep, clipped to the turn plate's vial silhouette below the crimp (x +300 applied, measured on f360/f390:
+   neck x 1134–1378 from y 258, shoulder to y 380, body x 1075–1441 to y 935). A screen-blended band cannot brighten
+   the white label, so it is the dark glass of the neck, shoulder and heel that carries the sweep across the label. */
+#S03 .s3-sweepbox { position: absolute; left: 1074px; top: 258px; width: 368px; height: 678px; overflow: hidden; z-index: 14;
+  mix-blend-mode: screen; opacity: 0;
+  clip-path: polygon(63px 0, 301px 0, 304px 62px, 338px 82px, 357px 102px, 362px 122px, 363px 660px, 346px 677px,
+    22px 677px, 5px 660px, 6px 122px, 9px 102px, 28px 82px, 60px 62px); }
+#S03 .s3-sweep { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+
+/* "99%" glyph wrappers: 1000 font units tall (y −850…150), baseline at 850/1000 of the box */
+#S03 .s3-n99 { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 150px 700px; }
+#S03 .s3-g { position: absolute; top: 0; overflow: visible; }
+#S03 .s3-g svg { display: block; overflow: visible; }
+#S03 .s3-g path { fill: var(--ink-text); }
+
+#S03 .s3-txt { position: absolute; left: 150px; white-space: nowrap; }
+#S03 .s3-min { top: 740.6px; font: 600 34px/1 var(--body); letter-spacing: 0.18em; color: var(--ink-soft); }
+/* EVERY BATCH rises out of the purity line: its mask ends at y 551 (the line's top edge) */
+#S03 .s3-every { top: 431.1px; font: 800 120px/1 var(--display); letter-spacing: -0.02em; color: var(--ink-text);
+  padding-bottom: 0; margin-bottom: 0; }
+#S03 .s3-w { display: inline-block; }
+#S03 .s3-ind { top: 577.5px; font: 600 40px/1 var(--body); letter-spacing: 0.12em; color: var(--ink-soft); }
+#S03 .s3-jan { top: 637.5px; font: 600 40px/1 var(--body); letter-spacing: 0.12em; color: var(--ink-soft); }
+
+#S03 .s3-morph { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; opacity: 0; }
+#S03 .s3-path { fill: var(--ink-text); fill-rule: evenodd; stroke: var(--ink-accent); stroke-linecap: round; stroke-linejoin: round; }
+#S03 .s3-glint { position: absolute; left: 0; top: 0; width: 180px; height: 30px; opacity: 0; mix-blend-mode: screen;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255, 255, 255, 0.95) 0, rgba(190, 255, 244, 0.55) 30%, rgba(46, 230, 201, 0) 100%); }

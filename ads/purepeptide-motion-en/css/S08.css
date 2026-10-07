@@ -1,0 +1,3 @@
+/* S08 · the cart does the math — every selector prefixed by #S08. The offer modules (#offers, stage level) and the rig
+   overlays are styled inline by js/scenes/S08.js because they live outside this section (see html/S08.html). */
+#S08 .s8-root { pointer-events: none; }

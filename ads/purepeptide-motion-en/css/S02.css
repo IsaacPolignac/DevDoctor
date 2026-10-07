@@ -1,0 +1,5 @@
+/* S02 · type-vial — every selector prefixed by #S02. The type-vial is the stage video v-typevial (z 10); the real vial is
+   v-hero (z 11, masked by js/scenes/S02.js over f262–f278). The light band sits on top of both, screen-blended against the
+   stage: it is a direct child of the section (no stacking context of its own other than its z-index) so the blend reaches
+   the video pixels. */
+#S02 .s02-band { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 40; mix-blend-mode: screen; opacity: 0; overflow: visible; }

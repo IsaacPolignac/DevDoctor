@@ -1,0 +1,12 @@
+/* S10 · brand + stop. Every selector is prefixed by #S10: #S10-brand lives on #stage (moved there by js/scenes/S10.js). */
+#S10-brand { z-index: 40; opacity: 0; }
+/* card push origin: between the wordmark and the tagline, so both stay on their contract lines (±4 px at s 1.0344) */
+#S10-brand .s10-cam { transform-origin: 960px 480px; }
+/* wordmark: width 720, centre y 408 → box y 372–445 (720 × 62/611 = 73.06) */
+#S10-brand .s10-wm { position: absolute; left: 600px; top: 372px; }
+/* tagline: DM Sans 800 96 px, one line, centred on y 560 (line box 512–608) */
+#S10-brand .s10-tag { position: absolute; left: 0; top: 512px; width: 1920px; height: 96px; text-align: center; white-space: nowrap;
+  font-family: var(--display); font-weight: 800; font-size: 96px; line-height: 96px; letter-spacing: -0.02em; color: var(--navy-text);
+  -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+#S10-brand .s10-w { display: inline-block; }
+#S10-brand .s10-acc { color: var(--navy-accent); }

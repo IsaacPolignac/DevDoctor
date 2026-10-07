@@ -1,0 +1,6 @@
+/* S11 · end card. Every selector prefixed by #S11 (the CTA label lives inside #pill on #stage: styled inline by S11.js). */
+#S11 .s11-mark { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+/* legal: Inter 500 26 px #C3CBD6, centred on y 960 (line box 945–975 + the mask's padding) */
+#S11 .s11-legal { position: absolute; left: 0; width: 1920px; top: 945px; text-align: center; }
+#S11 .s11-legal .pp-ln { font-family: var(--body); font-weight: 500; font-size: 26px; line-height: 30px; letter-spacing: 0.005em;
+  color: var(--navy-legal); white-space: nowrap; -webkit-font-smoothing: antialiased; }

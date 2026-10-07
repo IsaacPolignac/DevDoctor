@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>S02 type-vial plate (P0-E)</title>
+    <!-- S02 / P0-E: rendered offline to assets/plates/typevial.mp4 by tools/render_typevial.sh (174 f, f105–f278). -->
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: block; }
+      @font-face { font-family: "DM Sans"; src: url("assets/fonts/dm-sans-latin-800-normal.woff2") format("woff2"); font-weight: 800; font-display: block; }
+      html, body { margin: 0; background: #000; }
+      #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+      #cv { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="5.8">
+      <canvas id="cv" width="1920" height="1080"></canvas>
+    </div>
+    <script src="js/cues.js"></script>
+    <script src="js/vo.js"></script>
+    <script src="js/lib.js"></script>
+    <script src="assets/typevial/silhouette.js"></script>
+    <script src="s01.js"></script>
+    <script src="typevial.js"></script>
+    <script>
+      // One paused timeline; a single seek-safe drive paints absolute time T = 3.5 + local t.
+      window.__ready = window.TV.init(document.getElementById("cv")).then(function () {
+        var tl = gsap.timeline({ paused: true });
+        PP.drive(tl, function (T) { TV.draw(T); }, 3.5, 3.5 + 5.8, 0, 5.8, "none");
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+        if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
+      });
+    </script>
+  </body>
+</html>

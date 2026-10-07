@@ -1,0 +1,72 @@
+<!-- S04 · "Shipped cold… 24 → 10" · f426–f532 (14.200–17.733 s) · INK → PAPER. Plates: v-turn (dims out) → v-cold (inside the O, then full frame).
+     Built by js/scenes/S04.js: COLD is drawn from DM Sans 800 outlines (assets/type/cold_O_counter.json, embedded) so the v-cold
+     clip-path is the exact counter of the O. -->
+<!-- plate guards (z 13: above the stage videos 10–12, below the type 20): S03's left feather carried over the hand-off + the cold air -->
+<div class="s4-feather" aria-hidden="true"></div>
+<div class="s4-atmo" aria-hidden="true"></div>
+<img class="s4-preload" src="assets/fx/frost_tile.png" alt="" aria-hidden="true">
+<svg class="s4-defs" width="0" height="0" aria-hidden="true">
+  <defs>
+    <!-- chromatic aberration (≤ 2 px), f468–f474 only: R one way, G+B the other. dx driven per frame. -->
+    <filter id="s4-ca" x="-2%" y="-2%" width="104%" height="104%" color-interpolation-filters="sRGB">
+      <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
+      <feOffset in="r" dx="0" dy="0" result="ro" />
+      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" result="gb" />
+      <feOffset in="gb" dx="0" dy="0" result="gbo" />
+      <feBlend in="ro" in2="gbo" mode="screen" />
+    </filter>
+    <filter id="s4-cav" x="-2%" y="-2%" width="104%" height="104%" color-interpolation-filters="sRGB">
+      <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
+      <feOffset in="r" dx="0" dy="0" result="ro" />
+      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" result="gb" />
+      <feOffset in="gb" dx="0" dy="0" result="gbo" />
+      <feBlend in="ro" in2="gbo" mode="screen" />
+    </filter>
+  </defs>
+</svg>
+<div class="z-back s4-back">
+  <!-- the teal segment handed over by S03 at f426 ((485–605, 552), 4 px, glow) → a 10 px point at (960,520) -->
+  <svg class="s4-seg" width="1920" height="1080" viewBox="0 0 1920 1080" aria-hidden="true">
+    <path class="s4-trail" d="" />
+    <path class="s4-line" d="M485 552L605 552" />
+  </svg>
+  <div class="s4-ring" aria-hidden="true"></div>
+  <!-- the zoom group: SHIPPED + COLD fly through the O together (camera dolly); CA filter on the untransformed wrapper -->
+  <div class="s4-zwrap">
+    <div class="s4-zoom">
+      <div class="pp-mask s4-ship"><div class="pp-ln">SHIPPED</div></div>
+      <div class="s4-coldwrap" aria-label="COLD">
+        <svg class="s4-cold" width="1920" height="1080" viewBox="0 0 1920 1080">
+          <defs>
+            <pattern id="s4-frost" patternUnits="userSpaceOnUse" width="1280" height="1280">
+              <image href="assets/fx/frost_tile.png" x="0" y="0" width="1280" height="1280" preserveAspectRatio="none" />
+            </pattern>
+            <!-- frost creeps in from the glyph edges: a growing stroke of the outlines, broken up into crystal fronts -->
+            <filter id="s4-fdisp" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+              <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="440" result="n" />
+              <feDisplacementMap in="SourceGraphic" in2="n" scale="34" xChannelSelector="R" yChannelSelector="G" result="d" />
+              <feGaussianBlur in="d" stdDeviation="2.5" />
+            </filter>
+            <g id="s4-gl"></g>
+            <mask id="s4-fm" maskUnits="userSpaceOnUse" x="-200" y="-200" width="2320" height="1480">
+              <g filter="url(#s4-fdisp)"><use class="s4-fstroke" href="#s4-gl" fill="none" stroke="#fff" stroke-width="0" stroke-linejoin="round" /></g>
+            </mask>
+          </defs>
+          <use class="s4-gbase" href="#s4-gl" fill="#F3F6FA" />
+          <use class="s4-gfrost" href="#s4-gl" fill="url(#s4-frost)" mask="url(#s4-fm)" opacity="0" />
+        </svg>
+      </div>
+    </div>
+  </div>
+  <!-- WITHIN 24 HOURS → TO 10 COUNTRIES, right of the vial on v-cold (clipped to the counter until f472) -->
+  <div class="s4-col">
+    <div class="pp-mask s4-lab s4-top s4-within"><div class="pp-ln">WITHIN</div></div>
+    <div class="pp-mask s4-lab s4-top s4-to"><div class="pp-ln">TO</div></div>
+    <div class="s4-num" aria-label="24 → 10"></div>
+    <div class="pp-mask s4-lab s4-bot s4-hours"><div class="pp-ln">HOURS</div></div>
+    <div class="pp-mask s4-lab s4-bot s4-countries"><div class="pp-ln">COUNTRIES</div></div>
+    <div class="s4-dots" aria-hidden="true"></div>
+  </div>
+</div>
+<!-- the light white-out (f522–f531): PAPER revealed by a radial mask growing up from the floor line, above the type -->
+<div class="z-front"><div class="s4-white" aria-hidden="true"></div></div>

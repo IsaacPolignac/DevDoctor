@@ -1,0 +1,24 @@
+<!-- S09 · checkout-ready → the button becomes the world · f1030–f1086 (34.333–36.200 s) · PAPER → NAVY. Built by js/scenes/S09.js.
+     In this section: the #dive layer (z 50: the "Proceed to checkout" button growing into the NAVY world) and the
+     chromatic-aberration filter (f1078–f1086, on #phone and on the dive).
+     Outside it (created by S09.js on #stage, because it outlives this section): #pill (z 55), the lifted URL-pill clone,
+     handed to S10 at f1086. Handle: PP.S09.pill. -->
+<svg class="s9-defs" width="0" height="0" aria-hidden="true">
+  <filter id="s9-ca" x="-2%" y="-2%" width="104%" height="104%" color-interpolation-filters="sRGB">
+    <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
+    <feOffset in="r" dx="0" dy="0" result="ro" />
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g" />
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b" />
+    <feOffset in="b" dx="0" dy="0" result="bo" />
+    <feBlend in="ro" in2="g" mode="screen" result="rg" />
+    <feBlend in="rg" in2="bo" mode="screen" />
+  </filter>
+</svg>
+<div class="s9-dive">
+  <div class="s9-dive-clip">
+    <div class="s9-dive-solid"></div>
+    <div class="s9-dive-navy"></div>
+  </div>
+  <div class="s9-dive-label"></div>
+  <div class="s9-dive-sheen"></div>
+</div>

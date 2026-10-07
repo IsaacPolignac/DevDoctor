@@ -1,0 +1,4 @@
+/* S06 · fly-in → H1 · PAPER. Every selector prefixed by #S06 (inlined: url() paths root-relative). */
+#S06 .s6-back { pointer-events: none; }
+/* same 3840x2160 canvas as the rig's layers, shown at 1920x1080: identical pixels to #phone's shadow at REST */
+#S06 .s6-shadow { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; opacity: 0; transform-origin: 959.41px 539.18px; }

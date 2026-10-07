@@ -1,0 +1,10 @@
+/* S07 · home live → product → add to cart · PAPER. Every selector prefixed by #S07 (inlined: url() paths root-relative).
+   #type-math ("Let the cart / do the math.") lives under #stage and is styled inline by S07.js. */
+#S07 .s7-root { pointer-events: none; }
+/* category callout: Inter 600 caps 34 px, +0.16em, ink, left x 160, baseline 520 (top set by S07.js from font metrics) */
+#S07 .s7-cat { position: absolute; left: 160px; top: 0; white-space: nowrap; }
+#S07 .s7-cat-ln { font-family: var(--body); font-weight: 600; font-size: 34px; line-height: 34px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--paper-ink); }
+#S07 .s7-lead { position: absolute; left: 0; top: 0; overflow: visible; }
+#S07 .s7-lead-ln { stroke: var(--h1-teal); stroke-width: 2; stroke-linecap: round; fill: none; }
+#S07 .s7-lead-dot { fill: var(--h1-teal); }

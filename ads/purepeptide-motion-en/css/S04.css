@@ -1,0 +1,58 @@
+/* S04 · cold — every selector prefixed by #S04. Baselines (line-height 1): DM Sans top = base − 0.841em, Inter top = base − 0.8633em.
+   COLD is an SVG drawn from the DM Sans 800 outlines (js/scenes/S04.js); the type column sits right of the v-cold vial (x ≥ 1240). */
+
+/* plate guards (z 13, above the stage videos 10–12, below the type 20) */
+#S04 .s4-feather { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 13; opacity: 0;
+  /* identical to S03's .s3-ft so the f426 hand-off is seamless */
+  background: linear-gradient(90deg, #000 0, rgba(0, 0, 0, 0.94) 300px, rgba(0, 0, 0, 0) 760px); }
+#S04 .s4-atmo { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 13; opacity: 0;
+  background: radial-gradient(ellipse 760px 330px at 960px 560px, rgba(52, 132, 214, 0.2) 0, rgba(52, 132, 214, 0.07) 55%, rgba(52, 132, 214, 0) 100%); }
+#S04 .s4-preload { position: absolute; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; }
+#S04 .s4-defs { position: absolute; left: 0; top: 0; width: 0; height: 0; overflow: hidden; }
+
+/* the teal segment / point (S03 hand-off: stroke 4 px #2EE6C9, round caps, the same glow) */
+#S04 .s4-seg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible;
+  filter: drop-shadow(0 0 12px rgba(46, 230, 201, 0.6)); }
+#S04 .s4-seg path { fill: none; stroke: var(--ink-accent); stroke-linecap: round; }
+#S04 .s4-line { stroke-width: 4; }
+#S04 .s4-trail { stroke-width: 4; opacity: 0; }
+#S04 .s4-ring { position: absolute; left: 0; top: 0; width: 0; height: 0; border-radius: 50%; opacity: 0;
+  border: 2px solid rgba(46, 230, 201, 0.95); box-shadow: 0 0 22px rgba(46, 230, 201, 0.55), inset 0 0 14px rgba(46, 230, 201, 0.35); }
+
+/* zoom group: wrapper (untransformed: filters in stage px) → transformed group */
+#S04 .s4-zwrap { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+#S04 .s4-zoom { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+#S04 .s4-coldwrap { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; opacity: 0; transform-origin: 0 0; } /* burst scale about (960,520) is a matrix set by the rig */
+#S04 .s4-cold { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+
+/* SHIPPED: Inter 600 caps 34 px, #93A1B8, centred, baseline y 300 (top = 300 − 0.8633 × 34) */
+#S04 .s4-ship { position: absolute; left: 0; top: 270.6px; width: 1920px; margin-left: 0; margin-right: 0; padding-left: 0.18em; padding-right: 0;
+  text-align: center; white-space: nowrap; font: 600 34px/1 var(--body); letter-spacing: 0.18em; color: var(--ink-soft); }
+
+/* the column right of the vial: WITHIN / TO (30 px, baseline 330) · the number (300 px, baseline 600) · HOURS / COUNTRIES (44 px, baseline 670) */
+#S04 .s4-col { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+#S04 .s4-lab { position: absolute; left: 1252px; white-space: nowrap; font-weight: 600; font-family: var(--body); line-height: 1; letter-spacing: 0.18em; }
+#S04 .s4-top { top: 304.1px; font-size: 30px; color: var(--ink-soft); }
+#S04 .s4-bot { top: 632px; font-size: 44px; color: var(--ink-text); }
+#S04 .s4-num { position: absolute; left: 1240px; top: 348px; height: 300px; display: flex; perspective: 1200px; perspective-origin: 50% 50%;
+  font: 800 300px/1 var(--display); color: var(--ink-text); }
+#S04 .s4-cell { position: relative; width: 0.635em; height: 1em; margin-right: -0.02em; transform-style: preserve-3d; }
+#S04 .s4-cell:last-child { margin-right: 0; }
+#S04 .s4-roll { position: absolute; left: -0.2em; top: 0; width: calc(100% + 0.4em); height: 1em; overflow: hidden;
+  /* the roll window is feathered (not sliced): digits fade in/out over its top/bottom 10 %, clear of the landed ink (cap top at 14 %) */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%); }
+#S04 .s4-strip { display: flex; flex-direction: column; }
+#S04 .s4-d { display: block; height: 1em; text-align: center; }
+/* split-flap halves: the hinge is the cell's horizontal mid-line */
+/* halves and roll window overhang the cell by 0.2em each side: wide glyphs (0) are never clipped */
+#S04 .s4-half { position: absolute; left: -0.2em; width: calc(100% + 0.4em); height: 0.5em; overflow: hidden; opacity: 0; backface-visibility: hidden; }
+#S04 .s4-half.top { top: 0; height: calc(0.5em + 1px); transform-origin: calc(50%) calc(100% - 1px); } /* 1 px overlap over the hinge: no AA seam */
+#S04 .s4-half.bot { top: 0.5em; transform-origin: 50% 0; }
+#S04 .s4-half span { position: absolute; left: 0; width: 100%; height: 1em; text-align: center; }
+#S04 .s4-half.top span { top: 0; }
+#S04 .s4-half.bot span { top: -0.5em; }
+#S04 .s4-dot { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: var(--ink-accent);
+  box-shadow: 0 0 10px rgba(46, 230, 201, 0.55); transform: scale(0); }
+
+/* the white-out: exactly the PAPER world's background (so f531 = f532), revealed by a radial mask from the floor line */
+#S04 .s4-white { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; opacity: 0; background: var(--paper-key), var(--paper-bg); }

@@ -1,0 +1,7 @@
+<!-- S08 · the cart does the math → offer triad · f849–f1030 (28.300–34.333 s) · PAPER. Built by js/scenes/S08.js.
+     Everything S08 draws lives OUTSIDE this section on purpose:
+       - cart reactions (press continuations, discount-row wipes, price rolls, ship-bar fills, unlock burst, bar glow)
+         are page-pt overlays inside the rig (PH.ov(cart1|cart2|cart3)), so they ride the camera and the page scroll;
+       - the offer modules A/B/C are #offers, a stage-level layer (z 40) created by S08.js, because they must stay on
+         screen into S09 (offer frame holds to f1054, S09 masks them out f1052–f1066). Handle: PP.S08.modules. -->
+<div class="z-front s8-root"></div>
