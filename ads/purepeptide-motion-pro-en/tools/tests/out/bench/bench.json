@@ -1,0 +1,18 @@
+{
+ "blender": "5.0.1",
+ "threads": 4,
+ "adaptive": true,
+ "adaptive_threshold": 0.019999999552965164,
+ "results": [
+  {
+   "name": "phone_720p_s16",
+   "scene": "phone",
+   "res": "1280x720",
+   "samples": 16,
+   "oidn": true,
+   "border": false,
+   "seconds": 6.45,
+   "loadavg_before": 2.68
+  }
+ ]
+}

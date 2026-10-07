@@ -1,0 +1,3031 @@
+{
+ "captured": "2026-10-07",
+ "source": "https://purepeptide.care",
+ "viewport": "402x874 @3x",
+ "note": "coordinates in page points; every hide is visibility:hidden so boxes equal raw/meta.json; a page point (px,py) at scroll s is on screen at (px, 62+py-s)",
+ "home": {
+  "url": "https://purepeptide.care/?lang=en",
+  "height_pt": 900,
+  "page_height_pt": 9117,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n0",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "0",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "eyebrow",
+    "text": "RESEARCH PEPTIDES",
+    "x": 129,
+    "y": 337,
+    "w": 143,
+    "h": 11
+   },
+   {
+    "tag": "H1",
+    "cls": "hero__title",
+    "text": "Purity,\nproven.",
+    "x": 41,
+    "y": 354,
+    "w": 320,
+    "h": 67
+   },
+   {
+    "tag": "SPAN",
+    "cls": "hero__accent",
+    "text": "Purity,",
+    "x": 154,
+    "y": 349,
+    "w": 94,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "accent-dot",
+    "text": ".",
+    "x": 249,
+    "y": 382,
+    "w": 7,
+    "h": 42
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg",
+    "text": "Explore the catalog",
+    "x": 41,
+    "y": 542,
+    "w": 320,
+    "h": 50
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--ghost btn--lg",
+    "text": "Learn more",
+    "x": 41,
+    "y": 602,
+    "w": 320,
+    "h": 50
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "PurePeptide research vial",
+    "x": 122,
+    "y": 115,
+    "w": 161,
+    "h": 214
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "HPLC ≥ 99% PURITY",
+    "x": 14,
+    "y": 698,
+    "w": 164,
+    "h": 18
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__dot",
+    "text": "·",
+    "x": 194,
+    "y": 701,
+    "w": 3,
+    "h": 12
+   },
+   {
+    "tag": "SPAN",
+    "cls": "marquee__item",
+    "text": "THIRD-PARTY TESTED",
+    "x": 213,
+    "y": 698,
+    "w": 175,
+    "h": 18
+   }
+  ],
+  "els": {
+   "ship_bar": null,
+   "ship_msg": null,
+   "ship_track": null,
+   "ship_fill": null,
+   "h1": {
+    "x": 41,
+    "y": 353.88,
+    "w": 320,
+    "h": 66.53,
+    "text": "Purity,\nproven.",
+    "style": null
+   },
+   "eyebrow": {
+    "x": 129.34,
+    "y": 337.28,
+    "w": 143.31,
+    "h": 11,
+    "text": "RESEARCH PEPTIDES",
+    "style": null
+   },
+   "checkout": null,
+   "add_to_cart": null,
+   "cart_note": null,
+   "badge": {
+    "x": 321,
+    "y": 62.28,
+    "w": 16,
+    "h": 16,
+    "text": "0"
+   },
+   "plus": [],
+   "bundle": []
+  },
+  "crop": [
+   0,
+   900
+  ],
+  "paint": {
+   "y": 734,
+   "color": "rgb(251, 252, 254)"
+  },
+  "card_closed": null,
+  "marquee": {
+   "translateX": 14,
+   "window": [
+    "HPLC ≥ 99% purity",
+    "Third-party tested"
+   ]
+  },
+  "hidden_sweep": []
+ },
+ "product": {
+  "url": "https://purepeptide.care/product/bpc-157-tb-500/",
+  "height_pt": 1900,
+  "page_height_pt": 5748,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n0",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "0",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "CATALOG",
+    "x": 20,
+    "y": 170,
+    "w": 63,
+    "h": 14
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "/",
+    "x": 93,
+    "y": 170,
+    "w": 6,
+    "h": 14
+   },
+   {
+    "tag": "IMG",
+    "cls": "pd__photo vial-swap",
+    "text": "BPC-157 / TB-500 vial",
+    "x": 129,
+    "y": 225,
+    "w": 143,
+    "h": 260
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill pd__mediapill--dot",
+    "text": "THIRD-PARTY TESTED",
+    "x": 31,
+    "y": 481,
+    "w": 149,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "PURITY 99.0%",
+    "x": 188,
+    "y": 481,
+    "w": 96,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "RESEARCH USE ONLY",
+    "x": 31,
+    "y": 515,
+    "w": 131,
+    "h": 26
+   },
+   {
+    "tag": "H1",
+    "cls": "pd__name",
+    "text": "BPC-157 / TB-500",
+    "x": 20,
+    "y": 614,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "P",
+    "cls": "pd__subtitle",
+    "text": "BPC-157 (PENTADECAPEPTIDE) + TB-500 (THYMOSIN Β4 FRAGMENT)",
+    "x": 20,
+    "y": 568,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__chip",
+    "text": "10 mg",
+    "x": 20,
+    "y": 889,
+    "w": 47,
+    "h": 22
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 25,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "INPUT",
+    "cls": "",
+    "text": "1",
+    "x": 79,
+    "y": 969,
+    "w": 56,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 145,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt is-active",
+    "text": "1 vial",
+    "x": 20,
+    "y": 1084,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 280,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 34,
+    "h": 17
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "MOST POPULAR\n2 vials\n−5%",
+    "x": 20,
+    "y": 1160,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--popular",
+    "text": "MOST POPULAR",
+    "x": 268,
+    "y": 1183,
+    "w": 99,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "2 vials\n−5%",
+    "x": 87,
+    "y": 1183,
+    "w": 167,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "2 vials",
+    "x": 87,
+    "y": 1184,
+    "w": 45,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−5%",
+    "x": 140,
+    "y": 1183,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "BEST VALUE\n3+ vials\n−8%",
+    "x": 20,
+    "y": 1236,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--value",
+    "text": "BEST VALUE",
+    "x": 287,
+    "y": 1259,
+    "w": 80,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "3+ vials\n−8%",
+    "x": 90,
+    "y": 1259,
+    "w": 183,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "3+ vials",
+    "x": 90,
+    "y": 1260,
+    "w": 55,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−8%",
+    "x": 153,
+    "y": 1259,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 20,
+    "y": 1323,
+    "w": 94,
+    "h": 41
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 20,
+    "y": 1323,
+    "w": 17,
+    "h": 41
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--primary btn--lg add-btn",
+    "text": "Add to cart · $84.99",
+    "x": 20,
+    "y": 1443,
+    "w": 362,
+    "h": 52
+   }
+  ],
+  "els": {
+   "ship_bar": null,
+   "ship_msg": null,
+   "ship_track": null,
+   "ship_fill": null,
+   "h1": {
+    "x": 20,
+    "y": 613.63,
+    "w": 362,
+    "h": 34.67,
+    "text": "BPC-157 / TB-500",
+    "style": null
+   },
+   "eyebrow": null,
+   "checkout": null,
+   "add_to_cart": null,
+   "cart_note": null,
+   "badge": {
+    "x": 321,
+    "y": 62.28,
+    "w": 16,
+    "h": 16,
+    "text": "0"
+   },
+   "plus": [
+    {
+     "x": 145,
+     "y": 969.22,
+     "w": 44,
+     "h": 44
+    }
+   ],
+   "bundle": [
+    {
+     "x": 20,
+     "y": 1083.81,
+     "w": 362,
+     "h": 66,
+     "text": "1 vial",
+     "active": true
+    },
+    {
+     "x": 20,
+     "y": 1159.81,
+     "w": 362,
+     "h": 66,
+     "text": "MOST POPULAR 2 vials −5%",
+     "active": false
+    },
+    {
+     "x": 20,
+     "y": 1235.81,
+     "w": 362,
+     "h": 66,
+     "text": "BEST VALUE 3+ vials −8%",
+     "active": false
+    }
+   ]
+  },
+  "crop": [
+   0,
+   1900
+  ],
+  "paint": {
+   "y": 1500,
+   "color": "rgb(255, 255, 255)"
+  },
+  "card_closed": null,
+  "marquee": null,
+  "hidden_sweep": [
+   {
+    "cls": "pd__purity pp-clean-hide",
+    "text": "",
+    "y": 706
+   }
+  ],
+  "bundle_active": [
+   true,
+   false,
+   false
+  ]
+ },
+ "product_2": {
+  "url": "https://purepeptide.care/product/bpc-157-tb-500/",
+  "height_pt": 1900,
+  "page_height_pt": 5748,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n0",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "0",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "CATALOG",
+    "x": 20,
+    "y": 170,
+    "w": 63,
+    "h": 14
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "/",
+    "x": 93,
+    "y": 170,
+    "w": 6,
+    "h": 14
+   },
+   {
+    "tag": "IMG",
+    "cls": "pd__photo vial-swap",
+    "text": "BPC-157 / TB-500 vial",
+    "x": 129,
+    "y": 225,
+    "w": 143,
+    "h": 260
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill pd__mediapill--dot",
+    "text": "THIRD-PARTY TESTED",
+    "x": 31,
+    "y": 481,
+    "w": 149,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "PURITY 99.0%",
+    "x": 188,
+    "y": 481,
+    "w": 96,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "RESEARCH USE ONLY",
+    "x": 31,
+    "y": 515,
+    "w": 131,
+    "h": 26
+   },
+   {
+    "tag": "H1",
+    "cls": "pd__name",
+    "text": "BPC-157 / TB-500",
+    "x": 20,
+    "y": 614,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "P",
+    "cls": "pd__subtitle",
+    "text": "BPC-157 (PENTADECAPEPTIDE) + TB-500 (THYMOSIN Β4 FRAGMENT)",
+    "x": 20,
+    "y": 568,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__chip",
+    "text": "10 mg",
+    "x": 20,
+    "y": 889,
+    "w": 47,
+    "h": 22
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 25,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "INPUT",
+    "cls": "",
+    "text": "2",
+    "x": 79,
+    "y": 969,
+    "w": 56,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 145,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "1 vial",
+    "x": 20,
+    "y": 1084,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 280,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 34,
+    "h": 17
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt is-active",
+    "text": "MOST POPULAR\n2 vials\n−5%",
+    "x": 20,
+    "y": 1160,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--popular",
+    "text": "MOST POPULAR",
+    "x": 268,
+    "y": 1183,
+    "w": 99,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "2 vials\n−5%",
+    "x": 87,
+    "y": 1183,
+    "w": 167,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "2 vials",
+    "x": 87,
+    "y": 1184,
+    "w": 45,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−5%",
+    "x": 140,
+    "y": 1183,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "BEST VALUE\n3+ vials\n−8%",
+    "x": 20,
+    "y": 1236,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--value",
+    "text": "BEST VALUE",
+    "x": 287,
+    "y": 1259,
+    "w": 80,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "3+ vials\n−8%",
+    "x": 90,
+    "y": 1259,
+    "w": 183,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "3+ vials",
+    "x": 90,
+    "y": 1260,
+    "w": 55,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−8%",
+    "x": 153,
+    "y": 1259,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--primary btn--lg add-btn",
+    "text": "Add to cart · $161.48",
+    "x": 20,
+    "y": 1443,
+    "w": 362,
+    "h": 52
+   }
+  ],
+  "els": {
+   "ship_bar": null,
+   "ship_msg": null,
+   "ship_track": null,
+   "ship_fill": null,
+   "h1": {
+    "x": 20,
+    "y": 613.63,
+    "w": 362,
+    "h": 34.67,
+    "text": "BPC-157 / TB-500",
+    "style": null
+   },
+   "eyebrow": null,
+   "checkout": null,
+   "add_to_cart": null,
+   "cart_note": null,
+   "badge": {
+    "x": 321,
+    "y": 62.28,
+    "w": 16,
+    "h": 16,
+    "text": "0"
+   },
+   "plus": [
+    {
+     "x": 145,
+     "y": 969.22,
+     "w": 44,
+     "h": 44
+    }
+   ],
+   "bundle": [
+    {
+     "x": 20,
+     "y": 1083.81,
+     "w": 362,
+     "h": 66,
+     "text": "1 vial",
+     "active": false
+    },
+    {
+     "x": 20,
+     "y": 1159.81,
+     "w": 362,
+     "h": 66,
+     "text": "MOST POPULAR 2 vials −5%",
+     "active": true
+    },
+    {
+     "x": 20,
+     "y": 1235.81,
+     "w": 362,
+     "h": 66,
+     "text": "BEST VALUE 3+ vials −8%",
+     "active": false
+    }
+   ]
+  },
+  "crop": [
+   0,
+   1900
+  ],
+  "paint": {
+   "y": 1500,
+   "color": "rgb(255, 255, 255)"
+  },
+  "card_closed": null,
+  "marquee": null,
+  "hidden_sweep": [
+   {
+    "cls": "pd__purity pp-clean-hide",
+    "text": "",
+    "y": 706
+   }
+  ]
+ },
+ "product_3": {
+  "url": "https://purepeptide.care/product/bpc-157-tb-500/",
+  "height_pt": 1900,
+  "page_height_pt": 5748,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n0",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "0",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "",
+    "text": "CATALOG",
+    "x": 20,
+    "y": 170,
+    "w": 63,
+    "h": 14
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "/",
+    "x": 93,
+    "y": 170,
+    "w": 6,
+    "h": 14
+   },
+   {
+    "tag": "IMG",
+    "cls": "pd__photo vial-swap",
+    "text": "BPC-157 / TB-500 vial",
+    "x": 129,
+    "y": 225,
+    "w": 143,
+    "h": 260
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill pd__mediapill--dot",
+    "text": "THIRD-PARTY TESTED",
+    "x": 31,
+    "y": 481,
+    "w": 149,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "PURITY 99.0%",
+    "x": 188,
+    "y": 481,
+    "w": 96,
+    "h": 26
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pd__mediapill",
+    "text": "RESEARCH USE ONLY",
+    "x": 31,
+    "y": 515,
+    "w": 131,
+    "h": 26
+   },
+   {
+    "tag": "H1",
+    "cls": "pd__name",
+    "text": "BPC-157 / TB-500",
+    "x": 20,
+    "y": 614,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "P",
+    "cls": "pd__subtitle",
+    "text": "BPC-157 (PENTADECAPEPTIDE) + TB-500 (THYMOSIN Β4 FRAGMENT)",
+    "x": 20,
+    "y": 568,
+    "w": 362,
+    "h": 35
+   },
+   {
+    "tag": "SPAN",
+    "cls": "product__chip",
+    "text": "10 mg",
+    "x": 20,
+    "y": 889,
+    "w": 47,
+    "h": 22
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 25,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "INPUT",
+    "cls": "",
+    "text": "3",
+    "x": 79,
+    "y": 969,
+    "w": 56,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 145,
+    "y": 969,
+    "w": 44,
+    "h": 44
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "1 vial",
+    "x": 20,
+    "y": 1084,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 280,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "1 vial",
+    "x": 87,
+    "y": 1108,
+    "w": 34,
+    "h": 17
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt",
+    "text": "MOST POPULAR\n2 vials\n−5%",
+    "x": 20,
+    "y": 1160,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--popular",
+    "text": "MOST POPULAR",
+    "x": 268,
+    "y": 1183,
+    "w": 99,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "2 vials\n−5%",
+    "x": 87,
+    "y": 1183,
+    "w": 167,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "2 vials",
+    "x": 87,
+    "y": 1184,
+    "w": 45,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−5%",
+    "x": 140,
+    "y": 1183,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "bundle-opt is-active",
+    "text": "BEST VALUE\n3+ vials\n−8%",
+    "x": 20,
+    "y": 1236,
+    "w": 362,
+    "h": 66
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__flag bundle-opt__flag--value",
+    "text": "BEST VALUE",
+    "x": 287,
+    "y": 1259,
+    "w": 80,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__text",
+    "text": "3+ vials\n−8%",
+    "x": 90,
+    "y": 1259,
+    "w": 183,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__label",
+    "text": "3+ vials",
+    "x": 90,
+    "y": 1260,
+    "w": 55,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "bundle-opt__save",
+    "text": "−8%",
+    "x": 153,
+    "y": 1259,
+    "w": 43,
+    "h": 19
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--primary btn--lg add-btn",
+    "text": "Add to cart · $234.57",
+    "x": 20,
+    "y": 1443,
+    "w": 362,
+    "h": 52
+   }
+  ],
+  "els": {
+   "ship_bar": null,
+   "ship_msg": null,
+   "ship_track": null,
+   "ship_fill": null,
+   "h1": {
+    "x": 20,
+    "y": 613.63,
+    "w": 362,
+    "h": 34.67,
+    "text": "BPC-157 / TB-500",
+    "style": null
+   },
+   "eyebrow": null,
+   "checkout": null,
+   "add_to_cart": null,
+   "cart_note": null,
+   "badge": {
+    "x": 321,
+    "y": 62.28,
+    "w": 16,
+    "h": 16,
+    "text": "0"
+   },
+   "plus": [
+    {
+     "x": 145,
+     "y": 969.22,
+     "w": 44,
+     "h": 44
+    }
+   ],
+   "bundle": [
+    {
+     "x": 20,
+     "y": 1083.81,
+     "w": 362,
+     "h": 66,
+     "text": "1 vial",
+     "active": false
+    },
+    {
+     "x": 20,
+     "y": 1159.81,
+     "w": 362,
+     "h": 66,
+     "text": "MOST POPULAR 2 vials −5%",
+     "active": false
+    },
+    {
+     "x": 20,
+     "y": 1235.81,
+     "w": 362,
+     "h": 66,
+     "text": "BEST VALUE 3+ vials −8%",
+     "active": true
+    }
+   ]
+  },
+  "crop": [
+   0,
+   1900
+  ],
+  "paint": {
+   "y": 1500,
+   "color": "rgb(255, 255, 255)"
+  },
+  "card_closed": null,
+  "marquee": null,
+  "hidden_sweep": [
+   {
+    "cls": "pd__purity pp-clean-hide",
+    "text": "",
+    "y": 706
+   }
+  ]
+ },
+ "cart1": {
+  "url": "https://purepeptide.care/cart/",
+  "height_pt": 1900,
+  "page_height_pt": 2695,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n1",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "1",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "H1",
+    "cls": "",
+    "text": "Cart",
+    "x": 20,
+    "y": 169,
+    "w": 362,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ship-bar__msg",
+    "text": "$115.01 away from free shipping",
+    "x": 62,
+    "y": 259,
+    "w": 223,
+    "h": 22
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "$115.01",
+    "x": 62,
+    "y": 261,
+    "w": 58,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$115.01",
+    "x": 62,
+    "y": 261,
+    "w": 58,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 62,
+    "y": 261,
+    "w": 9,
+    "h": 17
+   },
+   {
+    "tag": "H2",
+    "cls": "cart-h",
+    "text": "Your cart",
+    "x": 20,
+    "y": 340,
+    "w": 362,
+    "h": 32
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "BPC-157 / TB-500",
+    "x": 51,
+    "y": 431,
+    "w": 32,
+    "h": 66
+   },
+   {
+    "tag": "A",
+    "cls": "ci__name",
+    "text": "BPC-157 / TB-500",
+    "x": 117,
+    "y": 405,
+    "w": 141,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 165,
+    "y": 432,
+    "w": 46,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 165,
+    "y": 432,
+    "w": 8,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "ci__remove",
+    "text": "Remove",
+    "x": 117,
+    "y": 462,
+    "w": 50,
+    "h": 21
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 117,
+    "y": 495,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "INPUT",
+    "cls": "ci__qty-input",
+    "text": "1",
+    "x": 157,
+    "y": 495,
+    "w": 44,
+    "h": 30
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 211,
+    "y": 495,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 311,
+    "y": 537,
+    "w": 56,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 311,
+    "y": 537,
+    "w": 11,
+    "h": 20
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Apply",
+    "x": 289,
+    "y": 593,
+    "w": 93,
+    "h": 45
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Update cart",
+    "x": 20,
+    "y": 650,
+    "w": 137,
+    "h": 45
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Summary",
+    "x": 45,
+    "y": 969,
+    "w": 312,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Subtotal",
+    "x": 45,
+    "y": 1021,
+    "w": 58,
+    "h": 24
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "$84.99",
+    "x": 304,
+    "y": 1021,
+    "w": 53,
+    "h": 24
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 304,
+    "y": 1023,
+    "w": 53,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 304,
+    "y": 1023,
+    "w": 10,
+    "h": 19
+   },
+   {
+    "tag": "A",
+    "cls": "shipping-calculator-button",
+    "text": "Calculate shipping",
+    "x": 45,
+    "y": 1113,
+    "w": 126,
+    "h": 22
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Total",
+    "x": 45,
+    "y": 1150,
+    "w": 41,
+    "h": 35
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "$84.99",
+    "x": 281,
+    "y": 1150,
+    "w": 76,
+    "h": 35
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "$84.99",
+    "x": 281,
+    "y": 1151,
+    "w": 76,
+    "h": 32
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$84.99",
+    "x": 281,
+    "y": 1151,
+    "w": 76,
+    "h": 32
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 281,
+    "y": 1151,
+    "w": 14,
+    "h": 32
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg cart-checkout",
+    "text": "Proceed to checkout",
+    "x": 45,
+    "y": 1228,
+    "w": 312,
+    "h": 50
+   },
+   {
+    "tag": "P",
+    "cls": "cart-note",
+    "text": "For laboratory research use only.",
+    "x": 45,
+    "y": 1421,
+    "w": 312,
+    "h": 19
+   }
+  ],
+  "els": {
+   "ship_bar": {
+    "x": 20,
+    "y": 240.88,
+    "w": 362,
+    "h": 76.8,
+    "text": "$115.01 away from free shipping",
+    "style": null
+   },
+   "ship_msg": {
+    "x": 62,
+    "y": 259.08,
+    "w": 222.66,
+    "h": 22.39,
+    "text": "$115.01 away from free shipping",
+    "style": null
+   },
+   "ship_track": {
+    "x": 37,
+    "y": 294.67,
+    "w": 328,
+    "h": 8,
+    "text": "",
+    "style": null
+   },
+   "ship_fill": {
+    "x": 37,
+    "y": 294.67,
+    "w": 137.75,
+    "h": 8,
+    "text": "",
+    "style": "width:42%"
+   },
+   "h1": {
+    "x": 20,
+    "y": 169.28,
+    "w": 362,
+    "h": 41.59,
+    "text": "Cart",
+    "style": null
+   },
+   "eyebrow": null,
+   "checkout": {
+    "x": 45,
+    "y": 1228.34,
+    "w": 312,
+    "h": 50,
+    "text": "Proceed to checkout",
+    "style": null
+   },
+   "add_to_cart": null,
+   "cart_note": {
+    "x": 45,
+    "y": 1420.94,
+    "w": 312,
+    "h": 19.19,
+    "text": "For laboratory research use only.",
+    "style": null
+   },
+   "badge": {
+    "x": 321,
+    "y": 62.28,
+    "w": 16,
+    "h": 16,
+    "text": "1"
+   },
+   "plus": [
+    {
+     "x": 211,
+     "y": 494.66,
+     "w": 30,
+     "h": 30
+    }
+   ],
+   "bundle": []
+  },
+  "crop": [
+   0,
+   1900
+  ],
+  "paint": {
+   "y": 1450,
+   "color": "rgb(255, 255, 255)"
+  },
+  "card_closed": {
+   "cls": "cart-summary",
+   "y0": 944,
+   "y1": 1448
+  },
+  "marquee": null,
+  "hidden_sweep": [],
+  "ship_bar_px": {
+   "rect_pt": [
+    37.0,
+    295.0,
+    328.0,
+    8.0
+   ],
+   "fill_right_pt": 175.0,
+   "fill_frac": 0.4207,
+   "fill_rgb": "#16A48F",
+   "track_rgb": "#EEF2F7"
+  }
+ },
+ "cart2": {
+  "url": "https://purepeptide.care/cart/",
+  "height_pt": 1900,
+  "page_height_pt": 2715,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n2",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "2",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "H1",
+    "cls": "",
+    "text": "Cart",
+    "x": 20,
+    "y": 169,
+    "w": 362,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ship-bar__msg",
+    "text": "$38.52 away from free shipping",
+    "x": 62,
+    "y": 259,
+    "w": 214,
+    "h": 22
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "$38.52",
+    "x": 62,
+    "y": 261,
+    "w": 49,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$38.52",
+    "x": 62,
+    "y": 261,
+    "w": 49,
+    "h": 17
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 62,
+    "y": 261,
+    "w": 9,
+    "h": 17
+   },
+   {
+    "tag": "H2",
+    "cls": "cart-h",
+    "text": "Your cart",
+    "x": 20,
+    "y": 340,
+    "w": 362,
+    "h": 32
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "BPC-157 / TB-500",
+    "x": 51,
+    "y": 441,
+    "w": 32,
+    "h": 66
+   },
+   {
+    "tag": "A",
+    "cls": "ci__name",
+    "text": "BPC-157 / TB-500",
+    "x": 117,
+    "y": 405,
+    "w": 141,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$80.74",
+    "x": 165,
+    "y": 432,
+    "w": 46,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 165,
+    "y": 432,
+    "w": 8,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ci__discount",
+    "text": "Volume discount −5%",
+    "x": 117,
+    "y": 453,
+    "w": 138,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "ci__remove",
+    "text": "Remove",
+    "x": 117,
+    "y": 483,
+    "w": 50,
+    "h": 21
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 117,
+    "y": 515,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "INPUT",
+    "cls": "ci__qty-input",
+    "text": "2",
+    "x": 157,
+    "y": 515,
+    "w": 44,
+    "h": 30
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 211,
+    "y": 515,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$161.48",
+    "x": 301,
+    "y": 557,
+    "w": 67,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 301,
+    "y": 557,
+    "w": 11,
+    "h": 20
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Apply",
+    "x": 289,
+    "y": 614,
+    "w": 93,
+    "h": 45
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Update cart",
+    "x": 20,
+    "y": 671,
+    "w": 137,
+    "h": 45
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Summary",
+    "x": 45,
+    "y": 990,
+    "w": 312,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Subtotal",
+    "x": 45,
+    "y": 1042,
+    "w": 58,
+    "h": 24
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "$161.48",
+    "x": 295,
+    "y": 1042,
+    "w": 62,
+    "h": 24
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$161.48",
+    "x": 295,
+    "y": 1044,
+    "w": 62,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 295,
+    "y": 1044,
+    "w": 10,
+    "h": 19
+   },
+   {
+    "tag": "A",
+    "cls": "shipping-calculator-button",
+    "text": "Calculate shipping",
+    "x": 45,
+    "y": 1133,
+    "w": 126,
+    "h": 22
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Total",
+    "x": 45,
+    "y": 1171,
+    "w": 41,
+    "h": 35
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "$161.48",
+    "x": 267,
+    "y": 1171,
+    "w": 90,
+    "h": 35
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "$161.48",
+    "x": 267,
+    "y": 1172,
+    "w": 90,
+    "h": 32
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$161.48",
+    "x": 267,
+    "y": 1172,
+    "w": 90,
+    "h": 32
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 267,
+    "y": 1172,
+    "w": 14,
+    "h": 32
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg cart-checkout",
+    "text": "Proceed to checkout",
+    "x": 45,
+    "y": 1249,
+    "w": 312,
+    "h": 50
+   },
+   {
+    "tag": "P",
+    "cls": "cart-note",
+    "text": "For laboratory research use only.",
+    "x": 45,
+    "y": 1442,
+    "w": 312,
+    "h": 19
+   }
+  ],
+  "els": {
+   "ship_bar": {
+    "x": 20,
+    "y": 240.88,
+    "w": 362,
+    "h": 76.8,
+    "text": "$38.52 away from free shipping",
+    "style": null
+   },
+   "ship_msg": {
+    "x": 62,
+    "y": 259.08,
+    "w": 213.61,
+    "h": 22.39,
+    "text": "$38.52 away from free shipping",
+    "style": null
+   },
+   "ship_track": {
+    "x": 37,
+    "y": 294.67,
+    "w": 328,
+    "h": 8,
+    "text": "",
+    "style": null
+   },
+   "ship_fill": {
+    "x": 37,
+    "y": 294.67,
+    "w": 265.67,
+    "h": 8,
+    "text": "",
+    "style": "width:81%"
+   },
+   "h1": {
+    "x": 20,
+    "y": 169.28,
+    "w": 362,
+    "h": 41.59,
+    "text": "Cart",
+    "style": null
+   },
+   "eyebrow": null,
+   "checkout": {
+    "x": 45,
+    "y": 1249.14,
+    "w": 312,
+    "h": 50,
+    "text": "Proceed to checkout",
+    "style": null
+   },
+   "add_to_cart": null,
+   "cart_note": {
+    "x": 45,
+    "y": 1441.73,
+    "w": 312,
+    "h": 19.19,
+    "text": "For laboratory research use only.",
+    "style": null
+   },
+   "badge": {
+    "x": 321,
+    "y": 62.28,
+    "w": 16,
+    "h": 16,
+    "text": "2"
+   },
+   "plus": [
+    {
+     "x": 211,
+     "y": 515.45,
+     "w": 30,
+     "h": 30
+    }
+   ],
+   "bundle": []
+  },
+  "crop": [
+   0,
+   1900
+  ],
+  "paint": {
+   "y": 1470,
+   "color": "rgb(255, 255, 255)"
+  },
+  "card_closed": {
+   "cls": "cart-summary",
+   "y0": 965,
+   "y1": 1468
+  },
+  "marquee": null,
+  "hidden_sweep": [],
+  "ship_bar_px": {
+   "rect_pt": [
+    37.0,
+    295.0,
+    328.0,
+    8.0
+   ],
+   "fill_right_pt": 303.0,
+   "fill_frac": 0.811,
+   "fill_rgb": "#16A48F",
+   "track_rgb": "#EEF2F7"
+  }
+ },
+ "cart3": {
+  "url": "https://purepeptide.care/cart/",
+  "height_pt": 1900,
+  "page_height_pt": 2715,
+  "boxes": [
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "RESEARCH USE ONLY",
+    "x": 50,
+    "y": 9,
+    "w": 117,
+    "h": 11
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 178,
+    "y": 7,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "NOT FOR HUMAN OR ANIMAL CONSUMPTION",
+    "x": 136,
+    "y": 9,
+    "w": 216,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__sep",
+    "text": "·",
+    "x": 231,
+    "y": 23,
+    "w": 4,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ruo-bar__item",
+    "text": "21+",
+    "x": 246,
+    "y": 25,
+    "w": 19,
+    "h": 11
+   },
+   {
+    "tag": "IMG",
+    "cls": "brand__word-img",
+    "text": "PurePeptide",
+    "x": 57,
+    "y": 74,
+    "w": 148,
+    "h": 15
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "lang-switch__btn",
+    "text": "🇺🇸",
+    "x": 226,
+    "y": 62,
+    "w": 62,
+    "h": 38
+   },
+   {
+    "tag": "SPAN",
+    "cls": "lang-switch__flag",
+    "text": "🇺🇸",
+    "x": 237,
+    "y": 71,
+    "w": 21,
+    "h": 20
+   },
+   {
+    "tag": "A",
+    "cls": "cart-btn nav-ico nav-ico--mob",
+    "text": "Cart\n3",
+    "x": 298,
+    "y": 60,
+    "w": 42,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "nav-ico__label",
+    "text": "Cart",
+    "x": 311,
+    "y": 80,
+    "w": 16,
+    "h": 2
+   },
+   {
+    "tag": "SPAN",
+    "cls": "pp-cartcount",
+    "text": "3",
+    "x": 321,
+    "y": 62,
+    "w": 16,
+    "h": 16
+   },
+   {
+    "tag": "H1",
+    "cls": "",
+    "text": "Cart",
+    "x": 20,
+    "y": 169,
+    "w": 362,
+    "h": 42
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ship-bar__msg",
+    "text": "Free shipping unlocked!",
+    "x": 62,
+    "y": 259,
+    "w": 161,
+    "h": 22
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "Free shipping",
+    "x": 62,
+    "y": 261,
+    "w": 93,
+    "h": 17
+   },
+   {
+    "tag": "H2",
+    "cls": "cart-h",
+    "text": "Your cart",
+    "x": 20,
+    "y": 340,
+    "w": 362,
+    "h": 32
+   },
+   {
+    "tag": "IMG",
+    "cls": "",
+    "text": "BPC-157 / TB-500",
+    "x": 51,
+    "y": 441,
+    "w": 32,
+    "h": 66
+   },
+   {
+    "tag": "A",
+    "cls": "ci__name",
+    "text": "BPC-157 / TB-500",
+    "x": 117,
+    "y": 405,
+    "w": 141,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$78.19",
+    "x": 165,
+    "y": 432,
+    "w": 46,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 165,
+    "y": 432,
+    "w": 8,
+    "h": 16
+   },
+   {
+    "tag": "SPAN",
+    "cls": "ci__discount",
+    "text": "Volume discount −8%",
+    "x": 117,
+    "y": 453,
+    "w": 139,
+    "h": 16
+   },
+   {
+    "tag": "A",
+    "cls": "ci__remove",
+    "text": "Remove",
+    "x": 117,
+    "y": 483,
+    "w": 50,
+    "h": 21
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "−",
+    "x": 117,
+    "y": 515,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "INPUT",
+    "cls": "ci__qty-input",
+    "text": "3",
+    "x": 157,
+    "y": 515,
+    "w": 44,
+    "h": 30
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "",
+    "text": "+",
+    "x": 211,
+    "y": 515,
+    "w": 30,
+    "h": 30
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$234.57",
+    "x": 301,
+    "y": 557,
+    "w": 67,
+    "h": 20
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 301,
+    "y": 557,
+    "w": 11,
+    "h": 20
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Apply",
+    "x": 289,
+    "y": 614,
+    "w": 93,
+    "h": 45
+   },
+   {
+    "tag": "BUTTON",
+    "cls": "btn btn--ghost",
+    "text": "Update cart",
+    "x": 20,
+    "y": 671,
+    "w": 137,
+    "h": 45
+   },
+   {
+    "tag": "H3",
+    "cls": "",
+    "text": "Summary",
+    "x": 45,
+    "y": 990,
+    "w": 312,
+    "h": 27
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Subtotal",
+    "x": 45,
+    "y": 1042,
+    "w": 58,
+    "h": 24
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "$234.57",
+    "x": 295,
+    "y": 1042,
+    "w": 62,
+    "h": 24
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$234.57",
+    "x": 295,
+    "y": 1044,
+    "w": 62,
+    "h": 19
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 295,
+    "y": 1044,
+    "w": 10,
+    "h": 19
+   },
+   {
+    "tag": "A",
+    "cls": "shipping-calculator-button",
+    "text": "Calculate shipping",
+    "x": 45,
+    "y": 1133,
+    "w": 126,
+    "h": 22
+   },
+   {
+    "tag": "SPAN",
+    "cls": "",
+    "text": "Total",
+    "x": 45,
+    "y": 1171,
+    "w": 41,
+    "h": 35
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "$234.57",
+    "x": 267,
+    "y": 1171,
+    "w": 90,
+    "h": 35
+   },
+   {
+    "tag": "STRONG",
+    "cls": "",
+    "text": "$234.57",
+    "x": 267,
+    "y": 1172,
+    "w": 90,
+    "h": 32
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-amount amount",
+    "text": "$234.57",
+    "x": 267,
+    "y": 1172,
+    "w": 90,
+    "h": 32
+   },
+   {
+    "tag": "SPAN",
+    "cls": "woocommerce-Price-currencySymbol",
+    "text": "$",
+    "x": 267,
+    "y": 1172,
+    "w": 14,
+    "h": 32
+   },
+   {
+    "tag": "A",
+    "cls": "btn btn--primary btn--lg cart-checkout",
+    "text": "Proceed to checkout",
+    "x": 45,
+    "y": 1249,
+    "w": 312,
+    "h": 50
+   },
+   {
+    "tag": "P",
+    "cls": "cart-note",
+    "text": "For laboratory research use only.",
+    "x": 45,
+    "y": 1442,
+    "w": 312,
+    "h": 19
+   }
+  ],
+  "els": {
+   "ship_bar": {
+    "x": 20,
+    "y": 240.88,
+    "w": 362,
+    "h": 76.8,
+    "text": "Free shipping unlocked!",
+    "style": null
+   },
+   "ship_msg": {
+    "x": 62,
+    "y": 259.08,
+    "w": 161.06,
+    "h": 22.39,
+    "text": "Free shipping unlocked!",
+    "style": null
+   },
+   "ship_track": {
+    "x": 37,
+    "y": 294.67,
+    "w": 328,
+    "h": 8,
+    "text": "",
+    "style": null
+   },
+   "ship_fill": {
+    "x": 37,
+    "y": 294.67,
+    "w": 328,
+    "h": 8,
+    "text": "",
+    "style": "width:100%"
+   },
+   "h1": {
+    "x": 20,
+    "y": 169.28,
+    "w": 362,
+    "h": 41.59,
+    "text": "Cart",
+    "style": null
+   },
+   "eyebrow": null,
+   "checkout": {
+    "x": 45,
+    "y": 1249.14,
+    "w": 312,
+    "h": 50,
+    "text": "Proceed to checkout",
+    "style": null
+   },
+   "add_to_cart": null,
+   "cart_note": {
+    "x": 45,
+    "y": 1441.73,
+    "w": 312,
+    "h": 19.19,
+    "text": "For laboratory research use only.",
+    "style": null
+   },
+   "badge": {
+    "x": 321,
+    "y": 62.28,
+    "w": 16,
+    "h": 16,
+    "text": "3"
+   },
+   "plus": [
+    {
+     "x": 211,
+     "y": 515.45,
+     "w": 30,
+     "h": 30
+    }
+   ],
+   "bundle": []
+  },
+  "crop": [
+   0,
+   1900
+  ],
+  "paint": {
+   "y": 1470,
+   "color": "rgb(255, 255, 255)"
+  },
+  "card_closed": {
+   "cls": "cart-summary",
+   "y0": 965,
+   "y1": 1468
+  },
+  "marquee": null,
+  "hidden_sweep": [],
+  "ship_bar_px": {
+   "rect_pt": [
+    37.0,
+    295.0,
+    328.0,
+    8.0
+   ],
+   "fill_right_pt": 365.0,
+   "fill_frac": 1.0,
+   "fill_rgb": "#2BB58A",
+   "track_rgb": null
+  }
+ },
+ "ship_bar": {
+  "note": "measured from pixels on the clean captures (page points); PH.barFill(tl,t0,dur,page,f0,f1,c0,c1) uses rect + fractions",
+  "rect_pt": [
+   37.0,
+   295.0,
+   328.0,
+   8.0
+  ],
+  "track_rgb": "#EEF2F7",
+  "fill_frac": {
+   "cart1": 0.4207,
+   "cart2": 0.811,
+   "cart3": 1.0
+  },
+  "fill_rgb": {
+   "cart1": "#16A48F",
+   "cart2": "#16A48F",
+   "cart3": "#2BB58A"
+  },
+  "dom_width_style": {
+   "cart1": "width:42%",
+   "cart2": "width:81%",
+   "cart3": "width:100%"
+  }
+ },
+ "qc": {
+  "ocr_forbidden": "certif|\\bCOA\\b|bacterio|reconstitut|Retatrutide|Recovery|repair|G ?Pay|Pharmaceutical|SECURE|MT-2",
+  "result": "PASS",
+  "fails": [],
+  "files": [
+   "cart1.png",
+   "cart2.png",
+   "cart3.png",
+   "home.png",
+   "product.png",
+   "product_2.png",
+   "product_3.png",
+   "screen_blank.png",
+   "screen_cart.png",
+   "screen_home.png",
+   "screen_product.png"
+  ]
+ }
+}

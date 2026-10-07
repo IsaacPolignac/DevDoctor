@@ -1,0 +1,84 @@
+{
+ "note": "top-left origin, px. screen = active display opening (holdout) in front_body.png; its corners are superellipse (squircle) curves. radius_cover = CSS border-radius to give the screen content placed UNDER front_body (largest circular radius that still covers the whole hole: the content corners that poke out are hidden by the opaque bezel). radius = circle-equivalent radius (same 45-degree point; leaves up to radius_eq_max_gap px uncovered near the tangents). Stack (bottom->top): front_shadow, screen content, front_body, front_glass (normal blend) or front_glass_screen (mix-blend-mode: screen).",
+ "3840x2160": {
+  "screen": {
+   "x": 1519.69,
+   "y": 210.55,
+   "w": 800.61,
+   "h": 1738.91,
+   "radius": 103.8,
+   "radius_cover": 103.8,
+   "radius_eq_max_gap": 0.0,
+   "corner_extent": 157.26
+  },
+  "island": {
+   "x": 1795.61,
+   "y": 238.38,
+   "w": 248.78,
+   "h": 73.64,
+   "radius": 36.82
+  },
+  "phone_bbox": [
+   1483,
+   180,
+   874,
+   1800
+  ]
+ },
+ "1920x1080": {
+  "screen": {
+   "x": 759.85,
+   "y": 105.27,
+   "w": 400.31,
+   "h": 869.45,
+   "radius": 51.9,
+   "radius_cover": 51.9,
+   "radius_eq_max_gap": 0.0,
+   "corner_extent": 78.63
+  },
+  "island": {
+   "x": 897.81,
+   "y": 119.19,
+   "w": 124.39,
+   "h": 36.82,
+   "radius": 18.41
+  },
+  "phone_bbox": [
+   741.5,
+   90.0,
+   437.0,
+   900.0
+  ]
+ },
+ "screen_texture_px": [
+  1206,
+  2622
+ ],
+ "verification": {
+  "hole_left_right_alpha_crossings_px": [
+   1519.8324607329844,
+   2320.167539267016
+  ],
+  "hole_top_bottom_alpha_crossings_px": [
+   210.65562913907286,
+   1949.3916083916083
+  ],
+  "projected_left_right_px": [
+   1519.6937942504883,
+   2320.3063201904297
+  ],
+  "projected_top_bottom_px": [
+   210.54765701293945,
+   1949.4530349969864
+  ],
+  "max_error_px": 0.13878092341383308,
+  "fraction_of_hole_transparent": 0.9857147166262291,
+  "island_centre_alpha": 1.0,
+  "phone_silhouette_px_4k": [
+   1483,
+   180,
+   874,
+   1800
+  ]
+ }
+}

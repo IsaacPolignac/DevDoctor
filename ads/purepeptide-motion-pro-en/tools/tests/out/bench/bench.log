@@ -1,0 +1,4 @@
+00:00.306  blend            | Read blend: "/home/user/DevDoctor/ads/purepeptide-motion-pro-en/assets/iphone/iphone.blend"
+screen texture: /home/user/DevDoctor/ads/purepeptide-motion-pro-en/assets/site/clean/screen_cart.png (1206, 2622)
+00:06.875  render           | Saved: '/home/user/DevDoctor/ads/purepeptide-motion-pro-en/tools/tests/out/bench/phone_720p_s16.png'
+BENCH phone_720p_s16                        6.45 s  (load 2.68)
