@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- The screen bake page (SHOTS §0.4): a 402x874 pt stage, screenshotted at deviceScaleFactor 3 (1206x2622) by
+         tools/bake_screen.cjs for f708..f1188 → assets/screen_seq/scr_0001..0481.png (the 3D screen SEQUENCE).
+         Runs the SAME js/phone.js (bake mode) + js/screen_tl.js as the 2D fallback rig in index.html. -->
+    <base href="../" />
+    <title>screen bake</title>
+    <link rel="stylesheet" href="assets/site/screen/phone-screen.css" />
+    <link rel="stylesheet" href="css/phone.css" />
+    <style>
+      html, body { margin: 0; width: 402px; height: 874px; overflow: hidden; background: #000; }
+      #phone { position: absolute; left: 0; top: 0; width: 402px; height: 874px; overflow: hidden; background: #000; }
+      /* bake mode: the .ps root IS the stage — no screen-rect offset, no scale, no radius (the bezel clips in 3D) */
+      #ps.ps { left: 0 !important; top: 0 !important; transform: none !important; border-radius: 0 !important; overflow: hidden; }
+    </style>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/CustomEase.min.js"></script>
+    <script src="js/vo.js"></script>
+    <script src="js/lib.js"></script>
+    <script src="assets/site/screen/phone-screen.js"></script>
+    <script src="js/phone.js"></script>
+    <script src="js/screen_tl.js"></script>
+  </head>
+  <body>
+    <div id="phone"></div>
+    <script>
+      // window.__bakeReady resolves once fonts + every capture are loaded and window.__timelines.screen exists (paused, 45 s).
+      gsap.registerPlugin(CustomEase);
+      const fonts = ['500 16px "Inter"', '600 17px "Inter"', '700 16px "Inter"'].map((f) => document.fonts.load(f));
+      window.__bakeReady = Promise.all(fonts).then(() => {
+        const tl = gsap.timeline({ paused: true });
+        PP.registerEases();
+        PH.init(tl, { bake: true, root: "phone" });
+        PP.screenTL(tl);
+        tl.set({}, {}, PP.DUR); // pin 45.00 s
+        window.__timelines = window.__timelines || {};
+        window.__timelines.screen = tl;
+        // every capture used as <img> or as a CSS background (nav, crops): decode them all before the first screenshot
+        const urls = ["screen_blank", "home", "cart1", "cart2", "cart3", "product"].map((n) => PH.BASE + n + ".png");
+        return Promise.all(urls.map((u) => new Promise((r) => { const im = new Image(); im.onload = im.onerror = () => r(u); im.src = u; }))
+          .concat(Array.from(document.images).map((im) => (im.complete ? 0 : new Promise((r) => (im.onload = im.onerror = r))))));
+      }).then(() => ({ events: PP.SCREEN, duration: window.__timelines.screen.duration() }));
+    </script>
+  </body>
+</html>

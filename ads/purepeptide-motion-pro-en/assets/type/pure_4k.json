@@ -1,0 +1,15 @@
+{
+ "width": 4096,
+ "height": 1478,
+ "ink_x": [
+  0,
+  4095
+ ],
+ "ink_y": [
+  28,
+  1449
+ ],
+ "font_px": 1931.1645450259311,
+ "letter_spacing_em": -0.02,
+ "note": "white DM Sans 800 \"pure\" on transparent, ink spans the full width; mirror = horizontal flip (S02 reflection texture)"
+}

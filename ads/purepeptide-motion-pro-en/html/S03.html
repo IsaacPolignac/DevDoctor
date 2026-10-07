@@ -1,0 +1,20 @@
+<!-- S03 · We measure it · f216–f306 · plate hero.mp4 (stage video #v-hero, z 10, 1:1). Light only: no type, no site.
+     The two light passes live in .s03-matte containers = DIRECT children with their own z-index 12 (above the plate, below the
+     phone layers at 30) so their mix-blend-mode: screen reaches the plate (.z-front / .z-back are stacking contexts = isolated groups).
+     Each container is the vial column (stage x 640–1280) masked by a soft luma matte of the plate (assets/fx/s03_matte_a.png =
+     plate frame 8 ≈ f225 for the S02 band carry; s03_matte_b.png = plate frame 45 ≈ f272 for the measuring pass). -->
+<svg class="s03-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="s03-shimmer" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+    <!-- the glass shimmer: 12 px fractal noise (baseFrequency 1/12) displacing the line by ±6 px (scale 12) — glass rows only -->
+    <feTurbulence type="fractalNoise" baseFrequency="0.083" numOctaves="2" seed="7" stitchTiles="noStitch" result="n" />
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+</svg>
+<!-- 1. the S02 band carry (§0.9): the 105° band (220 px, screen) enters the vial on the cut frame f216, off its right edge by f234 -->
+<div class="s03-matte s03-a"><div class="s03-band s03-bx"></div></div>
+<!-- 2. MEASURE: a level line of light with a 220 px halo, cap → base f266–f278, centre on the label on "measure" (f272).
+     Two copies driven by one setter: the glass rows (above / below the label) go through the shimmer filter, the label rows do not. -->
+<div class="s03-matte s03-b">
+  <div class="s03-rows s03-glass"><div class="s03-band s03-by"><i></i></div></div>
+  <div class="s03-rows s03-label"><div class="s03-band s03-by"><i></i></div></div>
+</div>

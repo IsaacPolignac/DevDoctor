@@ -1,0 +1,29 @@
+/* S03 · We measure it — every selector prefixed by #S03 (inlined into index.html: url() paths root-relative).
+   Light only. Containers = the vial column (stage x 640–1280), z 12 (above the plate at 10, below the phone layers at 30),
+   screen blend, masked by the soft luma matte of the plate (full-frame PNG, positioned so stage and mask coincide). */
+#S03 .s03-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+#S03 .s03-matte { position: absolute; left: 640px; top: 0; width: 640px; height: 1080px; z-index: 12; overflow: hidden; pointer-events: none;
+  mix-blend-mode: screen;
+  -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-position: -640px 0; mask-position: -640px 0;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+#S03 .s03-a { -webkit-mask-image: url("assets/fx/s03_matte_a.png"); mask-image: url("assets/fx/s03_matte_a.png"); }
+#S03 .s03-b { -webkit-mask-image: url("assets/fx/s03_matte_b.png"); mask-image: url("assets/fx/s03_matte_b.png"); }
+#S03 .s03-band { position: absolute; opacity: 0; }
+/* the carry band: a 220 px stripe, 105° (box rotated 15°: top leans right), tall enough to cover the frame once rotated; cold white */
+#S03 .s03-bx { left: -110px; top: -560px; width: 220px; height: 2200px; transform-origin: 50% 50%;
+  background: linear-gradient(90deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.26) 38%, rgba(236, 242, 255, 0.75) 50%,
+    rgba(236, 242, 255, 0.26) 62%, rgba(236, 242, 255, 0) 100%); }
+/* the measuring pass: row masks split the vial at the label's edges (plate frame 45: stripes at y 410–420 / 916–927; 24 px soft) */
+#S03 .s03-rows { position: absolute; inset: 0; }
+#S03 .s03-glass { filter: url(#s03-shimmer);
+  -webkit-mask-image: linear-gradient(180deg, #fff 0, #fff 402px, rgba(255, 255, 255, 0) 426px, rgba(255, 255, 255, 0) 910px, #fff 934px, #fff 100%);
+  mask-image: linear-gradient(180deg, #fff 0, #fff 402px, rgba(255, 255, 255, 0) 426px, rgba(255, 255, 255, 0) 910px, #fff 934px, #fff 100%); }
+#S03 .s03-label {
+  -webkit-mask-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0) 402px, #fff 426px, #fff 910px, rgba(255, 255, 255, 0) 934px, rgba(255, 255, 255, 0) 100%);
+  mask-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0) 402px, #fff 426px, #fff 910px, rgba(255, 255, 255, 0) 934px, rgba(255, 255, 255, 0) 100%); }
+/* a level 220 px halo (its centre at container y 0 → translateY(y) puts it at stage y) with a 2 px core: the line of light */
+#S03 .s03-by { left: 0; top: -110px; width: 640px; height: 220px; transform-origin: 50% 50%;
+  background: linear-gradient(180deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.26) 38%, rgba(236, 242, 255, 0.75) 50%,
+    rgba(236, 242, 255, 0.26) 62%, rgba(236, 242, 255, 0) 100%); }
+#S03 .s03-by i { position: absolute; left: 0; right: 0; top: 50%; height: 3px; margin-top: -1.5px; background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 8px rgba(236, 242, 255, 0.7); }

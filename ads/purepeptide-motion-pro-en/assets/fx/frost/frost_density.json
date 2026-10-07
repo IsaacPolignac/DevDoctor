@@ -1,0 +1,799 @@
+{
+ "note": "S07 frost (tools/make_frost_seq.py, DLA seed 7). frame n = film frame f0 + n - 1; new_px = alpha-sum delta at 1080p (pixel units) -> SFX crackle density; centroid = stage px of the new frost (pan); centre_cov = fraction of the label window (960,540 +/- 190x105) with alpha > 0.5",
+ "f0": 648,
+ "fps": 30,
+ "frames": 60,
+ "grid": [
+  1024,
+  576
+ ],
+ "walkers": 3000,
+ "hits": 3,
+ "skeleton_full_frame": 682,
+ "halo_tau_frames": 12.0,
+ "halo_r_max_cells": 7.0,
+ "close_frame": 685,
+ "full_frame": null,
+ "density": [
+  {
+   "frame": 1,
+   "f": 648,
+   "T": 382.4,
+   "new_px": 8313.7,
+   "centroid": [
+    958.1,
+    536.3
+   ],
+   "coverage": 0.004,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 2,
+   "f": 649,
+   "T": 941.5,
+   "new_px": 10396.2,
+   "centroid": [
+    953.6,
+    536.7
+   ],
+   "coverage": 0.009,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 3,
+   "f": 650,
+   "T": 1594.9,
+   "new_px": 9904.3,
+   "centroid": [
+    952.9,
+    537.0
+   ],
+   "coverage": 0.0138,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 4,
+   "f": 651,
+   "T": 2318.2,
+   "new_px": 13178.2,
+   "centroid": [
+    955.3,
+    535.1
+   ],
+   "coverage": 0.0202,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 5,
+   "f": 652,
+   "T": 3098.4,
+   "new_px": 14647.3,
+   "centroid": [
+    953.4,
+    535.3
+   ],
+   "coverage": 0.0272,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 6,
+   "f": 653,
+   "T": 3927.2,
+   "new_px": 16689.4,
+   "centroid": [
+    959.7,
+    539.2
+   ],
+   "coverage": 0.0353,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 7,
+   "f": 654,
+   "T": 4798.5,
+   "new_px": 19138.7,
+   "centroid": [
+    957.0,
+    534.3
+   ],
+   "coverage": 0.0445,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 8,
+   "f": 655,
+   "T": 5708.2,
+   "new_px": 20699.4,
+   "centroid": [
+    951.6,
+    537.3
+   ],
+   "coverage": 0.0545,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 9,
+   "f": 656,
+   "T": 6652.7,
+   "new_px": 22700.5,
+   "centroid": [
+    962.8,
+    538.0
+   ],
+   "coverage": 0.0654,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 10,
+   "f": 657,
+   "T": 11087.8,
+   "new_px": 43357.3,
+   "centroid": [
+    960.5,
+    531.2
+   ],
+   "coverage": 0.0863,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 11,
+   "f": 658,
+   "T": 11881.2,
+   "new_px": 47439.4,
+   "centroid": [
+    967.1,
+    530.7
+   ],
+   "coverage": 0.1092,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 12,
+   "f": 659,
+   "T": 12974.8,
+   "new_px": 41565.5,
+   "centroid": [
+    960.8,
+    533.6
+   ],
+   "coverage": 0.1293,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 13,
+   "f": 660,
+   "T": 14220.2,
+   "new_px": 47590.6,
+   "centroid": [
+    965.1,
+    531.0
+   ],
+   "coverage": 0.1522,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 14,
+   "f": 661,
+   "T": 15575.8,
+   "new_px": 41399.0,
+   "centroid": [
+    962.4,
+    534.3
+   ],
+   "coverage": 0.1722,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 15,
+   "f": 662,
+   "T": 17019.7,
+   "new_px": 36477.3,
+   "centroid": [
+    952.8,
+    535.8
+   ],
+   "coverage": 0.1898,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 16,
+   "f": 663,
+   "T": 18538.0,
+   "new_px": 55485.8,
+   "centroid": [
+    961.5,
+    532.1
+   ],
+   "coverage": 0.2165,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 17,
+   "f": 664,
+   "T": 20121.2,
+   "new_px": 42178.6,
+   "centroid": [
+    946.3,
+    534.9
+   ],
+   "coverage": 0.2369,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 18,
+   "f": 665,
+   "T": 21762.2,
+   "new_px": 54765.0,
+   "centroid": [
+    955.4,
+    536.8
+   ],
+   "coverage": 0.2633,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 19,
+   "f": 666,
+   "T": 23455.3,
+   "new_px": 47824.2,
+   "centroid": [
+    949.6,
+    540.5
+   ],
+   "coverage": 0.2863,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 20,
+   "f": 667,
+   "T": 25196.3,
+   "new_px": 51302.6,
+   "centroid": [
+    951.5,
+    540.8
+   ],
+   "coverage": 0.3111,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 21,
+   "f": 668,
+   "T": 26981.4,
+   "new_px": 60445.1,
+   "centroid": [
+    959.9,
+    538.3
+   ],
+   "coverage": 0.3402,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 22,
+   "f": 669,
+   "T": 28807.5,
+   "new_px": 55323.4,
+   "centroid": [
+    961.2,
+    541.2
+   ],
+   "coverage": 0.3669,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 23,
+   "f": 670,
+   "T": 30672.2,
+   "new_px": 58527.2,
+   "centroid": [
+    961.7,
+    542.6
+   ],
+   "coverage": 0.3951,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 24,
+   "f": 671,
+   "T": 32573.0,
+   "new_px": 60211.7,
+   "centroid": [
+    961.1,
+    542.2
+   ],
+   "coverage": 0.4242,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 25,
+   "f": 672,
+   "T": 34508.2,
+   "new_px": 65486.1,
+   "centroid": [
+    971.0,
+    537.2
+   ],
+   "coverage": 0.4558,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 26,
+   "f": 673,
+   "T": 36475.9,
+   "new_px": 63584.4,
+   "centroid": [
+    967.9,
+    540.3
+   ],
+   "coverage": 0.4864,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 27,
+   "f": 674,
+   "T": 38474.6,
+   "new_px": 65353.0,
+   "centroid": [
+    972.5,
+    539.3
+   ],
+   "coverage": 0.5179,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 28,
+   "f": 675,
+   "T": 40502.9,
+   "new_px": 68544.9,
+   "centroid": [
+    953.4,
+    542.5
+   ],
+   "coverage": 0.551,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 29,
+   "f": 676,
+   "T": 42559.7,
+   "new_px": 69159.0,
+   "centroid": [
+    953.1,
+    542.9
+   ],
+   "coverage": 0.5843,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 30,
+   "f": 677,
+   "T": 44643.6,
+   "new_px": 72234.1,
+   "centroid": [
+    951.1,
+    543.7
+   ],
+   "coverage": 0.6192,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 31,
+   "f": 678,
+   "T": 46753.8,
+   "new_px": 72505.8,
+   "centroid": [
+    952.2,
+    544.5
+   ],
+   "coverage": 0.6541,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0
+  },
+  {
+   "frame": 32,
+   "f": 679,
+   "T": 48889.3,
+   "new_px": 74405.2,
+   "centroid": [
+    955.4,
+    540.1
+   ],
+   "coverage": 0.69,
+   "centre_cov": 0.0,
+   "centre_alpha": 0.0071
+  },
+  {
+   "frame": 33,
+   "f": 680,
+   "T": 51049.2,
+   "new_px": 76818.0,
+   "centroid": [
+    957.5,
+    542.3
+   ],
+   "coverage": 0.7271,
+   "centre_cov": 0.0183,
+   "centre_alpha": 0.0566
+  },
+  {
+   "frame": 34,
+   "f": 681,
+   "T": 53232.6,
+   "new_px": 78649.1,
+   "centroid": [
+    954.4,
+    539.7
+   ],
+   "coverage": 0.765,
+   "centre_cov": 0.1181,
+   "centre_alpha": 0.1743
+  },
+  {
+   "frame": 35,
+   "f": 682,
+   "T": 55439.0,
+   "new_px": 136234.3,
+   "centroid": [
+    961.6,
+    542.8
+   ],
+   "coverage": 0.8307,
+   "centre_cov": 0.3518,
+   "centre_alpha": 0.4254
+  },
+  {
+   "frame": 36,
+   "f": 683,
+   "T": 55439.0,
+   "new_px": 116274.2,
+   "centroid": [
+    964.0,
+    542.5
+   ],
+   "coverage": 0.8868,
+   "centre_cov": 0.8038,
+   "centre_alpha": 0.6688
+  },
+  {
+   "frame": 37,
+   "f": 684,
+   "T": 55439.0,
+   "new_px": 71202.0,
+   "centroid": [
+    965.5,
+    542.9
+   ],
+   "coverage": 0.9211,
+   "centre_cov": 0.9968,
+   "centre_alpha": 0.8191
+  },
+  {
+   "frame": 38,
+   "f": 685,
+   "T": 55439.0,
+   "new_px": 55808.1,
+   "centroid": [
+    966.0,
+    541.5
+   ],
+   "coverage": 0.948,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9256
+  },
+  {
+   "frame": 39,
+   "f": 686,
+   "T": 55439.0,
+   "new_px": 12200.3,
+   "centroid": [
+    969.2,
+    540.7
+   ],
+   "coverage": 0.9539,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.947
+  },
+  {
+   "frame": 40,
+   "f": 687,
+   "T": 55439.0,
+   "new_px": 811.7,
+   "centroid": [
+    983.1,
+    546.0
+   ],
+   "coverage": 0.9543,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.948
+  },
+  {
+   "frame": 41,
+   "f": 688,
+   "T": 55439.0,
+   "new_px": 3449.8,
+   "centroid": [
+    962.5,
+    536.4
+   ],
+   "coverage": 0.956,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9525
+  },
+  {
+   "frame": 42,
+   "f": 689,
+   "T": 55439.0,
+   "new_px": 434.1,
+   "centroid": [
+    958.4,
+    541.2
+   ],
+   "coverage": 0.9562,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9528
+  },
+  {
+   "frame": 43,
+   "f": 690,
+   "T": 55439.0,
+   "new_px": 1679.8,
+   "centroid": [
+    957.5,
+    539.7
+   ],
+   "coverage": 0.957,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9536
+  },
+  {
+   "frame": 44,
+   "f": 691,
+   "T": 55439.0,
+   "new_px": 396.7,
+   "centroid": [
+    954.4,
+    540.2
+   ],
+   "coverage": 0.9572,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9539
+  },
+  {
+   "frame": 45,
+   "f": 692,
+   "T": 55439.0,
+   "new_px": 412.0,
+   "centroid": [
+    954.9,
+    542.4
+   ],
+   "coverage": 0.9574,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9544
+  },
+  {
+   "frame": 46,
+   "f": 693,
+   "T": 55439.0,
+   "new_px": 2260.4,
+   "centroid": [
+    958.5,
+    539.7
+   ],
+   "coverage": 0.9585,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9555
+  },
+  {
+   "frame": 47,
+   "f": 694,
+   "T": 55439.0,
+   "new_px": 323.6,
+   "centroid": [
+    960.4,
+    540.9
+   ],
+   "coverage": 0.9586,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9556
+  },
+  {
+   "frame": 48,
+   "f": 695,
+   "T": 55439.0,
+   "new_px": 337.3,
+   "centroid": [
+    956.1,
+    541.9
+   ],
+   "coverage": 0.9588,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.956
+  },
+  {
+   "frame": 49,
+   "f": 696,
+   "T": 55439.0,
+   "new_px": 348.6,
+   "centroid": [
+    963.2,
+    542.3
+   ],
+   "coverage": 0.9589,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9566
+  },
+  {
+   "frame": 50,
+   "f": 697,
+   "T": 55439.0,
+   "new_px": 2893.3,
+   "centroid": [
+    959.3,
+    539.5
+   ],
+   "coverage": 0.9603,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9582
+  },
+  {
+   "frame": 51,
+   "f": 698,
+   "T": 55439.0,
+   "new_px": 220.3,
+   "centroid": [
+    967.0,
+    541.1
+   ],
+   "coverage": 0.9604,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9582
+  },
+  {
+   "frame": 52,
+   "f": 699,
+   "T": 55439.0,
+   "new_px": 231.9,
+   "centroid": [
+    971.2,
+    541.2
+   ],
+   "coverage": 0.9606,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9582
+  },
+  {
+   "frame": 53,
+   "f": 700,
+   "T": 55439.0,
+   "new_px": 243.8,
+   "centroid": [
+    971.8,
+    535.0
+   ],
+   "coverage": 0.9607,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9585
+  },
+  {
+   "frame": 54,
+   "f": 701,
+   "T": 55439.0,
+   "new_px": 256.6,
+   "centroid": [
+    975.8,
+    537.1
+   ],
+   "coverage": 0.9608,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9589
+  },
+  {
+   "frame": 55,
+   "f": 702,
+   "T": 55439.0,
+   "new_px": 1795.0,
+   "centroid": [
+    957.2,
+    540.2
+   ],
+   "coverage": 0.9617,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9599
+  },
+  {
+   "frame": 56,
+   "f": 703,
+   "T": 55439.0,
+   "new_px": 178.9,
+   "centroid": [
+    938.5,
+    541.7
+   ],
+   "coverage": 0.9618,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9599
+  },
+  {
+   "frame": 57,
+   "f": 704,
+   "T": 55439.0,
+   "new_px": 182.5,
+   "centroid": [
+    945.8,
+    550.2
+   ],
+   "coverage": 0.9618,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9599
+  },
+  {
+   "frame": 58,
+   "f": 705,
+   "T": 55439.0,
+   "new_px": 191.7,
+   "centroid": [
+    940.1,
+    544.8
+   ],
+   "coverage": 0.9619,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9599
+  },
+  {
+   "frame": 59,
+   "f": 706,
+   "T": 55439.0,
+   "new_px": 196.0,
+   "centroid": [
+    957.8,
+    540.5
+   ],
+   "coverage": 0.962,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9599
+  },
+  {
+   "frame": 60,
+   "f": 707,
+   "T": 55439.0,
+   "new_px": 199.1,
+   "centroid": [
+    966.6,
+    544.6
+   ],
+   "coverage": 0.9621,
+   "centre_cov": 1.0,
+   "centre_alpha": 0.9599
+  }
+ ]
+}

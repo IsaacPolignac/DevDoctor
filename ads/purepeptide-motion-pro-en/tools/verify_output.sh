@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Verifies a rendered deliverable (BRIEF.md header, SCENES Appendix B.6): 1920x1080, 30 fps, 45.00 s (1350 frames),
-# audio -14 LUFS integrated (±1), true peak <= -1 dBTP.
+# Verifies a rendered deliverable (BRIEF.md header, SHOTS Appendix 2.2): 1920x1080, 30 fps, 45.00 s (1350 frames),
+# audio -14 LUFS integrated (±1), true peak <= -1.5 dBTP.
 set -euo pipefail
-f="${1:-renders/purepeptide-motion-en.mp4}"
+f="${1:-renders/purepeptide-motion-pro-en.mp4}"
 test -s "$f" || { echo "FAIL missing $f"; exit 1; }
 v=$(ffprobe -v error -select_streams v:0 -count_frames -show_entries stream=width,height,r_frame_rate,nb_read_frames,codec_name,pix_fmt -of default=nw=1 "$f")
 d=$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$f")
@@ -17,6 +17,6 @@ awk -v d="$d" 'BEGIN{exit !(d>=44.99 && d<=45.05)}' || { echo "FAIL duration"; f
 I=$(grep -E "^\s+I:" <<<"$a" | awk '{print $2}')
 TP=$(grep -E "^\s+Peak:" <<<"$a" | awk '{print $2}')
 awk -v i="$I" 'BEGIN{exit !(i>=-15 && i<=-13)}' || { echo "FAIL loudness $I LUFS"; fail=1; }
-awk -v p="$TP" 'BEGIN{exit !(p<=-1.0)}' || { echo "FAIL true peak $TP dBTP"; fail=1; }
+awk -v p="$TP" 'BEGIN{exit !(p<=-1.5)}' || { echo "FAIL true peak $TP dBTP"; fail=1; }
 [ $fail -eq 0 ] && echo "PASS: 1920x1080 · 30 fps · 1350 frames · ${d}s · ${I} LUFS · TP ${TP} dBTP"
 exit $fail

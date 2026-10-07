@@ -1,0 +1,126 @@
+{
+ "note": "the render queue (SHOTS \u00a70.3): tools/render_queue.py runs the jobs in order, one Blender at a time (renders/3d/.lock). est_sf = MEASURED s/frame on 2026-10-07 19:10 (load 3-4 from other agents; OIDN, 1080p, border crop): s02 10.5 @24 spp; take ARR 9.3 / rest 8.2 / dive 12.3 / close 14.9 / slabs+DOF 16.7 @24 / hero 7.4 / exit 4.3 / shadow 4.2 @pct 50; s01 33.2 @24 spp full frame (32 spp measured 60-120 under load 5-8: trim ladder step 1 applied = 24 spp). After each beauty job with post=true: tools/post_layers.py <id> + tools/encode_layers.sh <id>.",
+ "jobs": [
+  {
+   "id": "s02_test",
+   "script": "blender/tests/s02_reflect.py",
+   "range": "126,150,180",
+   "pct": 100,
+   "samples": 16,
+   "pass": "beauty",
+   "est_sf": 3.7,
+   "post": false
+  },
+  {
+   "id": "s01_test",
+   "script": "blender/tests/s01_timing.py",
+   "range": "54,90,117",
+   "pct": 100,
+   "samples": 24,
+   "pass": "beauty",
+   "est_sf": 33.0,
+   "post": false
+  },
+  {
+   "id": "take_prev",
+   "script": "blender/take.py",
+   "range": "708-1188",
+   "pct": 50,
+   "samples": 6,
+   "pass": "beauty",
+   "preview": true,
+   "est_sf": 1.3,
+   "post": false
+  },
+  {
+   "id": "s02",
+   "script": "blender/s02_glass.py",
+   "range": "126-216",
+   "pct": 100,
+   "samples": 24,
+   "pass": "beauty",
+   "est_sf": 10.5,
+   "post": true
+  },
+  {
+   "id": "take",
+   "script": "blender/take.py",
+   "range": "708-738",
+   "pct": 100,
+   "samples": 16,
+   "pass": "beauty",
+   "est_sf": 9.3,
+   "post": false
+  },
+  {
+   "id": "take",
+   "script": "blender/take.py",
+   "range": "937-1044",
+   "pct": 100,
+   "samples": 24,
+   "pass": "beauty",
+   "est_sf": 16.7,
+   "post": false
+  },
+  {
+   "id": "take",
+   "script": "blender/take.py",
+   "range": "1045-1152",
+   "pct": 100,
+   "samples": 16,
+   "pass": "beauty",
+   "est_sf": 7.4,
+   "post": false
+  },
+  {
+   "id": "take",
+   "script": "blender/take.py",
+   "range": "823-936",
+   "pct": 100,
+   "samples": 16,
+   "pass": "beauty",
+   "est_sf": 13.5,
+   "post": false
+  },
+  {
+   "id": "take",
+   "script": "blender/take.py",
+   "range": "739-822",
+   "pct": 100,
+   "samples": 16,
+   "pass": "beauty",
+   "est_sf": 8.2,
+   "post": false
+  },
+  {
+   "id": "take",
+   "script": "blender/take.py",
+   "range": "1153-1188",
+   "pct": 100,
+   "samples": 16,
+   "pass": "beauty",
+   "est_sf": 4.3,
+   "post": false
+  },
+  {
+   "id": "take",
+   "script": "blender/take.py",
+   "range": "945-1044",
+   "pct": 50,
+   "samples": 16,
+   "pass": "shadow",
+   "est_sf": 4.2,
+   "post": true
+  },
+  {
+   "id": "s01",
+   "script": "blender/s01_droplet.py",
+   "range": "30-126",
+   "pct": 100,
+   "samples": 24,
+   "pass": "beauty",
+   "est_sf": 33.2,
+   "post": true
+  }
+ ]
+}

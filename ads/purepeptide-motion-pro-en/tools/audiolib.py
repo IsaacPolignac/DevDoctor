@@ -10,6 +10,8 @@ notes only (never F, F#, C#):
     tail        D5 / A5 ring-out
 New short functions (BRIEF §8 "new"): stamp, grains, frost, zip_up, reverse_swell, bloom, alu_tick, tsk, haptic,
 add_to_cart, stamp_soft, thoomp, sub_swell, sub_bed, band_rise, tick_train.
+"A LINE OF LIGHT" additions (pro-en BRIEF §7 NEW, <= 20 lines each, seeded, peak-normalised): alu_ring, glass_settle,
+pulse_riser, doppler_whoosh, screen_wake, button_click; de_esser for the voice chain.
 
 Everything is float64 numpy with fixed seeds: a re-run is bit-identical. The module-level N / NC are the
 timeline length; mix_audio.py sets them (A.N = 45 * 48000) before building anything.
@@ -768,3 +770,83 @@ def master(x: np.ndarray):
         gain += err
     return y, gain, glue_gr, lim_gr
 
+# ═══════════════════════════════ "A LINE OF LIGHT" (pro-en BRIEF §7 NEW) ═══════════════════════════════
+ALU_MODES = [(1.0, 1.0, 1.0), (2.32, 0.55, 0.55), (3.91, 0.3, 0.35), (5.12, 0.18, 0.25), (6.9, 0.1, 0.18)]   # anodised shell
+
+
+def alu_ring(note: str = "D5", dur: float = 0.6, seed: int = 0) -> np.ndarray:
+    """Aluminium body ring on the DROP: inharmonic shell modes on `note`, 0.6 s, fast-decaying strike noise."""
+    return bell(hz(note), ALU_MODES, dur=dur, decay=0.16, seed=seed, detune_cents=2.0, strike=0.35)
+
+
+def glass_settle(n: int = 4, seed: int = 0, notes=("D7", "A6", "E7", "D8")) -> np.ndarray:
+    """Ice settling: n tiny glass tinks at shrinking intervals (90 -> 35 ms) and levels (-0 -> -9 dB), panned."""
+    r = rng(seed)
+    out = np.zeros((2, S(0.09 * n + 0.5)))
+    t = 0.0
+    for k in range(n):
+        b = bell(hz(notes[k % len(notes)]), GLASS_TINK, dur=0.4, decay=0.07 + 0.02 * r.random(), seed=seed + k, strike=0.25)
+        i = S(t)
+        out[:, i:i + b.shape[1]] += to_stereo(b[0], r.uniform(-0.5, 0.5)) * db(-9.0 * k / max(1, n - 1))
+        t += 0.09 - 0.055 * k / max(1, n - 1) + r.uniform(-0.008, 0.008)
+    return norm_peak(fade_out(out, 0.1))
+
+
+def pulse_riser(dur: float = 3.6, note: str = "D3", seed: int = 0) -> np.ndarray:
+    """The tightening pulse into the DROP: a D3 tone chopped by a pulse whose rate accelerates 2.5 -> 16 Hz, a
+    low-pass opening 400 Hz -> 6 kHz and a swelling level; exactly `dur` long (last sample on the hit frame)."""
+    t = tvec(dur)
+    u = t / dur
+    rate = 2.5 * (16.0 / 2.5) ** (u ** 1.4)
+    gate = np.clip(np.sin(TWO_PI * np.cumsum(rate) / SR) * 4.0, 0.0, 1.0)
+    f = hz(note) * (1 + 0.004 * np.sin(TWO_PI * 5.0 * t))
+    tone = np.sin(TWO_PI * np.cumsum(f) / SR) + 0.3 * np.sin(TWO_PI * 2 * np.cumsum(f) / SR)
+    x = sweep_filter(np.vstack([tone, tone * 0.9]) * gate, 400 * (6000 / 400) ** u, q=1.2, kind="lp")
+    x += 0.12 * bp(rng(seed).standard_normal((2, t.size)), 1500, 5000) * gate * u ** 2
+    x *= (0.12 + 0.88 * u ** 2.2)
+    return norm_peak(fade_out(x, 0.003))
+
+
+def doppler_whoosh(dur: float = 1.0, pan=(-0.6, 0.6), seed: int = 0, peak_at: float = 0.55) -> np.ndarray:
+    """Pass-by whoosh: band-passed noise whose centre climbs 350 Hz -> 3.4 kHz into the pass (`peak_at` x dur) and
+    drops faster after it (the Doppler fall), a faint tone riding the same bend, low air body, moving pan. The
+    loudest 5 ms sits on the pass: place it with align="peak"."""
+    t = tvec(dur)
+    r = rng(seed)
+    pk = peak_at * dur
+    fc = np.where(t < pk, 350 * (3400 / 350) ** (t / pk), 3400 * (700 / 3400) ** np.clip((t - pk) / (0.55 * (dur - pk)), 0, 1))
+    x = sweep_filter(r.standard_normal((2, t.size)), fc, q=1.1, kind="bp")
+    x += 0.10 * np.sin(TWO_PI * np.cumsum(fc * 0.5) / SR) * np.exp(-((t - pk) / (0.25 * dur)) ** 2)
+    x += 0.3 * lp(r.standard_normal((2, t.size)), 220) * 2.5
+    env = np.where(t < pk, (t / pk) ** 2.2, np.exp(-(t - pk) / ((dur - pk) / 3.0)))
+    x = auto_pan(x * env, *pan)
+    return norm_peak(fade_out(lp(hp(x, 90), 10000), 0.03))
+
+
+def screen_wake(seed: int = 0) -> np.ndarray:
+    """The display wakes: pop D6 (0.16 s) + haptic 165 Hz 40 ms + a short light sweep (0.3 s) under them."""
+    out = np.zeros((2, S(0.36)))
+    for x, at, g in ((to_stereo(pop("D6", dur=0.16, seed=seed)), 0.0, 0.9), (to_stereo(haptic(165.0, 0.04)), 0.0, 0.4),
+                     (light_sweep(0.3, seed=seed + 1), 0.0, 0.55)):
+        i = S(at)
+        out[:, i:i + x.shape[1]] += g * x[:, :out.shape[1] - i]
+    return norm_peak(fade_out(out, 0.03))
+
+
+def button_click(seed: int = 0) -> np.ndarray:
+    """Side-button click (unused unless a button is shown): 2 ms mechanical click, 1.4 kHz body, 25 ms."""
+    t = tvec(0.025)
+    r = rng(seed)
+    x = lp(hp(r.standard_normal(t.size), 1500), 8000) * np.exp(-t / 0.0012)
+    x += 0.5 * np.sin(TWO_PI * 1400 * t) * np.exp(-t / 0.004)
+    return norm_peak(fade_out(x * attack_env(t.size, 0.0002), 0.005))
+
+
+def de_esser(x: np.ndarray, lo: float = 6000.0, hi: float = 8000.0, depth_db: float = -3.0) -> np.ndarray:
+    """Dynamic -3 dB on 6-8 kHz: the band's 5 ms level within 10 dB of its loudest (the esses) is cut by `depth_db`,
+    2 ms attack / 40 ms release; the band is subtracted (not EQ'd) so the rest of the voice is untouched."""
+    band = bp(x, lo, hi, 4)
+    p = uniform_filter1d(ms_env(band), 5, mode="nearest")
+    lvl = 10 * np.log10(np.maximum(p, 1e-14))
+    gr = ballistics(np.clip((lvl - (lvl.max() - 10.0)) / 10.0, 0, 1) * depth_db, 0.002, 0.040)
+    return x - band * (1.0 - db(ctrl_to_audio(gr)))

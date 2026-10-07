@@ -1,13 +1,14 @@
 {
-  "name": "purepeptide-motion-en",
+  "name": "purepeptide-motion-pro-en",
   "version": "1.0.0",
   "scripts": {
     "assemble": "python3 tools/assemble.py",
     "dev": "npx hyperframes preview",
     "lint": "npx hyperframes lint",
     "check": "npx hyperframes check",
-    "render": "npx hyperframes render --quality delivery -o renders/purepeptide-motion-en.mp4",
-    "audio": "python3 tools/mix_audio.py"
+    "render": "npx hyperframes render --quality delivery -o renders/purepeptide-motion-pro-en.mp4",
+    "audio": "python3 tools/mix_audio.py",
+    "bake": "node tools/bake_screen.cjs && python3 tools/bake_qc.py"
   },
   "dependencies": {
     "hyperframes": "^0.8.73"

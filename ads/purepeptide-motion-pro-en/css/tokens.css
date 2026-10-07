@@ -1,0 +1,83 @@
+/* PurePeptide "A LINE OF LIGHT" — tokens and global layers (BRIEF §3.4, §3.5, §4; SHOTS §0.7, §0.8).
+   assemble.py INLINES every css/*.css into index.html, so url(...) paths are root-relative ("assets/...").
+   The @font-face rules live in tools/assemble.py (FONTS). */
+
+:root {
+  --void: #000000;
+  --glow: radial-gradient(60% 50% at 50% 55%, #0a1020 0%, #000 70%);
+  --type: rgba(255, 255, 255, 0.9);
+  --small: #c3cbd6; /* small caps, URL underline, legal (13:1 on black) */
+  --frost: #ffffff;
+  --frost-tint: #dcebff;
+  --device: #33466e;
+  --device-edge: #9fb2cf;
+  --status-bar: #123a78; /* site pixels: only ever inside the glass */
+  --page: #fbfcfe;
+  --site-teal: #16a48f; /* fill only, never text */
+  --bar-green: #2bb58a; /* fill only, never text */
+  --brand-a: #123a78;
+  --brand-b: #2a9ac2;
+  --brand-c: #16a48f;
+  /* type */
+  --display: "DM Sans", "PP Symbols", sans-serif; /* room type, tagline, the printed "pure" */
+  --body: "Inter", "PP Symbols", sans-serif; /* proof line, small caps, stat, URL, legal */
+  --mono: "IBM Plex Mono", "PP Symbols", monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+#stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #000; font-family: var(--body); color: var(--type);
+  -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+.layer { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
+
+/* z-order (SHOTS §0.7): world 0 · plates/s01 10 · holds 11 · frost 15 · type-back 20 · s02/take/phone2d 30 · hold_1188 31 · leak 35 ·
+   type-front 40 · fx 90/91 */
+#world { z-index: 0; background: var(--void); }
+#world .glow { position: absolute; inset: 0; background: var(--glow); opacity: 0; }
+.stage-v { opacity: 0; position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; transform-origin: 50% 50%; display: block; }
+#v-frost { mix-blend-mode: screen; }
+.stage-img { opacity: 0; position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block; transform-origin: 50% 50%; }
+#frost-full { mix-blend-mode: screen; }
+/* A shot section never creates a stacking context: its children use the global z-indexes (.z-back 20 / .z-front 40). */
+.scene { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; pointer-events: none; }
+.z-back { position: absolute; inset: 0; z-index: 20; }
+.z-front { position: absolute; inset: 0; z-index: 40; }
+#type-back { z-index: 20; }
+#type-front { z-index: 40; }
+#leak { z-index: 35; mix-blend-mode: screen; opacity: 0; }
+/* #fx must NOT be a stacking context (z-index:auto), else the grain's overlay blend would be isolated from the picture */
+#fx { z-index: auto; }
+#vignette { z-index: 90; opacity: 0.22; background: radial-gradient(ellipse 78% 74% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 1) 100%); }
+#grain { z-index: 91; mix-blend-mode: overlay; background-repeat: repeat; opacity: 0.02; }
+#fxdefs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* stub label (removed when a shot is built): DM Sans 800 120 px white 90 % + Inter 600 30 px small caps (#C3CBD6, 13:1) */
+.stub-label { position: absolute; left: 0; right: 0; top: 480px; text-align: center; font-family: var(--display); font-weight: 800; font-size: 120px;
+  letter-spacing: -0.02em; line-height: 1; color: var(--type); }
+.stub-label small { display: block; margin-top: 18px; font-family: var(--body); font-weight: 600; font-size: 30px; letter-spacing: 0.1em; color: var(--small); text-transform: uppercase; }
+
+/* ---- lib.js components ---- */
+.pp-h { font-family: var(--display); font-weight: 800; letter-spacing: -0.02em; line-height: 1; white-space: nowrap; }
+.pp-ln { display: block; }
+.pp-mask { display: block; overflow: hidden; padding: 0.06em 0.1em 0.14em; margin: -0.06em -0.1em -0.14em; }
+.pp-w { display: inline-block; white-space: nowrap; }
+.pp-g { display: inline-block; }
+.pp-c { display: inline-block; white-space: pre; }
+.pp-band { will-change: auto; }
+.pp-sweep { mix-blend-mode: screen; }
+.pp-roll { display: inline-flex; align-items: flex-start; font-family: var(--body); font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1; }
+.pp-roll-win { display: inline-block; height: 1em; overflow: hidden; }
+.pp-roll-strip { display: flex; flex-direction: column; }
+.pp-roll-d { display: block; height: 1em; text-align: center; }
+.pp-roll-static { display: inline-block; }
+.pp-logo, .pp-symbol { display: block; }
+.pp-svg-wrap { position: absolute; }
+.pp-svg-wrap svg { display: block; overflow: visible; }
+/* type roles (BRIEF §4) */
+.t-proof { font-family: var(--body); font-weight: 600; font-size: 96px; line-height: 1; color: var(--type); letter-spacing: -0.01em; }
+.t-small { font-family: var(--body); font-weight: 600; font-size: 36px; line-height: 1; color: var(--small); letter-spacing: 0.1em; text-transform: uppercase; }
+.t-stat { font-family: var(--body); font-weight: 600; font-size: 160px; line-height: 1; color: var(--type); letter-spacing: -0.02em; }
+.t-room { font-family: var(--display); font-weight: 800; font-size: 120px; line-height: 1; color: var(--type); letter-spacing: -0.02em; }
+.t-tag { font-family: var(--display); font-weight: 800; font-size: 56px; line-height: 1; color: var(--type); letter-spacing: -0.02em; }
+.t-url { font-family: var(--body); font-weight: 500; font-size: 40px; line-height: 1; color: var(--type); }
+.t-legal { font-family: var(--body); font-weight: 500; font-size: 26px; line-height: 1; color: var(--small); }

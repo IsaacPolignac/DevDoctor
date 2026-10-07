@@ -1,0 +1,25 @@
+/* The 2D iPhone rig (js/phone.js) — #phone2d in index.html (fallback, opacity 0 by default) and the bare #ps root in
+   screen/bake.html (bake mode). #phone2d is a 1920x1080 group: translate(tx,ty) scale(g), origin 0 0 (PH.cam). */
+#phone2d { z-index: 30; transform-origin: 0 0; opacity: 0; }
+#phone2d .ph-full { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block; }
+/* glass = front_glass.png, normal blend (front_glass_screen.png would paint black: the rig is a transformed, isolated group) */
+/* .ps root 402x874 pt placed on the screen rect: left/top = rect, scale K = 400.31/402, radius 51.9/K.
+   screen/bake.html overrides this rule (left/top 0, no transform, no radius: the bezel clips in 3D). */
+#phone2d #ps.ps { left: 759.85px; top: 105.27px; transform: scale(0.9958); transform-origin: 0 0; border-radius: 52.12px; overflow: hidden; }
+#ps .ps-blank { top: 0; height: 874px; z-index: 0; visibility: visible; background: #f4f7fb; }
+#ps .ps-blank-img { position: absolute; left: 0; top: 0; width: 402px; height: 874px; display: block; }
+#ps .ps-page { z-index: 1; visibility: hidden; }
+#ps .ps-scroll { position: absolute; left: 0; top: 0; width: 402px; }
+#ps .ps-ov { position: absolute; left: 0; top: 0; width: 402px; height: 0; }
+#ps .ps-ov > * { position: absolute; }
+#ps .ps-nav { z-index: 2; }
+#ps .ps-nav-alt { position: absolute; left: 0; top: 0; width: 402px; height: 71px; background-repeat: no-repeat; background-size: 402px auto; background-position: 0 -46px; opacity: 0; }
+#ps .ps-nav-alt > * { position: absolute; }
+#ps .ps-nav > .ps-press { position: absolute; z-index: 3; }
+#ps .ps-dim { position: absolute; left: 0; top: 0; width: 402px; height: 874px; background: #000; opacity: 0; z-index: 3; }
+#ps .ps-crop { background-repeat: no-repeat; background-size: 402px auto; }
+#ps .ps-bar-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0; }
+/* touch ring, no finger (BRIEF §8): screen-level (PH.tap) or page-level (screen_tl pageRing) */
+#ps .ps-tapr { position: absolute; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; z-index: 8; opacity: 0;
+  background: rgba(18, 58, 120, 0.22); border: 1.5px solid rgba(18, 58, 120, 0.55); }
+#ps .ps-tapr.white { background: rgba(255, 255, 255, 0.45); border-color: rgba(255, 255, 255, 0.8); }

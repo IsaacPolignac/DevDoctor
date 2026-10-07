@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Compliance QC (BRIEF §10, SCENES Appendix B.3): snapshots every STEP s over [FROM, TO] (default 22–37 every 0.25 s),
+# Compliance QC (BRIEF §8, SHOTS Appendix 2.2): snapshots every STEP s over [FROM, TO] (default 24.6–38.4 every 0.25 s),
 # a contact sheet to read BY EYE, and an OCR pass (tesseract, 2x upscale) that FAILS on any forbidden word.
-#   tools/qc_frames.sh [out-dir] [from] [to] [step]        e.g. tools/qc_frames.sh renders/qc 22 37 0.25
+#   tools/qc_frames.sh [out-dir] [from] [to] [step]        e.g. tools/qc_frames.sh renders/qc 24.6 38.4 0.25
 #   QC_REUSE=1 tools/qc_frames.sh renders/qc               re-run OCR + sheet on existing frames (no snapshots)
-# 61 snapshots at the default settings: run it as a gate before a delivery render, not on every edit (4 shared CPUs).
+# 56 snapshots at the default settings: run it as a gate before a delivery render, not on every edit (4 shared CPUs).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-OUT="${1:-$ROOT/renders/qc}"; FROM="${2:-22}"; TO="${3:-37}"; STEP="${4:-0.25}"
+OUT="${1:-$ROOT/renders/qc}"; FROM="${2:-24.6}"; TO="${3:-38.4}"; STEP="${4:-0.25}"
 FORBID='certif|\bCOA\b|bacterio|reconstitut|Retatrutide|Recovery|repair|G ?Pay|Pharmaceutical|SECURE|syringe|needle|inject|dosage|\bdose|protocol|benefit|heal|treatment|anti-?aging|weight loss|muscle'
 mkdir -p "$OUT/frames"
 if [ -z "${QC_REUSE:-}" ]; then

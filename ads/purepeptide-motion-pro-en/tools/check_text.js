@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-// Ad-text QC (BRIEF §3, §10, SCENES Appendix B.2): every visible ad text node is ≥ 24 px at its rendered size
+// Ad-text QC (BRIEF §4, §8; SHOTS Appendix 2.2): every visible ad text node is ≥ 24 px at its rendered size
 // (font-size × cumulative scale), has contrast ≥ 4.5:1 against the pixels behind it, and sits inside title-safe
 // x 96–1824 / y 54–1026. Loads index.html in headless Chromium (file://, no HyperFrames runtime: main.js already gates
 // sections and stage videos on their windows), seeks the master timeline and screenshots each sample time.
 //   node tools/check_text.js                         every 0.5 s over 0–45
 //   node tools/check_text.js --from 22 --to 37 --step 0.25 [--html index.html] [--json out.json]
-// Exempt: the phone's own UI (#phone subtree: real site pixels and iOS chrome) and any element with
+// Exempt: the 2D rig's own UI (#phone2d subtree: real site pixels and iOS chrome) and any element with
 // [data-qc-skip] (or inside one). Text still in transition (cumulative opacity < 0.9 or a CSS blur) is reported as
 // a warning, not a failure. Exit code 1 on any failure.
 // ES module (package.json "type": "module"); CommonJS deps loaded through createRequire.
@@ -47,7 +47,7 @@ const cr = (a, b) => { const L1 = lum(...a), L2 = lum(...b); return (Math.max(L1
       window.__timelines.main.seek(T > 0.5 ? 0 : 1, false);
       window.__timelines.main.seek(T, false);
       const out = [];
-      const skip = (el) => el.closest("#phone, [data-qc-skip]");
+      const skip = (el) => el.closest("#phone2d, [data-qc-skip]");
       const walker = document.createTreeWalker(document.getElementById("stage"), NodeFilter.SHOW_TEXT);
       const seen = new Set();
       for (let n = walker.nextNode(); n; n = walker.nextNode()) {
