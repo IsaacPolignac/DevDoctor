@@ -1,3 +1,25 @@
-<!-- S05 · Independently tested · f396–f546 · plate turn.mp4 + type. STUB: replaced by the shot builder (SHOTS.md §S05).
-     Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-<div class="z-front s05-stub"><div class="stub-label">S05<small>Independently tested</small></div></div>
+<!-- S05 · "Independently tested" · f396–f546 · AI plate turn.mp4 (stage video #v-turn, z 10, media 0 → 3.9 s = f396–f512, 1:1) + type.
+     The plate is driven by js/shots/S05.js with ONE setter (whip landing y +90 → 0, +300 px shift so the vial sits centre-right and
+     the type lives left of it, 1 %/s push about the vial): the same transform is written to .s05-hold, a still of plate frame 94
+     (assets/plates/turn_hold.png = what f513 would show; the plate's frame step is 0.47 levels, invisible) that stands in for the
+     video over f513–f522 while the plate crushes to black (#v-turn's window ends at f513; the crush f512–f522 and the breath f522–f546
+     are the contract). .s05-hold (z 11) and .s05-crush (z 12, the brightness crush as a black multiply: power2.in on its opacity)
+     are DIRECT children of the section with their own z-index (above the plate at 10, below the phone layers at 30 and the type at 40).
+     #s05-whip: the directional (vertical box) motion kernel of the whip-tilt landing, applied to #v-turn on its first 3 frames only
+     (f396–f398; the setter rewrites order / kernelMatrix / divisor per frame from the landing's velocity: a 1 × N box = a 360° shutter
+     streak, N = 0.8 × the frame's displacement → 37 / 19 / 11 px). -->
+<svg class="s05-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="s05-whip" x="-5%" y="-15%" width="110%" height="130%" color-interpolation-filters="sRGB">
+    <feConvolveMatrix id="s05-whip-k" order="1 3" kernelMatrix="1 1 1" divisor="3" edgeMode="duplicate" />
+  </filter>
+</svg>
+<img class="s05-hold" src="assets/plates/turn_hold.png" alt="" />
+<div class="s05-crush"></div>
+<!-- type (z 40, in front; left of the vial, x 160 → ≈ 816 at the widest line; the vial's left edge sits at x 1031 after the shift):
+     the proof line, Inter 600 96 px white 90 %, two ragged-left lines (one line = 997 px: it would run through the vial), lands
+     f410 = VO.w('L04', 5) "Tested" per glyph; beneath it the small line, Inter 600 caps 36 px +0.10 em #C3CBD6, on
+     f475 = VO.w('L04', 8) "Janosik". Both hold alone on black f522–f536, exit f536–f544. Janoshik Analytical as text only (no logo). -->
+<div class="z-front s05-type">
+  <div class="s05-proof t-proof"><span class="s05-ln s05-l1">Independently</span><span class="s05-ln s05-l2">tested.</span></div>
+  <div class="s05-acc t-small">JANOSHIK ANALYTICAL</div>
+</div>

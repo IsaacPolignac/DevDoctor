@@ -1,2 +1,16 @@
-/* S06 · 99 percent — every selector prefixed by #S06 (inlined into index.html: url() paths root-relative). STUB. */
-#S06 .s06-stub { pointer-events: none; }
+/* S06 · 99 % — every selector prefixed by #S06 (inlined into index.html: url() paths root-relative).
+   Plate column: #v-macro (z 10) and #hold-macro (z 11) are stage-level and driven by the shot's setter (translate(280px, 0) scale(s)
+   about the vial's centre (709, 760) in plate coordinates → stage (989, 760)); .s06-dark = a full-frame black at z 12 whose
+   opacity is the dark reveal (1 → 0 over f546–f558). Type at z 40: .s06-type is moved into the stage-level #type-front at build
+   (the exit f636–f644 outlives the section's window, which main.js gates at f636), so every type selector carries both roots. */
+#S06 .s06-dark { position: absolute; inset: 0; z-index: 12; background: #000; opacity: 1; pointer-events: none; }
+#S06 .s06-type, #type-front .s06-type { position: absolute; inset: 0; pointer-events: none; }
+/* the stat: Inter 600 160 px (.t-stat), line-height 1 (line box 160 px: baseline 138.2 px under the top, cap height 116.4 px):
+   top 428 → baseline y 566, cap top y 450. The "9" has an 8 px left side bearing at this size (measured on a 3× snapshot):
+   −8 px keeps the ink edge optically flush with the column's x 160 (S05 did the same with its "I"). */
+#S06 .s06-stat, #type-front .s06-stat { position: absolute; left: 160px; top: 428px; margin-left: -8px; white-space: nowrap; }
+/* the small line: Inter 600 caps 36 px +0.10 em #C3CBD6 (.t-small), two lines on a 47 px pitch: cap tops y 612 / 659, baselines
+   638 / 685 (46 px under the stat's baseline, as S05's small line sat 46 px under its proof line); the "H" bearing is 3 px */
+#S06 .s06-acc, #type-front .s06-acc { position: absolute; left: 160px; top: 607px; margin-left: -3px; white-space: nowrap; }
+#S06 .s06-ln, #type-front .s06-ln { display: block; }
+#S06 .s06-l2, #type-front .s06-l2 { margin-top: 11px; }

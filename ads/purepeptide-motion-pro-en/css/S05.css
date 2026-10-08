@@ -1,2 +1,17 @@
-/* S05 · Independently tested — every selector prefixed by #S05 (inlined into index.html: url() paths root-relative). STUB. */
-#S05 .s05-stub { pointer-events: none; }
+/* S05 · Independently tested — every selector prefixed by #S05 (inlined into index.html: url() paths root-relative).
+   Plate column: #v-turn (z 10, driven by the shot's setter: translate(300px, y) scale(s) about the vial's centre (957, 580) in plate
+   coordinates → stage (1257, 580)); .s05-hold = the same 1920×1080 still at z 11 with the same transform; .s05-crush = a full-frame
+   black at z 12 whose opacity is the crush (brightness b = 1 − opacity). Type at z 40 (.z-front). */
+#S05 .s05-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+#S05 .s05-hold { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block; z-index: 11; opacity: 0; pointer-events: none;
+  transform-origin: 957px 580px; }
+#S05 .s05-crush { position: absolute; inset: 0; z-index: 12; background: #000; opacity: 0; pointer-events: none; }
+#S05 .s05-type { pointer-events: none; }
+/* the proof line: Inter 600 96 px (.t-proof), two blocks on a 1.02 leading (line boxes 97.9 px: baselines y 468 / 566, cap tops 398 /
+   496 — the first cap top aligns with the label's top edge on the plate, y ≈ 400); left edge x 160. Line 1's "I" has a 7 px side
+   bearing, line 2's "t" 1 px: −6 px on line 1 keeps the ink edge optically flush. */
+#S05 .s05-proof { position: absolute; left: 160px; top: 384px; line-height: 1.02; white-space: nowrap; }
+#S05 .s05-ln { display: block; }
+#S05 .s05-l1 { margin-left: -6px; }
+/* the small line: Inter 600 caps 36 px +0.10 em #C3CBD6 (.t-small), cap top y 612 (46 px under line 2's baseline), baseline 638 */
+#S05 .s05-acc { position: absolute; left: 160px; top: 607px; white-space: nowrap; }

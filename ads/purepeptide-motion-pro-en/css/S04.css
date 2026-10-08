@@ -1,2 +1,20 @@
-/* S04 · Every batch — every selector prefixed by #S04 (inlined into index.html: url() paths root-relative). STUB. */
-#S04 .s04-stub { pointer-events: none; }
+/* S04 · Every batch — every selector prefixed by #S04 (inlined into index.html: url() paths root-relative).
+   Light only. .s04-fx = full frame, z 12 (above the plate at 10, below the phone layers at 30), screen blend, transformed WITH the
+   plate (js/shots/S04.js drives #v-cap and .s04-fx with one setter, origin 960 400 = the cap's centre at the cut). Each pass is a
+   full-frame container masked by the soft luma matte of the cap (stage and mask coincide: mask-size 1920×1080 at 0 0). */
+#S04 .s04-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+#S04 .s04-fx { position: absolute; inset: 0; z-index: 12; pointer-events: none; mix-blend-mode: screen; transform-origin: 960px 400px; }
+#S04 .s04-matte { position: absolute; inset: 0; overflow: hidden;
+  -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-position: 0 0; mask-position: 0 0;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+#S04 .s04-a { -webkit-mask-image: url("assets/fx/s04_matte_a.png"); mask-image: url("assets/fx/s04_matte_a.png"); }
+#S04 .s04-b { -webkit-mask-image: url("assets/fx/s04_matte_b.png"); mask-image: url("assets/fx/s04_matte_b.png"); }
+/* the pass: the film's 220 px stripe at 105° (box rotated 15°: top leans right), tall enough to cover the frame once rotated; cold
+   white (the cold key's (236, 242, 255)); the halo peaks 1.0 with 0.45 shoulders (hotter than the S03 carry band's 0.85 / 0.30:
+   these passes are 6 f and stretched ≈ 2× at the peak, and the blue cap swallows a weak band) + S03's 2 px core line with a 6 px glow
+   (the line of light). translateX(x) puts the core at stage x (left −110 + half width); the setter adds rotate(15deg) scaleX(stretch). */
+#S04 .s04-band { position: absolute; opacity: 0; left: -110px; top: -560px; width: 220px; height: 2200px; transform-origin: 50% 50%;
+  background: linear-gradient(90deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.45) 36%, rgba(236, 242, 255, 1) 50%,
+    rgba(236, 242, 255, 0.45) 64%, rgba(236, 242, 255, 0) 100%); }
+#S04 .s04-band i { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 0 6px 1px rgba(236, 242, 255, 0.75); }

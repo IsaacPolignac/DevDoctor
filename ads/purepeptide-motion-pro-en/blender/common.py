@@ -925,15 +925,40 @@ def write_corners(path):
 
 
 # ----------------------------------------------------------------------------- render loop
+MIN_BORDER_PX = 32      # a phone fully off-frame (ARR f708) collapses the border → Cycles "Image too small"
+
+
+def _border_floor(scene):
+    """keep the border at least MIN_BORDER_PX wide/high inside [0,1] (anchored at the frame edge the phone is beyond):
+    the frame renders empty/transparent instead of aborting. Returns the (possibly corrected) area."""
+    r = scene.render
+    rx = r.resolution_x * r.resolution_percentage / 100.0
+    ry = r.resolution_y * r.resolution_percentage / 100.0
+    mw, mh = MIN_BORDER_PX / rx, MIN_BORDER_PX / ry
+    if r.border_max_x - r.border_min_x < mw:
+        if r.border_min_x > 0.5:
+            r.border_min_x = max(0.0, r.border_max_x - mw)
+        else:
+            r.border_max_x = min(1.0, r.border_min_x + mw)
+    if r.border_max_y - r.border_min_y < mh:
+        if r.border_min_y > 0.5:
+            r.border_min_y = max(0.0, r.border_max_y - mh)
+        else:
+            r.border_max_y = min(1.0, r.border_min_y + mh)
+    return (r.border_max_x - r.border_min_x) * (r.border_max_y - r.border_min_y)
+
+
 def set_border(scene, root, f, margin=0.015, extra_box=None):
     if extra_box:
         keep = R.BOX_MM
         R.BOX_MM = extra_box
         try:
-            return R.set_border(scene, root, f, margin)
+            R.set_border(scene, root, f, margin)
         finally:
             R.BOX_MM = keep
-    return R.set_border(scene, root, f, margin)
+    else:
+        R.set_border(scene, root, f, margin)
+    return _border_floor(scene)
 
 
 def render(scene, root, frames, pct, samples, border, outdir, force=False, denoise=None, label='beauty',

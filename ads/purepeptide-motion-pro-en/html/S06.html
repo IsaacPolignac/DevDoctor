@@ -1,3 +1,20 @@
-<!-- S06 · 99 percent · f546–f636 · plate macro.mp4 + type. STUB: replaced by the shot builder (SHOTS.md §S06).
-     Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-<div class="z-front s06-stub"><div class="stub-label">S06<small>99 percent</small></div></div>
+<!-- S06 · "99 %" · f546–f636 · AI plate macro.mp4 (stage video #v-macro, z 10, media 0 → 3.04 s = f546–f637, 1:1) + the held last
+     frame (#hold-macro, stage-level z 11, assets/plates/macro_last.png = the plate's last decoded frame, diff 0.0) + type.
+     The plate is driven by js/shots/S06.js with ONE transform setter (a +280 px shift so the vial's own leftward pan — measured
+     781 → 286 px over the 73 plate frames, eased in-out, 0 px/f at both ends — ends centred (x 566–1412) and never reaches the
+     type column; the 2D push 1.00 → 1.04 over f637–f738 about the vial); the same transform goes to #hold-macro so f637 is seamless.
+     .s06-dark (z 12, a DIRECT child of the section with its own z-index: above the plate at 10/11, below the type at 40) is the
+     dark reveal: full black whose opacity lifts 1 → 0 over f546–f558 while the plate's blur goes 6 → 0 px (filter on #v-macro). -->
+<div class="s06-dark"></div>
+<!-- type (z 40, the left third, x 160 → ≈ 495 at the widest line; the vial's left edge never comes closer than x 566). The block is
+     MOVED into the stage-level #type-front by js/shots/S06.js at build time (BUILD.md: main.js gates this section to opacity 0 at
+     f636, and the exit f636–f644 outlives the window), so its selectors in css/S06.css carry both roots.
+     the stat "99%" Inter 600 160 px white 90 % (.t-stat), baseline y 566 (= S05's second proof line: the column rhymes across
+     the breath), lands f552 = VO.w('L05', 0) "99" character by character (2 f apart, 18 f expo.out, 104 % overshoot); beneath it
+     the small line HPLC PURITY, MINIMUM — Inter 600 caps 36 px +0.10 em #C3CBD6 (.t-small), cap top y 612 (where S05's small line
+     sat), set on TWO lines so the whisper stays inside the column (one line is 496 px wide and would run under the glass from
+     f611) — on f588 = VO.w('L05', 2) "minimum." per glyph, sinking 6 px over 20 f. Hold to f636, exit f636–f644. -->
+<div class="z-front s06-type">
+  <div class="s06-stat t-stat">99%</div>
+  <div class="s06-acc t-small"><span class="s06-ln s06-l1">HPLC PURITY,</span><span class="s06-ln s06-l2">MINIMUM</span></div>
+</div>
