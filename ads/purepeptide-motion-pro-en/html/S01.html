@@ -1,3 +1,13 @@
-<!-- S01 · A droplet of light · f0–f126 · 3D own scene (opaque). STUB: replaced by the shot builder (SHOTS.md §S01).
-     Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-<div class="z-front s01-stub"><div class="stub-label">S01<small>A droplet of light</small></div></div>
+<!-- S01 · A droplet of light · f0–f126 · 3D own scene, OPAQUE: assets/layers/s01.mp4 (stage video #v-s01, z 10, data-start 1.0 /
+     duration 3.2 / media 0 → file frame n = film frame n + 30, shown f30–f125; S02's alpha webm takes over at f126).
+     The shot IS the plate (blender/s01_droplet.py): the camera dolly 0.32 → 0.26 m + 2.5° roll, the rim hit f30–f33, the travelling
+     top strip f36–f72, the key fade f89–f117, the rack focus drop → "p" f96–f117, the landed hold to the cut. No HTML type, no site
+     (SHOTS §S01: the printed "pure" in the scene is the only type). One DIRECT child of the section with its own z-index (the section
+     is never a stacking context; .z-front / .z-back are isolated groups and this sits BELOW the frost / type / phone layers):
+       .s01-gate (z 11)  the HIT1 exposure gate: a full-frame black between the plate (z 10) and everything above, released with the
+                         rim strip's own LINEAR 3 f switch-on f30–f33 (js/shots/S01.js, one time-driven setter). SHOTS §S01 says the
+                         film opens "f0–f30 black … the mp4 begins at f30 with 3 black frames"; the encoded plate is already pre-lit at
+                         f30 by the top strip and the two bulbs (ink ≈ 100 levels), so the gate restores the switch-on from true black:
+                         f30 black (the hit frame), f31 33 %, f32 67 %, f33 100 %, then 0 to the cut — the plate's pixels are untouched
+                         from f33 on. f0–f29 (the OPEN) is black by the scaffold alone (#world #000, the video gated by main.js). -->
+<div class="s01-gate"></div>

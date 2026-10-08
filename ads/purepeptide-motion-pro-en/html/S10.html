@@ -1,3 +1,16 @@
-<!-- S10 · The math, in depth · f936–f1044 · take + shadow. STUB: replaced by the shot builder (SHOTS.md §S10).
-     Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-<div class="z-front s10-stub"><div class="stub-label">S10<small>The math, in depth</small></div></div>
+<!-- S10 · "The math, in depth" — the tilt and the three slabs · f936–f1044 (31.20–34.80) · 3D: the take + the shadow pass (#v-take,
+     stage-level z 30, assets/layers/take.webm = renders/3d/take/final/0708–1188 with the slab shadows and the soft-clip baked by
+     tools/post_layers.py; media f708–f1188 from data-start 23.6; gated by main.js). Everything the contract lists for this shot is
+     BAKED into that layer (SHOTS §S10; all verified on the final frames, the ID mattes, corners.json and pose_speed.json):
+       tilt    f936–f966 move(CLOSE crept → CARDS (14°, −5°, −2°, (0.012, −0.253, 0.004))), ease 0.6/0/0.2/1, motion blur 0.5; the
+               display goes from the full-frame close pose to the ¾ cards pose (1.49 px/pt, TL (762,−149) BR (1391,1145) at f966);
+               fastest frame f949 MEASURED (pose_speed.json 32.6 °/s · 0.112 m/s; moves.json tilt.fastest_frame 949)
+       drift   f966–f1044 spin 14 → 16° (sine.inOut, 0.77 °/s), loc x +1 mm — never static
+       slabs   1 mm extruded copies of the cart's own quantity stepper "− 3 +" (f954, 36 mm), line total "$234.57" (f959, 24 mm) and
+               compound name "BPC-157 / TB-500" (f964, 12 mm) lift along the display normal, 20 f expo.out + 104 % overshoot, scale
+               1.00 → 1.25 (≥ 26 px per line at 1080, measured); their soft contact shadows on the page (shadow pass × matte_screen,
+               35 %, 4 px blur); seat back total f1020 / name f1025 / stepper f1030 (10 f power3.in + 4 f settle), all seated by f1044
+       DOF     f/16, focus plane +18 mm: page and slabs readable; screen cart3 @ 150 held; nav-wordmark tap ring on f1044 (S11's push)
+     No type, no site pixels in HTML ("Text: none — the lifted UI is the typography"), no 2D move, no CA (not one of the three allowed
+     moments): the section stays EMPTY on the stage. js/shots/S10.js only asserts the contract against the voice, the screen timeline
+     and the measured take, states the sound frames, and publishes the measured facts as PP.S10 for the neighbours and the mixer. -->

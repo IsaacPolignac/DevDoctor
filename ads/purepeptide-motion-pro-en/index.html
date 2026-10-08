@@ -155,12 +155,30 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 #ps .ps-tapr.white { background: rgba(255, 255, 255, 0.45); border-color: rgba(255, 255, 255, 0.8); }
     </style>
     <style data-src="css/S01.css">
-/* S01 · A droplet of light — every selector prefixed by #S01 (inlined into index.html: url() paths root-relative). STUB. */
-#S01 .s01-stub { pointer-events: none; }
+/* S01 · A droplet of light — every selector prefixed by #S01 (inlined into index.html: url() paths root-relative).
+   The plate (#v-s01, stage video z 10, opaque) is the shot; the 2D layer owns one element:
+   .s01-gate = the HIT1 exposure gate, a full-frame black at z 11 (above the plate at 10, below #hold-macro 11 by DOM order, the frost
+   15, type-back 20, the phone layers 30, type-front 40). Opacity 1 on the OPEN and the hit frame f30, released linearly with the rim
+   strip's own 3 f switch-on to 0 at f33 (js/shots/S01.js), 0 from then on. No blend mode (black over black on the OPEN, a plain
+   exposure multiply on f30–f32), no blur, no transform. */
+#S01 .s01-gate { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 1; pointer-events: none; }
     </style>
     <style data-src="css/S02.css">
-/* S02 · Printed on glass — every selector prefixed by #S02 (inlined into index.html: url() paths root-relative). STUB. */
-#S02 .s02-stub { pointer-events: none; }
+/* S02 · Printed on glass — every selector prefixed by #S02 (inlined into index.html: url() paths root-relative). Light only.
+   .s02-glass = the cover glass as a per-frame quad: a 402×874 pt element at (0,0), transform-origin 0 0, driven by the matrix3d of
+   renders/3d/s02/corners.json (TECH §5), z 32 (above #v-s02 at 30, below #leak at 35), screen blend onto the phone's own pixels. */
+#S02 .s02-glass { position: absolute; left: 0; top: 0; width: 402px; height: 874px; transform-origin: 0 0; z-index: 32; opacity: 0;
+  mix-blend-mode: screen; pointer-events: none; }
+/* the cover glass extends 1.63 mm = 9.8 pt beyond the display (the black ink border): 8 pt here, 2 pt short of the rails; outer radius 60 pt */
+#S02 .s02-cover { position: absolute; left: -8px; top: -8px; width: 418px; height: 890px; border-radius: 60px; overflow: hidden; }
+/* the line of light — S03/S04's band in glass pt: a 220 pt halo (≈ 195 px) at 105° (box rotated 15°, top leans right), cold white
+   (236, 242, 255), halo peak 0.36 / shoulders 0.16, and the film's 2.3 pt core (≈ 2 px, 0.98) + 9 pt glow; the box 220 × 2300 pt is
+   rotated about its centre at quad y 437 = the display's mid-height, so translateX(x) puts the core at quad x on the centre line */
+#S02 .s02-band { position: absolute; left: -110px; top: -713px; width: 220px; height: 2300px; transform-origin: 50% 50%; opacity: 0;
+  background: linear-gradient(90deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.16) 36%, rgba(236, 242, 255, 0.36) 50%,
+    rgba(236, 242, 255, 0.16) 64%, rgba(236, 242, 255, 0) 100%); }
+#S02 .s02-band i { position: absolute; top: 0; bottom: 0; left: 50%; width: 2.3px; margin-left: -1.15px; background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 0 9px 1px rgba(236, 242, 255, 0.7); }
     </style>
     <style data-src="css/S03.css">
 /* S03 · We measure it — every selector prefixed by #S03 (inlined into index.html: url() paths root-relative).
@@ -266,28 +284,71 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 #S06 .s06-l2, #type-front .s06-l2 { margin-top: 11px; }
     </style>
     <style data-src="css/S07.css">
-/* S07 · Frost, the arrival — every selector prefixed by #S07 (inlined into index.html: url() paths root-relative). STUB. */
-#S07 .s07-stub { pointer-events: none; }
+/* S07 · "Cold" — every selector prefixed by #S07 (inlined into index.html: url() paths root-relative).
+   The frost field (#v-frost / #frost-full, z 15, screen blend) and the held plate (#hold-macro, z 11) are stage-level; this sheet
+   only styles the crush: a full-frame black at z 16 (above the field, below the phone layers at 30) whose opacity is the
+   brightness crush f716–f738 (power2.in, driven by js/shots/S07.js). It starts invisible and is a direct child of the section
+   (the section itself never gets a z-index/transform/filter). */
+#S07 .s07-crush { position: absolute; inset: 0; z-index: 16; background: #000; opacity: 0; pointer-events: none; }
     </style>
     <style data-src="css/S08.css">
-/* S08 · The slow show, the wake — every selector prefixed by #S08 (inlined into index.html: url() paths root-relative). STUB. */
-#S08 .s08-stub { pointer-events: none; }
+/* S08 · "Open the site" — every selector prefixed by #S08 (inlined into index.html: url() paths root-relative).
+   The leak wrapper .s08-leak is moved into the stage-level #leak (z 35, screen blend, opacity 0: css/tokens.css) at build by
+   js/shots/S08.js, so every selector carries both roots. The wrapper = the feathered inverse phone mask (assets/fx/leak_mask.png,
+   alpha 1 = the leak passes: 0.27 at the silhouette edge, 1.0 at 40 px out); the plate = assets/fx/leak.png (1920x1080, made by
+   assets/fx/make_leak.py), scaled/drifted about the phone's centre at f815 (971, 540) by the shot's one setter. */
+#S08 .s08-leak, #leak .s08-leak { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; pointer-events: none;
+  -webkit-mask-image: url("assets/fx/leak_mask.png"); mask-image: url("assets/fx/leak_mask.png");
+  -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: 0 0; mask-position: 0 0; }
+/* fallback only (no #leak on the stage): the wrapper is its own additive layer; the shot drives its opacity instead of #leak's */
+#S08 .s08-leak { z-index: 35; mix-blend-mode: screen; opacity: 0; }
+#S08 .s08-leak-plate, #leak .s08-leak-plate { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block;
+  transform-origin: 971px 540px; }
     </style>
     <style data-src="css/S09.css">
-/* S09 · The cart does the math — every selector prefixed by #S09 (inlined into index.html: url() paths root-relative). STUB. */
-#S09 .s09-stub { pointer-events: none; }
+/* S09 · "The cart does the math" — every selector prefixed by #S09 (inlined into index.html: url() paths root-relative).
+   The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the dive f822–f868 and the
+   close pose f868–f936 with the cart math baked on the 3D screen. This section has no children — nothing to style. The CA pass
+   (f838–f844) is the SVG filter #ca applied to #v-take by PP.ca from js/shots/S09.js (never a clone of the stage), the 2D fallback
+   camera moves #phone2d (css/phone.css). The section itself never gets a z-index/transform/filter (BUILD.md). */
+#S09 { pointer-events: none; }
     </style>
     <style data-src="css/S10.css">
-/* S10 · The math, in depth — every selector prefixed by #S10 (inlined into index.html: url() paths root-relative). STUB. */
-#S10 .s10-stub { pointer-events: none; }
+/* S10 · "The math, in depth" — every selector prefixed by #S10 (inlined into index.html: url() paths root-relative).
+   The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the tilt f936–f966, the three
+   lifted slabs with their shadows f954–f1044 and the drift, baked. This section has no children — nothing to style. The section
+   itself never gets a z-index/transform/filter (BUILD.md); the void glow, grain and vignette are global (main.js). */
+#S10 { pointer-events: none; }
     </style>
     <style data-src="css/S11.css">
-/* S11 · Purity, proven. — every selector prefixed by #S11 (inlined into index.html: url() paths root-relative). STUB. */
-#S11 .s11-stub { pointer-events: none; }
+/* S11 · "Purity, proven." — every selector prefixed by #S11 (inlined into index.html: url() paths root-relative).
+   The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the pull-out f1050–f1116 to the
+   hero, the drift to f1152, the push to the home page and its H1 baked on the 3D screen. This section adds the room type at z 20
+   (.z-back), BEHIND the phone: .s11-room is moved into the stage-level #type-back (z 20) at build by js/shots/S11.js (the exit
+   f1152–f1160 outlives the section's window, which main.js gates at f1152), so every selector carries both roots.
+   The section itself never gets a z-index/transform/filter (BUILD.md). */
+#S11 .s11-room, #type-back .s11-room { position: absolute; inset: 0; pointer-events: none; }
+/* .s11-par: the parallax wrapper (left/top = the block's box at the landing f1079 BEFORE the slide; ONE transform setter in S11.js
+   writes translate(dx) scale(s) about the final period: transform-origin = the "." of "proven." — ink right edge x 428 (8 px left
+   bearing + 420 px of ink, measured on a 1× screenshot of DM Sans 800 120 px −0.02 em) on line 2's baseline y 209 (112 + 97).
+   3 px blur: the room type sits 15 % behind the focus plane (SHOTS §S11, BRIEF §4 "type behind the focus plane gets a 3 px blur"). */
+#S11 .s11-par, #type-back .s11-par { position: absolute; left: 358px; top: 425px; transform-origin: 428px 209px; filter: blur(3px); white-space: nowrap; }
+/* .s11-lines: DM Sans 800 120 px white 90 % −0.02 em (.t-room) on a 112 px pitch (line-height 112 px → the baseline sits 97 px under
+   each line box's top: ascent 101 at line-height 120, minus the 4 px half-leading). Line 1 "Purity," top 425 → baseline 522, cap top
+   438; line 2 "proven." top 537 → baseline 634, x-height top 573, descender 659. Ink: "Purity," x +8 … +367, "proven." +8 … +428,
+   the period 20 × 18 px at x +408 … +428 on the baseline. The exit (opacity → 0, y −12) is tweened on THIS element, never on .s11-par
+   (whose transform the parallax setter owns). */
+#S11 .s11-lines, #type-back .s11-lines { line-height: 112px; }
+#S11 .s11-ln, #type-back .s11-ln { display: block; white-space: nowrap; }
     </style>
     <style data-src="css/S12.css">
-/* S12 · Lights out, STOP — every selector prefixed by #S12 (inlined into index.html: url() paths root-relative). STUB. */
-#S12 .s12-stub { pointer-events: none; }
+/* S12 · "Lights out" — every selector prefixed by #S12 (inlined into index.html: url() paths root-relative).
+   The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the edge-on exit f1152–f1188
+   with the screen DIM, the glint f1172 and the lights going out, baked — and the held STOP frame (#hold-1188, stage-level z 31,
+   .stage-img) that js/shots/S12.js switches on at f1188. This section has no children — nothing to style. The section itself
+   never gets a z-index/transform/filter (BUILD.md); the void glow, grain (frozen f1188–f1206) and vignette are global. */
+#S12 { pointer-events: none; }
     </style>
     <style data-src="css/S13.css">
 /* S13 · End card — every selector prefixed by #S13 (inlined into index.html: url() paths root-relative). SHOTS §S13.
@@ -352,6 +413,7 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     <link rel="preload" as="image" href="assets/fx/grain6.png" />
     <link rel="preload" as="image" href="assets/fx/grain7.png" />
     <link rel="preload" as="image" href="assets/plates/macro_last.png" />
+    <link rel="preload" as="image" href="assets/fx/frost_full.png" />
     <link rel="preload" as="image" href="assets/layers/hold_1188.png" />
   </head>
   <body>
@@ -532,25 +594,44 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
   <path d="m 333.8418,489 h 5.88867 v -19.13818 h 11.31933 c 10.17432,0 16.81543,-5.7251 16.81543,-14.81983 0,-9.09472 -6.37939,-14.78711 -16.55371,-14.78711 H 333.8418 Z m 5.88867,-24.37256 v -19.13818 h 11.38476 c 6.77198,0 10.92676,3.63135 10.92676,9.55273 0,5.92139 -4.15478,9.58545 -10.92676,9.58545 z m 71.22065,25.15772 c 11.48291,0 18.97461,-7.32813 18.97461,-17.33887 v -32.19141 h -5.88867 v 31.7334 c 0,7.13184 -4.93994,12.30078 -13.08594,12.30078 -8.14599,0 -13.08594,-5.16894 -13.08594,-12.30078 v -31.7334 h -5.88867 v 32.19141 c 0,10.01074 7.4917,17.33887 18.97461,17.33887 z M 456.75234,489 h 5.88867 v -19.13818 h 11.74463 c 0.16358,0 0.29444,0 0.45801,0 L 485.11611,489 h 6.87012 l -10.95947,-20.08691 c 6.37939,-1.96289 10.3706,-6.90284 10.3706,-13.8711 0,-9.09472 -6.37939,-14.78711 -16.55371,-14.78711 h -18.09131 z m 5.88867,-24.37256 v -19.13818 h 12.00635 c 6.77197,0 10.92676,3.63135 10.92676,9.55273 0,5.92139 -4.12207,9.58545 -10.86133,9.58545 z M 516.5228,489 h 31.70068 v -5.23438 h -25.81201 v -17.10986 h 23.91455 v -5.23437 h -23.91455 v -15.93213 h 25.81201 v -5.23438 H 516.5228 Z m 56.23726,0 h 5.88867 v -19.13818 h 11.31933 c 10.17432,0 16.81543,-5.7251 16.81543,-14.81983 0,-9.09472 -6.37939,-14.78711 -16.55371,-14.78711 h -17.46972 z m 5.88867,-24.37256 v -19.13818 h 11.38476 c 6.77198,0 10.92676,3.63135 10.92676,9.55273 0,5.92139 -4.15478,9.58545 -10.92676,9.58545 z M 631.15649,489 h 31.70069 v -5.23438 h -25.81201 v -17.10986 h 23.91455 v -5.23437 h -23.91455 v -15.93213 h 25.81201 v -5.23438 h -31.70069 z m 56.23725,0 h 5.88867 v -19.13818 h 11.31934 c 10.17431,0 16.81543,-5.7251 16.81543,-14.81983 0,-9.09472 -6.3794,-14.78711 -16.55372,-14.78711 h -17.46972 z m 5.88867,-24.37256 v -19.13818 h 11.38477 c 6.77197,0 10.92675,3.63135 10.92675,9.55273 0,5.92139 -4.15478,9.58545 -10.92675,9.58545 z m 48.64743,-19.13818 h 15.89941 V 489 h 5.88868 v -43.51074 h 15.83398 v -5.23438 h -37.62207 z m 67.39301,-5.23438 h -5.88868 V 489 h 5.88868 z M 851.46002,489 c 14.85254,0 23.3584,-9.22559 23.3584,-24.4707 0,-15.11426 -8.50586,-24.27442 -22.7041,-24.27442 H 836.41119 V 489 Z m -9.16015,-5.23438 v -38.27636 h 9.42187 c 11.4502,0 17.20801,7.26269 17.20801,19.04004 0,11.9082 -5.75781,19.23632 -17.86231,19.23632 z M 900.00928,489 h 31.70068 v -5.23438 h -25.81201 v -17.10986 h 23.91455 v -5.23437 h -23.91455 v -15.93213 h 25.81201 v -5.23438 h -31.70068 z" fill="url(#g)"/>
 </svg></template>
     <div id="world" class="layer"><div class="glow"></div></div>
-    <video id="v-hero" class="clip stage-v" src="assets/plates/ai/hero.mp4" data-start="7.2" data-duration="3" data-media-start="0" data-track-index="20" muted playsinline style="z-index:10"></video>
-    <video id="v-cap" class="clip stage-v" src="assets/plates/ai/cap.mp4" data-start="10.2" data-duration="3" data-media-start="0" data-track-index="21" muted playsinline style="z-index:10"></video>
-    <video id="v-turn" class="clip stage-v" src="assets/plates/ai/turn.mp4" data-start="13.2" data-duration="3.9" data-media-start="0" data-track-index="22" muted playsinline style="z-index:10"></video>
-    <video id="v-macro" class="clip stage-v" src="assets/plates/ai/macro.mp4" data-start="18.2" data-duration="3.04" data-media-start="0" data-track-index="23" muted playsinline style="z-index:10"></video>
-    <video id="v-frost" class="clip stage-v" src="assets/fx/frost.webm" data-start="21.6" data-duration="2" data-media-start="0" data-track-index="24" muted playsinline style="z-index:15"></video>
-    <video id="v-s02" class="clip stage-v" src="assets/layers/s02.webm" data-start="4.2" data-duration="3" data-media-start="0" data-track-index="25" muted playsinline style="z-index:30"></video>
-    <video id="v-take" class="clip stage-v" src="assets/layers/take.webm" data-start="23.6" data-duration="16" data-media-start="0" data-track-index="26" muted playsinline style="z-index:30"></video>
+    <video id="v-s01" class="clip stage-v" src="assets/layers/s01.mp4" data-start="1" data-duration="3.2" data-media-start="0" data-track-index="20" muted playsinline style="z-index:10"></video>
+    <video id="v-hero" class="clip stage-v" src="assets/plates/ai/hero.mp4" data-start="7.2" data-duration="3" data-media-start="0" data-track-index="21" muted playsinline style="z-index:10"></video>
+    <video id="v-cap" class="clip stage-v" src="assets/plates/ai/cap.mp4" data-start="10.2" data-duration="3" data-media-start="0" data-track-index="22" muted playsinline style="z-index:10"></video>
+    <video id="v-turn" class="clip stage-v" src="assets/plates/ai/turn.mp4" data-start="13.2" data-duration="3.9" data-media-start="0" data-track-index="23" muted playsinline style="z-index:10"></video>
+    <video id="v-macro" class="clip stage-v" src="assets/plates/ai/macro.mp4" data-start="18.2" data-duration="3.04" data-media-start="0" data-track-index="24" muted playsinline style="z-index:10"></video>
+    <video id="v-frost" class="clip stage-v" src="assets/fx/frost.webm" data-start="21.6" data-duration="2" data-media-start="0" data-track-index="25" muted playsinline style="z-index:15"></video>
+    <video id="v-s02" class="clip stage-v" src="assets/layers/s02.webm" data-start="4.2" data-duration="3" data-media-start="0" data-track-index="26" muted playsinline style="z-index:30"></video>
+    <video id="v-take" class="clip stage-v" src="assets/layers/take.webm" data-start="23.6" data-duration="16" data-media-start="0" data-track-index="27" muted playsinline style="z-index:30"></video>
     <img id="hold-macro" class="stage-img" src="assets/plates/macro_last.png" alt="" style="z-index:11" />  <!-- S06/S07: the held macro frame f637–f738 (2D push 1.00 → 1.04) -->
+    <img id="frost-full" class="stage-img" src="assets/fx/frost_full.png" alt="" style="z-index:15" />  <!-- S07: frost_full held f708–f738 (screen blend), crushed to black f716–f738 -->
     <img id="hold-1188" class="stage-img" src="assets/layers/hold_1188.png" alt="" style="z-index:31" />  <!-- S12: the STOP frame f1188–f1206 (above the take webm) -->
     <div id="type-back" class="layer"></div>
     <section id="S01" class="clip scene" data-start="0" data-duration="4.199" data-track-index="1">
-      <!-- S01 · A droplet of light · f0–f126 · 3D own scene (opaque). STUB: replaced by the shot builder (SHOTS.md §S01).
-           Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-      <div class="z-front s01-stub"><div class="stub-label">S01<small>A droplet of light</small></div></div>
+      <!-- S01 · A droplet of light · f0–f126 · 3D own scene, OPAQUE: assets/layers/s01.mp4 (stage video #v-s01, z 10, data-start 1.0 /
+           duration 3.2 / media 0 → file frame n = film frame n + 30, shown f30–f125; S02's alpha webm takes over at f126).
+           The shot IS the plate (blender/s01_droplet.py): the camera dolly 0.32 → 0.26 m + 2.5° roll, the rim hit f30–f33, the travelling
+           top strip f36–f72, the key fade f89–f117, the rack focus drop → "p" f96–f117, the landed hold to the cut. No HTML type, no site
+           (SHOTS §S01: the printed "pure" in the scene is the only type). One DIRECT child of the section with its own z-index (the section
+           is never a stacking context; .z-front / .z-back are isolated groups and this sits BELOW the frost / type / phone layers):
+             .s01-gate (z 11)  the HIT1 exposure gate: a full-frame black between the plate (z 10) and everything above, released with the
+                               rim strip's own LINEAR 3 f switch-on f30–f33 (js/shots/S01.js, one time-driven setter). SHOTS §S01 says the
+                               film opens "f0–f30 black … the mp4 begins at f30 with 3 black frames"; the encoded plate is already pre-lit at
+                               f30 by the top strip and the two bulbs (ink ≈ 100 levels), so the gate restores the switch-on from true black:
+                               f30 black (the hit frame), f31 33 %, f32 67 %, f33 100 %, then 0 to the cut — the plate's pixels are untouched
+                               from f33 on. f0–f29 (the OPEN) is black by the scaffold alone (#world #000, the video gated by main.js). -->
+      <div class="s01-gate"></div>
     </section>
     <section id="S02" class="clip scene" data-start="4.2" data-duration="2.999" data-track-index="2">
-      <!-- S02 · Printed on glass · f126–f216 · 3D phone, alpha. STUB: replaced by the shot builder (SHOTS.md §S02).
-           Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-      <div class="z-front s02-stub"><div class="stub-label">S02<small>Printed on glass</small></div></div>
+      <!-- S02 · Printed on glass · f126–f216 · 3D phone, alpha (#v-s02 = assets/layers/s02.webm, z 30, 91 f = f126–f216): the black cover glass at
+           0.844 m, cold key, the word "pure" present ONLY as its reflection in the glass (f126–f173), the SideR rim line, the sheen, the drift.
+           Light only: no type, no site. ONE direct child of the section with its own z-index (the section is not a stacking context; a screen
+           blend inside .z-front / .z-back would see black):
+             .s02-glass (z 32)  the cover glass as a per-frame quad — a 402×874 pt element under the CSS matrix3d of renders/3d/s02/corners.json
+                                (TECH §5 recipe), +8 pt for the black ink border, radius 60 pt, overflow hidden, mix-blend-mode: screen onto the
+                                phone's pixels. SWEEP2 (§0.9): the film's 105° line of light (S03/S04's band) enters the glass's left edge on f193
+                                and crosses to the display centre on f215, the last S02 frame, at speed and at its brightest; on f216 S03's band
+                                is on the vial. (The keyed 3D SoftTop pass does not read in the render: see js/shots/S02.js.) -->
+      <div class="s02-glass"><div class="s02-cover"><div class="s02-band"><i></i></div></div></div>
     </section>
     <section id="S03" class="clip scene" data-start="7.2" data-duration="2.999" data-track-index="3">
       <!-- S03 · We measure it · f216–f306 · AI plate hero.mp4 (stage video #v-hero, z 10, media 0 → 3.0, 1:1). Light only: no type, no site.
@@ -661,34 +742,132 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
       </div>
     </section>
     <section id="S07" class="clip scene" data-start="21.2" data-duration="3.399" data-track-index="7">
-      <!-- S07 · Frost, the arrival · f636–f738 · 2D frost + take ARR. STUB: replaced by the shot builder (SHOTS.md §S07).
-           Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-      <div class="z-front s07-stub"><div class="stub-label">S07<small>Frost, the arrival</small></div></div>
+      <!-- S07 · "Cold" — frost takes the vial, the phone arrives · f636–f738 (21.20–24.60) · hybrid: 2D frost over the held macro plate
+           + the take's ARR (SHOTS §S07). Nothing in this section is typed; "cold" and "24 h" ARE the frost.
+           The picture is made of stage-level layers this shot drives from js/shots/S07.js (BUILD.md: hand-offs live on stage elements):
+             #hold-macro (z 11)   the held macro frame, pushed 1.00 → 1.04 by S06's setter to f738 (S06 owns it; untouched here)
+             #v-frost   (z 15)    assets/fx/frost.webm, VP9 alpha, mix-blend-mode: screen, data-start 21.6 = f648 = VO.w('L06', 0)
+                                  "Shipped" (tools/assemble.py), 60 frames f648–f707: DLA frost grows from the four edges, the crackle
+                                  step on f657 "cold", closed over the label by f686 "24" (frost_density.json: centre_cov 1.0 at f685)
+             #frost-full (z 15)   assets/fx/frost_full.png (= frost frame 60, bit-identical), screen blend, held f708–f738
+             #v-take    (z 30)    assets/layers/take.webm from f708: the ARR (ARR0 → REST, back first, edge-on glint f712 measured in
+                                  renders/3d/take/arr_glint.json, REST exactly on f738), the frost screened inside its own alpha
+           .s07-crush (z 16, a DIRECT child of the section with its own z-index: above the frost field at 15 and the hold at 11, below
+           the phone at 30) is the crush to black of the whole field over f716–f738: a full-frame black whose opacity is power2.in on
+           the timeline (= brightness → 0 on everything beneath it, the phone untouched), so on the DROP f738 only the phone remains. -->
+      <div class="s07-crush"></div>
     </section>
     <section id="S08" class="clip scene" data-start="24.6" data-duration="2.799" data-track-index="8">
-      <!-- S08 · The slow show, the wake · f738–f822 · take. STUB: replaced by the shot builder (SHOTS.md §S08).
-           Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-      <div class="z-front s08-stub"><div class="stub-label">S08<small>The slow show, the wake</small></div></div>
+      <!-- S08 · "Open the site" — the slow show, the wake, the thaw · f738–f822 (24.60–27.40) · 3D: the take (#v-take, stage-level z 30,
+           assets/layers/take.webm, media f708–f1188). Everything the contract lists for the phone is BAKED into that layer: REST held
+           f738–f750 (identity, corners.json = screen_rect ± 0.01 px), drift spin 0 → 1.5° / loc x +2 mm f750–f822 (sine.inOut), the slow
+           show f750–f786, the thermometer f803–f839, the screen SEQUENCE (black to f802, home @ 0 waking at f803 = VO "Open" with the badge
+           "1", momentum scroll 0 → 36 f812–f840) and the frost thaw f803–f821 (tools/post_layers.py). No type, no site pixels in HTML.
+           The ONE 2D element of this shot is the wake's additive light leak (BRIEF §3.5, §S08: warm, 18 %, 10 f, peak f815): .s08-leak is
+           MOVED into the stage-level #leak (z 35, mix-blend-mode: screen, opacity 0 by css/tokens.css) by js/shots/S08.js at build. The
+           wrapper carries the feathered INVERSE phone mask (assets/fx/leak_mask.png: the f815 silhouette dilated 8 px, feathered 12 px),
+           so the bloom lives around the phone — never on the rails (rim highlights stay ≤ 92 %, QC) and never on the site pixels (§3.5);
+           the plate inside (assets/fx/leak.png, written by assets/fx/make_leak.py: a halo following the silhouette + a horizontal anamorphic
+           streak through the screen centre, hot core → amber fringe) drifts 10 px / −5 px and scales 1.000 → 1.035 across the 10 f.
+           Inside the section (no #leak on the stage) the wrapper is its own z 35 screen-blend layer with the same envelope. -->
+      <div class="s08-leak"><img class="s08-leak-plate" src="assets/fx/leak.png" alt="" /></div>
     </section>
     <section id="S09" class="clip scene" data-start="27.4" data-duration="3.799" data-track-index="9">
-      <!-- S09 · The cart does the math · f822–f936 · take. STUB: replaced by the shot builder (SHOTS.md §S09).
-           Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-      <div class="z-front s09-stub"><div class="stub-label">S09<small>The cart does the math</small></div></div>
+      <!-- S09 · "The cart does the math" — the dive and the close pose · f822–f936 (27.40–31.20) · 3D: the take (#v-take, stage-level
+           z 30, assets/layers/take.webm = renders/3d/take/final/0708–1188, media f708–f1188 from data-start 23.6; gated by main.js).
+           Everything the contract lists for this shot is BAKED into that layer (SHOTS §S09; all verified on the decoded webm frames):
+             dive    f822–f868 move(REST drifted → CLOSE), ease 0.6/0/0.2/1, motion blur 0.5: a dolly with roll to the perpendicular close
+                     pose (spin 4°, tilt −3°, roll −1°, loc (0, −0.288, +0.006)); the display grows 869 → 1394 px tall (1.596 px/pt); fastest
+                     frame f841 MEASURED (pose_speed.json 0.636 m/s · 8.8 °/s; moves.json dive.fastest_frame 841)
+             hold    f868–f936 creep loc y −0.288 → −0.284, spin 4 → 4.5° (corners.json: the display 1394.5 → 1383 px tall, never static)
+             screen  the baked SEQUENCE (scr_n = f − 707, bake_qc PASS): home @ 36 → cart tap f850 (ring on the cart icon) → Safari push
+                     home → cart1 @ 150 f852–f864 (6 f before "Let" f870) → "+" #1 f888 → cart2 f890 (bar 0.42 → 0.81 f890–f904) → "+" #2
+                     f912 → cart3 f914 (Volume discount −8 %, Free shipping unlocked!, bar 0.81 → 1.00 f914–f928) as "automatic." f917 is
+                     said → cart3 @ 150 holds (= clean/screen_cart.png from f930). The Summary block sits below the frame, the BAC-water
+                     region (page y 760–900) is blank white, the product page never appears. Offers = the cart's own pixels, native size.
+           No type, no site pixels in HTML: the section stays EMPTY on the stage. What js/shots/S09.js adds is the chromatic-aberration
+           pass on #v-take around the measured dive peak (f838–f844, 2 px, peak f841: BRIEF §3.5's second allowed moment) and the 2D
+           fallback camera (PP.FALLBACK_2D only: PH.cam to the 3D close pose read from corners.json f868, then the creep). -->
     </section>
     <section id="S10" class="clip scene" data-start="31.2" data-duration="3.599" data-track-index="10">
-      <!-- S10 · The math, in depth · f936–f1044 · take + shadow. STUB: replaced by the shot builder (SHOTS.md §S10).
-           Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-      <div class="z-front s10-stub"><div class="stub-label">S10<small>The math, in depth</small></div></div>
+      <!-- S10 · "The math, in depth" — the tilt and the three slabs · f936–f1044 (31.20–34.80) · 3D: the take + the shadow pass (#v-take,
+           stage-level z 30, assets/layers/take.webm = renders/3d/take/final/0708–1188 with the slab shadows and the soft-clip baked by
+           tools/post_layers.py; media f708–f1188 from data-start 23.6; gated by main.js). Everything the contract lists for this shot is
+           BAKED into that layer (SHOTS §S10; all verified on the final frames, the ID mattes, corners.json and pose_speed.json):
+             tilt    f936–f966 move(CLOSE crept → CARDS (14°, −5°, −2°, (0.012, −0.253, 0.004))), ease 0.6/0/0.2/1, motion blur 0.5; the
+                     display goes from the full-frame close pose to the ¾ cards pose (1.49 px/pt, TL (762,−149) BR (1391,1145) at f966);
+                     fastest frame f949 MEASURED (pose_speed.json 32.6 °/s · 0.112 m/s; moves.json tilt.fastest_frame 949)
+             drift   f966–f1044 spin 14 → 16° (sine.inOut, 0.77 °/s), loc x +1 mm — never static
+             slabs   1 mm extruded copies of the cart's own quantity stepper "− 3 +" (f954, 36 mm), line total "$234.57" (f959, 24 mm) and
+                     compound name "BPC-157 / TB-500" (f964, 12 mm) lift along the display normal, 20 f expo.out + 104 % overshoot, scale
+                     1.00 → 1.25 (≥ 26 px per line at 1080, measured); their soft contact shadows on the page (shadow pass × matte_screen,
+                     35 %, 4 px blur); seat back total f1020 / name f1025 / stepper f1030 (10 f power3.in + 4 f settle), all seated by f1044
+             DOF     f/16, focus plane +18 mm: page and slabs readable; screen cart3 @ 150 held; nav-wordmark tap ring on f1044 (S11's push)
+           No type, no site pixels in HTML ("Text: none — the lifted UI is the typography"), no 2D move, no CA (not one of the three allowed
+           moments): the section stays EMPTY on the stage. js/shots/S10.js only asserts the contract against the voice, the screen timeline
+           and the measured take, states the sound frames, and publishes the measured facts as PP.S10 for the neighbours and the mixer. -->
     </section>
     <section id="S11" class="clip scene" data-start="34.8" data-duration="3.599" data-track-index="11">
-      <!-- S11 · Purity, proven. · f1044–f1152 · take + room type. STUB: replaced by the shot builder (SHOTS.md §S11).
-           Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-      <div class="z-front s11-stub"><div class="stub-label">S11<small>Purity, proven.</small></div></div>
+      <!-- S11 · "Purity, proven." — pull-out to the hero · f1044–f1152 (34.80–38.40) · 3D: the take (#v-take, stage-level z 30,
+           assets/layers/take.webm = renders/3d/take/final/0708–1188, media f708–f1188 from data-start 23.6; gated by main.js) + room type.
+           Everything the contract lists for the phone and the screen is BAKED into that layer (SHOTS §S11, verified on the shipped frames):
+             phone   CARDS(drifted) held f1044–f1050 (spin 16.0 → 16.1°), move(CARDS → HERO) f1050–f1116 (66 f, ease 0.6/0/0.2/1: spin
+                     16.1 → 26°, tilt −5 → −14°, roll −2 → −4°, loc y −0.253 → +0.110 = the 36 cm pull-out), fastest frame f1078 MEASURED
+                     (pose_speed.json 20.59 °/s · 0.559 m/s; moves.json orbit.fastest_frame 1078), then drift spin 26 → 27.5° / loc y +1 cm
+                     f1116–f1152 (sine.inOut, never static). DOF f/5.6 from f1060, focus on the Dynamic Island.
+             screen  the baked SEQUENCE (scr_n = f − 707): nav wordmark tap f1044 (PP.SCREEN.tapNav) → Safari push cart3 → home @ 0
+                     f1050–f1062 (PP.SCREEN.push2, landing on VO "Pure" f1050: the brand arrives on its name) → home @ 0 with the site's
+                     own H1 "Purity, / proven." f1062–f1152, alive scroll 0 → 10 f1080–f1150 (PP.SCREEN.scrollB).
+           What THIS shot adds is the room type, z 20 BEHIND the phone (the take's alpha occludes it for free: z 30 over z 20):
+             Purity, / proven. — DM Sans 800 120 px white 90 % (.t-room), tracking −0.02 em, TWO lines left-aligned (the site's own H1
+             stack, 112 px baseline pitch: baselines y 522 / 634, cap top 438, x-band centre ≈ 550 = where the contract's single-line
+             baseline 580 put it), 3 px blur (15 % behind the focus plane), landing f1079 = VO.w('L09', 2) "Purity" per glyph in reading
+             order (14 glyphs, 1 f stagger, 22 f expo.out: onsets f1079–f1092, settled f1114), holding to f1152, exiting f1152–f1160
+             (8 f power3.in, before the lights go at f1158).
+             The block is MOVED into the stage-level #type-back (z 20) by js/shots/S11.js at build (BUILD.md: main.js gates this section to
+             opacity 0 at f1152 and the exit f1152–f1160 outlives the window), so its selectors in css/S11.css carry both roots.
+             .s11-par is the parallax wrapper (ONE transform setter in S11.js): the room slides right under the phone — the orbit's own
+             deceleration (40 px on the "cam" ease's remainder after f1079) + a 0.8 px/f glide through the hold — and settles from 103 %
+             to 100 % about the final period, so the period of "proven." meets the phone's left rail on f1113 (measured rail x 852 at its
+             rows), is 6.5 px under it at KF4 f1120 ("the rail is sliding over the final period") and fully hidden from f1141.
+           Deviation from the contract's single line at x ≈ 300–1060: the rendered hero has the rail at x 818–856 (not ≈ 1060), so a
+           120 px single line (835 px wide) cannot both start inside title-safe (x ≥ 96) and end at the rail; the two-line stack keeps
+           120 px, title-safe, the period beat and ≥ 60 % of the glyphs visible (13 of 14 at the end). No type in front (z 40), no CA. -->
+      <div class="z-back s11-room">
+        <div class="s11-par">
+          <div class="s11-lines t-room">
+            <div class="s11-ln s11-l1">Purity,</div>
+            <div class="s11-ln s11-l2">proven.</div>
+          </div>
+        </div>
+      </div>
     </section>
     <section id="S12" class="clip scene" data-start="38.4" data-duration="1.799" data-track-index="12">
-      <!-- S12 · Lights out, STOP · f1152–f1206 · take + held frame. STUB: replaced by the shot builder (SHOTS.md §S12).
-           Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-      <div class="z-front s12-stub"><div class="stub-label">S12<small>Lights out, STOP</small></div></div>
+      <!-- S12 · "Lights out" — the edge-on exit and the STOP · f1152–f1206 (38.40–40.20) · 3D: the take (#v-take, stage-level z 30,
+           assets/layers/take.webm = renders/3d/take/final/0708–1188, media f708–f1188 from data-start 23.6 = f708, gated by main.js to
+           [f708, f1188)) + the held STOP frame (#hold-1188, stage-level z 31, assets/layers/hold_1188.png = final/1188.png bit-identical).
+           Everything the contract lists for the phone, the screen and the lights is BAKED into the take (SHOTS §S12, verified on the
+           shipped frames / corners.json / pose_speed.json / moves.json):
+             phone   move(HERO drifted (spin 27.5°, tilt −14°, roll −4°, loc (0.012, 0.120, 0.010)) → EDGE (90°, 0°, 0°, (−0.0045, 0.084, 0)))
+                     f1152–f1188, 36 f, ease 0.6/0/0.2/1, motion blur 0.5; fastest frame f1167 MEASURED (182.3 °/s · 0.115 m/s; moves.json
+                     exit.fastest_frame = 1167 — the contract's "≈ f1170" was the estimate). The silhouette narrows 397 px → 68 px (alpha > 8),
+                     the display's projection 300 px → 0 px (corners.json): the phone turns edge-on at 0.844 m, its loc x −4.5 mm puts the
+                     rail 2 px left of the frame centre.
+             screen  screen_emission_key 1 → 0 over f1152–f1170 (DIM: the site goes dark, the reflections stay on the glass).
+             glint   f1172: ONE frame of the cover glass at grazing angle — the whole sliver reads white (mean 163 lv inside the alpha,
+                     f1171 66 / f1173 51; p99 255, inside matte_screen so no soft-clip): the exit's glint, where the CA peaks.
+             lights  lights_out(1158, 1186): Key Fill Back Soft* SideL → 0, and (common.py, measured by the lead) SideR / EdgeL / the world
+                     ramp / the sheen → 0 too, EdgeR kept — so f1188 is a single vertical line of light: lit columns x 957–959 (means
+                     25 / 77 / 14 lv, 250-lv end caps), y 125–954 (830 px tall), on black. The sliver's alpha covers x 892–959 (68 px).
+             hold    f1188 = assets/layers/hold_1188.png above the webm (z 31): the webm's f1187 differs from it by 0.12 lv mean (its
+                     f1188 by 0.09 lv) — the freeze is invisible as a cut. S13 fades it to black f1206–f1212 (its line sits on x 957).
+           What THIS shot adds on the stage: NOTHING typed, nothing drawn ("Text: none — the room type exited f1152–f1160 on #type-back,
+           S11's; Site: dark"). js/shots/S12.js switches #hold-1188 on at f1188 (the STOP), puts the chromatic aberration ≤ 2 px on
+           #v-take ONLY over f1168–f1176 (BRIEF §3.5's third allowed moment; peak 2 px on the glint f1172), lets the void glow die with the
+           studio lights (f1158–f1186, same window and ease as lights_out, so the line stands on true black before the freeze and the
+           global switch at f1188 is not a 32-lv pop on the STOP), asserts the contract (console.warn, never throws) and publishes the
+           measured facts as PP.S12 for the mixer / S13. Grain frozen f1188–f1206 and vignette 22 % are global (PP.grain / main.js).
+           The <section> stays EMPTY (no z-index/transform/filter on it, BUILD.md). -->
     </section>
     <section id="S13" class="clip scene" data-start="40.2" data-duration="4.799" data-track-index="13">
       <!-- S13 · End card · f1206–f1350 (40.20–45.00) · HTML only (SHOTS §S13, BRIEF §4 end card, §8 legal).

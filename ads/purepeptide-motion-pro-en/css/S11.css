@@ -1,2 +1,19 @@
-/* S11 · Purity, proven. — every selector prefixed by #S11 (inlined into index.html: url() paths root-relative). STUB. */
-#S11 .s11-stub { pointer-events: none; }
+/* S11 · "Purity, proven." — every selector prefixed by #S11 (inlined into index.html: url() paths root-relative).
+   The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the pull-out f1050–f1116 to the
+   hero, the drift to f1152, the push to the home page and its H1 baked on the 3D screen. This section adds the room type at z 20
+   (.z-back), BEHIND the phone: .s11-room is moved into the stage-level #type-back (z 20) at build by js/shots/S11.js (the exit
+   f1152–f1160 outlives the section's window, which main.js gates at f1152), so every selector carries both roots.
+   The section itself never gets a z-index/transform/filter (BUILD.md). */
+#S11 .s11-room, #type-back .s11-room { position: absolute; inset: 0; pointer-events: none; }
+/* .s11-par: the parallax wrapper (left/top = the block's box at the landing f1079 BEFORE the slide; ONE transform setter in S11.js
+   writes translate(dx) scale(s) about the final period: transform-origin = the "." of "proven." — ink right edge x 428 (8 px left
+   bearing + 420 px of ink, measured on a 1× screenshot of DM Sans 800 120 px −0.02 em) on line 2's baseline y 209 (112 + 97).
+   3 px blur: the room type sits 15 % behind the focus plane (SHOTS §S11, BRIEF §4 "type behind the focus plane gets a 3 px blur"). */
+#S11 .s11-par, #type-back .s11-par { position: absolute; left: 358px; top: 425px; transform-origin: 428px 209px; filter: blur(3px); white-space: nowrap; }
+/* .s11-lines: DM Sans 800 120 px white 90 % −0.02 em (.t-room) on a 112 px pitch (line-height 112 px → the baseline sits 97 px under
+   each line box's top: ascent 101 at line-height 120, minus the 4 px half-leading). Line 1 "Purity," top 425 → baseline 522, cap top
+   438; line 2 "proven." top 537 → baseline 634, x-height top 573, descender 659. Ink: "Purity," x +8 … +367, "proven." +8 … +428,
+   the period 20 × 18 px at x +408 … +428 on the baseline. The exit (opacity → 0, y −12) is tweened on THIS element, never on .s11-par
+   (whose transform the parallax setter owns). */
+#S11 .s11-lines, #type-back .s11-lines { line-height: 112px; }
+#S11 .s11-ln, #type-back .s11-ln { display: block; white-space: nowrap; }

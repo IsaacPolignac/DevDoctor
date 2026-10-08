@@ -1,2 +1,5 @@
-/* S10 · The math, in depth — every selector prefixed by #S10 (inlined into index.html: url() paths root-relative). STUB. */
-#S10 .s10-stub { pointer-events: none; }
+/* S10 · "The math, in depth" — every selector prefixed by #S10 (inlined into index.html: url() paths root-relative).
+   The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the tilt f936–f966, the three
+   lifted slabs with their shadows f954–f1044 and the drift, baked. This section has no children — nothing to style. The section
+   itself never gets a z-index/transform/filter (BUILD.md); the void glow, grain and vignette are global (main.js). */
+#S10 { pointer-events: none; }

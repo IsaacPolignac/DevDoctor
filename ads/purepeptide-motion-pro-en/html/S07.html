@@ -1,3 +1,14 @@
-<!-- S07 · Frost, the arrival · f636–f738 · 2D frost + take ARR. STUB: replaced by the shot builder (SHOTS.md §S07).
-     Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-<div class="z-front s07-stub"><div class="stub-label">S07<small>Frost, the arrival</small></div></div>
+<!-- S07 · "Cold" — frost takes the vial, the phone arrives · f636–f738 (21.20–24.60) · hybrid: 2D frost over the held macro plate
+     + the take's ARR (SHOTS §S07). Nothing in this section is typed; "cold" and "24 h" ARE the frost.
+     The picture is made of stage-level layers this shot drives from js/shots/S07.js (BUILD.md: hand-offs live on stage elements):
+       #hold-macro (z 11)   the held macro frame, pushed 1.00 → 1.04 by S06's setter to f738 (S06 owns it; untouched here)
+       #v-frost   (z 15)    assets/fx/frost.webm, VP9 alpha, mix-blend-mode: screen, data-start 21.6 = f648 = VO.w('L06', 0)
+                            "Shipped" (tools/assemble.py), 60 frames f648–f707: DLA frost grows from the four edges, the crackle
+                            step on f657 "cold", closed over the label by f686 "24" (frost_density.json: centre_cov 1.0 at f685)
+       #frost-full (z 15)   assets/fx/frost_full.png (= frost frame 60, bit-identical), screen blend, held f708–f738
+       #v-take    (z 30)    assets/layers/take.webm from f708: the ARR (ARR0 → REST, back first, edge-on glint f712 measured in
+                            renders/3d/take/arr_glint.json, REST exactly on f738), the frost screened inside its own alpha
+     .s07-crush (z 16, a DIRECT child of the section with its own z-index: above the frost field at 15 and the hold at 11, below
+     the phone at 30) is the crush to black of the whole field over f716–f738: a full-frame black whose opacity is power2.in on
+     the timeline (= brightness → 0 on everything beneath it, the phone untouched), so on the DROP f738 only the phone remains. -->
+<div class="s07-crush"></div>

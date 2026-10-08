@@ -1,2 +1,6 @@
-/* S09 · The cart does the math — every selector prefixed by #S09 (inlined into index.html: url() paths root-relative). STUB. */
-#S09 .s09-stub { pointer-events: none; }
+/* S09 · "The cart does the math" — every selector prefixed by #S09 (inlined into index.html: url() paths root-relative).
+   The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the dive f822–f868 and the
+   close pose f868–f936 with the cart math baked on the 3D screen. This section has no children — nothing to style. The CA pass
+   (f838–f844) is the SVG filter #ca applied to #v-take by PP.ca from js/shots/S09.js (never a clone of the stage), the 2D fallback
+   camera moves #phone2d (css/phone.css). The section itself never gets a z-index/transform/filter (BUILD.md). */
+#S09 { pointer-events: none; }

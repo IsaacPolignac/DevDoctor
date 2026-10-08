@@ -1,3 +1,15 @@
-<!-- S09 · The cart does the math · f822–f936 · take. STUB: replaced by the shot builder (SHOTS.md §S09).
-     Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-<div class="z-front s09-stub"><div class="stub-label">S09<small>The cart does the math</small></div></div>
+<!-- S09 · "The cart does the math" — the dive and the close pose · f822–f936 (27.40–31.20) · 3D: the take (#v-take, stage-level
+     z 30, assets/layers/take.webm = renders/3d/take/final/0708–1188, media f708–f1188 from data-start 23.6; gated by main.js).
+     Everything the contract lists for this shot is BAKED into that layer (SHOTS §S09; all verified on the decoded webm frames):
+       dive    f822–f868 move(REST drifted → CLOSE), ease 0.6/0/0.2/1, motion blur 0.5: a dolly with roll to the perpendicular close
+               pose (spin 4°, tilt −3°, roll −1°, loc (0, −0.288, +0.006)); the display grows 869 → 1394 px tall (1.596 px/pt); fastest
+               frame f841 MEASURED (pose_speed.json 0.636 m/s · 8.8 °/s; moves.json dive.fastest_frame 841)
+       hold    f868–f936 creep loc y −0.288 → −0.284, spin 4 → 4.5° (corners.json: the display 1394.5 → 1383 px tall, never static)
+       screen  the baked SEQUENCE (scr_n = f − 707, bake_qc PASS): home @ 36 → cart tap f850 (ring on the cart icon) → Safari push
+               home → cart1 @ 150 f852–f864 (6 f before "Let" f870) → "+" #1 f888 → cart2 f890 (bar 0.42 → 0.81 f890–f904) → "+" #2
+               f912 → cart3 f914 (Volume discount −8 %, Free shipping unlocked!, bar 0.81 → 1.00 f914–f928) as "automatic." f917 is
+               said → cart3 @ 150 holds (= clean/screen_cart.png from f930). The Summary block sits below the frame, the BAC-water
+               region (page y 760–900) is blank white, the product page never appears. Offers = the cart's own pixels, native size.
+     No type, no site pixels in HTML: the section stays EMPTY on the stage. What js/shots/S09.js adds is the chromatic-aberration
+     pass on #v-take around the measured dive peak (f838–f844, 2 px, peak f841: BRIEF §3.5's second allowed moment) and the 2D
+     fallback camera (PP.FALLBACK_2D only: PH.cam to the 3D close pose read from corners.json f868, then the creep). -->

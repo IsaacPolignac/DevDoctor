@@ -1,3 +1,33 @@
-<!-- S11 · Purity, proven. · f1044–f1152 · take + room type. STUB: replaced by the shot builder (SHOTS.md §S11).
-     Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-<div class="z-front s11-stub"><div class="stub-label">S11<small>Purity, proven.</small></div></div>
+<!-- S11 · "Purity, proven." — pull-out to the hero · f1044–f1152 (34.80–38.40) · 3D: the take (#v-take, stage-level z 30,
+     assets/layers/take.webm = renders/3d/take/final/0708–1188, media f708–f1188 from data-start 23.6; gated by main.js) + room type.
+     Everything the contract lists for the phone and the screen is BAKED into that layer (SHOTS §S11, verified on the shipped frames):
+       phone   CARDS(drifted) held f1044–f1050 (spin 16.0 → 16.1°), move(CARDS → HERO) f1050–f1116 (66 f, ease 0.6/0/0.2/1: spin
+               16.1 → 26°, tilt −5 → −14°, roll −2 → −4°, loc y −0.253 → +0.110 = the 36 cm pull-out), fastest frame f1078 MEASURED
+               (pose_speed.json 20.59 °/s · 0.559 m/s; moves.json orbit.fastest_frame 1078), then drift spin 26 → 27.5° / loc y +1 cm
+               f1116–f1152 (sine.inOut, never static). DOF f/5.6 from f1060, focus on the Dynamic Island.
+       screen  the baked SEQUENCE (scr_n = f − 707): nav wordmark tap f1044 (PP.SCREEN.tapNav) → Safari push cart3 → home @ 0
+               f1050–f1062 (PP.SCREEN.push2, landing on VO "Pure" f1050: the brand arrives on its name) → home @ 0 with the site's
+               own H1 "Purity, / proven." f1062–f1152, alive scroll 0 → 10 f1080–f1150 (PP.SCREEN.scrollB).
+     What THIS shot adds is the room type, z 20 BEHIND the phone (the take's alpha occludes it for free: z 30 over z 20):
+       Purity, / proven. — DM Sans 800 120 px white 90 % (.t-room), tracking −0.02 em, TWO lines left-aligned (the site's own H1
+       stack, 112 px baseline pitch: baselines y 522 / 634, cap top 438, x-band centre ≈ 550 = where the contract's single-line
+       baseline 580 put it), 3 px blur (15 % behind the focus plane), landing f1079 = VO.w('L09', 2) "Purity" per glyph in reading
+       order (14 glyphs, 1 f stagger, 22 f expo.out: onsets f1079–f1092, settled f1114), holding to f1152, exiting f1152–f1160
+       (8 f power3.in, before the lights go at f1158).
+       The block is MOVED into the stage-level #type-back (z 20) by js/shots/S11.js at build (BUILD.md: main.js gates this section to
+       opacity 0 at f1152 and the exit f1152–f1160 outlives the window), so its selectors in css/S11.css carry both roots.
+       .s11-par is the parallax wrapper (ONE transform setter in S11.js): the room slides right under the phone — the orbit's own
+       deceleration (40 px on the "cam" ease's remainder after f1079) + a 0.8 px/f glide through the hold — and settles from 103 %
+       to 100 % about the final period, so the period of "proven." meets the phone's left rail on f1113 (measured rail x 852 at its
+       rows), is 6.5 px under it at KF4 f1120 ("the rail is sliding over the final period") and fully hidden from f1141.
+     Deviation from the contract's single line at x ≈ 300–1060: the rendered hero has the rail at x 818–856 (not ≈ 1060), so a
+     120 px single line (835 px wide) cannot both start inside title-safe (x ≥ 96) and end at the rail; the two-line stack keeps
+     120 px, title-safe, the period beat and ≥ 60 % of the glyphs visible (13 of 14 at the end). No type in front (z 40), no CA. -->
+<div class="z-back s11-room">
+  <div class="s11-par">
+    <div class="s11-lines t-room">
+      <div class="s11-ln s11-l1">Purity,</div>
+      <div class="s11-ln s11-l2">proven.</div>
+    </div>
+  </div>
+</div>

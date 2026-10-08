@@ -1,2 +1,6 @@
-/* S07 · Frost, the arrival — every selector prefixed by #S07 (inlined into index.html: url() paths root-relative). STUB. */
-#S07 .s07-stub { pointer-events: none; }
+/* S07 · "Cold" — every selector prefixed by #S07 (inlined into index.html: url() paths root-relative).
+   The frost field (#v-frost / #frost-full, z 15, screen blend) and the held plate (#hold-macro, z 11) are stage-level; this sheet
+   only styles the crush: a full-frame black at z 16 (above the field, below the phone layers at 30) whose opacity is the
+   brightness crush f716–f738 (power2.in, driven by js/shots/S07.js). It starts invisible and is a direct child of the section
+   (the section itself never gets a z-index/transform/filter). */
+#S07 .s07-crush { position: absolute; inset: 0; z-index: 16; background: #000; opacity: 0; pointer-events: none; }

@@ -1,2 +1,7 @@
-/* S01 · A droplet of light — every selector prefixed by #S01 (inlined into index.html: url() paths root-relative). STUB. */
-#S01 .s01-stub { pointer-events: none; }
+/* S01 · A droplet of light — every selector prefixed by #S01 (inlined into index.html: url() paths root-relative).
+   The plate (#v-s01, stage video z 10, opaque) is the shot; the 2D layer owns one element:
+   .s01-gate = the HIT1 exposure gate, a full-frame black at z 11 (above the plate at 10, below #hold-macro 11 by DOM order, the frost
+   15, type-back 20, the phone layers 30, type-front 40). Opacity 1 on the OPEN and the hit frame f30, released linearly with the rim
+   strip's own 3 f switch-on to 0 at f33 (js/shots/S01.js), 0 from then on. No blend mode (black over black on the OPEN, a plain
+   exposure multiply on f30–f32), no blur, no transform. */
+#S01 .s01-gate { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 1; pointer-events: none; }

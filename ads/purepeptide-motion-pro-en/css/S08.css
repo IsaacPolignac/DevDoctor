@@ -1,2 +1,13 @@
-/* S08 · The slow show, the wake — every selector prefixed by #S08 (inlined into index.html: url() paths root-relative). STUB. */
-#S08 .s08-stub { pointer-events: none; }
+/* S08 · "Open the site" — every selector prefixed by #S08 (inlined into index.html: url() paths root-relative).
+   The leak wrapper .s08-leak is moved into the stage-level #leak (z 35, screen blend, opacity 0: css/tokens.css) at build by
+   js/shots/S08.js, so every selector carries both roots. The wrapper = the feathered inverse phone mask (assets/fx/leak_mask.png,
+   alpha 1 = the leak passes: 0.27 at the silhouette edge, 1.0 at 40 px out); the plate = assets/fx/leak.png (1920x1080, made by
+   assets/fx/make_leak.py), scaled/drifted about the phone's centre at f815 (971, 540) by the shot's one setter. */
+#S08 .s08-leak, #leak .s08-leak { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; pointer-events: none;
+  -webkit-mask-image: url("assets/fx/leak_mask.png"); mask-image: url("assets/fx/leak_mask.png");
+  -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: 0 0; mask-position: 0 0; }
+/* fallback only (no #leak on the stage): the wrapper is its own additive layer; the shot drives its opacity instead of #leak's */
+#S08 .s08-leak { z-index: 35; mix-blend-mode: screen; opacity: 0; }
+#S08 .s08-leak-plate, #leak .s08-leak-plate { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: block;
+  transform-origin: 971px 540px; }

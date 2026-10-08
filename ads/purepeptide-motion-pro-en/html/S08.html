@@ -1,3 +1,13 @@
-<!-- S08 · The slow show, the wake · f738–f822 · take. STUB: replaced by the shot builder (SHOTS.md §S08).
-     Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-<div class="z-front s08-stub"><div class="stub-label">S08<small>The slow show, the wake</small></div></div>
+<!-- S08 · "Open the site" — the slow show, the wake, the thaw · f738–f822 (24.60–27.40) · 3D: the take (#v-take, stage-level z 30,
+     assets/layers/take.webm, media f708–f1188). Everything the contract lists for the phone is BAKED into that layer: REST held
+     f738–f750 (identity, corners.json = screen_rect ± 0.01 px), drift spin 0 → 1.5° / loc x +2 mm f750–f822 (sine.inOut), the slow
+     show f750–f786, the thermometer f803–f839, the screen SEQUENCE (black to f802, home @ 0 waking at f803 = VO "Open" with the badge
+     "1", momentum scroll 0 → 36 f812–f840) and the frost thaw f803–f821 (tools/post_layers.py). No type, no site pixels in HTML.
+     The ONE 2D element of this shot is the wake's additive light leak (BRIEF §3.5, §S08: warm, 18 %, 10 f, peak f815): .s08-leak is
+     MOVED into the stage-level #leak (z 35, mix-blend-mode: screen, opacity 0 by css/tokens.css) by js/shots/S08.js at build. The
+     wrapper carries the feathered INVERSE phone mask (assets/fx/leak_mask.png: the f815 silhouette dilated 8 px, feathered 12 px),
+     so the bloom lives around the phone — never on the rails (rim highlights stay ≤ 92 %, QC) and never on the site pixels (§3.5);
+     the plate inside (assets/fx/leak.png, written by assets/fx/make_leak.py: a halo following the silhouette + a horizontal anamorphic
+     streak through the screen centre, hot core → amber fringe) drifts 10 px / −5 px and scales 1.000 → 1.035 across the 10 f.
+     Inside the section (no #leak on the stage) the wrapper is its own z 35 screen-blend layer with the same envelope. -->
+<div class="s08-leak"><img class="s08-leak-plate" src="assets/fx/leak.png" alt="" /></div>

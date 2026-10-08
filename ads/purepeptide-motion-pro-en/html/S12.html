@@ -1,3 +1,25 @@
-<!-- S12 · Lights out, STOP · f1152–f1206 · take + held frame. STUB: replaced by the shot builder (SHOTS.md §S12).
-     Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-<div class="z-front s12-stub"><div class="stub-label">S12<small>Lights out, STOP</small></div></div>
+<!-- S12 · "Lights out" — the edge-on exit and the STOP · f1152–f1206 (38.40–40.20) · 3D: the take (#v-take, stage-level z 30,
+     assets/layers/take.webm = renders/3d/take/final/0708–1188, media f708–f1188 from data-start 23.6 = f708, gated by main.js to
+     [f708, f1188)) + the held STOP frame (#hold-1188, stage-level z 31, assets/layers/hold_1188.png = final/1188.png bit-identical).
+     Everything the contract lists for the phone, the screen and the lights is BAKED into the take (SHOTS §S12, verified on the
+     shipped frames / corners.json / pose_speed.json / moves.json):
+       phone   move(HERO drifted (spin 27.5°, tilt −14°, roll −4°, loc (0.012, 0.120, 0.010)) → EDGE (90°, 0°, 0°, (−0.0045, 0.084, 0)))
+               f1152–f1188, 36 f, ease 0.6/0/0.2/1, motion blur 0.5; fastest frame f1167 MEASURED (182.3 °/s · 0.115 m/s; moves.json
+               exit.fastest_frame = 1167 — the contract's "≈ f1170" was the estimate). The silhouette narrows 397 px → 68 px (alpha > 8),
+               the display's projection 300 px → 0 px (corners.json): the phone turns edge-on at 0.844 m, its loc x −4.5 mm puts the
+               rail 2 px left of the frame centre.
+       screen  screen_emission_key 1 → 0 over f1152–f1170 (DIM: the site goes dark, the reflections stay on the glass).
+       glint   f1172: ONE frame of the cover glass at grazing angle — the whole sliver reads white (mean 163 lv inside the alpha,
+               f1171 66 / f1173 51; p99 255, inside matte_screen so no soft-clip): the exit's glint, where the CA peaks.
+       lights  lights_out(1158, 1186): Key Fill Back Soft* SideL → 0, and (common.py, measured by the lead) SideR / EdgeL / the world
+               ramp / the sheen → 0 too, EdgeR kept — so f1188 is a single vertical line of light: lit columns x 957–959 (means
+               25 / 77 / 14 lv, 250-lv end caps), y 125–954 (830 px tall), on black. The sliver's alpha covers x 892–959 (68 px).
+       hold    f1188 = assets/layers/hold_1188.png above the webm (z 31): the webm's f1187 differs from it by 0.12 lv mean (its
+               f1188 by 0.09 lv) — the freeze is invisible as a cut. S13 fades it to black f1206–f1212 (its line sits on x 957).
+     What THIS shot adds on the stage: NOTHING typed, nothing drawn ("Text: none — the room type exited f1152–f1160 on #type-back,
+     S11's; Site: dark"). js/shots/S12.js switches #hold-1188 on at f1188 (the STOP), puts the chromatic aberration ≤ 2 px on
+     #v-take ONLY over f1168–f1176 (BRIEF §3.5's third allowed moment; peak 2 px on the glint f1172), lets the void glow die with the
+     studio lights (f1158–f1186, same window and ease as lights_out, so the line stands on true black before the freeze and the
+     global switch at f1188 is not a 32-lv pop on the STOP), asserts the contract (console.warn, never throws) and publishes the
+     measured facts as PP.S12 for the mixer / S13. Grain frozen f1188–f1206 and vignette 22 % are global (PP.grain / main.js).
+     The <section> stays EMPTY (no z-index/transform/filter on it, BUILD.md). -->

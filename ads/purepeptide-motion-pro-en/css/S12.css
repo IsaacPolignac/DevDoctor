@@ -1,2 +1,6 @@
-/* S12 · Lights out, STOP — every selector prefixed by #S12 (inlined into index.html: url() paths root-relative). STUB. */
-#S12 .s12-stub { pointer-events: none; }
+/* S12 · "Lights out" — every selector prefixed by #S12 (inlined into index.html: url() paths root-relative).
+   The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the edge-on exit f1152–f1188
+   with the screen DIM, the glint f1172 and the lights going out, baked — and the held STOP frame (#hold-1188, stage-level z 31,
+   .stage-img) that js/shots/S12.js switches on at f1188. This section has no children — nothing to style. The section itself
+   never gets a z-index/transform/filter (BUILD.md); the void glow, grain (frozen f1188–f1206) and vignette are global. */
+#S12 { pointer-events: none; }
