@@ -2,12 +2,22 @@
      duration 3.2 / media 0 → file frame n = film frame n + 30, shown f30–f125; S02's alpha webm takes over at f126).
      The shot IS the plate (blender/s01_droplet.py): the camera dolly 0.32 → 0.26 m + 2.5° roll, the rim hit f30–f33, the travelling
      top strip f36–f72, the key fade f89–f117, the rack focus drop → "p" f96–f117, the landed hold to the cut. No HTML type, no site
-     (SHOTS §S01: the printed "pure" in the scene is the only type). One DIRECT child of the section with its own z-index (the section
-     is never a stacking context; .z-front / .z-back are isolated groups and this sits BELOW the frost / type / phone layers):
-       .s01-gate (z 11)  the HIT1 exposure gate: a full-frame black between the plate (z 10) and everything above, released with the
-                         rim strip's own LINEAR 3 f switch-on f30–f33 (js/shots/S01.js, one time-driven setter). SHOTS §S01 says the
-                         film opens "f0–f30 black … the mp4 begins at f30 with 3 black frames"; the encoded plate is already pre-lit at
-                         f30 by the top strip and the two bulbs (ink ≈ 100 levels), so the gate restores the switch-on from true black:
-                         f30 black (the hit frame), f31 33 %, f32 67 %, f33 100 %, then 0 to the cut — the plate's pixels are untouched
-                         from f33 on. f0–f29 (the OPEN) is black by the scaffold alone (#world #000, the video gated by main.js). -->
+     (SHOTS §S01: the printed "pure" in the scene is the only type). Two DIRECT children of the section with their own z-index (the
+     section is never a stacking context; .z-front / .z-back are isolated groups and these sit BELOW the frost / type / phone layers);
+     both are plain black overlays (no blend), driven by ONE time-driven setter in js/shots/S01.js:
+       .s01-iris (z 11)  the POOL OF LIGHT: a soft elliptical darkening centred on the drop (the camera's aim point, 960/540), clear
+                         over the drop and the "u", ≈ 60 % black at the word's ends. The plate is pre-lit by the top strip and the two
+                         bulbs, so the print reads at 148 levels from the hit and the key fade (f89–f117) only lifts it ×1.4; SHOTS §S01
+                         asks the print to EMERGE on "easy word to print" and KF1 says "the key is at 70 %: the print is emerging,
+                         everything else is black". The iris restores that: the hit lights the drop and the "u" (the bulbs' pool), the
+                         wash f44–f62 crosses the pool, and the iris opens with the key's own curve f89–f117 (opacity 1 → 0 while the
+                         pool widens ×1.5): "pure" emerges from the drop outward as the voice says it. Glued to the bench: the pool
+                         scales with the dolly (0.32/d). Gone (opacity 0) from f117: the rack landing, the hold and the cut are the
+                         plate's own pixels.
+       .s01-gate (z 11)  the HIT1 exposure gate: a full-frame black released with the rim strip's own LINEAR 3 f switch-on f30–f33.
+                         SHOTS §S01 says the film opens "f0–f30 black … the mp4 begins at f30 with 3 black frames"; the encoded plate is
+                         already pre-lit at f30 (ink ≈ 100 levels), so the gate restores the switch-on from true black: f30 black (the
+                         hit frame), f31 33 %, f32 67 %, f33 100 %, then 0 to the cut. f0–f29 (the OPEN) is black by the scaffold alone
+                         (#world #000, the video gated by main.js). -->
+<div class="s01-iris"></div>
 <div class="s01-gate"></div>

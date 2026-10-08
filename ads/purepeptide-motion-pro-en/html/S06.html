@@ -1,14 +1,16 @@
 <!-- S06 · "99 %" · f546–f636 · AI plate macro.mp4 (stage video #v-macro, z 10, media 0 → 3.04 s = f546–f637, 1:1) + the held last
      frame (#hold-macro, stage-level z 11, assets/plates/macro_last.png = the plate's last decoded frame, diff 0.0) + type.
      The plate is driven by js/shots/S06.js with ONE transform setter: a reframe that follows the vial's own leftward pan (measured
-     782 → 289 px over the 73 plate frames, eased in-out, 0 px/f at both ends), +120 px at the first frame → +280 px at the last,
-     stepped on the 24 fps frame the video shows, so the vial glides 902–1764 → 569–1411 (right third → centred), never touches the
-     frame edge and never reaches the type column; plus the 2D push 1.00 → 1.04 over f637–f738 about the vial; the same transform
-     goes to #hold-macro so f637 is seamless.
+     781.8 → 288.3 px over the 73 plate frames, eased in-out, 0 px/f at both ends), +120 px on the first film frame → +280 px on the
+     last, computed so the vial's NET position is a smooth function of film time (the 24 fps plate's pulldown repeat — the renderer's
+     ffmpeg fps=30 slot mapping n(k) = k − floor((k + 3) / 5), measured on a scratch render — is absorbed by the shift: the vial moves
+     5–6 px on every frame of the fast pan, never 0, never backwards), so the vial glides 902–1764 → 568–1411 (right third → centred),
+     never touches the frame edge and never reaches the type column; plus the 2D push 1.00 → 1.04 over f637–f738 about the vial; the
+     same transform goes to #hold-macro so f637 is seamless.
      .s06-dark (z 12, a DIRECT child of the section with its own z-index: above the plate at 10/11, below the type at 40) is the
      dark reveal: full black whose opacity lifts 1 → 0 over f546–f558 while the plate's blur goes 6 → 0 px (filter on #v-macro). -->
 <div class="s06-dark"></div>
-<!-- type (z 40, the left third, x 160 → ≈ 495 at the widest line; the vial's left edge never comes closer than x 569). The block is
+<!-- type (z 40, the left third, x 160 → ≈ 495 at the widest line; the vial's left edge never comes closer than x 568). The block is
      MOVED into the stage-level #type-front by js/shots/S06.js at build time (BUILD.md: main.js gates this section to opacity 0 at
      f636, and the exit f636–f644 outlives the window), so its selectors in css/S06.css carry both roots.
      the stat "99%" Inter 600 160 px white 90 % (.t-stat), baseline y 566 (= S05's second proof line: the column rhymes across

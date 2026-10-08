@@ -1,15 +1,20 @@
 <!-- S04 · "Every batch" · f306–f396 · AI plate cap.mp4 (stage video #v-cap, z 10, media 0 → 3.0, 1:1). Light only: no type, no site.
      Three DIRECT children of the section with their own z-index (the section is not a stacking context; .z-front / .z-back are
      isolated groups where a screen blend would see black):
-       .s04-dim (z 11)  the exposure (S03's recipe): a black veil the JS breathes −18 % under each light pass (12 f cosine, the floor on
-                        the word) so the screen-blended line reads on the blown-white crimp face as well as on the blue cap and the
-                        glass — one unbroken line across the sealed cap. Invisible off the object (black stays black).
+       .s04-dim (z 11)  the exposure (S03's recipe): a black veil the JS pulls −18 % under each light pass — a camera's response to the
+                        light, 3 f attack as the band lands on the cap (the floor on the word), 9 f release after it — so the
+                        screen-blended line reads on the blown-white crimp face as well as on the blue cap and the glass: one unbroken
+                        line across the sealed cap. Invisible off the object (black stays black).
        .s04-fx (z 12)   the two horizontal passes (above the plate at 10, below the phone layers at 30), mix-blend-mode: screen onto the
                         plate's pixels. It carries the SAME transform as the plate (one setter drives #v-cap and .s04-fx: landing scale,
-                        1 %/s push, whip) so the mattes stay registered on the cap; each pass is a full-frame container masked by a
-                        soft luma matte of the cap (assets/fx/make_s04_matte.py → s04_matte_a.png = plate frame 25 = f336,
-                        s04_matte_b.png = plate frame 42 ≈ f357; both faded to 0 over the top 48 / bottom 90 px so no band ever meets a
-                        frame edge with a hard line).
+                        1 %/s push, whip) so the mattes stay registered on the cap. ONE MASKED CONTAINER PER PLATE FRAME the passes
+                        light (the plate's own descent grows the cap 2–3 px per frame; a single matte per pass leaked band onto the
+                        black beyond the rim on the entry frame): assets/fx/make_s04_matte.py → s04_matte_NN.png = plate file NN
+                        (soft luma matte, silhouette eroded 3 px so the feather sits on the object, faded to 0 over the top 48 /
+                        bottom 90 px so no band ever meets a frame edge). data-file = the plate file (1-based) the RENDER shows:
+                        index ceil(0.8·n − 0.6) for timeline frame n after the cut (measured on a scratch render, see the script).
+                        Pass A (f334–f338): #23 #24 #25 #26 #26 · pass B (f355–f359): #40 #41 #42 #42 #43. The shot JS switches the
+                        band between the containers per frame (a pure function of time); every band starts at opacity 0.
      #s04-whip: the directional (vertical box) motion kernel of the whip-tilt out, applied to #v-cap on its last 3 frames only; the
      setter rewrites order / kernelMatrix / divisor per frame from the whip's velocity (a 1 × N box = a 360° shutter streak). -->
 <svg class="s04-defs" width="0" height="0" aria-hidden="true" focusable="false">
@@ -20,7 +25,13 @@
 <div class="s04-dim"></div>
 <div class="s04-fx">
   <!-- pass A · "Every" (L04 word 0, f336): 105° band, 220 px, cold white, left → right across the sealed cap in 6 f -->
-  <div class="s04-matte s04-a"><div class="s04-band"><i></i></div></div>
+  <div class="s04-matte s04-m23" data-pass="a" data-file="23"><div class="s04-band"><i></i></div></div>
+  <div class="s04-matte s04-m24" data-pass="a" data-file="24"><div class="s04-band"><i></i></div></div>
+  <div class="s04-matte s04-m25" data-pass="a" data-file="25"><div class="s04-band"><i></i></div></div>
+  <div class="s04-matte s04-m26" data-pass="a" data-file="26"><div class="s04-band"><i></i></div></div>
   <!-- pass B · "Every" (L04 word 2, f357): the same pass, the same direction: every single one -->
-  <div class="s04-matte s04-b"><div class="s04-band"><i></i></div></div>
+  <div class="s04-matte s04-m40" data-pass="b" data-file="40"><div class="s04-band"><i></i></div></div>
+  <div class="s04-matte s04-m41" data-pass="b" data-file="41"><div class="s04-band"><i></i></div></div>
+  <div class="s04-matte s04-m42" data-pass="b" data-file="42"><div class="s04-band"><i></i></div></div>
+  <div class="s04-matte s04-m43" data-pass="b" data-file="43"><div class="s04-band"><i></i></div></div>
 </div>

@@ -1,7 +1,7 @@
 <!-- S05 · "Independently tested" · f396–f546 · AI plate turn.mp4 (stage video #v-turn, z 10, media 0 → 3.9 s = f396–f512, 1:1) + type.
      The plate is driven by js/shots/S05.js with ONE setter (whip landing y +90 → 0, +300 px shift so the vial sits centre-right and
-     the type lives left of it, 1 %/s push about the vial): the same transform is written to .s05-hold, a still of plate frame 94
-     (assets/plates/turn_hold.png = what f513 would show; the plate's frame step is 0.47 levels, invisible) that stands in for the
+     the type lives left of it, 1 %/s push about the vial): the same transform is written to .s05-hold, a still of the plate's 94th frame
+     (assets/plates/turn_hold.png = decoded frame 93, 0-based = what f513 would show; the plate's frame step is 0.47 levels, invisible) that stands in for the
      video over f513–f522 while the plate crushes to black (#v-turn's window ends at f513; the crush f512–f522 and the breath f522–f546
      are the contract). .s05-hold (z 11) and .s05-crush (z 12, the brightness crush as a black multiply: power2.in on its opacity)
      are DIRECT children of the section with their own z-index (above the plate at 10, below the phone layers at 30 and the type at 40).
@@ -17,8 +17,9 @@
 <div class="s05-crush"></div>
 <!-- type (z 40, in front; left of the vial, x 160 → ≈ 816 at the widest line; the vial's left edge sits at x 1031 after the shift):
      the proof line, Inter 600 96 px white 90 %, two ragged-left lines (one line = 997 px: it would run through the vial), lands
-     f410 = VO.w('L04', 5) "Tested" per glyph; beneath it the small line, Inter 600 caps 36 px +0.10 em #C3CBD6, on
-     f475 = VO.w('L04', 8) "Janosik". Both hold alone on black f522–f536, exit f536–f544. Janoshik Analytical as text only (no logo). -->
+     f410 = VO.w('L04', 5) "Tested" per glyph; beneath it the small line, Inter 600 caps 36 px +0.10 em #C3CBD6, as two word-locked
+     beats: JANOSHIK on f475 = VO.w('L04', 8) "Janosik", ANALYTICAL on f490 = VO.w('L04', 9) "Analytical" (the two .pp-w word spans
+     PP.glyphs makes). Both lines hold alone on black f522–f536, exit f536–f544. Janoshik Analytical as text only (no logo). -->
 <div class="z-front s05-type">
   <div class="s05-proof t-proof"><span class="s05-ln s05-l1">Independently</span><span class="s05-ln s05-l2">tested.</span></div>
   <div class="s05-acc t-small">JANOSHIK ANALYTICAL</div>

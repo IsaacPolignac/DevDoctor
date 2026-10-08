@@ -10,14 +10,16 @@
                          ever meets a frame edge with a hard line), mix-blend-mode: screen onto the plate's pixels. -->
 <svg class="s03-defs" width="0" height="0" aria-hidden="true" focusable="false">
   <filter id="s03-shimmer" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
-    <!-- the glass shimmer: 12 px fractal noise (baseFrequency 1/12, seed 7, deterministic) displacing the line by ±6 px (scale 12) -->
-    <feTurbulence type="fractalNoise" baseFrequency="0.083" numOctaves="2" seed="7" stitchTiles="noStitch" result="n" />
+    <!-- the glass shimmer: 12 px fractal noise (baseFrequency 1/12, ONE octave = 12 px features, seed 7, deterministic) displacing the
+         line by ±6 px (scale 12); a second octave (6 px) made the refracted line ragged instead of wavy -->
+    <feTurbulence type="fractalNoise" baseFrequency="0.083" numOctaves="1" seed="7" stitchTiles="noStitch" result="n" />
     <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G" />
   </filter>
 </svg>
 <div class="s03-dim"></div>
-<!-- 1. the S02 band carry (§0.9): the 105° band (220 px halo + 2 px core, screen blend) is ON the vial's left side on the cut frame
-     f216, already at speed, and is clear of the vial's right edge by f234 -->
+<!-- 1. the S02 band carry (§0.9): the 105° band (220 px halo + 2 px core, screen blend) is S02's line of light continued across the
+     cut — a match cut: its core is where S02's core would be one frame on (stage 1040 at y 540, 24.6 px/f), it eases to rest and is
+     clear of the vial's right edge by f234. The container is scaled per frame so the one-frame matte follows the plate's own zoom. -->
 <div class="s03-matte s03-a"><div class="s03-band s03-bx"><i></i></div></div>
 <!-- 2. MEASURE: a level line of light (2 px core, 220 px halo), cap → base f266–f278, its centre on the label on "measure" (f272).
      Two copies driven by one setter: the glass rows (neck / shoulder, base) go through the shimmer filter; the cap, crimp and label rows do not. -->

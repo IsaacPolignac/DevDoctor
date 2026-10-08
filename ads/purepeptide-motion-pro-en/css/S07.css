@@ -1,6 +1,7 @@
 /* S07 · "Cold" — every selector prefixed by #S07 (inlined into index.html: url() paths root-relative).
    The frost field (#v-frost / #frost-full, z 15, screen blend) and the held plate (#hold-macro, z 11) are stage-level; this sheet
-   only styles the crush: a full-frame black at z 16 (above the field, below the phone layers at 30) whose opacity is the
-   brightness crush f716–f738 (power2.in, driven by js/shots/S07.js). It starts invisible and is a direct child of the section
-   (the section itself never gets a z-index/transform/filter). */
-#S07 .s07-crush { position: absolute; inset: 0; z-index: 16; background: #000; opacity: 0; pointer-events: none; }
+   only styles the crush: a full-frame overlay at z 16 (above the field, below the phone layers at 30) whose black alpha is the
+   brightness crush f716–f738 (power2.in, closing in from the corners onto the phone: a radial-gradient of black alphas written
+   per frame by js/shots/S07.js — no background here, the setter owns it). It starts invisible and is a direct child of the
+   section (the section itself never gets a z-index/transform/filter). */
+#S07 .s07-crush { position: absolute; inset: 0; z-index: 16; background: none; opacity: 0; pointer-events: none; }

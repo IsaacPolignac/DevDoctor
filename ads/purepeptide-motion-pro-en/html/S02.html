@@ -4,7 +4,10 @@
      blend inside .z-front / .z-back would see black):
        .s02-glass (z 32)  the cover glass as a per-frame quad — a 402×874 pt element under the CSS matrix3d of renders/3d/s02/corners.json
                           (TECH §5 recipe), +8 pt for the black ink border, radius 60 pt, overflow hidden, mix-blend-mode: screen onto the
-                          phone's pixels. SWEEP2 (§0.9): the film's 105° line of light (S03/S04's band) enters the glass's left edge on f193
-                          and crosses to the display centre on f215, the last S02 frame, at speed and at its brightest; on f216 S03's band
-                          is on the vial. (The keyed 3D SoftTop pass does not read in the render: see js/shots/S02.js.) -->
-<div class="s02-glass"><div class="s02-cover"><div class="s02-band"><i></i></div></div></div>
+                          phone's pixels. SWEEP2 (§0.9): the film's 105° line of light (S03/S04's band) enters the glass at its top-left
+                          corner on f193 (the lean puts the core's upper end 119 pt right of its centre-line x), accelerates across and
+                          puts its core on the display centre on f215, the last S02 frame, at speed (≈ 24 px/f) and at its brightest; on
+                          f216 S03's band is on the vial. Three .s02-bead = the EDGE CATCH: the cover's 2.5D edge catches the line where
+                          the core meets the top edge and the left → bottom edge (the two ends of the visible line). (The keyed 3D
+                          SoftTop pass does not read on the glass in the render — it flares the left rail instead: see js/shots/S02.js.) -->
+<div class="s02-glass"><div class="s02-cover"><div class="s02-band"><i></i></div><div class="s02-bead s02-bt"></div><div class="s02-bead s02-bl"></div><div class="s02-bead s02-bb"></div></div></div>

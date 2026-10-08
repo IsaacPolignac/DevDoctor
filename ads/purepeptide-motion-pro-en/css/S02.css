@@ -6,10 +6,19 @@
 /* the cover glass extends 1.63 mm = 9.8 pt beyond the display (the black ink border): 8 pt here, 2 pt short of the rails; outer radius 60 pt */
 #S02 .s02-cover { position: absolute; left: -8px; top: -8px; width: 418px; height: 890px; border-radius: 60px; overflow: hidden; }
 /* the line of light — S03/S04's band in glass pt: a 220 pt halo (≈ 195 px) at 105° (box rotated 15°, top leans right), cold white
-   (236, 242, 255), halo peak 0.36 / shoulders 0.16, and the film's 2.3 pt core (≈ 2 px, 0.98) + 9 pt glow; the box 220 × 2300 pt is
-   rotated about its centre at quad y 437 = the display's mid-height, so translateX(x) puts the core at quad x on the centre line */
-#S02 .s02-band { position: absolute; left: -110px; top: -713px; width: 220px; height: 2300px; transform-origin: 50% 50%; opacity: 0;
+   (236, 242, 255), halo peak 0.36 / shoulders 0.16, and the film's 2.3 pt core (≈ 2 px, 0.98) + 9 pt glow. COORDINATES: the band is a
+   child of .s02-cover, whose origin is 8 pt outside the display (the ink border), so the box 220 × 2300 pt is rotated about its centre at
+   cover y 445 = display y 437 = the display's mid-height (top −705 = 445 − 1150), and translateX(x) puts the core at cover x = display x + 8
+   on that centre line (js/shots/S02.js works in cover pt: X1 = 209 = the display centre). */
+#S02 .s02-band { position: absolute; left: -110px; top: -705px; width: 220px; height: 2300px; transform-origin: 50% 50%; opacity: 0;
   background: linear-gradient(90deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.16) 36%, rgba(236, 242, 255, 0.36) 50%,
     rgba(236, 242, 255, 0.16) 64%, rgba(236, 242, 255, 0) 100%); }
 #S02 .s02-band i { position: absolute; top: 0; bottom: 0; left: 50%; width: 2.3px; margin-left: -1.15px; background: rgba(255, 255, 255, 0.98);
   box-shadow: 0 0 9px 1px rgba(236, 242, 255, 0.7); }
+/* the EDGE CATCH (js/shots/S02.js EDGE_CATCH): the cover glass's 2.5D edge catches the line of light where the core meets it — a short
+   bead of light hugging the edge at the two ends of the visible line (the top edge, and the left edge turning into the bottom edge),
+   centred 2 pt inside the cover's outline so the overflow clip + the 60 pt corner radius shape it; opacity = the band's × 0.75 */
+#S02 .s02-bead { position: absolute; left: 0; top: 0; opacity: 0; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95) 0%, rgba(236, 242, 255, 0.5) 45%, rgba(236, 242, 255, 0) 100%); }
+#S02 .s02-bt, #S02 .s02-bb { width: 44px; height: 6px; margin: -3px 0 0 -22px; }
+#S02 .s02-bl { width: 6px; height: 44px; margin: -22px 0 0 -3px; }

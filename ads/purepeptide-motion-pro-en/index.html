@@ -156,11 +156,19 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     </style>
     <style data-src="css/S01.css">
 /* S01 · A droplet of light — every selector prefixed by #S01 (inlined into index.html: url() paths root-relative).
-   The plate (#v-s01, stage video z 10, opaque) is the shot; the 2D layer owns one element:
-   .s01-gate = the HIT1 exposure gate, a full-frame black at z 11 (above the plate at 10, below #hold-macro 11 by DOM order, the frost
-   15, type-back 20, the phone layers 30, type-front 40). Opacity 1 on the OPEN and the hit frame f30, released linearly with the rim
-   strip's own 3 f switch-on to 0 at f33 (js/shots/S01.js), 0 from then on. No blend mode (black over black on the OPEN, a plain
-   exposure multiply on f30–f32), no blur, no transform. */
+   The plate (#v-s01, stage video z 10, opaque) is the shot; the 2D layer owns two plain black overlays at z 11 (above the plate at 10,
+   below #hold-macro 11 by DOM order, the frost 15, type-back 20, the phone layers 30, type-front 40), no blend mode, no blur:
+   .s01-iris = the pool of light (js/shots/S01.js): a radial darkening centred on the drop. The element is 2× the stage, centred on
+     (960, 540), so a scale ≥ 1 never shows its edge; the ellipse is the bench's perspective (ry/rx = sin 28° ≈ 0.47); the stops are a
+     smooth S-curve from clear (0–26 % of the radius: the drop and the "u") to 60 % black at the ellipse (≈ the "p" and the "e") and
+     64 % beyond (the bench's far corners). Per frame the setter drives opacity (1 → 0 over f89–f117 with the key's curve) and
+     transform: scale (the dolly 0.32/d × the opening). Opacity 0 before the build's first frame is harmless: the gate covers it.
+   .s01-gate = the HIT1 exposure gate, a full-frame black: opacity 1 on the OPEN and the hit frame f30, released linearly with the rim
+     strip's own 3 f switch-on to 0 at f33, 0 from then on. */
+#S01 .s01-iris { position: absolute; left: -960px; top: -540px; width: 3840px; height: 2160px; z-index: 11; opacity: 0; pointer-events: none;
+  transform-origin: 50% 50%;
+  background: radial-gradient(ellipse 440px 207px at 50% 50%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 26%, rgba(0, 0, 0, 0.08) 44%,
+    rgba(0, 0, 0, 0.27) 62%, rgba(0, 0, 0, 0.47) 80%, rgba(0, 0, 0, 0.60) 100%, rgba(0, 0, 0, 0.64) 140%); }
 #S01 .s01-gate { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 1; pointer-events: none; }
     </style>
     <style data-src="css/S02.css">
@@ -172,13 +180,22 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 /* the cover glass extends 1.63 mm = 9.8 pt beyond the display (the black ink border): 8 pt here, 2 pt short of the rails; outer radius 60 pt */
 #S02 .s02-cover { position: absolute; left: -8px; top: -8px; width: 418px; height: 890px; border-radius: 60px; overflow: hidden; }
 /* the line of light — S03/S04's band in glass pt: a 220 pt halo (≈ 195 px) at 105° (box rotated 15°, top leans right), cold white
-   (236, 242, 255), halo peak 0.36 / shoulders 0.16, and the film's 2.3 pt core (≈ 2 px, 0.98) + 9 pt glow; the box 220 × 2300 pt is
-   rotated about its centre at quad y 437 = the display's mid-height, so translateX(x) puts the core at quad x on the centre line */
-#S02 .s02-band { position: absolute; left: -110px; top: -713px; width: 220px; height: 2300px; transform-origin: 50% 50%; opacity: 0;
+   (236, 242, 255), halo peak 0.36 / shoulders 0.16, and the film's 2.3 pt core (≈ 2 px, 0.98) + 9 pt glow. COORDINATES: the band is a
+   child of .s02-cover, whose origin is 8 pt outside the display (the ink border), so the box 220 × 2300 pt is rotated about its centre at
+   cover y 445 = display y 437 = the display's mid-height (top −705 = 445 − 1150), and translateX(x) puts the core at cover x = display x + 8
+   on that centre line (js/shots/S02.js works in cover pt: X1 = 209 = the display centre). */
+#S02 .s02-band { position: absolute; left: -110px; top: -705px; width: 220px; height: 2300px; transform-origin: 50% 50%; opacity: 0;
   background: linear-gradient(90deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.16) 36%, rgba(236, 242, 255, 0.36) 50%,
     rgba(236, 242, 255, 0.16) 64%, rgba(236, 242, 255, 0) 100%); }
 #S02 .s02-band i { position: absolute; top: 0; bottom: 0; left: 50%; width: 2.3px; margin-left: -1.15px; background: rgba(255, 255, 255, 0.98);
   box-shadow: 0 0 9px 1px rgba(236, 242, 255, 0.7); }
+/* the EDGE CATCH (js/shots/S02.js EDGE_CATCH): the cover glass's 2.5D edge catches the line of light where the core meets it — a short
+   bead of light hugging the edge at the two ends of the visible line (the top edge, and the left edge turning into the bottom edge),
+   centred 2 pt inside the cover's outline so the overflow clip + the 60 pt corner radius shape it; opacity = the band's × 0.75 */
+#S02 .s02-bead { position: absolute; left: 0; top: 0; opacity: 0; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95) 0%, rgba(236, 242, 255, 0.5) 45%, rgba(236, 242, 255, 0) 100%); }
+#S02 .s02-bt, #S02 .s02-bb { width: 44px; height: 6px; margin: -3px 0 0 -22px; }
+#S02 .s02-bl { width: 6px; height: 44px; margin: -22px 0 0 -3px; }
     </style>
     <style data-src="css/S03.css">
 /* S03 · We measure it — every selector prefixed by #S03 (inlined into index.html: url() paths root-relative).
@@ -190,7 +207,8 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
    measuring pass) so a line of light can read on the white label — screen onto 240 is +15 levels, onto 190 it is +60 */
 #S03 .s03-dim { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 0; pointer-events: none; }
 #S03 .s03-matte { position: absolute; left: 640px; top: 0; width: 640px; height: 1080px; z-index: 12; overflow: hidden; pointer-events: none;
-  mix-blend-mode: screen;
+  mix-blend-mode: screen; transform-origin: 306.2px 563.1px; /* = stage (946.2, 563.1), the plate's measured zoom centre: js/shots/S03.js
+  scales each container by s(plate frame) / s(matte frame) so the one-frame matte follows the plate's own push */
   -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-position: -640px 0; mask-position: -640px 0;
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
 #S03 .s03-a { -webkit-mask-image: url("assets/fx/s03_matte_a.png"); mask-image: url("assets/fx/s03_matte_a.png"); }
@@ -198,7 +216,7 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 #S03 .s03-band { position: absolute; opacity: 0; }
 /* the carry band: a 220 px stripe at 105° (box rotated 15°: top leans right), tall enough to cover the frame once rotated; cold white
    (the cold key's (236, 242, 255)); halo peak 1.0, shoulders 0.45, with the film's 2 px core line + 8 px glow (the same line of light
-   as the measuring pass and S04's two passes) */
+   as S02's band on the glass — it continues across the cut, js/shots/S03.js — the measuring pass and S04's two passes) */
 #S03 .s03-bx { left: -110px; top: -560px; width: 220px; height: 2200px; transform-origin: 50% 50%;
   background: linear-gradient(90deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.45) 36%, rgba(236, 242, 255, 1) 50%,
     rgba(236, 242, 255, 0.45) 64%, rgba(236, 242, 255, 0) 100%); }
@@ -224,18 +242,25 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 /* S04 · Every batch — every selector prefixed by #S04 (inlined into index.html: url() paths root-relative).
    Light only. The exposure (.s04-dim, z 11) sits between the plate (z 10) and the light (.s04-fx, z 12, full frame, screen blend,
    below the phone layers at 30). .s04-fx is transformed WITH the plate (js/shots/S04.js drives #v-cap and .s04-fx with one setter,
-   origin 960 400 = the cap's centre at the cut). Each pass is a full-frame container masked by the soft luma matte of the cap (stage
-   and mask coincide: mask-size 1920×1080 at 0 0). */
+   origin 960 400 = the cap's centre at the cut). Each pass frame has its own full-frame container masked by the soft luma matte of
+   the plate frame it lights (stage and mask coincide: mask-size 1920×1080 at 0 0); the band inside starts hidden. */
 #S04 .s04-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-/* the exposure: a black veil the shot JS breathes (0 → 0.18 → 0 over 12 f around each pass) so a line of light can read on the crimp's
-   blown white — screen onto 250 is +5 levels, onto 205 it is +50 */
+/* the exposure: a black veil the shot JS drives (0 → 0.18 in 3 f as the band lands, back to 0 over 9 f after the word) so a line of
+   light can read on the crimp's blown white — screen onto 250 is +5 levels, onto 205 it is +50 */
 #S04 .s04-dim { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 0; pointer-events: none; }
 #S04 .s04-fx { position: absolute; inset: 0; z-index: 12; pointer-events: none; mix-blend-mode: screen; transform-origin: 960px 400px; }
 #S04 .s04-matte { position: absolute; inset: 0; overflow: hidden;
   -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-position: 0 0; mask-position: 0 0;
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
-#S04 .s04-a { -webkit-mask-image: url("assets/fx/s04_matte_a.png"); mask-image: url("assets/fx/s04_matte_a.png"); }
-#S04 .s04-b { -webkit-mask-image: url("assets/fx/s04_matte_b.png"); mask-image: url("assets/fx/s04_matte_b.png"); }
+/* one matte per plate frame (assets/fx/make_s04_matte.py): pass A f334–f338 → #23 #24 #25 #26 #26, pass B f355–f359 → #40 #41 #42 #42 #43 */
+#S04 .s04-m23 { -webkit-mask-image: url("assets/fx/s04_matte_23.png"); mask-image: url("assets/fx/s04_matte_23.png"); }
+#S04 .s04-m24 { -webkit-mask-image: url("assets/fx/s04_matte_24.png"); mask-image: url("assets/fx/s04_matte_24.png"); }
+#S04 .s04-m25 { -webkit-mask-image: url("assets/fx/s04_matte_25.png"); mask-image: url("assets/fx/s04_matte_25.png"); }
+#S04 .s04-m26 { -webkit-mask-image: url("assets/fx/s04_matte_26.png"); mask-image: url("assets/fx/s04_matte_26.png"); }
+#S04 .s04-m40 { -webkit-mask-image: url("assets/fx/s04_matte_40.png"); mask-image: url("assets/fx/s04_matte_40.png"); }
+#S04 .s04-m41 { -webkit-mask-image: url("assets/fx/s04_matte_41.png"); mask-image: url("assets/fx/s04_matte_41.png"); }
+#S04 .s04-m42 { -webkit-mask-image: url("assets/fx/s04_matte_42.png"); mask-image: url("assets/fx/s04_matte_42.png"); }
+#S04 .s04-m43 { -webkit-mask-image: url("assets/fx/s04_matte_43.png"); mask-image: url("assets/fx/s04_matte_43.png"); }
 /* the pass: the film's 220 px stripe at 105° (box rotated 15°: top leans right), tall enough to cover the frame once rotated; cold
    white (the cold key's (236, 242, 255)); the halo peaks 1.0 with 0.45 shoulders (hotter than the S03 carry band's 0.85 / 0.30:
    these passes are 6 f and stretched ≈ 2× at the peak, and the blue cap swallows a weak band) + S03's 2 px core line with a 6 px glow
@@ -262,13 +287,15 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 #S05 .s05-proof { position: absolute; left: 160px; top: 384px; line-height: 1.02; white-space: nowrap; }
 #S05 .s05-ln { display: block; }
 #S05 .s05-l1 { margin-left: -6px; }
-/* the small line: Inter 600 caps 36 px +0.10 em #C3CBD6 (.t-small), cap top y 612 (46 px under line 2's baseline), baseline 638 */
+/* the small line: Inter 600 caps 36 px +0.10 em #C3CBD6 (.t-small), cap top y 612 (46 px under line 2's baseline), baseline 638;
+   its two words are separate word-locked reveals (js: JANOSHIK f475, ANALYTICAL f490); the "J" ink edge measures x 161 (no bearing fix) */
 #S05 .s05-acc { position: absolute; left: 160px; top: 607px; white-space: nowrap; }
     </style>
     <style data-src="css/S06.css">
 /* S06 · 99 % — every selector prefixed by #S06 (inlined into index.html: url() paths root-relative).
    Plate column: #v-macro (z 10) and #hold-macro (z 11) are stage-level and driven by the shot's setter (translate(120 → 280px, 0)
-   following the plate's own pan, scale(s) about the vial's centre (709, 760) in plate coordinates → stage (989, 760) on the hold); .s06-dark = a full-frame black at z 12 whose
+   following the plate's own pan, smoothed across the 24-in-30 pulldown; scale(s) about the vial's centre (709, 760) in plate
+   coordinates → stage (989, 760) on the hold); .s06-dark = a full-frame black at z 12 whose
    opacity is the dark reveal (1 → 0 over f546–f558). Type at z 40: .s06-type is moved into the stage-level #type-front at build
    (the exit f636–f644 outlives the section's window, which main.js gates at f636), so every type selector carries both roots. */
 #S06 .s06-dark { position: absolute; inset: 0; z-index: 12; background: #000; opacity: 1; pointer-events: none; }
@@ -286,10 +313,11 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     <style data-src="css/S07.css">
 /* S07 · "Cold" — every selector prefixed by #S07 (inlined into index.html: url() paths root-relative).
    The frost field (#v-frost / #frost-full, z 15, screen blend) and the held plate (#hold-macro, z 11) are stage-level; this sheet
-   only styles the crush: a full-frame black at z 16 (above the field, below the phone layers at 30) whose opacity is the
-   brightness crush f716–f738 (power2.in, driven by js/shots/S07.js). It starts invisible and is a direct child of the section
-   (the section itself never gets a z-index/transform/filter). */
-#S07 .s07-crush { position: absolute; inset: 0; z-index: 16; background: #000; opacity: 0; pointer-events: none; }
+   only styles the crush: a full-frame overlay at z 16 (above the field, below the phone layers at 30) whose black alpha is the
+   brightness crush f716–f738 (power2.in, closing in from the corners onto the phone: a radial-gradient of black alphas written
+   per frame by js/shots/S07.js — no background here, the setter owns it). It starts invisible and is a direct child of the
+   section (the section itself never gets a z-index/transform/filter). */
+#S07 .s07-crush { position: absolute; inset: 0; z-index: 16; background: none; opacity: 0; pointer-events: none; }
     </style>
     <style data-src="css/S08.css">
 /* S08 · "Open the site" — every selector prefixed by #S08 (inlined into index.html: url() paths root-relative).
@@ -611,14 +639,24 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
            duration 3.2 / media 0 → file frame n = film frame n + 30, shown f30–f125; S02's alpha webm takes over at f126).
            The shot IS the plate (blender/s01_droplet.py): the camera dolly 0.32 → 0.26 m + 2.5° roll, the rim hit f30–f33, the travelling
            top strip f36–f72, the key fade f89–f117, the rack focus drop → "p" f96–f117, the landed hold to the cut. No HTML type, no site
-           (SHOTS §S01: the printed "pure" in the scene is the only type). One DIRECT child of the section with its own z-index (the section
-           is never a stacking context; .z-front / .z-back are isolated groups and this sits BELOW the frost / type / phone layers):
-             .s01-gate (z 11)  the HIT1 exposure gate: a full-frame black between the plate (z 10) and everything above, released with the
-                               rim strip's own LINEAR 3 f switch-on f30–f33 (js/shots/S01.js, one time-driven setter). SHOTS §S01 says the
-                               film opens "f0–f30 black … the mp4 begins at f30 with 3 black frames"; the encoded plate is already pre-lit at
-                               f30 by the top strip and the two bulbs (ink ≈ 100 levels), so the gate restores the switch-on from true black:
-                               f30 black (the hit frame), f31 33 %, f32 67 %, f33 100 %, then 0 to the cut — the plate's pixels are untouched
-                               from f33 on. f0–f29 (the OPEN) is black by the scaffold alone (#world #000, the video gated by main.js). -->
+           (SHOTS §S01: the printed "pure" in the scene is the only type). Two DIRECT children of the section with their own z-index (the
+           section is never a stacking context; .z-front / .z-back are isolated groups and these sit BELOW the frost / type / phone layers);
+           both are plain black overlays (no blend), driven by ONE time-driven setter in js/shots/S01.js:
+             .s01-iris (z 11)  the POOL OF LIGHT: a soft elliptical darkening centred on the drop (the camera's aim point, 960/540), clear
+                               over the drop and the "u", ≈ 60 % black at the word's ends. The plate is pre-lit by the top strip and the two
+                               bulbs, so the print reads at 148 levels from the hit and the key fade (f89–f117) only lifts it ×1.4; SHOTS §S01
+                               asks the print to EMERGE on "easy word to print" and KF1 says "the key is at 70 %: the print is emerging,
+                               everything else is black". The iris restores that: the hit lights the drop and the "u" (the bulbs' pool), the
+                               wash f44–f62 crosses the pool, and the iris opens with the key's own curve f89–f117 (opacity 1 → 0 while the
+                               pool widens ×1.5): "pure" emerges from the drop outward as the voice says it. Glued to the bench: the pool
+                               scales with the dolly (0.32/d). Gone (opacity 0) from f117: the rack landing, the hold and the cut are the
+                               plate's own pixels.
+             .s01-gate (z 11)  the HIT1 exposure gate: a full-frame black released with the rim strip's own LINEAR 3 f switch-on f30–f33.
+                               SHOTS §S01 says the film opens "f0–f30 black … the mp4 begins at f30 with 3 black frames"; the encoded plate is
+                               already pre-lit at f30 (ink ≈ 100 levels), so the gate restores the switch-on from true black: f30 black (the
+                               hit frame), f31 33 %, f32 67 %, f33 100 %, then 0 to the cut. f0–f29 (the OPEN) is black by the scaffold alone
+                               (#world #000, the video gated by main.js). -->
+      <div class="s01-iris"></div>
       <div class="s01-gate"></div>
     </section>
     <section id="S02" class="clip scene" data-start="4.2" data-duration="2.999" data-track-index="2">
@@ -628,10 +666,13 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
            blend inside .z-front / .z-back would see black):
              .s02-glass (z 32)  the cover glass as a per-frame quad — a 402×874 pt element under the CSS matrix3d of renders/3d/s02/corners.json
                                 (TECH §5 recipe), +8 pt for the black ink border, radius 60 pt, overflow hidden, mix-blend-mode: screen onto the
-                                phone's pixels. SWEEP2 (§0.9): the film's 105° line of light (S03/S04's band) enters the glass's left edge on f193
-                                and crosses to the display centre on f215, the last S02 frame, at speed and at its brightest; on f216 S03's band
-                                is on the vial. (The keyed 3D SoftTop pass does not read in the render: see js/shots/S02.js.) -->
-      <div class="s02-glass"><div class="s02-cover"><div class="s02-band"><i></i></div></div></div>
+                                phone's pixels. SWEEP2 (§0.9): the film's 105° line of light (S03/S04's band) enters the glass at its top-left
+                                corner on f193 (the lean puts the core's upper end 119 pt right of its centre-line x), accelerates across and
+                                puts its core on the display centre on f215, the last S02 frame, at speed (≈ 24 px/f) and at its brightest; on
+                                f216 S03's band is on the vial. Three .s02-bead = the EDGE CATCH: the cover's 2.5D edge catches the line where
+                                the core meets the top edge and the left → bottom edge (the two ends of the visible line). (The keyed 3D
+                                SoftTop pass does not read on the glass in the render — it flares the left rail instead: see js/shots/S02.js.) -->
+      <div class="s02-glass"><div class="s02-cover"><div class="s02-band"><i></i></div><div class="s02-bead s02-bt"></div><div class="s02-bead s02-bl"></div><div class="s02-bead s02-bb"></div></div></div>
     </section>
     <section id="S03" class="clip scene" data-start="7.2" data-duration="2.999" data-track-index="3">
       <!-- S03 · We measure it · f216–f306 · AI plate hero.mp4 (stage video #v-hero, z 10, media 0 → 3.0, 1:1). Light only: no type, no site.
@@ -646,14 +687,16 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
                                ever meets a frame edge with a hard line), mix-blend-mode: screen onto the plate's pixels. -->
       <svg class="s03-defs" width="0" height="0" aria-hidden="true" focusable="false">
         <filter id="s03-shimmer" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
-          <!-- the glass shimmer: 12 px fractal noise (baseFrequency 1/12, seed 7, deterministic) displacing the line by ±6 px (scale 12) -->
-          <feTurbulence type="fractalNoise" baseFrequency="0.083" numOctaves="2" seed="7" stitchTiles="noStitch" result="n" />
+          <!-- the glass shimmer: 12 px fractal noise (baseFrequency 1/12, ONE octave = 12 px features, seed 7, deterministic) displacing the
+               line by ±6 px (scale 12); a second octave (6 px) made the refracted line ragged instead of wavy -->
+          <feTurbulence type="fractalNoise" baseFrequency="0.083" numOctaves="1" seed="7" stitchTiles="noStitch" result="n" />
           <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </svg>
       <div class="s03-dim"></div>
-      <!-- 1. the S02 band carry (§0.9): the 105° band (220 px halo + 2 px core, screen blend) is ON the vial's left side on the cut frame
-           f216, already at speed, and is clear of the vial's right edge by f234 -->
+      <!-- 1. the S02 band carry (§0.9): the 105° band (220 px halo + 2 px core, screen blend) is S02's line of light continued across the
+           cut — a match cut: its core is where S02's core would be one frame on (stage 1040 at y 540, 24.6 px/f), it eases to rest and is
+           clear of the vial's right edge by f234. The container is scaled per frame so the one-frame matte follows the plate's own zoom. -->
       <div class="s03-matte s03-a"><div class="s03-band s03-bx"><i></i></div></div>
       <!-- 2. MEASURE: a level line of light (2 px core, 220 px halo), cap → base f266–f278, its centre on the label on "measure" (f272).
            Two copies driven by one setter: the glass rows (neck / shoulder, base) go through the shimmer filter; the cap, crimp and label rows do not. -->
@@ -666,15 +709,20 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
       <!-- S04 · "Every batch" · f306–f396 · AI plate cap.mp4 (stage video #v-cap, z 10, media 0 → 3.0, 1:1). Light only: no type, no site.
            Three DIRECT children of the section with their own z-index (the section is not a stacking context; .z-front / .z-back are
            isolated groups where a screen blend would see black):
-             .s04-dim (z 11)  the exposure (S03's recipe): a black veil the JS breathes −18 % under each light pass (12 f cosine, the floor on
-                              the word) so the screen-blended line reads on the blown-white crimp face as well as on the blue cap and the
-                              glass — one unbroken line across the sealed cap. Invisible off the object (black stays black).
+             .s04-dim (z 11)  the exposure (S03's recipe): a black veil the JS pulls −18 % under each light pass — a camera's response to the
+                              light, 3 f attack as the band lands on the cap (the floor on the word), 9 f release after it — so the
+                              screen-blended line reads on the blown-white crimp face as well as on the blue cap and the glass: one unbroken
+                              line across the sealed cap. Invisible off the object (black stays black).
              .s04-fx (z 12)   the two horizontal passes (above the plate at 10, below the phone layers at 30), mix-blend-mode: screen onto the
                               plate's pixels. It carries the SAME transform as the plate (one setter drives #v-cap and .s04-fx: landing scale,
-                              1 %/s push, whip) so the mattes stay registered on the cap; each pass is a full-frame container masked by a
-                              soft luma matte of the cap (assets/fx/make_s04_matte.py → s04_matte_a.png = plate frame 25 = f336,
-                              s04_matte_b.png = plate frame 42 ≈ f357; both faded to 0 over the top 48 / bottom 90 px so no band ever meets a
-                              frame edge with a hard line).
+                              1 %/s push, whip) so the mattes stay registered on the cap. ONE MASKED CONTAINER PER PLATE FRAME the passes
+                              light (the plate's own descent grows the cap 2–3 px per frame; a single matte per pass leaked band onto the
+                              black beyond the rim on the entry frame): assets/fx/make_s04_matte.py → s04_matte_NN.png = plate file NN
+                              (soft luma matte, silhouette eroded 3 px so the feather sits on the object, faded to 0 over the top 48 /
+                              bottom 90 px so no band ever meets a frame edge). data-file = the plate file (1-based) the RENDER shows:
+                              index ceil(0.8·n − 0.6) for timeline frame n after the cut (measured on a scratch render, see the script).
+                              Pass A (f334–f338): #23 #24 #25 #26 #26 · pass B (f355–f359): #40 #41 #42 #42 #43. The shot JS switches the
+                              band between the containers per frame (a pure function of time); every band starts at opacity 0.
            #s04-whip: the directional (vertical box) motion kernel of the whip-tilt out, applied to #v-cap on its last 3 frames only; the
            setter rewrites order / kernelMatrix / divisor per frame from the whip's velocity (a 1 × N box = a 360° shutter streak). -->
       <svg class="s04-defs" width="0" height="0" aria-hidden="true" focusable="false">
@@ -685,16 +733,22 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
       <div class="s04-dim"></div>
       <div class="s04-fx">
         <!-- pass A · "Every" (L04 word 0, f336): 105° band, 220 px, cold white, left → right across the sealed cap in 6 f -->
-        <div class="s04-matte s04-a"><div class="s04-band"><i></i></div></div>
+        <div class="s04-matte s04-m23" data-pass="a" data-file="23"><div class="s04-band"><i></i></div></div>
+        <div class="s04-matte s04-m24" data-pass="a" data-file="24"><div class="s04-band"><i></i></div></div>
+        <div class="s04-matte s04-m25" data-pass="a" data-file="25"><div class="s04-band"><i></i></div></div>
+        <div class="s04-matte s04-m26" data-pass="a" data-file="26"><div class="s04-band"><i></i></div></div>
         <!-- pass B · "Every" (L04 word 2, f357): the same pass, the same direction: every single one -->
-        <div class="s04-matte s04-b"><div class="s04-band"><i></i></div></div>
+        <div class="s04-matte s04-m40" data-pass="b" data-file="40"><div class="s04-band"><i></i></div></div>
+        <div class="s04-matte s04-m41" data-pass="b" data-file="41"><div class="s04-band"><i></i></div></div>
+        <div class="s04-matte s04-m42" data-pass="b" data-file="42"><div class="s04-band"><i></i></div></div>
+        <div class="s04-matte s04-m43" data-pass="b" data-file="43"><div class="s04-band"><i></i></div></div>
       </div>
     </section>
     <section id="S05" class="clip scene" data-start="13.2" data-duration="4.999" data-track-index="5">
       <!-- S05 · "Independently tested" · f396–f546 · AI plate turn.mp4 (stage video #v-turn, z 10, media 0 → 3.9 s = f396–f512, 1:1) + type.
            The plate is driven by js/shots/S05.js with ONE setter (whip landing y +90 → 0, +300 px shift so the vial sits centre-right and
-           the type lives left of it, 1 %/s push about the vial): the same transform is written to .s05-hold, a still of plate frame 94
-           (assets/plates/turn_hold.png = what f513 would show; the plate's frame step is 0.47 levels, invisible) that stands in for the
+           the type lives left of it, 1 %/s push about the vial): the same transform is written to .s05-hold, a still of the plate's 94th frame
+           (assets/plates/turn_hold.png = decoded frame 93, 0-based = what f513 would show; the plate's frame step is 0.47 levels, invisible) that stands in for the
            video over f513–f522 while the plate crushes to black (#v-turn's window ends at f513; the crush f512–f522 and the breath f522–f546
            are the contract). .s05-hold (z 11) and .s05-crush (z 12, the brightness crush as a black multiply: power2.in on its opacity)
            are DIRECT children of the section with their own z-index (above the plate at 10, below the phone layers at 30 and the type at 40).
@@ -710,8 +764,9 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
       <div class="s05-crush"></div>
       <!-- type (z 40, in front; left of the vial, x 160 → ≈ 816 at the widest line; the vial's left edge sits at x 1031 after the shift):
            the proof line, Inter 600 96 px white 90 %, two ragged-left lines (one line = 997 px: it would run through the vial), lands
-           f410 = VO.w('L04', 5) "Tested" per glyph; beneath it the small line, Inter 600 caps 36 px +0.10 em #C3CBD6, on
-           f475 = VO.w('L04', 8) "Janosik". Both hold alone on black f522–f536, exit f536–f544. Janoshik Analytical as text only (no logo). -->
+           f410 = VO.w('L04', 5) "Tested" per glyph; beneath it the small line, Inter 600 caps 36 px +0.10 em #C3CBD6, as two word-locked
+           beats: JANOSHIK on f475 = VO.w('L04', 8) "Janosik", ANALYTICAL on f490 = VO.w('L04', 9) "Analytical" (the two .pp-w word spans
+           PP.glyphs makes). Both lines hold alone on black f522–f536, exit f536–f544. Janoshik Analytical as text only (no logo). -->
       <div class="z-front s05-type">
         <div class="s05-proof t-proof"><span class="s05-ln s05-l1">Independently</span><span class="s05-ln s05-l2">tested.</span></div>
         <div class="s05-acc t-small">JANOSHIK ANALYTICAL</div>
@@ -721,14 +776,16 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
       <!-- S06 · "99 %" · f546–f636 · AI plate macro.mp4 (stage video #v-macro, z 10, media 0 → 3.04 s = f546–f637, 1:1) + the held last
            frame (#hold-macro, stage-level z 11, assets/plates/macro_last.png = the plate's last decoded frame, diff 0.0) + type.
            The plate is driven by js/shots/S06.js with ONE transform setter: a reframe that follows the vial's own leftward pan (measured
-           782 → 289 px over the 73 plate frames, eased in-out, 0 px/f at both ends), +120 px at the first frame → +280 px at the last,
-           stepped on the 24 fps frame the video shows, so the vial glides 902–1764 → 569–1411 (right third → centred), never touches the
-           frame edge and never reaches the type column; plus the 2D push 1.00 → 1.04 over f637–f738 about the vial; the same transform
-           goes to #hold-macro so f637 is seamless.
+           781.8 → 288.3 px over the 73 plate frames, eased in-out, 0 px/f at both ends), +120 px on the first film frame → +280 px on the
+           last, computed so the vial's NET position is a smooth function of film time (the 24 fps plate's pulldown repeat — the renderer's
+           ffmpeg fps=30 slot mapping n(k) = k − floor((k + 3) / 5), measured on a scratch render — is absorbed by the shift: the vial moves
+           5–6 px on every frame of the fast pan, never 0, never backwards), so the vial glides 902–1764 → 568–1411 (right third → centred),
+           never touches the frame edge and never reaches the type column; plus the 2D push 1.00 → 1.04 over f637–f738 about the vial; the
+           same transform goes to #hold-macro so f637 is seamless.
            .s06-dark (z 12, a DIRECT child of the section with its own z-index: above the plate at 10/11, below the type at 40) is the
            dark reveal: full black whose opacity lifts 1 → 0 over f546–f558 while the plate's blur goes 6 → 0 px (filter on #v-macro). -->
       <div class="s06-dark"></div>
-      <!-- type (z 40, the left third, x 160 → ≈ 495 at the widest line; the vial's left edge never comes closer than x 569). The block is
+      <!-- type (z 40, the left third, x 160 → ≈ 495 at the widest line; the vial's left edge never comes closer than x 568). The block is
            MOVED into the stage-level #type-front by js/shots/S06.js at build time (BUILD.md: main.js gates this section to opacity 0 at
            f636, and the exit f636–f644 outlives the window), so its selectors in css/S06.css carry both roots.
            the stat "99%" Inter 600 160 px white 90 % (.t-stat), baseline y 566 (= S05's second proof line: the column rhymes across
@@ -753,8 +810,10 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
              #v-take    (z 30)    assets/layers/take.webm from f708: the ARR (ARR0 → REST, back first, edge-on glint f712 measured in
                                   renders/3d/take/arr_glint.json, REST exactly on f738), the frost screened inside its own alpha
            .s07-crush (z 16, a DIRECT child of the section with its own z-index: above the frost field at 15 and the hold at 11, below
-           the phone at 30) is the crush to black of the whole field over f716–f738: a full-frame black whose opacity is power2.in on
-           the timeline (= brightness → 0 on everything beneath it, the phone untouched), so on the DROP f738 only the phone remains. -->
+           the phone at 30) is the crush to black of the whole field over f716–f738: a full-frame overlay whose black alpha is power2.in
+           on the timeline (= brightness → 0 on everything beneath it, the phone untouched) and closes in from the four corners (black
+           by f730) onto a 550 px pool around the phone that goes on the contract's law (black exactly ON the DROP f738), so on the
+           hit only the phone remains and the void glow takes over the last pool of light. -->
       <div class="s07-crush"></div>
     </section>
     <section id="S08" class="clip scene" data-start="24.6" data-duration="2.799" data-track-index="8">

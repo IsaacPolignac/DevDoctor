@@ -1,18 +1,25 @@
 /* S04 · Every batch — every selector prefixed by #S04 (inlined into index.html: url() paths root-relative).
    Light only. The exposure (.s04-dim, z 11) sits between the plate (z 10) and the light (.s04-fx, z 12, full frame, screen blend,
    below the phone layers at 30). .s04-fx is transformed WITH the plate (js/shots/S04.js drives #v-cap and .s04-fx with one setter,
-   origin 960 400 = the cap's centre at the cut). Each pass is a full-frame container masked by the soft luma matte of the cap (stage
-   and mask coincide: mask-size 1920×1080 at 0 0). */
+   origin 960 400 = the cap's centre at the cut). Each pass frame has its own full-frame container masked by the soft luma matte of
+   the plate frame it lights (stage and mask coincide: mask-size 1920×1080 at 0 0); the band inside starts hidden. */
 #S04 .s04-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-/* the exposure: a black veil the shot JS breathes (0 → 0.18 → 0 over 12 f around each pass) so a line of light can read on the crimp's
-   blown white — screen onto 250 is +5 levels, onto 205 it is +50 */
+/* the exposure: a black veil the shot JS drives (0 → 0.18 in 3 f as the band lands, back to 0 over 9 f after the word) so a line of
+   light can read on the crimp's blown white — screen onto 250 is +5 levels, onto 205 it is +50 */
 #S04 .s04-dim { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 0; pointer-events: none; }
 #S04 .s04-fx { position: absolute; inset: 0; z-index: 12; pointer-events: none; mix-blend-mode: screen; transform-origin: 960px 400px; }
 #S04 .s04-matte { position: absolute; inset: 0; overflow: hidden;
   -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-position: 0 0; mask-position: 0 0;
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
-#S04 .s04-a { -webkit-mask-image: url("assets/fx/s04_matte_a.png"); mask-image: url("assets/fx/s04_matte_a.png"); }
-#S04 .s04-b { -webkit-mask-image: url("assets/fx/s04_matte_b.png"); mask-image: url("assets/fx/s04_matte_b.png"); }
+/* one matte per plate frame (assets/fx/make_s04_matte.py): pass A f334–f338 → #23 #24 #25 #26 #26, pass B f355–f359 → #40 #41 #42 #42 #43 */
+#S04 .s04-m23 { -webkit-mask-image: url("assets/fx/s04_matte_23.png"); mask-image: url("assets/fx/s04_matte_23.png"); }
+#S04 .s04-m24 { -webkit-mask-image: url("assets/fx/s04_matte_24.png"); mask-image: url("assets/fx/s04_matte_24.png"); }
+#S04 .s04-m25 { -webkit-mask-image: url("assets/fx/s04_matte_25.png"); mask-image: url("assets/fx/s04_matte_25.png"); }
+#S04 .s04-m26 { -webkit-mask-image: url("assets/fx/s04_matte_26.png"); mask-image: url("assets/fx/s04_matte_26.png"); }
+#S04 .s04-m40 { -webkit-mask-image: url("assets/fx/s04_matte_40.png"); mask-image: url("assets/fx/s04_matte_40.png"); }
+#S04 .s04-m41 { -webkit-mask-image: url("assets/fx/s04_matte_41.png"); mask-image: url("assets/fx/s04_matte_41.png"); }
+#S04 .s04-m42 { -webkit-mask-image: url("assets/fx/s04_matte_42.png"); mask-image: url("assets/fx/s04_matte_42.png"); }
+#S04 .s04-m43 { -webkit-mask-image: url("assets/fx/s04_matte_43.png"); mask-image: url("assets/fx/s04_matte_43.png"); }
 /* the pass: the film's 220 px stripe at 105° (box rotated 15°: top leans right), tall enough to cover the frame once rotated; cold
    white (the cold key's (236, 242, 255)); the halo peaks 1.0 with 0.45 shoulders (hotter than the S03 carry band's 0.85 / 0.30:
    these passes are 6 f and stretched ≈ 2× at the peak, and the blue cap swallows a weak band) + S03's 2 px core line with a 6 px glow

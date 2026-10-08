@@ -6,21 +6,35 @@
 //   1. the dark reveal f546–f558 (§S06): a full-frame black at z 12 lifts 1 → 0 (power1.out = quadratic: 44 / 75 / 94 % of the
 //      plate at f549 / f552 / f555 — the plate is there when the "9" lands) while the plate's blur goes 6 → 0 px (power2.out =
 //      cubic: 2.5 / 0.75 / 0.1 px at f549 / f552 / f555 — it focuses as it is lit, a beat behind). S05 hands over two black frames.
-//   2. the plate: its own camera pan carries the vial left (measured on the 73 decoded frames, PAN_L below: the vial's left
-//      silhouette x 782 → 289, 493 px, eased in-out, 0 px/f at both ends, fastest 11 px per plate frame at plate frames 30–41 ≈
-//      f583–f597, right under "minimum."). Played raw, the vial would end at x 289 — through the type column — so the plate is
-//      REFRAMED: a shift that follows the plate's own pan progress p(n), +120 px at the first frame → +280 px at the last, stepped
-//      on the very 24 fps frame index the <video> shows (n = floor(media time × 24)), so the net motion keeps the plate's cadence
-//      (no counter-step on the pulldown's repeated frame) and the vial glides 902–1764 → 569–1411: it starts in the right third
-//      (151 px clear of the frame edge — a constant +280 would put its rim ON the right edge for the first 20 frames and release it
-//      as the pan starts, a framing accident), reaches the centre as the whisper lands (centre 990, the label's hexagon at ≈ (988,
-//      900): the frost has a centred label to close over) and stays ≥ 74 px right of the type column at every frame (the vial's
-//      shoulder, at the stat's rows, ≥ 105 px). Net glide 333 px over 90 f, fastest ≈ 6 px per film frame: a drift, never static.
+//   2. the plate: its own camera pan carries the vial left (measured on the 73 decoded frames, PAN below: the vial's left silhouette
+//      x 781.8 → 288.3, 493 px, sub-pixel, eased in-out, 0 px/f at both ends, fastest 11 px per plate frame at plate frames 30–41 ≈
+//      f583–f597, right under "minimum."). Played raw, the vial would end at x 288 — through the type column — so the plate is
+//      REFRAMED: a shift of +120 px on the first frame → +280 px on the last, so the vial glides 902–1764 → 568–1411: it starts in
+//      the right third (151 px clear of the frame edge — a constant +280 would put its rim ON the right edge for the first 20 frames
+//      and release it as the pan starts, a framing accident), reaches the centre as the whisper lands (centre 990, the label's
+//      hexagon at ≈ (988, 900): the frost has a centred label to close over) and stays ≥ 73 px right of the type's ink at every
+//      frame (at the stat's rows, the vial's shoulder, ≥ 105 px). Net glide 333 px over 90 f: a drift, never static.
+//      THE PULLDOWN. The plate is 24 fps on a 30 fps timeline, so one plate frame in five is shown twice. The RENDERER (not the
+//      browser) decides which: HyperFrames extracts every source video with ffmpeg `fps=30` (nearest-slot rounding: source frame n
+//      lands on output slot round(1.25 n), a slot shows the latest source frame at or before it) and indexes the slots by
+//      floor(localTime × 30) — measured on a 48-frame scratch render of macro.mp4 (every output frame 0.4 levels from ONE decoded
+//      source frame, 5–11 levels from its neighbours): film frame k = f − 546 shows plate frame n(k) = k − floor((k + 3) / 5):
+//      0 1 1 2 3 4 5 5 6 7 8 9 9 … (the repeat is at k ≡ 2 mod 5; the browser's seek shows floor(0.8 k), repeat at k ≡ 1 mod 5, and
+//      `hyperframes snapshot` is one frame ahead of that again — TECH §6 — so this sync is QC'd from a render, never a snapshot).
+//      The shift is NOT a stepped copy of the plate's pan (a stepped shift in the wrong phase ticks the vial BACKWARDS +3.6 px and
+//      then lurches −11 px every fifth frame; a stepped shift in the right phase still holds the vial still one frame in five — the
+//      pulldown judder of every 24-in-30 pan). Instead the shift makes the vial's NET position a smooth function of film time:
+//      x(k) = X0 + (X1 − X0) · P(0.8 k), with P the plate's own pan progress (0 → 1, linearly interpolated between plate frames) and
+//      X0 = 902 / X1 = 568, and shift(k) = x(k) − PAN[n(k)]: on the four frames the plate advances, the shift takes back 46 % of its
+//      step; on the fifth, where the plate repeats, the shift carries the whole step. The vial moves 5.3–6.0 px on EVERY film frame
+//      of the fast pan (never 0, never backwards; residual ±0.3 px from the plate's own ease and the 0.1 px table), the plate's
+//      texture and lighting keep their 24 fps cadence underneath (sub-pixel changes, invisible), and the two ends are the same as a
+//      stepped reframe (shift 120 at f546, 280 at f636, zero velocity at both ends).
 //      The pan ends at zero velocity and the shift with it, so the hold is continuous: from f637 #hold-macro (opacity 1 at f637,
 //      0 at f738) carries the same transform (shift 280 = the last plate frame's) and the 2D push 1.00 → 1.04 over f637–f738
 //      (sine.inOut, zero velocity at both ends) about the vial's centre (709, 760) in plate coordinates — the frost in S07 grows
-//      over a slowly moving image. (The cut f636 → f637 is video frame 72 → the identical PNG: `hyperframes snapshot` shows video
-//      frame n + 1 (TECH §6), so QC the cut from a render, never a snapshot.)
+//      over a slowly moving image. (The cut f636 → f637 is video frame 72 → the identical PNG; #v-macro's clip ends at f637.2 and
+//      the renderer has no slot 91 to show, so the hold is ON at f637 above it, z 11 over 10.)
 //   3. NINETY-NINE f552 = VO.w('L05', 0): "99%" Inter 600 160 px white 90 %, character by character 2 f apart (9 f552, 9 f554,
 //      % f556), each opacity 0 → 1 + 8 px rise over 18 f expo.out with the 104 % overshoot (scale 0.96 → 1.04 → 1.00); the "%"
 //      is settled by f574; holds 62 f to the exit. (The spoken "percent" is f570: the sign does not wait for it — the stat lands
@@ -72,18 +86,31 @@ PP.shot("S06", function build(tl, root) {
   PP.driveT(tl, reveal, T0, tRev1);
 
   // ---- 2. the plate and its hold: ONE transform setter (reframe × push), f546 → f738 ----------------------------------------
-  // The vial's left silhouette x per plate frame (73 frames at 24 fps; luma > 40 over rows 300–1000; measured with PIL on the
-  // decoded macro.mp4). p(n) = (782 − PAN_L[n]) / 493 is the pan's progress, 0 → 1, the plate's own ease.
-  const PAN_L = [782, 782, 781, 780, 779, 777, 774, 771, 768, 764, 760, 755, 751, 745, 739, 733, 726, 719, 712, 704, 695, 687, 678, 669,
-    659, 650, 640, 630, 620, 610, 599, 588, 577, 567, 556, 545, 535, 524, 513, 502, 491, 480, 470, 460, 449, 439, 429, 419, 409, 400,
-    392, 383, 375, 367, 358, 351, 343, 336, 330, 324, 319, 314, 309, 305, 301, 298, 295, 293, 292, 290, 290, 289, 289];
-  const PLATE_FPS = 24, PAN_N = PAN_L.length - 1; // 72
-  const pan = (n) => (PAN_L[0] - PAN_L[n]) / (PAN_L[0] - PAN_L[PAN_N]);
-  const SHIFT0 = 120, SHIFT1 = 280; // px: the reframe, +120 at plate frame 0 (vial 902–1764) → +280 at frame 72 (vial 569–1411, centred)
+  // The vial's left silhouette x per plate frame (73 frames at 24 fps; luma > 40 over rows 300–1000, sub-pixel crossing, min over
+  // rows; measured with PIL/numpy on the decoded macro.mp4). PAN[0] 781.8 → PAN[72] 288.3; monotonic, eased in-out.
+  const PAN = [781.8, 781.5, 780.8, 779.5, 777.9, 776.0, 773.6, 770.6, 767.3, 763.8, 759.6, 754.8, 750.0, 744.6, 738.5, 732.2, 725.3, 718.6,
+    711.2, 703.2, 694.9, 686.6, 677.5, 668.2, 658.7, 649.6, 639.9, 629.8, 619.7, 609.5, 598.5, 587.6, 576.7, 566.2, 555.6, 544.9, 534.1,
+    523.3, 512.0, 501.0, 490.2, 479.9, 469.9, 459.4, 448.3, 438.5, 428.3, 418.2, 408.7, 399.8, 391.1, 382.5, 374.1, 366.1, 357.8, 350.0,
+    342.6, 335.3, 329.0, 323.0, 318.0, 313.1, 308.4, 304.4, 300.8, 297.8, 294.8, 292.6, 291.1, 289.8, 289.1, 288.5, 288.3];
+  const PAN_N = PAN.length - 1; // 72
+  const PLATE_FPS = 24, RATIO = PLATE_FPS / PP.FPS; // 0.8 plate frames per film frame
+  // the plate frame the RENDERER shows on film frame k = f − 546 (ffmpeg fps=30 extraction, nearest-slot rounding; measured, see above)
+  const plateFrame = (k) => Math.max(0, Math.min(PAN_N, k - Math.floor((k + 3) / 5)));
+  // the plate's own pan progress 0 → 1 at a fractional plate time τ (linear between the measured frames)
+  const panAt = (tau) => {
+    const x = Math.max(0, Math.min(PAN_N, tau)), i = Math.floor(x), fr = x - i;
+    const v = i >= PAN_N ? PAN[PAN_N] : PAN[i] * (1 - fr) + PAN[i + 1] * fr;
+    return (PAN[0] - v) / (PAN[0] - PAN[PAN_N]);
+  };
+  const SHIFT0 = 120, SHIFT1 = 280; // px: the reframe, +120 at plate frame 0 (vial 902–1764) → +280 at frame 72 (vial 568–1411, centred)
+  const X0 = PAN[0] + SHIFT0, X1 = PAN[PAN_N] + SHIFT1; // the vial's left edge on screen: 901.8 at f546 → 568.3 at f636
   const vStart = v ? +v.dataset.start : T0; // 18.2: media time = t − vStart (data-media-start 0)
   if (v && Math.abs(vStart - T0) > 1e-6) console.warn(`[S06] #v-macro starts at ${vStart} s (expected ${T0}): the reframe is out of sync with the pan`);
-  const plateFrame = (t) => Math.max(0, Math.min(PAN_N, Math.floor((t - vStart) * PLATE_FPS + 1e-4))); // the frame the <video> shows
-  const shiftAt = (t) => SHIFT0 + (SHIFT1 - SHIFT0) * pan(plateFrame(t));
+  const filmFrame = (t) => Math.max(0, Math.round((t - vStart) * PP.FPS)); // k, the film frame since the plate's first
+  const shiftAt = (t) => {
+    const k = filmFrame(t);
+    return X0 + (X1 - X0) * panAt(k * RATIO) - PAN[plateFrame(k)]; // the vial's net x is smooth in k; the shift absorbs the pulldown
+  };
   const ORIGIN = "709px 760px"; // the vial's centre on the last plate frame, plate coordinates (the push grows the label in place)
   const PUSH = 0.04; // 1.00 → 1.04 over the hold (§S06)
   const tHold0 = f(637), tHold1 = f(738);

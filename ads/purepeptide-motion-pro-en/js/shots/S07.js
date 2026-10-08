@@ -24,18 +24,25 @@
 //   4. CA on the glint: PP.ca over f709–f715 (± 3 f), 2 px, on #v-take ONLY (the SVG #ca filter: R +dx, B −dx), a sine that
 //      peaks exactly on f712 and is 0 at both ends (BRIEF §3.5: one of the three allowed moments).
 //   5. the crush f716–f738 (§S07): the whole frost field + held plate go to black on power2.in (GSAP power2 = cubic): a
-//      full-frame black at z 16 (.s07-crush, above the field at 15 and the hold at 11, below the phone at 30) whose opacity is
-//      u³ — brightness 0.97 / 0.78 / 0.49 / 0.21 / 0.0 at f722 / f728 / f732 / f735 / f738 — identical to a brightness multiply on
-//      a black world; its biggest step is the last one, ON the DROP: the field is cut to black by the hit. On f738 the hold is
-//      off (S06), #frost-full is off (here), the section is gated off (main.js), the void glow comes on (main.js): only the
-//      phone remains, at REST, on black. S08 takes over the same take without a cut.
+//      full-frame overlay at z 16 (.s07-crush, above the field at 15 and the hold at 11, below the phone at 30) whose black
+//      alpha is u³ — brightness 0.91 / 0.62 / 0.36 / 0.13 / 0.0 at f726 / f732 / f735 / f737 / f738 (measured on the snapshots)
+//      — identical to a brightness multiply on a black world; its biggest step is the last one, ON the DROP: the field is cut to
+//      black by the hit. POLISH (one upgrade, within the contract): the crush CLOSES IN. Inside a 550 px pool around the
+//      display centre (960, 540) — the phone and the field beside its rails — every pixel follows the contract's law exactly
+//      (f716 → f738, power2.in, the last 13 % step on the DROP); outside it the same law ends earlier the farther from the
+//      centre, linearly to f730 at the four corners (LEAD 8 f). So the cold leaves the way it came — from the frame edges
+//      inward — and the phone lands into the last pool of frost light, which the void glow (centre lift, main.js f738) takes
+//      over on the hit. One radial-gradient of black alphas rebuilt per frame (11 stops, one setter, deduped); LEAD = 0 gives
+//      the uniform crush as written. On f738 the hold is off (S06), #frost-full is off (here), the section is gated off
+//      (main.js), the void glow comes on (main.js): only the phone remains, at REST, on black. S08 takes over the same take
+//      without a cut. The DROP is asserted against the measured music (js/cues.js: CUES.DROP == PP.DROP).
 // Sound (BRIEF §7, SHOTS §S07; 2D fastest frames stated here, the 3D ones are in pose_speed.json / arr_glint.json):
 //   RISER0 f630 → f738 (last sample on the DROP) · FROST f648 → f707 (frost(2.0) shaped by frost_density.json new_px; crackle
 //   grains panned by the growth centroid) · COLD f657 = VO.w('L06', 1) (impact D2 lite + frost(0.4): the density step is on
 //   this very frame) · CLOSE f686 = VO.w('L06', 3) (glass_settle n=4; the centre closed f684–f685) · "hours." f702 (no cue:
 //   the riser is at full tilt) · ARR-GLINT f712 (doppler_whoosh peak + sfx_whoosh + tsk: the edge-on frame; the fastest frame
 //   of the fly-in is f709, the whoosh is aligned to the glint as §S07 says) · the crush f716 → f738 has no sound of its own
-//   except the DROP's frost(0.3) −22 tail · DROP f738 (impact D1 + click13 + alu_tick + alu_ring; music DROP).
+//   except the DROP's frost(0.3) −22 tail (its fastest 2D frames: the corners' last step f730, the pool's last step f738 = the hit) · DROP f738 (impact D1 + click13 + alu_tick + alu_ring; music DROP).
 //   No other sound frames in this shot.
 PP.shot("S07", function build(tl, root) {
   const F = PP.F, f = PP.f;
@@ -81,10 +88,37 @@ PP.shot("S07", function build(tl, root) {
   if (!take) console.warn("[S07] #v-take missing (assets/layers/take.webm): no phone enters — re-run tools/assemble.py once it lands");
   else PP.ca(tl, f(GLINT - 3), f(GLINT + 3), 2, take); // sine over 6 f: 0 at f709, 2 px on f712, 0 at f715
 
-  // ---- 5. the crush f716–f738: brightness → 0 on power2.in as a black overlay (opacity u³); 1.0 exactly on the DROP ---------
-  const tCrush0 = f(716), tCrush1 = f(PP.DROP);
+  // ---- 5. the crush f716–f738: brightness → 0 on power2.in, closing in from the corners onto the phone; 1.0 everywhere on the DROP
+  const F_CRUSH0 = 716, F_CRUSH1 = PP.DROP; // the contract's window (22 f)
+  const CX = 960, CY = 540; // the display centre at REST (SHOTS §S07: the thaw's centre; the glow's centre lift sits at 50 % 55 %)
+  const RMAX = Math.hypot(CX, CY); // 1101 px: the far corners
+  const POOL = 0.5; // 550 px: inside it the law is the contract's (ends on the DROP); the phone's body spans ≤ 450 px of it
+  const LEAD = 8; // frames the four corners finish ahead of the DROP (f730); 0 = the uniform crush as written
+  const STOPS = 10; // gradient stops between the pool's edge and the corners
+  const EC = gsap.parseEase("power2.in"); // GSAP power2 = cubic: u³
+  const c01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
+  const alphaAt = (fr, r) => { // the black alpha at normalised radius r (0 centre … 1 corner) on frame fr (continuous)
+    const lead = r <= POOL ? 0 : (LEAD * (r - POOL)) / (1 - POOL);
+    return EC(c01((fr - F_CRUSH0) / (F_CRUSH1 - F_CRUSH0 - lead)));
+  };
+  let lastBg = null;
+  const crushAt = (u) => {
+    const fr = F_CRUSH0 + (F_CRUSH1 - F_CRUSH0) * u;
+    const a0 = alphaAt(fr, 0).toFixed(4);
+    const stops = [`rgba(0,0,0,${a0}) 0px`, `rgba(0,0,0,${a0}) ${(POOL * RMAX).toFixed(0)}px`];
+    for (let k = 1; k <= STOPS; k++) {
+      const r = POOL + ((1 - POOL) * k) / STOPS;
+      stops.push(`rgba(0,0,0,${alphaAt(fr, r).toFixed(4)}) ${(r * RMAX).toFixed(0)}px`);
+    }
+    const bg = `radial-gradient(circle at ${CX}px ${CY}px, ${stops.join(", ")})`;
+    if (bg === lastBg) return;
+    lastBg = bg;
+    crush.style.backgroundImage = bg;
+  };
   tl.set(crush, { opacity: 0 }, 0);
-  tl.fromTo(crush, { opacity: 0 }, { opacity: 1, duration: tCrush1 - tCrush0, ease: "power2.in", immediateRender: false }, tCrush0);
+  tl.set(crush, { opacity: 1 }, f(F_CRUSH0)); // the gradient is fully transparent at u = 0 anyway
+  PP.drive(tl, f(F_CRUSH0), f(F_CRUSH1 - F_CRUSH0), crushAt); // u linear over f716–f738; the ease is inside alphaAt
+  if (PP.CUES && Math.abs(PP.CUES.DROP * 30 - PP.DROP) > 0.5) console.warn(`[S07] js/cues.js puts the DROP at ${PP.CUES.DROP} s (f${Math.round(PP.CUES.DROP * 30)}), PP.DROP is f${PP.DROP}: the hit and the picture disagree`);
   if (PP.toF(T1) !== PP.DROP) console.warn(`[S07] the window ends on f${PP.toF(T1)}, the DROP is f${PP.DROP}`);
   void T0;
 });

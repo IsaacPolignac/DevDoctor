@@ -1,7 +1,15 @@
 /* S01 · A droplet of light — every selector prefixed by #S01 (inlined into index.html: url() paths root-relative).
-   The plate (#v-s01, stage video z 10, opaque) is the shot; the 2D layer owns one element:
-   .s01-gate = the HIT1 exposure gate, a full-frame black at z 11 (above the plate at 10, below #hold-macro 11 by DOM order, the frost
-   15, type-back 20, the phone layers 30, type-front 40). Opacity 1 on the OPEN and the hit frame f30, released linearly with the rim
-   strip's own 3 f switch-on to 0 at f33 (js/shots/S01.js), 0 from then on. No blend mode (black over black on the OPEN, a plain
-   exposure multiply on f30–f32), no blur, no transform. */
+   The plate (#v-s01, stage video z 10, opaque) is the shot; the 2D layer owns two plain black overlays at z 11 (above the plate at 10,
+   below #hold-macro 11 by DOM order, the frost 15, type-back 20, the phone layers 30, type-front 40), no blend mode, no blur:
+   .s01-iris = the pool of light (js/shots/S01.js): a radial darkening centred on the drop. The element is 2× the stage, centred on
+     (960, 540), so a scale ≥ 1 never shows its edge; the ellipse is the bench's perspective (ry/rx = sin 28° ≈ 0.47); the stops are a
+     smooth S-curve from clear (0–26 % of the radius: the drop and the "u") to 60 % black at the ellipse (≈ the "p" and the "e") and
+     64 % beyond (the bench's far corners). Per frame the setter drives opacity (1 → 0 over f89–f117 with the key's curve) and
+     transform: scale (the dolly 0.32/d × the opening). Opacity 0 before the build's first frame is harmless: the gate covers it.
+   .s01-gate = the HIT1 exposure gate, a full-frame black: opacity 1 on the OPEN and the hit frame f30, released linearly with the rim
+     strip's own 3 f switch-on to 0 at f33, 0 from then on. */
+#S01 .s01-iris { position: absolute; left: -960px; top: -540px; width: 3840px; height: 2160px; z-index: 11; opacity: 0; pointer-events: none;
+  transform-origin: 50% 50%;
+  background: radial-gradient(ellipse 440px 207px at 50% 50%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 26%, rgba(0, 0, 0, 0.08) 44%,
+    rgba(0, 0, 0, 0.27) 62%, rgba(0, 0, 0, 0.47) 80%, rgba(0, 0, 0, 0.60) 100%, rgba(0, 0, 0, 0.64) 140%); }
 #S01 .s01-gate { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 1; pointer-events: none; }

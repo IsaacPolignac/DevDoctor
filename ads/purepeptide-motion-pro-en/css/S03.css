@@ -7,7 +7,8 @@
    measuring pass) so a line of light can read on the white label — screen onto 240 is +15 levels, onto 190 it is +60 */
 #S03 .s03-dim { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 0; pointer-events: none; }
 #S03 .s03-matte { position: absolute; left: 640px; top: 0; width: 640px; height: 1080px; z-index: 12; overflow: hidden; pointer-events: none;
-  mix-blend-mode: screen;
+  mix-blend-mode: screen; transform-origin: 306.2px 563.1px; /* = stage (946.2, 563.1), the plate's measured zoom centre: js/shots/S03.js
+  scales each container by s(plate frame) / s(matte frame) so the one-frame matte follows the plate's own push */
   -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-position: -640px 0; mask-position: -640px 0;
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
 #S03 .s03-a { -webkit-mask-image: url("assets/fx/s03_matte_a.png"); mask-image: url("assets/fx/s03_matte_a.png"); }
@@ -15,7 +16,7 @@
 #S03 .s03-band { position: absolute; opacity: 0; }
 /* the carry band: a 220 px stripe at 105° (box rotated 15°: top leans right), tall enough to cover the frame once rotated; cold white
    (the cold key's (236, 242, 255)); halo peak 1.0, shoulders 0.45, with the film's 2 px core line + 8 px glow (the same line of light
-   as the measuring pass and S04's two passes) */
+   as S02's band on the glass — it continues across the cut, js/shots/S03.js — the measuring pass and S04's two passes) */
 #S03 .s03-bx { left: -110px; top: -560px; width: 220px; height: 2200px; transform-origin: 50% 50%;
   background: linear-gradient(90deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.45) 36%, rgba(236, 242, 255, 1) 50%,
     rgba(236, 242, 255, 0.45) 64%, rgba(236, 242, 255, 0) 100%); }
