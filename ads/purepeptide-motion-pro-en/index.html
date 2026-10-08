@@ -164,9 +164,13 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     </style>
     <style data-src="css/S03.css">
 /* S03 · We measure it — every selector prefixed by #S03 (inlined into index.html: url() paths root-relative).
-   Light only. Containers = the vial column (stage x 640–1280), z 12 (above the plate at 10, below the phone layers at 30),
-   screen blend, masked by the soft luma matte of the vial (full-frame PNG, positioned so stage and mask coincide). */
+   Light only. The exposure (.s03-dim, z 11) sits between the plate (z 10) and the two light containers (z 12, below the phone layers
+   at 30). Containers = the vial column (stage x 640–1280), screen blend, masked by the soft luma matte of the vial (full-frame PNG,
+   positioned so stage and mask coincide). */
 #S03 .s03-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* the exposure: a black veil the shot JS drives (0.22 on the cut frame → 0 as the carry band crosses; a 0.18 breath under the
+   measuring pass) so a line of light can read on the white label — screen onto 240 is +15 levels, onto 190 it is +60 */
+#S03 .s03-dim { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 0; pointer-events: none; }
 #S03 .s03-matte { position: absolute; left: 640px; top: 0; width: 640px; height: 1080px; z-index: 12; overflow: hidden; pointer-events: none;
   mix-blend-mode: screen;
   -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-position: -640px 0; mask-position: -640px 0;
@@ -175,10 +179,13 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 #S03 .s03-b { -webkit-mask-image: url("assets/fx/s03_matte_b.png"); mask-image: url("assets/fx/s03_matte_b.png"); }
 #S03 .s03-band { position: absolute; opacity: 0; }
 /* the carry band: a 220 px stripe at 105° (box rotated 15°: top leans right), tall enough to cover the frame once rotated; cold white
-   (the cold key's (236, 242, 255)); peak 0.85, shoulders 0.30 */
+   (the cold key's (236, 242, 255)); halo peak 1.0, shoulders 0.45, with the film's 2 px core line + 8 px glow (the same line of light
+   as the measuring pass and S04's two passes) */
 #S03 .s03-bx { left: -110px; top: -560px; width: 220px; height: 2200px; transform-origin: 50% 50%;
-  background: linear-gradient(90deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.3) 36%, rgba(236, 242, 255, 0.85) 50%,
-    rgba(236, 242, 255, 0.3) 64%, rgba(236, 242, 255, 0) 100%); }
+  background: linear-gradient(90deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.45) 36%, rgba(236, 242, 255, 1) 50%,
+    rgba(236, 242, 255, 0.45) 64%, rgba(236, 242, 255, 0) 100%); }
+#S03 .s03-bx i { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 0 8px 1px rgba(236, 242, 255, 0.75); }
 /* the measuring pass: complementary row masks (22 px soft, plate frame 46) — the GLASS rows (neck / shoulder y 210–410, base below
    the lower stripe 918–927) get the shimmer; the cap + crimp (y 17–210) and the label (410–927) keep the line straight */
 #S03 .s03-rows { position: absolute; inset: 0; }
@@ -190,17 +197,21 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
   mask-image: linear-gradient(180deg, #fff 0, #fff 200px, rgba(255, 255, 255, 0) 222px, rgba(255, 255, 255, 0) 400px, #fff 422px, #fff 916px, rgba(255, 255, 255, 0) 938px, rgba(255, 255, 255, 0) 100%); }
 /* a level 220 px halo (its centre at container y 0 → translateY(y) puts it at stage y) with a 2 px core: the line of light */
 #S03 .s03-by { left: 0; top: -110px; width: 640px; height: 220px; transform-origin: 50% 50%;
-  background: linear-gradient(180deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.22) 36%, rgba(236, 242, 255, 0.6) 50%,
-    rgba(236, 242, 255, 0.22) 64%, rgba(236, 242, 255, 0) 100%); }
+  background: linear-gradient(180deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.26) 36%, rgba(236, 242, 255, 0.7) 50%,
+    rgba(236, 242, 255, 0.26) 64%, rgba(236, 242, 255, 0) 100%); }
 #S03 .s03-by i { position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: rgba(255, 255, 255, 0.98);
-  box-shadow: 0 0 6px 1px rgba(236, 242, 255, 0.75); }
+  box-shadow: 0 0 8px 1px rgba(236, 242, 255, 0.75); }
     </style>
     <style data-src="css/S04.css">
 /* S04 · Every batch — every selector prefixed by #S04 (inlined into index.html: url() paths root-relative).
-   Light only. .s04-fx = full frame, z 12 (above the plate at 10, below the phone layers at 30), screen blend, transformed WITH the
-   plate (js/shots/S04.js drives #v-cap and .s04-fx with one setter, origin 960 400 = the cap's centre at the cut). Each pass is a
-   full-frame container masked by the soft luma matte of the cap (stage and mask coincide: mask-size 1920×1080 at 0 0). */
+   Light only. The exposure (.s04-dim, z 11) sits between the plate (z 10) and the light (.s04-fx, z 12, full frame, screen blend,
+   below the phone layers at 30). .s04-fx is transformed WITH the plate (js/shots/S04.js drives #v-cap and .s04-fx with one setter,
+   origin 960 400 = the cap's centre at the cut). Each pass is a full-frame container masked by the soft luma matte of the cap (stage
+   and mask coincide: mask-size 1920×1080 at 0 0). */
 #S04 .s04-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* the exposure: a black veil the shot JS breathes (0 → 0.18 → 0 over 12 f around each pass) so a line of light can read on the crimp's
+   blown white — screen onto 250 is +5 levels, onto 205 it is +50 */
+#S04 .s04-dim { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 0; pointer-events: none; }
 #S04 .s04-fx { position: absolute; inset: 0; z-index: 12; pointer-events: none; mix-blend-mode: screen; transform-origin: 960px 400px; }
 #S04 .s04-matte { position: absolute; inset: 0; overflow: hidden;
   -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-position: 0 0; mask-position: 0 0;
@@ -238,8 +249,8 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     </style>
     <style data-src="css/S06.css">
 /* S06 · 99 % — every selector prefixed by #S06 (inlined into index.html: url() paths root-relative).
-   Plate column: #v-macro (z 10) and #hold-macro (z 11) are stage-level and driven by the shot's setter (translate(280px, 0) scale(s)
-   about the vial's centre (709, 760) in plate coordinates → stage (989, 760)); .s06-dark = a full-frame black at z 12 whose
+   Plate column: #v-macro (z 10) and #hold-macro (z 11) are stage-level and driven by the shot's setter (translate(120 → 280px, 0)
+   following the plate's own pan, scale(s) about the vial's centre (709, 760) in plate coordinates → stage (989, 760) on the hold); .s06-dark = a full-frame black at z 12 whose
    opacity is the dark reveal (1 → 0 over f546–f558). Type at z 40: .s06-type is moved into the stage-level #type-front at build
    (the exit f636–f644 outlives the section's window, which main.js gates at f636), so every type selector carries both roots. */
 #S06 .s06-dark { position: absolute; inset: 0; z-index: 12; background: #000; opacity: 1; pointer-events: none; }
@@ -279,8 +290,47 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 #S12 .s12-stub { pointer-events: none; }
     </style>
     <style data-src="css/S13.css">
-/* S13 · End card — every selector prefixed by #S13 (inlined into index.html: url() paths root-relative). STUB. */
-#S13 .s13-stub { pointer-events: none; }
+/* S13 · End card — every selector prefixed by #S13 (inlined into index.html: url() paths root-relative). SHOTS §S13.
+   Geometry (stage px): symbol 196×220 centred (960,300) · wordmark 560×57 centred (960,470) · tagline 56 px centred (960,560) ·
+   URL 40 px centred (960,660) + 2 px underline · legal 26 px centred y 990 (box 977–1003). Everything static from f1300. */
+#S13 .s13 { pointer-events: none; }
+
+/* the line of light (f1206): 2 px white over the held rail line; top/height/left/box-shadow are driven per frame by S13.js */
+#S13 .s13-line { position: absolute; left: 957px; top: 125px; width: 2px; height: 829px; background: #fff; opacity: 0;
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.3); border-radius: 1px; }
+/* the point (f1212): a bright core that blooms and goes, and a wide faint halo that decays to nothing by f1296 */
+#S13 .s13-core { position: absolute; left: 936px; top: 276px; width: 48px; height: 48px; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 20%, rgba(255, 255, 255, 0.18) 42%, rgba(255, 255, 255, 0) 66%); }
+#S13 .s13-halo { position: absolute; left: 800px; top: 140px; width: 320px; height: 320px; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(255, 255, 255, 0) 70%); }
+
+/* brand symbol (brand-symbol.svg inlined by PP.inlineSvg: DrawSVG on the two hexagon polylines, the 14 dots seat one per frame) */
+#S13 .s13-sym { position: absolute; left: 862px; top: 190px; width: 196px; height: 220px; }
+#S13 .s13-sym .pp-svg-wrap { left: 0; top: 0; width: 196px; height: 220px; }
+#S13 .s13-sym svg { width: 196px; height: 220px; }
+
+/* wordmark (brand-wordmark-light.svg inlined): masked rise, the mask box is the wordmark box + 1 px */
+#S13 .s13-wm { position: absolute; left: 680px; top: 441px; width: 560px; height: 58px; overflow: hidden; }
+#S13 .s13-wm-in { position: absolute; left: 0; top: 0; width: 560px; height: 57px; }
+#S13 .s13-wm-in .pp-svg-wrap { left: 0; top: 0; width: 560px; height: 57px; }
+#S13 .s13-wm-in svg { width: 560px; height: 57px; }
+
+/* tagline: DM Sans 800 56 px white 90 %, per glyph (PP.wordIn), line box 532–588 */
+#S13 .s13-tag { position: absolute; left: 0; width: 1920px; top: 532px; text-align: center; white-space: nowrap; }
+
+/* URL: Inter 500 40 px white 90 %, line box 640–680; the underline 2 px #C3CBD6 at y 686–688 drawn left → right with a light head */
+#S13 .s13-url-row { position: absolute; left: 0; width: 1920px; top: 640px; text-align: center; white-space: nowrap; line-height: 1; }
+#S13 .s13-url { position: relative; display: inline-block; letter-spacing: 0.005em; }
+#S13 .s13-url .pp-c { opacity: 0; }
+#S13 .s13-ul { position: absolute; left: 0; right: 0; top: 48px; height: 2px; background: var(--small); opacity: 0;
+  clip-path: inset(0 100% 0 0); }
+#S13 .s13-ul-clip { position: absolute; left: 0; right: 0; top: 42px; height: 14px; overflow: hidden; }
+#S13 .s13-ul-head { position: absolute; left: 0; top: 4px; width: 36px; height: 6px; margin-left: -36px; opacity: 0; border-radius: 3px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 70%, rgba(255, 255, 255, 1) 100%);
+  box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.45); }
+
+/* legal: Inter 500 26 px #C3CBD6, line box 977–1003 (inside y ≤ 1026), on screen f1230–f1350 */
+#S13 .s13-legal { position: absolute; left: 0; width: 1920px; top: 977px; text-align: center; white-space: nowrap; opacity: 0; }
     </style>
     <link rel="preload" as="image" href="assets/iphone/front_shadow.png" />
     <link rel="preload" as="image" href="assets/iphone/front_body.png" />
@@ -302,6 +352,7 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     <link rel="preload" as="image" href="assets/fx/grain6.png" />
     <link rel="preload" as="image" href="assets/fx/grain7.png" />
     <link rel="preload" as="image" href="assets/plates/macro_last.png" />
+    <link rel="preload" as="image" href="assets/layers/hold_1188.png" />
   </head>
   <body>
   <div id="stage" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="45">
@@ -487,7 +538,9 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     <video id="v-macro" class="clip stage-v" src="assets/plates/ai/macro.mp4" data-start="18.2" data-duration="3.04" data-media-start="0" data-track-index="23" muted playsinline style="z-index:10"></video>
     <video id="v-frost" class="clip stage-v" src="assets/fx/frost.webm" data-start="21.6" data-duration="2" data-media-start="0" data-track-index="24" muted playsinline style="z-index:15"></video>
     <video id="v-s02" class="clip stage-v" src="assets/layers/s02.webm" data-start="4.2" data-duration="3" data-media-start="0" data-track-index="25" muted playsinline style="z-index:30"></video>
+    <video id="v-take" class="clip stage-v" src="assets/layers/take.webm" data-start="23.6" data-duration="16" data-media-start="0" data-track-index="26" muted playsinline style="z-index:30"></video>
     <img id="hold-macro" class="stage-img" src="assets/plates/macro_last.png" alt="" style="z-index:11" />  <!-- S06/S07: the held macro frame f637–f738 (2D push 1.00 → 1.04) -->
+    <img id="hold-1188" class="stage-img" src="assets/layers/hold_1188.png" alt="" style="z-index:31" />  <!-- S12: the STOP frame f1188–f1206 (above the take webm) -->
     <div id="type-back" class="layer"></div>
     <section id="S01" class="clip scene" data-start="0" data-duration="4.199" data-track-index="1">
       <!-- S01 · A droplet of light · f0–f126 · 3D own scene (opaque). STUB: replaced by the shot builder (SHOTS.md §S01).
@@ -501,12 +554,15 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     </section>
     <section id="S03" class="clip scene" data-start="7.2" data-duration="2.999" data-track-index="3">
       <!-- S03 · We measure it · f216–f306 · AI plate hero.mp4 (stage video #v-hero, z 10, media 0 → 3.0, 1:1). Light only: no type, no site.
-           The two light passes live in .s03-matte containers = DIRECT children of the section with their own z-index 12 (above the plate
-           at 10, below the phone layers at 30) so their mix-blend-mode: screen reaches the plate's pixels (.z-front / .z-back are stacking
-           contexts = isolated groups, a screen blend inside them would see black). Each container is the vial column (stage x 640–1280)
-           masked by a soft luma matte of the vial (assets/fx/make_s03_matte.py → s03_matte_a.png = plate frame 7 ≈ f223 for the S02 band
-           carry; s03_matte_b.png = plate frame 46 ≈ f272 for the measuring pass; both faded to 0 over the top / bottom 48 / 90 px so no band
-           ever meets a frame edge with a hard line). -->
+           Three DIRECT children of the section with their own z-index (the section is not a stacking context, .z-front / .z-back are:
+           a screen blend inside them would see black):
+             .s03-dim (z 11)   the exposure: a black veil the JS drives — the plate arrives at 78 % on the cut frame and fills to 100 % as the
+                               carry band crosses (the light reveals), and breathes down 18 % under the measuring pass, so a screen-blended
+                               line of light can read on the white label.
+             .s03-matte (z 12) the two light passes: the vial column (stage x 640–1280) masked by a soft luma matte of the vial
+                               (assets/fx/make_s03_matte.py → s03_matte_a.png = plate frame 7 ≈ f223 for the S02 band carry; s03_matte_b.png =
+                               plate frame 46 ≈ f272 for the measuring pass; both faded to 0 over the top / bottom 48 / 90 px so no band
+                               ever meets a frame edge with a hard line), mix-blend-mode: screen onto the plate's pixels. -->
       <svg class="s03-defs" width="0" height="0" aria-hidden="true" focusable="false">
         <filter id="s03-shimmer" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
           <!-- the glass shimmer: 12 px fractal noise (baseFrequency 1/12, seed 7, deterministic) displacing the line by ±6 px (scale 12) -->
@@ -514,9 +570,10 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
           <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </svg>
-      <!-- 1. the S02 band carry (§0.9): the 105° band (220 px, screen blend) is ON the vial's left side on the cut frame f216, already at
-           speed, and is clear of the vial's right edge by f234 -->
-      <div class="s03-matte s03-a"><div class="s03-band s03-bx"></div></div>
+      <div class="s03-dim"></div>
+      <!-- 1. the S02 band carry (§0.9): the 105° band (220 px halo + 2 px core, screen blend) is ON the vial's left side on the cut frame
+           f216, already at speed, and is clear of the vial's right edge by f234 -->
+      <div class="s03-matte s03-a"><div class="s03-band s03-bx"><i></i></div></div>
       <!-- 2. MEASURE: a level line of light (2 px core, 220 px halo), cap → base f266–f278, its centre on the label on "measure" (f272).
            Two copies driven by one setter: the glass rows (neck / shoulder, base) go through the shimmer filter; the cap, crimp and label rows do not. -->
       <div class="s03-matte s03-b">
@@ -526,12 +583,17 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     </section>
     <section id="S04" class="clip scene" data-start="10.2" data-duration="2.999" data-track-index="4">
       <!-- S04 · "Every batch" · f306–f396 · AI plate cap.mp4 (stage video #v-cap, z 10, media 0 → 3.0, 1:1). Light only: no type, no site.
-           The two horizontal passes live in .s04-fx = a DIRECT child of the section with its own z-index 12 (above the plate at 10, below
-           the phone layers at 30) so its mix-blend-mode: screen reaches the plate's pixels (.z-front / .z-back are stacking contexts =
-           isolated groups, a screen blend inside them would see black). .s04-fx carries the SAME transform as the plate (one setter drives
-           #v-cap and .s04-fx: landing scale, 1 %/s push, whip) so the mattes stay registered on the cap; each pass is a full-frame container
-           masked by a soft luma matte of the cap (assets/fx/make_s04_matte.py → s04_matte_a.png = plate frame 25 = f336, s04_matte_b.png =
-           plate frame 42 ≈ f357; both faded to 0 over the top 48 / bottom 90 px so no band ever meets a frame edge with a hard line).
+           Three DIRECT children of the section with their own z-index (the section is not a stacking context; .z-front / .z-back are
+           isolated groups where a screen blend would see black):
+             .s04-dim (z 11)  the exposure (S03's recipe): a black veil the JS breathes −18 % under each light pass (12 f cosine, the floor on
+                              the word) so the screen-blended line reads on the blown-white crimp face as well as on the blue cap and the
+                              glass — one unbroken line across the sealed cap. Invisible off the object (black stays black).
+             .s04-fx (z 12)   the two horizontal passes (above the plate at 10, below the phone layers at 30), mix-blend-mode: screen onto the
+                              plate's pixels. It carries the SAME transform as the plate (one setter drives #v-cap and .s04-fx: landing scale,
+                              1 %/s push, whip) so the mattes stay registered on the cap; each pass is a full-frame container masked by a
+                              soft luma matte of the cap (assets/fx/make_s04_matte.py → s04_matte_a.png = plate frame 25 = f336,
+                              s04_matte_b.png = plate frame 42 ≈ f357; both faded to 0 over the top 48 / bottom 90 px so no band ever meets a
+                              frame edge with a hard line).
            #s04-whip: the directional (vertical box) motion kernel of the whip-tilt out, applied to #v-cap on its last 3 frames only; the
            setter rewrites order / kernelMatrix / divisor per frame from the whip's velocity (a 1 × N box = a 360° shutter streak). -->
       <svg class="s04-defs" width="0" height="0" aria-hidden="true" focusable="false">
@@ -539,6 +601,7 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
           <feConvolveMatrix id="s04-whip-k" order="1 3" kernelMatrix="1 1 1" divisor="3" edgeMode="duplicate" />
         </filter>
       </svg>
+      <div class="s04-dim"></div>
       <div class="s04-fx">
         <!-- pass A · "Every" (L04 word 0, f336): 105° band, 220 px, cold white, left → right across the sealed cap in 6 f -->
         <div class="s04-matte s04-a"><div class="s04-band"><i></i></div></div>
@@ -576,13 +639,15 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     <section id="S06" class="clip scene" data-start="18.2" data-duration="2.999" data-track-index="6">
       <!-- S06 · "99 %" · f546–f636 · AI plate macro.mp4 (stage video #v-macro, z 10, media 0 → 3.04 s = f546–f637, 1:1) + the held last
            frame (#hold-macro, stage-level z 11, assets/plates/macro_last.png = the plate's last decoded frame, diff 0.0) + type.
-           The plate is driven by js/shots/S06.js with ONE transform setter (a +280 px shift so the vial's own leftward pan — measured
-           781 → 286 px over the 73 plate frames, eased in-out, 0 px/f at both ends — ends centred (x 566–1412) and never reaches the
-           type column; the 2D push 1.00 → 1.04 over f637–f738 about the vial); the same transform goes to #hold-macro so f637 is seamless.
+           The plate is driven by js/shots/S06.js with ONE transform setter: a reframe that follows the vial's own leftward pan (measured
+           782 → 289 px over the 73 plate frames, eased in-out, 0 px/f at both ends), +120 px at the first frame → +280 px at the last,
+           stepped on the 24 fps frame the video shows, so the vial glides 902–1764 → 569–1411 (right third → centred), never touches the
+           frame edge and never reaches the type column; plus the 2D push 1.00 → 1.04 over f637–f738 about the vial; the same transform
+           goes to #hold-macro so f637 is seamless.
            .s06-dark (z 12, a DIRECT child of the section with its own z-index: above the plate at 10/11, below the type at 40) is the
            dark reveal: full black whose opacity lifts 1 → 0 over f546–f558 while the plate's blur goes 6 → 0 px (filter on #v-macro). -->
       <div class="s06-dark"></div>
-      <!-- type (z 40, the left third, x 160 → ≈ 495 at the widest line; the vial's left edge never comes closer than x 566). The block is
+      <!-- type (z 40, the left third, x 160 → ≈ 495 at the widest line; the vial's left edge never comes closer than x 569). The block is
            MOVED into the stage-level #type-front by js/shots/S06.js at build time (BUILD.md: main.js gates this section to opacity 0 at
            f636, and the exit f636–f644 outlives the window), so its selectors in css/S06.css carry both roots.
            the stat "99%" Inter 600 160 px white 90 % (.t-stat), baseline y 566 (= S05's second proof line: the column rhymes across
@@ -626,9 +691,21 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
       <div class="z-front s12-stub"><div class="stub-label">S12<small>Lights out, STOP</small></div></div>
     </section>
     <section id="S13" class="clip scene" data-start="40.2" data-duration="4.799" data-track-index="13">
-      <!-- S13 · End card · f1206–f1350 · HTML. STUB: replaced by the shot builder (SHOTS.md §S13).
-           Children go in .z-back (z 20, behind the phone) or .z-front (z 40); never give the <section> a z-index/transform/filter. -->
-      <div class="z-front s13-stub"><div class="stub-label">S13<small>End card</small></div></div>
+      <!-- S13 · End card · f1206–f1350 (40.20–45.00) · HTML only (SHOTS §S13, BRIEF §4 end card, §8 legal).
+           LOGO f1206: a 2 px white line over the held f1188 rail line (measured x 957–959, y 125–954) collapses to the point (960,300);
+           the brand symbol draws from the point (f1212–f1224), the wordmark rises through a mask (f1212–f1224), the URL types on
+           VO L10 "purepeptide" (f1215) and its underline completes on ".care" (f1238), tagline f1224, legal f1230–f1350.
+           Everything lives in .z-front (z 40, above #hold-1188 at z 31). The <section> itself gets no z-index/transform/filter. -->
+      <div class="z-front s13">
+        <div class="s13-line"></div>
+        <div class="s13-halo"></div>
+        <div class="s13-core"></div>
+        <div class="s13-sym"></div>
+        <div class="s13-wm"><div class="s13-wm-in"></div></div>
+        <div class="s13-tag t-tag">Purity, proven.</div>
+        <div class="s13-url-row"><span class="s13-url t-url"><span class="s13-url-txt"></span><span class="s13-ul"></span><span class="s13-ul-clip"><span class="s13-ul-head"></span></span></span></div>
+        <div class="s13-legal t-legal">For laboratory research use only · Not for human or veterinary consumption · 21+</div>
+      </div>
     </section>
     <div id="phone2d" class="layer"></div>
     <div id="leak" class="layer"></div>

@@ -1,7 +1,11 @@
 /* S03 · We measure it — every selector prefixed by #S03 (inlined into index.html: url() paths root-relative).
-   Light only. Containers = the vial column (stage x 640–1280), z 12 (above the plate at 10, below the phone layers at 30),
-   screen blend, masked by the soft luma matte of the vial (full-frame PNG, positioned so stage and mask coincide). */
+   Light only. The exposure (.s03-dim, z 11) sits between the plate (z 10) and the two light containers (z 12, below the phone layers
+   at 30). Containers = the vial column (stage x 640–1280), screen blend, masked by the soft luma matte of the vial (full-frame PNG,
+   positioned so stage and mask coincide). */
 #S03 .s03-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* the exposure: a black veil the shot JS drives (0.22 on the cut frame → 0 as the carry band crosses; a 0.18 breath under the
+   measuring pass) so a line of light can read on the white label — screen onto 240 is +15 levels, onto 190 it is +60 */
+#S03 .s03-dim { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 0; pointer-events: none; }
 #S03 .s03-matte { position: absolute; left: 640px; top: 0; width: 640px; height: 1080px; z-index: 12; overflow: hidden; pointer-events: none;
   mix-blend-mode: screen;
   -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-position: -640px 0; mask-position: -640px 0;
@@ -10,10 +14,13 @@
 #S03 .s03-b { -webkit-mask-image: url("assets/fx/s03_matte_b.png"); mask-image: url("assets/fx/s03_matte_b.png"); }
 #S03 .s03-band { position: absolute; opacity: 0; }
 /* the carry band: a 220 px stripe at 105° (box rotated 15°: top leans right), tall enough to cover the frame once rotated; cold white
-   (the cold key's (236, 242, 255)); peak 0.85, shoulders 0.30 */
+   (the cold key's (236, 242, 255)); halo peak 1.0, shoulders 0.45, with the film's 2 px core line + 8 px glow (the same line of light
+   as the measuring pass and S04's two passes) */
 #S03 .s03-bx { left: -110px; top: -560px; width: 220px; height: 2200px; transform-origin: 50% 50%;
-  background: linear-gradient(90deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.3) 36%, rgba(236, 242, 255, 0.85) 50%,
-    rgba(236, 242, 255, 0.3) 64%, rgba(236, 242, 255, 0) 100%); }
+  background: linear-gradient(90deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.45) 36%, rgba(236, 242, 255, 1) 50%,
+    rgba(236, 242, 255, 0.45) 64%, rgba(236, 242, 255, 0) 100%); }
+#S03 .s03-bx i { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 0 8px 1px rgba(236, 242, 255, 0.75); }
 /* the measuring pass: complementary row masks (22 px soft, plate frame 46) — the GLASS rows (neck / shoulder y 210–410, base below
    the lower stripe 918–927) get the shimmer; the cap + crimp (y 17–210) and the label (410–927) keep the line straight */
 #S03 .s03-rows { position: absolute; inset: 0; }
@@ -25,7 +32,7 @@
   mask-image: linear-gradient(180deg, #fff 0, #fff 200px, rgba(255, 255, 255, 0) 222px, rgba(255, 255, 255, 0) 400px, #fff 422px, #fff 916px, rgba(255, 255, 255, 0) 938px, rgba(255, 255, 255, 0) 100%); }
 /* a level 220 px halo (its centre at container y 0 → translateY(y) puts it at stage y) with a 2 px core: the line of light */
 #S03 .s03-by { left: 0; top: -110px; width: 640px; height: 220px; transform-origin: 50% 50%;
-  background: linear-gradient(180deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.22) 36%, rgba(236, 242, 255, 0.6) 50%,
-    rgba(236, 242, 255, 0.22) 64%, rgba(236, 242, 255, 0) 100%); }
+  background: linear-gradient(180deg, rgba(236, 242, 255, 0) 0%, rgba(236, 242, 255, 0.26) 36%, rgba(236, 242, 255, 0.7) 50%,
+    rgba(236, 242, 255, 0.26) 64%, rgba(236, 242, 255, 0) 100%); }
 #S03 .s03-by i { position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: rgba(255, 255, 255, 0.98);
-  box-shadow: 0 0 6px 1px rgba(236, 242, 255, 0.75); }
+  box-shadow: 0 0 8px 1px rgba(236, 242, 255, 0.75); }

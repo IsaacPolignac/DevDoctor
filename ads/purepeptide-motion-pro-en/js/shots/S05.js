@@ -5,7 +5,7 @@
 //   1. whip-tilt landing (§0.9, the cut on "one." f396 = VO.w('L04', 4) is the window start): the plate lands y +90 → 0 over 10 f
 //      (f396–f406) on expo.out plus a 3 % settle (y(u) = 90·(1 − expo.out(u) − 0.04·sin²(πu)): −2.5 px past the mark at f402 (measured),
 //      back to 0 at f406 with zero slope — the camera's follow-through on a hard stop), fastest on the cut: 45 / 23 / 13 px on f396–f398
-//      (S04 left at 18 / 33 / 51 px per frame: the picture keeps travelling UP through the cut, decelerating). A DIRECTIONAL blur on
+//      (S04 leaves at 7.5 / 20 / 42 px per frame on f393–f395 and 75 px into the cut: the picture keeps travelling UP through the cut, decelerating). A DIRECTIONAL blur on
 //      those 3 frames only: an SVG feConvolveMatrix 1 × N vertical box kernel on #v-turn, N = 0.8 × the frame's displacement
 //      (37 / 19 / 11 px), not a CSS blur. The plate sits +300 px right for the whole shot (the vial x 1031–1483, centre 1257: the
 //      type's column is x 160–816) — a whip reframes; the horizontal offset is absorbed in the 3 blurred frames.

@@ -1,8 +1,12 @@
 /* S04 · Every batch — every selector prefixed by #S04 (inlined into index.html: url() paths root-relative).
-   Light only. .s04-fx = full frame, z 12 (above the plate at 10, below the phone layers at 30), screen blend, transformed WITH the
-   plate (js/shots/S04.js drives #v-cap and .s04-fx with one setter, origin 960 400 = the cap's centre at the cut). Each pass is a
-   full-frame container masked by the soft luma matte of the cap (stage and mask coincide: mask-size 1920×1080 at 0 0). */
+   Light only. The exposure (.s04-dim, z 11) sits between the plate (z 10) and the light (.s04-fx, z 12, full frame, screen blend,
+   below the phone layers at 30). .s04-fx is transformed WITH the plate (js/shots/S04.js drives #v-cap and .s04-fx with one setter,
+   origin 960 400 = the cap's centre at the cut). Each pass is a full-frame container masked by the soft luma matte of the cap (stage
+   and mask coincide: mask-size 1920×1080 at 0 0). */
 #S04 .s04-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* the exposure: a black veil the shot JS breathes (0 → 0.18 → 0 over 12 f around each pass) so a line of light can read on the crimp's
+   blown white — screen onto 250 is +5 levels, onto 205 it is +50 */
+#S04 .s04-dim { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 11; background: #000; opacity: 0; pointer-events: none; }
 #S04 .s04-fx { position: absolute; inset: 0; z-index: 12; pointer-events: none; mix-blend-mode: screen; transform-origin: 960px 400px; }
 #S04 .s04-matte { position: absolute; inset: 0; overflow: hidden;
   -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-position: 0 0; mask-position: 0 0;

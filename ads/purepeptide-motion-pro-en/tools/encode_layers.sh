@@ -8,9 +8,10 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 ID="$1"
 SRC="$ROOT/renders/3d/$ID/final"
 [ -d "$SRC" ] || { echo "no $SRC (run tools/post_layers.py $ID first)"; exit 2; }
-FIRST=$(ls "$SRC"/*.png | head -1 | xargs -n1 basename | sed 's/\.png//')
+PNGS=("$SRC"/*.png)                 # a bash glob (sorted): no `ls | head` pipe — under pipefail it dies with SIGPIPE (rc 141) on long listings
+FIRST=$(basename "${PNGS[0]}" .png)
 N=$((10#$FIRST))
-COUNT=$(ls "$SRC"/*.png | wc -l)
+COUNT=${#PNGS[@]}
 mkdir -p "$ROOT/assets/layers" "$ROOT/renders/prores"
 echo "encode $ID: $COUNT frames from $FIRST"
 if [ "$ID" = "s01" ]; then

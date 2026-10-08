@@ -1,6 +1,6 @@
 /* S06 · 99 % — every selector prefixed by #S06 (inlined into index.html: url() paths root-relative).
-   Plate column: #v-macro (z 10) and #hold-macro (z 11) are stage-level and driven by the shot's setter (translate(280px, 0) scale(s)
-   about the vial's centre (709, 760) in plate coordinates → stage (989, 760)); .s06-dark = a full-frame black at z 12 whose
+   Plate column: #v-macro (z 10) and #hold-macro (z 11) are stage-level and driven by the shot's setter (translate(120 → 280px, 0)
+   following the plate's own pan, scale(s) about the vial's centre (709, 760) in plate coordinates → stage (989, 760) on the hold); .s06-dark = a full-frame black at z 12 whose
    opacity is the dark reveal (1 → 0 over f546–f558). Type at z 40: .s06-type is moved into the stage-level #type-front at build
    (the exit f636–f644 outlives the section's window, which main.js gates at f636), so every type selector carries both roots. */
 #S06 .s06-dark { position: absolute; inset: 0; z-index: 12; background: #000; opacity: 1; pointer-events: none; }

@@ -1,2 +1,41 @@
-/* S13 · End card — every selector prefixed by #S13 (inlined into index.html: url() paths root-relative). STUB. */
-#S13 .s13-stub { pointer-events: none; }
+/* S13 · End card — every selector prefixed by #S13 (inlined into index.html: url() paths root-relative). SHOTS §S13.
+   Geometry (stage px): symbol 196×220 centred (960,300) · wordmark 560×57 centred (960,470) · tagline 56 px centred (960,560) ·
+   URL 40 px centred (960,660) + 2 px underline · legal 26 px centred y 990 (box 977–1003). Everything static from f1300. */
+#S13 .s13 { pointer-events: none; }
+
+/* the line of light (f1206): 2 px white over the held rail line; top/height/left/box-shadow are driven per frame by S13.js */
+#S13 .s13-line { position: absolute; left: 957px; top: 125px; width: 2px; height: 829px; background: #fff; opacity: 0;
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.3); border-radius: 1px; }
+/* the point (f1212): a bright core that blooms and goes, and a wide faint halo that decays to nothing by f1296 */
+#S13 .s13-core { position: absolute; left: 936px; top: 276px; width: 48px; height: 48px; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 20%, rgba(255, 255, 255, 0.18) 42%, rgba(255, 255, 255, 0) 66%); }
+#S13 .s13-halo { position: absolute; left: 800px; top: 140px; width: 320px; height: 320px; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(255, 255, 255, 0) 70%); }
+
+/* brand symbol (brand-symbol.svg inlined by PP.inlineSvg: DrawSVG on the two hexagon polylines, the 14 dots seat one per frame) */
+#S13 .s13-sym { position: absolute; left: 862px; top: 190px; width: 196px; height: 220px; }
+#S13 .s13-sym .pp-svg-wrap { left: 0; top: 0; width: 196px; height: 220px; }
+#S13 .s13-sym svg { width: 196px; height: 220px; }
+
+/* wordmark (brand-wordmark-light.svg inlined): masked rise, the mask box is the wordmark box + 1 px */
+#S13 .s13-wm { position: absolute; left: 680px; top: 441px; width: 560px; height: 58px; overflow: hidden; }
+#S13 .s13-wm-in { position: absolute; left: 0; top: 0; width: 560px; height: 57px; }
+#S13 .s13-wm-in .pp-svg-wrap { left: 0; top: 0; width: 560px; height: 57px; }
+#S13 .s13-wm-in svg { width: 560px; height: 57px; }
+
+/* tagline: DM Sans 800 56 px white 90 %, per glyph (PP.wordIn), line box 532–588 */
+#S13 .s13-tag { position: absolute; left: 0; width: 1920px; top: 532px; text-align: center; white-space: nowrap; }
+
+/* URL: Inter 500 40 px white 90 %, line box 640–680; the underline 2 px #C3CBD6 at y 686–688 drawn left → right with a light head */
+#S13 .s13-url-row { position: absolute; left: 0; width: 1920px; top: 640px; text-align: center; white-space: nowrap; line-height: 1; }
+#S13 .s13-url { position: relative; display: inline-block; letter-spacing: 0.005em; }
+#S13 .s13-url .pp-c { opacity: 0; }
+#S13 .s13-ul { position: absolute; left: 0; right: 0; top: 48px; height: 2px; background: var(--small); opacity: 0;
+  clip-path: inset(0 100% 0 0); }
+#S13 .s13-ul-clip { position: absolute; left: 0; right: 0; top: 42px; height: 14px; overflow: hidden; }
+#S13 .s13-ul-head { position: absolute; left: 0; top: 4px; width: 36px; height: 6px; margin-left: -36px; opacity: 0; border-radius: 3px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 70%, rgba(255, 255, 255, 1) 100%);
+  box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.45); }
+
+/* legal: Inter 500 26 px #C3CBD6, line box 977–1003 (inside y ≤ 1026), on screen f1230–f1350 */
+#S13 .s13-legal { position: absolute; left: 0; width: 1920px; top: 977px; text-align: center; white-space: nowrap; opacity: 0; }

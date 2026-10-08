@@ -974,6 +974,11 @@ def render(scene, root, frames, pct, samples, border, outdir, force=False, denoi
         out = os.path.join(outdir, label, '%04d.png' % f)
         if os.path.exists(out) and not force:
             print('SKIP %d (exists)' % f, flush=True)
+            if label == 'beauty' and root is not None:
+                try:                       # corners are a pure function of the pose: keep corners.json complete on --resume
+                    corners(scene, f)      # (a job killed mid-range never reached write_corners)
+                except Exception:
+                    pass
             continue
         scene.frame_set(f)
         if border:
@@ -990,10 +995,12 @@ def render(scene, root, frames, pct, samples, border, outdir, force=False, denoi
         except Exception as e:  # the droplet scene has no Screen
             pass
         times.append(dt)
-        log['frames'][str(f)] = {'s': round(dt, 2), 'pct': pct, 'samples': samples, 'border_area': round(area, 3),
-                                 'pass': label, 'load1': round(os.getloadavg()[0], 2)}
+        # beauty frames are keyed by frame number; any other pass (shadow) by "<frame>_<pass>" so the two never overwrite each other
+        lkey = str(f) if label == 'beauty' else '%d_%s' % (f, (log_extra or {}).get('pass', label))
+        log['frames'][lkey] = {'s': round(dt, 2), 'pct': pct, 'samples': samples, 'border_area': round(area, 3),
+                               'pass': label, 'load1': round(os.getloadavg()[0], 2)}
         if log_extra:
-            log['frames'][str(f)].update(log_extra)
+            log['frames'][lkey].update(log_extra)
         with open(logp, 'w') as fh:
             json.dump(log, fh)
         print('FRAME %s %d %.1fs (border %.2f)' % (label, f, dt, area), flush=True)

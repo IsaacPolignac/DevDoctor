@@ -92,7 +92,7 @@ def thaw_mask(f, W=1920, H=1080, cx=960.0, cy=540.0, edge=40.0):
     return m
 
 
-def process(shot, frames, phone_frost=True, shadow_mode='pass', force=False):
+def process(shot, frames, phone_frost=True, shadow_mode='pass', force=False, frost_gain=1.0):
     d = os.path.join(RENDERS, shot)
     beauty = os.path.join(d, 'beauty')
     final = os.path.join(d, 'final')
@@ -148,7 +148,10 @@ def process(shot, frames, phone_frost=True, shadow_mode='pass', force=False):
         rgb = soft_clip(rgb, 1.0 - ms)
         # 2. frost inside the alpha (take f708–f821)
         if shot == 'take' and frost is not None and 708 <= f <= 821:
-            w = alpha * (1 - 0.5 * ms) * (1 - thaw_mask(f, W, H))
+            w = alpha * (1 - 0.5 * ms) * (1 - thaw_mask(f, W, H)) * frost_gain   # gain 1.0 = SHOTS §2.1 as written
+            # NOTE (render QC 2026-10-08): frost_full.png has alpha ≈ 0.96 everywhere, so at gain 1.0 the phone body goes
+            # from 0.09 to 0.91 luminance at f738 (a white slab; the slow show f750–f786 is invisible). --frost-gain 0.3–0.5
+            # keeps a dark, frosted phone (BRIEF §10.4 fallback); re-run with --range 708-821 --force, then encode_layers.sh take.
             fl = frost * w[..., None]
             rgb = 1 - (1 - rgb) * (1 - fl)
         # 3. shadow inside the screen (take f945–f1044)
@@ -203,6 +206,8 @@ def main():
     ap.add_argument('--no-phone-frost', action='store_true')
     ap.add_argument('--shadow', default='pass', choices=['pass', 'fake', 'none'])
     ap.add_argument('--force', action='store_true')
+    ap.add_argument('--frost-gain', type=float, default=1.0,
+                    help='scale of the on-phone frost weight (take f708–f821); 1.0 = SHOTS §2.1, 0.3–0.5 = dark frosted phone')
     a = ap.parse_args()
     frames = None
     if a.range:
@@ -213,7 +218,7 @@ def main():
                 frames |= set(range(int(x), int(y) + 1))
             else:
                 frames.add(int(part))
-    process(a.shot, frames, phone_frost=not a.no_phone_frost, shadow_mode=a.shadow, force=a.force)
+    process(a.shot, frames, phone_frost=not a.no_phone_frost, shadow_mode=a.shadow, force=a.force, frost_gain=a.frost_gain)
 
 
 if __name__ == '__main__':

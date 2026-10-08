@@ -1,28 +1,36 @@
 // S04 · "Every batch" · f306–f396 (10.20–13.20) · AI plate cap.mp4 (#v-cap, media 0 → 3.0 s, 1:1): the plate's own descent to a
 // top ¾ view of the sealed cap + crimp on black. Light only — no type, no site (SHOTS §S04: "the light says it").
 // Everything is a pure function of time: ONE setter for the plate (landing × push × whip, also applied to the .s04-fx wrapper so
-// the cap mattes stay registered), one setter per light pass.
+// the cap mattes stay registered), one setter per light pass, one for the exposure.
 //   1. push-in continuity (§0.9): S03 arrives at ×1.22 expo.in; S04 lands scale 1.15 → 1.00 expo.out f306–f314 about the cap's
-//      centre (960, 400), then the 1 %/s 2D push (× (1 + 0.01·(t − T0))) runs to the cut: never static, the push never stops.
+//      centre (960, 400), then the 1 %/s 2D push (× (1 + 0.01·(t − T0))) runs to the cut (×1.03 at f396): never static.
 //   2. EVERY ×2: two quick horizontal passes (6 f each) of the film's 105° band (220 px, cold white, screen blend) across the sealed
 //      cap, masked by a soft luma matte of the plate at each pass's centre frame (assets/fx/s04_matte_{a,b}.png). Pass A f333–f339
 //      centred on f336 = VO.w('L04', 0) "Every", pass B f354–f360 centred on f357 = VO.w('L04', 2) "Every" (every single one): the
 //      same direction, the same speed — a scanner, not a flourish. Core x 470 → 1450 (980 px). Ease power1.inOut (quadratic;
 //      DEVIATION from PP.band's expo.inOut, for the same reason as S03: expo puts the band on the cap for ONE frame = a flicker; the
 //      quadratic keeps the window, the centre frame and the fastest frame, and the band reads on the cap for 5 f: f334 the core on
-//      the left rim, f335 left half, f336 core on the cap's centre at 327 px/f, f337 right half, f338 the core on the crimp's right
-//      edge, going down the flank). The halo stretches with the speed like a 180° shutter (scaleX 1 + 0.5·px-per-frame/220
-//      → 1.74× at the peak, opacity ∝ stretch^-1/4: 0.87 at the peak — S03's 1/√stretch left the band a pale sliver on the blue
-//      cap), a 1 f ramp at each end (only the soft shoulder is on the object there). The whole .s04-fx wrapper is screen-blended
-//      (z 12) so the band brightens the plate instead of milking it; 2 px core line + 6 px glow = S03's line of light.
+//      the left rim (x 526), f335 left half (691), f336 core on the cap's centre (965) at 327 px/f, f337 right half (1235), f338 the
+//      core on the crimp's right edge (1397), going down the flank; off at f333 / f339 (measured with a headless probe). The halo
+//      stretches with the speed like a 180° shutter (scaleX 1 + 0.5·px-per-frame/220 → 1.74× at the peak, opacity ∝ stretch^-1/4:
+//      0.87 at the peak — S03's 1/√stretch left the band a pale sliver on the blue cap), a 1 f ramp at each end (only the soft
+//      shoulder is on the object there). The whole .s04-fx wrapper is screen-blended (z 12) so the band brightens the plate instead
+//      of milking it; 2 px core line + 6 px glow = S03's line of light.
+//   2b. THE LIGHT REVEALS (the exposure, .s04-dim: a black veil at z 11 between the plate and the light — S03's recipe): the crimp
+//      face is blown white (245–255) and a screen-blended band adds nothing to white, so the line vanished across the crimp (on the
+//      cap, gone on the crimp, back on the glass below). Each pass gets a 12 f cosine breath of the exposure, −18 % at its centre
+//      frame (f330–f342 / f351–f363: 6 f down, 6 f up, the floor on the word, the pass itself the motivation): the line reads as ONE
+//      unbroken line across cap, crimp and glass (crimp 250 → 205, +50 under the core). The black stays black (the veil is invisible
+//      off the object). DEVIATION from "the plate's own push only": the same one S03 took for its measuring pass, for the same reason.
 //   3. whip-tilt down (§0.9, the cut on "one." f396 = VO.w('L04', 4)): anticipation y 0 → +6 px f386–f390 (sine.inOut, §0.8
-//      2–4 f), then y +6 → −140 px over f390–f396 power3.in (fastest at the cut: f393 −12, f394 −36, f395 −75, f396 −140 = never
-//      shown; 18 / 33 / 51 px per frame on the last three), with a DIRECTIONAL blur on the last 3 frames only (f393–f395): an SVG
-//      feConvolveMatrix 1 × N vertical box kernel on #v-cap, N = 0.8 × the frame's displacement (15 / 27 / 41 px), not a CSS blur.
-//      S05 lands y +90 → 0 with its own 3 f blur in from f396.
+//      2–4 f), then y +6 → −140 px over f390–f396 power3.in (GSAP power3 = quartic; fastest at the cut: f393 −3.3, f394 −23.3,
+//      f395 −65.3, f396 −140 = never shown; 7.5 / 20 / 42 px per frame on the last three visible frames, 75 px into the cut), with
+//      a DIRECTIONAL blur on the last 3 frames only (f393–f395): an SVG feConvolveMatrix 1 × N vertical box kernel on #v-cap,
+//      N = 0.8 × the frame's displacement (central difference: 11 / 25 / 47 px), not a CSS blur. S05 lands y +90 → 0 with its own
+//      3 f blur in from f396 (45 / 23 / 13 px per frame): the picture keeps travelling up through the cut and decelerates.
 // Sound (BRIEF §7; 2D, fastest frames stated here): CUT2 f306 (glass_tick D6, the push-in continuity) · EVERY ×2: light_sweep(0.3)
 // + tick(4200), fastest frame = the pass centre (power1.inOut midpoint) = f336 and f357 exactly · WHIP f396: tsk + swipe(0.3)
-// align="peak" — the whip accelerates into the cut, its fastest frame IS f396 (S04's last visible frame f395 moves 51 px/f).
+// align="peak" — the whip accelerates into the cut, its fastest frame IS f396 (S04's last visible frame f395 moves 42 px/f).
 // No other sound frames in this shot.
 PP.shot("S04", function build(tl, root) {
   const F = PP.F, f = PP.f;
@@ -99,9 +107,22 @@ PP.shot("S04", function build(tl, root) {
       band.style.transform = `translateX(${x.toFixed(2)}px) rotate(15deg) scaleX(${s.toFixed(4)})`;
     };
     PP.drive(tl, set, 0, 1, tA, tB - tA, "none");
-    return PP.toF(tC);
+    return tC;
   };
-  const fA = pass(q(".s04-a .s04-band"), PP.word("S04", "L04", 0, "S04 Every #1"), "S04 pass A"); // f336
-  const fB = pass(q(".s04-b .s04-band"), PP.word("S04", "L04", 2, "S04 Every #2"), "S04 pass B"); // f357
+  const tPassA = pass(q(".s04-a .s04-band"), PP.word("S04", "L04", 0, "S04 Every #1"), "S04 pass A"); // f336
+  const tPassB = pass(q(".s04-b .s04-band"), PP.word("S04", "L04", 2, "S04 Every #2"), "S04 pass B"); // f357
+  const fA = PP.toF(tPassA), fB = PP.toF(tPassB);
   if (fA !== 336 || fB !== 357) console.warn(`[S04] pass centres f${fA} / f${fB} (mattes were cut for f336 / f357: re-run assets/fx/make_s04_matte.py)`);
+
+  // ---- 2b. the exposure: the light reveals (one time-driven setter over the whole window) -------------------------------
+  // A 12 f cosine breath of the black veil around each pass: 0 at ±6 f, −18 % on the word (f335 / f337: −16.8 %). The two breaths
+  // (f330–f342, f351–f363) never overlap; the veil is 0 everywhere else in the window (the cut frames f306 / f395 are untouched).
+  const dim = q(".s04-dim");
+  const DIM = 0.18, HALF = 6 * F;
+  const breath = (t, tC) => {
+    const a = Math.abs(t - tC);
+    return a >= HALF ? 0 : DIM * (0.5 + 0.5 * Math.cos((Math.PI * a) / HALF));
+  };
+  if (dim) PP.driveT(tl, (t) => (dim.style.opacity = Math.max(breath(t, tPassA), breath(t, tPassB)).toFixed(3)), T0, T1);
+  else console.warn("[S04] .s04-dim missing: the passes will not read on the crimp's white");
 });
