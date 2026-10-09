@@ -314,17 +314,22 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 /* S07 · "Cold" — every selector prefixed by #S07 (inlined into index.html: url() paths root-relative).
    The frost field (#v-frost / #frost-full, z 15, screen blend) and the held plate (#hold-macro, z 11) are stage-level; this sheet
    only styles the crush: a full-frame overlay at z 16 (above the field, below the phone layers at 30) whose black alpha is the
-   brightness crush f716–f738 (power2.in, closing in from the corners onto the phone: a radial-gradient of black alphas written
-   per frame by js/shots/S07.js — no background here, the setter owns it). It starts invisible and is a direct child of the
-   section (the section itself never gets a z-index/transform/filter). */
-#S07 .s07-crush { position: absolute; inset: 0; z-index: 16; background: none; opacity: 0; pointer-events: none; }
+   brightness crush f716–f738 (power2.in), retracing the frost's growth in reverse. Its background is the frost's ARRIVAL MAP
+   (assets/fx/s07_arrival.png: grey = when the frost froze there, black f648 … white f685), and the SVG filter #s07-crush-f
+   (html/S07.html) turns that grey into the pixel's black alpha through a transfer table js/shots/S07.js rewrites per frame
+   (all zeros = fully transparent, as at build). It starts invisible and is a direct child of the section (the section itself
+   never gets a z-index/transform/filter; the filter sits on this child, which is its own stacking context by its z-index). */
+#S07 .s07-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+#S07 .s07-crush { position: absolute; inset: 0; z-index: 16; opacity: 0; pointer-events: none;
+  background: url("assets/fx/s07_arrival.png") 0 0 / 1920px 1080px no-repeat; filter: url(#s07-crush-f); }
     </style>
     <style data-src="css/S08.css">
 /* S08 · "Open the site" — every selector prefixed by #S08 (inlined into index.html: url() paths root-relative).
    The leak wrapper .s08-leak is moved into the stage-level #leak (z 35, screen blend, opacity 0: css/tokens.css) at build by
    js/shots/S08.js, so every selector carries both roots. The wrapper = the feathered inverse phone mask (assets/fx/leak_mask.png,
-   alpha 1 = the leak passes: 0.27 at the silhouette edge, 1.0 at 40 px out); the plate = assets/fx/leak.png (1920x1080, made by
-   assets/fx/make_leak.py), scaled/drifted about the phone's centre at f815 (971, 540) by the shot's one setter. */
+   alpha 1 = the leak passes: ≈ 0.3 on the silhouette's edge pixels, 0.8 at 8 px out, 1.0 by 12 px out, 0 on the site pixels); the
+   plate = assets/fx/leak.png (1920x1080, made by assets/fx/make_leak.py), scaled/drifted about the phone's centre at f815 (971, 540)
+   by the shot's one setter. */
 #S08 .s08-leak, #leak .s08-leak { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; pointer-events: none;
   -webkit-mask-image: url("assets/fx/leak_mask.png"); mask-image: url("assets/fx/leak_mask.png");
   -webkit-mask-size: 1920px 1080px; mask-size: 1920px 1080px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
@@ -345,9 +350,33 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     <style data-src="css/S10.css">
 /* S10 · "The math, in depth" — every selector prefixed by #S10 (inlined into index.html: url() paths root-relative).
    The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the tilt f936–f966, the three
-   lifted slabs with their shadows f954–f1044 and the drift, baked. This section has no children — nothing to style. The section
-   itself never gets a z-index/transform/filter (BUILD.md); the void glow, grain and vignette are global (main.js). */
+   lifted slabs with their shadows f954–f1044 and the drift, baked. This sheet styles the two 2D stand-ins js/shots/S10.js drives
+   (html/S10.html): the SHEEN band and the SEAT-BACK patches. The section itself never gets a z-index/transform/filter (BUILD.md). */
 #S10 { pointer-events: none; }
+/* the sheen container: a DIRECT child of the section with its own z 40 (a .z-front wrapper would be a stacking context and the screen
+   blend would see black — html/S03.html). clip-path (the phone's silhouette quad + side-button notch, per frame) and opacity (the sine
+   envelope × gain) are written by the shot's one setter; the mask feathers the band over the frame's top / bottom 60 px so it never
+   meets a frame edge with a hard line (the phone itself is cut there). */
+#S10 .s10-sheen { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 40; overflow: hidden; pointer-events: none;
+  mix-blend-mode: screen; opacity: 0;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 60px, #000 1020px, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 60px, #000 1020px, rgba(0, 0, 0, 0) 100%); }
+/* the band: a 320 px halo box, 2400 px tall, rotated 15° (CSS clockwise: the top leans right = the film's 105° band, the lean of the
+   SoftTop sheen on S02's glass), centred on stage y 540 and translated along x by the setter (left = x − 160). Profile across the box:
+   0 → 0.35 (36 %) → 0.65 (45 %) → 1.0 (50 %) → 0.65 → 0.35 (64 %) → 0: a soft strip with a brighter 32 px centre, no hard core (at
+   50 px/f a 2 px core would strobe). White (SoftTop is white; the page's own white and the warm key are the film's only warmth). */
+#S10 .s10-sheen-band { position: absolute; left: 0; top: -660px; width: 320px; height: 2400px; transform-origin: 50% 50%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.35) 36%, rgba(255, 255, 255, 0.65) 45%,
+    rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.65) 55%, rgba(255, 255, 255, 0.35) 64%, rgba(255, 255, 255, 0) 100%); }
+/* the seat-back patches: the shipped render's own pixels (assets/fx/make_s10_seat.py), each placed at its crop's stage origin; opacity
+   0 by default, the setter writes the 4 f dissolve. .s10-seat (total + name) sits in the section at z 40 (.z-front, normal blend);
+   .s10-seat-out (the stepper) is moved into the stage-level #type-front by js/shots/S10.js, so its selectors carry both roots. */
+#S10 .s10-seat { pointer-events: none; }
+#S10 .s10-seat-out, #type-front .s10-seat-out { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
+#S10 .s10-seat-img, #type-front .s10-seat-img { position: absolute; display: block; opacity: 0; pointer-events: none; }
+#S10 .s10-seat-total { left: 1208px; top: 520px; width: 166px; height: 106px; }
+#S10 .s10-seat-name { left: 938px; top: 296px; width: 274px; height: 105px; }
+#S10 .s10-seat-stepper, #type-front .s10-seat-stepper { left: 944px; top: 460px; width: 249px; height: 122px; }
     </style>
     <style data-src="css/S11.css">
 /* S11 · "Purity, proven." — every selector prefixed by #S11 (inlined into index.html: url() paths root-relative).
@@ -811,9 +840,21 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
                                   renders/3d/take/arr_glint.json, REST exactly on f738), the frost screened inside its own alpha
            .s07-crush (z 16, a DIRECT child of the section with its own z-index: above the frost field at 15 and the hold at 11, below
            the phone at 30) is the crush to black of the whole field over f716–f738: a full-frame overlay whose black alpha is power2.in
-           on the timeline (= brightness → 0 on everything beneath it, the phone untouched) and closes in from the four corners (black
-           by f730) onto a 550 px pool around the phone that goes on the contract's law (black exactly ON the DROP f738), so on the
-           hit only the phone remains and the void glow takes over the last pool of light. -->
+           on the timeline (= brightness → 0 on everything beneath it, the phone untouched) and RETRACES THE FROST'S OWN GROWTH IN
+           REVERSE: its background is the frost's arrival map (assets/fx/s07_arrival.png, from assets/fx/make_s07_arrival.py: grey =
+           when the frost froze there, black = f648 at the four edges … white = f685, the last region, the vial's band), turned into a
+           per-pixel black alpha by the SVG filter #s07-crush-f (feColorMatrix: the map's grey → alpha; feComponentTransfer table
+           #s07-crush-a rewritten every frame by the build). The first frost goes dark first (the corners black by f730), the last
+           frost — where the phone lands — goes black exactly ON the DROP f738, so on the hit only the phone remains and the void glow
+           takes over the last pool of light. -->
+      <svg class="s07-defs" width="0" height="0" aria-hidden="true" focusable="false">
+        <filter id="s07-crush-f" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+          <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="arrival" />
+          <feComponentTransfer in="arrival">
+            <feFuncA id="s07-crush-a" type="table" tableValues="0 0" />
+          </feComponentTransfer>
+        </filter>
+      </svg>
       <div class="s07-crush"></div>
     </section>
     <section id="S08" class="clip scene" data-start="24.6" data-duration="2.799" data-track-index="8">
@@ -824,10 +865,12 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
            "1", momentum scroll 0 → 36 f812–f840) and the frost thaw f803–f821 (tools/post_layers.py). No type, no site pixels in HTML.
            The ONE 2D element of this shot is the wake's additive light leak (BRIEF §3.5, §S08: warm, 18 %, 10 f, peak f815): .s08-leak is
            MOVED into the stage-level #leak (z 35, mix-blend-mode: screen, opacity 0 by css/tokens.css) by js/shots/S08.js at build. The
-           wrapper carries the feathered INVERSE phone mask (assets/fx/leak_mask.png: the f815 silhouette dilated 8 px, feathered 12 px),
-           so the bloom lives around the phone — never on the rails (rim highlights stay ≤ 92 %, QC) and never on the site pixels (§3.5);
-           the plate inside (assets/fx/leak.png, written by assets/fx/make_leak.py: a halo following the silhouette + a horizontal anamorphic
-           streak through the screen centre, hot core → amber fringe) drifts 10 px / −5 px and scales 1.000 → 1.035 across the 10 f.
+           wrapper carries the feathered INVERSE phone mask (assets/fx/leak_mask.png: the f815 silhouette dilated 3 px, feathered 5 px —
+           1.0 by 12 px out, exactly 0 on the site pixels), so the bloom hugs the phone — brightest at the rail, never on the rails (rim
+           highlights stay ≤ 92 %, QC) and never on the site pixels (§3.5); the plate inside (assets/fx/leak.png, written by
+           assets/fx/make_leak.py: an anamorphic halo following the silhouette, holding its edge value 24 px into the phone so the mask does
+           the cutting, + a horizontal streak through the screen centre, hot core → amber fringe) drifts 10 px / −5 px and scales
+           1.000 → 1.035 about the phone's centre across the 10 f without opening a seam at the rail.
            Inside the section (no #leak on the stage) the wrapper is its own z 35 screen-blend layer with the same envelope. -->
       <div class="s08-leak"><img class="s08-leak-plate" src="assets/fx/leak.png" alt="" /></div>
     </section>
@@ -862,9 +905,34 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
                      1.00 → 1.25 (≥ 26 px per line at 1080, measured); their soft contact shadows on the page (shadow pass × matte_screen,
                      35 %, 4 px blur); seat back total f1020 / name f1025 / stepper f1030 (10 f power3.in + 4 f settle), all seated by f1044
              DOF     f/16, focus plane +18 mm: page and slabs readable; screen cart3 @ 150 held; nav-wordmark tap ring on f1044 (S11's push)
-           No type, no site pixels in HTML ("Text: none — the lifted UI is the typography"), no 2D move, no CA (not one of the three allowed
-           moments): the section stays EMPTY on the stage. js/shots/S10.js only asserts the contract against the voice, the screen timeline
-           and the measured take, states the sound frames, and publishes the measured facts as PP.S10 for the neighbours and the mixer. -->
+           No type, no site pixels in HTML ("Text: none — the lifted UI is the typography"), no CA (not one of the three allowed moments).
+           Two things of the contract are NOT in the shipped take, and this fragment carries their 2D stand-ins (js/shots/S10.js drives them,
+           each behind one flag so the lead can switch it off the day the 3D re-render lands — see the S10.js header):
+             .s10-sheen   the SHEEN (SHOTS §S10 Light: SoftTop x −0.30 → +0.30 over f990–f1008, "the band crosses the glass"; BRIEF §7
+                          SHEEN f990 → f1008, centre f999). On the shipped frames the crossing is invisible (screen luma 0.9724 flat to 4
+                          decimals, the slab coats +0.3 % = the drift, the body monotonic). Stand-in: the film's own 105° line of light
+                          (S02's SoftTop band → S03/S04's 2D bands) as a 320 px halo, mix-blend-mode: screen, clipped to the phone's own
+                          silhouette (the two rail lines fitted on the final frames' alpha, f990/f999/f1008, + the side-button notch; the
+                          phone exits the frame top and bottom, so the clip is a quad) and feathered 60 px at the frame's top/bottom; it
+                          travels left → right across the glass at 50 px/f with a sine intensity envelope peaking on f999 (gain 0.45: a white
+                          page stays white, text / ink border / rails / slab coats lift — how a strip reflects in glass over a white page).
+                          A DIRECT child of the section with its own z-index 40 (not .z-front: a stacking context would isolate the blend).
+             .s10-seat    the SEAT-BACK patches (SHOTS §S10 QC "the seat-back ends with lift 0.0 / scale 1.0 (the page shows no ghost offset)").
+                          The take hides each slab one frame after lift 0 while its 1 mm body still stands on the glass with a 34 % contact
+                          shadow (final/beauty luma ratio 0.66): total f1034 → f1035, name f1039 → f1040, stepper f1044 → f1045 — three
+                          one-frame pops, the last on S11's first frame. Stand-in: a feathered crop of each slab's LAST seated frame
+                          (assets/fx/s10_seat_{total,name,stepper}.png from assets/fx/make_s10_seat.py: the shipped render's own pixels,
+                          slab + contact shadow + 18 px, alpha feathered 14 px) dissolves over the next 4 f (0.78 / 0.55 / 0.32 / 0.12, 0):
+                          the plate and its shadow sink into the page. total and name live here (.z-front, z 40, normal blend); the
+                          stepper's patch (.s10-seat-out) is MOVED into the stage-level #type-front (z 40) at build because its 4 f are
+                          f1045–f1048, inside S11's window (BUILD.md: a hand-off that outlives the window goes on a stage-level element).
+           Nothing else: no 2D move on the phone, the section is otherwise empty. -->
+      <div class="s10-sheen"><div class="s10-sheen-band"></div></div>
+      <div class="z-front s10-seat">
+        <img class="s10-seat-img s10-seat-total" src="assets/fx/s10_seat_total.png" alt="" />
+        <img class="s10-seat-img s10-seat-name" src="assets/fx/s10_seat_name.png" alt="" />
+      </div>
+      <div class="s10-seat-out"><img class="s10-seat-img s10-seat-stepper" src="assets/fx/s10_seat_stepper.png" alt="" /></div>
     </section>
     <section id="S11" class="clip scene" data-start="34.8" data-duration="3.599" data-track-index="11">
       <!-- S11 · "Purity, proven." — pull-out to the hero · f1044–f1152 (34.80–38.40) · 3D: the take (#v-take, stage-level z 30,

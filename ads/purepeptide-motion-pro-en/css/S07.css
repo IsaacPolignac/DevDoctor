@@ -1,7 +1,11 @@
 /* S07 · "Cold" — every selector prefixed by #S07 (inlined into index.html: url() paths root-relative).
    The frost field (#v-frost / #frost-full, z 15, screen blend) and the held plate (#hold-macro, z 11) are stage-level; this sheet
    only styles the crush: a full-frame overlay at z 16 (above the field, below the phone layers at 30) whose black alpha is the
-   brightness crush f716–f738 (power2.in, closing in from the corners onto the phone: a radial-gradient of black alphas written
-   per frame by js/shots/S07.js — no background here, the setter owns it). It starts invisible and is a direct child of the
-   section (the section itself never gets a z-index/transform/filter). */
-#S07 .s07-crush { position: absolute; inset: 0; z-index: 16; background: none; opacity: 0; pointer-events: none; }
+   brightness crush f716–f738 (power2.in), retracing the frost's growth in reverse. Its background is the frost's ARRIVAL MAP
+   (assets/fx/s07_arrival.png: grey = when the frost froze there, black f648 … white f685), and the SVG filter #s07-crush-f
+   (html/S07.html) turns that grey into the pixel's black alpha through a transfer table js/shots/S07.js rewrites per frame
+   (all zeros = fully transparent, as at build). It starts invisible and is a direct child of the section (the section itself
+   never gets a z-index/transform/filter; the filter sits on this child, which is its own stacking context by its z-index). */
+#S07 .s07-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+#S07 .s07-crush { position: absolute; inset: 0; z-index: 16; opacity: 0; pointer-events: none;
+  background: url("assets/fx/s07_arrival.png") 0 0 / 1920px 1080px no-repeat; filter: url(#s07-crush-f); }

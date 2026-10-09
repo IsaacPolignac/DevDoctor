@@ -10,7 +10,19 @@
                             renders/3d/take/arr_glint.json, REST exactly on f738), the frost screened inside its own alpha
      .s07-crush (z 16, a DIRECT child of the section with its own z-index: above the frost field at 15 and the hold at 11, below
      the phone at 30) is the crush to black of the whole field over f716–f738: a full-frame overlay whose black alpha is power2.in
-     on the timeline (= brightness → 0 on everything beneath it, the phone untouched) and closes in from the four corners (black
-     by f730) onto a 550 px pool around the phone that goes on the contract's law (black exactly ON the DROP f738), so on the
-     hit only the phone remains and the void glow takes over the last pool of light. -->
+     on the timeline (= brightness → 0 on everything beneath it, the phone untouched) and RETRACES THE FROST'S OWN GROWTH IN
+     REVERSE: its background is the frost's arrival map (assets/fx/s07_arrival.png, from assets/fx/make_s07_arrival.py: grey =
+     when the frost froze there, black = f648 at the four edges … white = f685, the last region, the vial's band), turned into a
+     per-pixel black alpha by the SVG filter #s07-crush-f (feColorMatrix: the map's grey → alpha; feComponentTransfer table
+     #s07-crush-a rewritten every frame by the build). The first frost goes dark first (the corners black by f730), the last
+     frost — where the phone lands — goes black exactly ON the DROP f738, so on the hit only the phone remains and the void glow
+     takes over the last pool of light. -->
+<svg class="s07-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="s07-crush-f" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 0" result="arrival" />
+    <feComponentTransfer in="arrival">
+      <feFuncA id="s07-crush-a" type="table" tableValues="0 0" />
+    </feComponentTransfer>
+  </filter>
+</svg>
 <div class="s07-crush"></div>

@@ -3,7 +3,8 @@
 Per-frame numpy post of a rendered 3D layer (SHOTS Appendix 2.1), deterministic:
   renders/3d/<id>/{beauty,matte_screen,matte_cards,shadow}/####.png → renders/3d/<id>/final/####.png (straight alpha)
   1. soft-clip above 92 % (sRGB levels) on RGB outside matte_screen: y > 0.92 → 0.92 + 0.08·tanh((y−0.92)/0.08)
-  2. frost (take, f708–f821): rgb = screen(rgb, frost_full · w), w = alpha · (1 − 0.5·matte_screen) · (1 − thaw(f)),
+  2. frost (take, f708–f821): rgb = screen(rgb, frost^(1+glass) · w), w = alpha · g · (1 − thaw(f)), g = 1 on the rails,
+     0.15 + 0.85·exp(−d/100 px) on the glass (d = distance from the glass edge);
      thaw = radial mask from (960, 540), radius 520·bez((f−803)/18) for f ≥ 803, soft edge 40 px; alpha unchanged
   3. shadow (take, f945–f1044): rgb *= 1 − 0.35·blur4(1 − shadow_rgb)·matte_screen (shadow pass at pct 50 → upscaled)
   4. a 1-in-30 contact sheet renders/3d/<id>/contact.png
@@ -19,6 +20,9 @@ import sys
 
 import numpy as np
 from PIL import Image
+from scipy.ndimage import binary_fill_holes, distance_transform_edt
+
+RAIL_GAIN, CENTRE_GAIN, EDGE_PX, GLASS_GAMMA = 1.0, 0.15, 100.0, 1.0   # on-phone frost weighting (frost v2)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 RENDERS = os.path.join(ROOT, 'renders', '3d')
@@ -148,11 +152,13 @@ def process(shot, frames, phone_frost=True, shadow_mode='pass', force=False, fro
         rgb = soft_clip(rgb, 1.0 - ms)
         # 2. frost inside the alpha (take f708–f821)
         if shot == 'take' and frost is not None and 708 <= f <= 821:
-            w = alpha * (1 - 0.5 * ms) * (1 - thaw_mask(f, W, H)) * frost_gain   # gain 1.0 = SHOTS §2.1 as written
-            # NOTE (render QC 2026-10-08): frost_full.png has alpha ≈ 0.96 everywhere, so at gain 1.0 the phone body goes
-            # from 0.09 to 0.91 luminance at f738 (a white slab; the slow show f750–f786 is invisible). --frost-gain 0.3–0.5
-            # keeps a dark, frosted phone (BRIEF §10.4 fallback); re-run with --range 708-821 --force, then encode_layers.sh take.
-            fl = frost * w[..., None]
+            # frost v2 (tools/make_frost_v2.py): dense on the rails and the glass edges, thin toward the screen centre;
+            # on the glass the haze is squashed (frost^2) so the crystals stay legible instead of a grey veil.
+            glass = binary_fill_holes(ms > 0.5).astype(np.float32)       # display incl. the Dynamic Island hole
+            dist = distance_transform_edt(glass > 0.5).astype(np.float32)  # px from the glass edge, inside the glass
+            g = (1 - glass) * RAIL_GAIN + glass * (CENTRE_GAIN + (1 - CENTRE_GAIN) * np.exp(-dist / EDGE_PX))
+            w = alpha * g * (1 - thaw_mask(f, W, H)) * frost_gain
+            fl = np.power(frost, (1.0 + GLASS_GAMMA * glass)[..., None]) * w[..., None]
             rgb = 1 - (1 - rgb) * (1 - fl)
         # 3. shadow inside the screen (take f945–f1044)
         if shot == 'take' and 945 <= f <= 1044 and shadow_mode != 'none':

@@ -13,22 +13,27 @@
 // What THIS file adds (the shot's one 2D element, BRIEF §3.5 / §S08): the wake's additive light leak on the stage-level #leak (z 35,
 // mix-blend-mode: screen; opacity 0 by css/tokens.css until this setter): 10 f, f810–f820, peak f815 = the wake + 12 f = the frame
 // the page reaches full brightness (the 12 f fade ends f815), peak opacity 0.18. The plate (assets/fx/leak.png, written by
-// assets/fx/make_leak.py) is the lit screen blooming in the lens AROUND the phone: a warm halo following the phone's own silhouette
-// (exp(−d/110) + 0.4·exp(−d/360) of the distance d outside the f815 silhouette, +22 % toward the key's up-left) and a horizontal
-// anamorphic streak through the screen centre (σ 30 / 110 px in y, 560 px in x, faded to 0 over the outer 160 px of the frame:
-// it never meets a frame edge), hot core (1.00, 0.88, 0.72) → amber fringe (1.00, 0.62, 0.40). Its wrapper carries the feathered
-// INVERSE phone mask (assets/fx/leak_mask.png: the f815 silhouette dilated 8 px, feathered 12 px; 0.27 at the silhouette edge,
-// 1.00 at 40 px out; the plate itself falls off INWARD from the edge as exp(−d_in/18), so the mask's residual carries nothing and
-// the bloom meets the rail without a dark valley), so the leak lands on the void and the glow, never on the rails (QC: a 92 % rim
-// pixel can only reach 92.4 % at the peak — worst case 0.0441 leak × screen blend; measured on the snapshots: the rails' maximum
-// luma is identical with and without the leak at f813/f815/f817, 252.4 / 242.6 / 224.4) and never on the site pixels (§3.5: no colour change on the site;
-// measured ≤ 0.7 levels inside matte_screen). The silhouette drifts < 1 px across f810–f820 (corners 771.5 → 772.4): one mask.
+// assets/fx/make_leak.py) is the lit page blooming in the lens AROUND the phone: a warm halo following the phone's own silhouette
+// (exp(−d/110) + 0.4·exp(−d/360) of the ANAMORPHIC distance d outside the f815 silhouette — vertical distances count 1.35×, so the
+// bloom spreads sideways like the streak and spills less onto the top/bottom frame edges 90 px above and below the phone — +22 %
+// toward the key's up-left; INSIDE the silhouette the halo holds its edge value for 24 px before falling off as exp(−(d_in−24)/18),
+// so the plate's drift/scale below never opens a seam between the rail and the bloom) and a horizontal anamorphic streak through
+// the screen centre (σ 30 / 110 px in y, 420 px in x, faded to 0 over the outer 160 px of the frame: it never meets a frame edge;
+// a flare off the page, not a horizon), hot core (1.00, 0.88, 0.72) → amber fringe (1.00, 0.62, 0.40). Its wrapper carries the
+// feathered INVERSE phone mask (assets/fx/leak_mask.png: the f815 silhouette dilated 3 px, feathered 5 px; ≈ 0.3 on the
+// silhouette's own edge pixels, 0.8 at 8 px out, 1.0 by 12 px out, 0.000 on every site pixel — the display sits ≥ 15 px inside the
+// silhouette), so the halo is brightest AT the rail (polish: the first build's 8 px / 12 px mask left a 30 px dark matte line
+// between the rail and the glow — the plate × mask peaked 30–40 px out; now it peaks by 12 px) and the leak never lands on the
+// rails (QC: a 92 % rim pixel can only reach 92.4 % at the peak — worst case 0.049 leak × screen blend on a silhouette edge pixel,
+// 0.027 on the rail proper) nor on the site pixels (§3.5: no colour change on the site; the mask is exactly 0 inside matte_screen).
+// The silhouette drifts < 1 px across f810–f820 (corners 771.5 → 772.4): one mask.
 // Envelope: opacity 0.18 · sin(π·u)^1.25 over u = (f − 810) / 10 (f811 0.23 · f812 0.52 · f813 0.77 · f814 0.94 · f815 1.00 · f816
 // 0.94 … f819 0.23 · f820 0: a new value every frame, nothing holds); the plate drifts (+10 px, −5 px) and scales 1.000 → 1.035 about
 // the phone's centre (971, 540) across the 10 f, linear, while the mask stays on the phone. ONE setter (PP.drive) for all of it.
-// Measured on the f815 snapshot against the same frame without the leak (scratch build with S08 unregistered): the halo adds
-// ≤ +37 levels on the void at its peak (just outside the rails), ≤ +8 levels on the darkest feathered rail pixels, 0 on the rim
-// highlights, ≤ 2 levels (any channel) on the page.
+// Measured on the f815 snapshot (luma, y 540): the void right of the rail reads 28 / 38 / 45 / 46 at 4 / 8 / 12 / 16 px out and
+// 44–46 to 60 px (the first build: 22 / 27 / 32 / 36 rising to 45 only at 28 px = the matte line); the halo adds ≤ +35 levels on the
+// void at its peak, 0 on the rim highlights, 0 on the page (mask 0.000 inside matte_screen); above the phone the spill at the top
+// frame edge is 21 levels (was 24).
 // Hand-offs (§0.9): f738 from S07 — continuous, same take (REST exactly, frost field black by f738; the void glow switches on at
 // f738 globally, main.js); f822 to S09 — continuous, the dive starts f822 from the drifted REST pose (= VO "site." f819 + 3 f,
 // checked below against the actual word time). This section ends up EMPTY on the stage (the leak lives in #leak): nothing else

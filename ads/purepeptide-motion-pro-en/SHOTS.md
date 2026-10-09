@@ -324,7 +324,7 @@ Poses used by the take (spin°, tilt°, roll°, loc m), evaluated by `common.mov
 - **Sound:** FROST f648→f707 (density-shaped) · COLD f657 · CLOSE f686 · RISER0 f630→f738 · ARR-GLINT (measured, ≈ f712) · **DROP f738**.
 - **Render (take range 708–738):** 31 f, border crop, motion blur 0.5, 16 spp + OIDN, Standard; screen = SEQUENCE frames scr_0001–0031
   (black). ≈ 7 s/f ≈ **4 min**. CA ±3 f around the measured glint (2 px, phone layer only).
-- **QC:** frost never shows a tile seam or a straight growth front (DLA, not noise); the frost over the label is opaque by f686 ± 2;
+- **QC:** frost never shows a tile seam or a straight growth front (DLA, not noise); the frost over the label reaches 50 % coverage by f686 ± 2 (frost v2: translucent ice, the vial ghosts through at ~40–55 %);
   the field is black (≤ 1 level) by f738; the phone's silhouette at f738 equals `front_body.png`'s silhouette ± 1 px (registration);
   the glint lasts ≤ 2 output frames; no Apple logo or text on the back during the entry.
 
