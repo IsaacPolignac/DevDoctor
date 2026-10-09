@@ -33,7 +33,9 @@ N = 45 * SR                                    # exactly 45.000 s (mix_audio.py 
 DURATION = N / SR
 TARGET_LUFS = -14.0
 CEILING_DBTP = -1.5
-LIMITER_CEILING_DB = -1.62                     # internal ceiling: 0.12 dB margin for dither / other TP meters
+LIMITER_CEILING_DB = -2.2                      # internal ceiling: the deliverable is AAC 320 k (SHOTS §2.3) and the AAC encode
+                                               # MEASURED +0.32 dB of true-peak overshoot (wav -1.62 -> mp4 -1.3 dBTP, failing
+                                               # verify_output's <= -1.5): 0.7 dB of codec margin + dither
 ROOT = Path(__file__).resolve().parents[1]
 TWO_PI = 2 * np.pi
 CTRL = 48                                      # control-rate block for envelopes: 1 ms

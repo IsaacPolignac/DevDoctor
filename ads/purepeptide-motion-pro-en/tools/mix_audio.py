@@ -38,6 +38,7 @@ Signal flow
 """
 from __future__ import annotations
 
+import ast
 import json
 import re
 import sys
@@ -149,6 +150,25 @@ def fastest(move: str) -> tuple[int, str]:
     if fr:
         return max(fr, key=lambda f: SPEED[f]["deg_s"] + 100 * SPEED[f]["m_s"]), "pose_speed.json"
     return est, "BRIEF estimate"
+
+
+def slab_frames() -> dict:
+    """S10: the slabs' keyed frames from blender/take.py (SLABS, LIFT_F, SEAT_F, SETTLE_F), the take's single source of truth.
+    Per slab: lift = the lift's first frame (expo.out: the fastest frame), seat = the descent's first frame, contact = seat +
+    SEAT_F − SETTLE_F = the end of the 10 f power3.in = the fastest frame, where the slab meets the glass (the final PNGs show the
+    motion blur on contact − 1 and the slab flush on contact: f1030 / f1035 / f1040), settled = seat + SEAT_F."""
+    txt = (ROOT / "blender" / "take.py").read_text(encoding="utf-8")
+    try:
+        rows = [(r[0], r[5], r[6], r[7]) for r in ast.literal_eval("[" + txt.split("SLABS = [", 1)[1].split("\n]\n", 1)[0] + "]")]
+    except (IndexError, ValueError, SyntaxError):
+        rows = []
+    m = re.search(r"LIFT_F,\s*SEAT_F,\s*SETTLE_F\s*=\s*(\d+),\s*(\d+),\s*(\d+)", txt)
+    if len(rows) != 3 or not m:
+        WARNINGS.append("slab_frames: blender/take.py SLABS / LIFT_F, SEAT_F, SETTLE_F not parsed -> BRIEF frames")
+        return {"stepper": dict(lift=954, seat=1030, contact=1040, settled=1044), "total": dict(lift=959, seat=1020, contact=1030, settled=1034),
+                "name": dict(lift=964, seat=1025, contact=1035, settled=1039)}
+    _lift_f, seat_f, settle_f = map(int, m.groups())
+    return {n: dict(lift=int(fl), seat=int(fs), contact=int(fs) + seat_f - settle_f, settled=int(fs) + seat_f) for n, _mm, fl, fs in rows}
 
 
 def ghost_exit() -> int:
@@ -282,6 +302,12 @@ LP_RIDE = [(0.0, 18000.0), (34.0, 18000.0), (39.6, 900.0), (40.2, 18000.0), (45.
 DUCK_ZONES = [(0.0, 24.6, -6.0), (24.6, 36.0, -8.0), (36.0, 45.0, -11.0)]
 POCKET_DB, POCKET_HZ, POCKET_Q = -2.5, 2800.0, 0.9
 GUARD_DB, GUARD_MAX_DB = 9.0, -15.0
+# SFX bus duck under speech: A.SFX_DUCK_DB (-4 dB, BRIEF §6) everywhere, deeper in these zones (t0, t1, dB). End card: the
+# sonic logo's tinks (A5 / D6 bell partials 0.9-3.2 kHz), the D5/A5 tail ring-out and the dot grains all decay through the
+# spoken URL "purepeptide dot care" (L10 40.47-42.04): at -4 dB they sat 1.6 dB (K-weighted) under / level with the call to
+# action in the speech band. The LOGO hit itself (40.20-40.44) is ahead of the key (30 ms look-ahead + 40 ms attack) and keeps
+# its full level; the ring-out comes back over the 350 ms release after "care".
+SFX_DUCK_ZONES = [(TARGETS["LOGO"], 45.0, -10.0)]
 GUARD_EXTRA: dict = {}                                       # (line, onset) -> extra dB the guard aims for (set by main's final-margin loop)
 VO_BUS_DB = 0.0
 
@@ -606,17 +632,27 @@ def _events(cues: dict) -> tuple[list[Ev], dict]:
            align="peak", move="TILT"))
     # the BRIEF's TILT thoomp (peak + 1 f) would sit 4 f before the first slab's stat_hit: the 0.25 s sub rule keeps the slab accent
     add(Ev(F(f_tilt + 1), "TILT thoomp D2 (OFF: within 0.25 s of the SLABS stat_hit, sub rule)", A.thoomp, dict(note="D2", seed=1001), -16, sub=True, on=False))
-    for k, (f_, note) in enumerate(((954, "D6"), (959, "A5"), (964, "E6"))):
-        add(Ev(F(f_), f"SLAB {k + 1} glass tick {note}", A.glass_tick, dict(note=note, seed=1010 + k), -20))
-        add(Ev(F(f_), f"SLAB {k + 1} alu_tick", A.alu_tick, dict(seed=1020 + k), -20))
-    add(Ev(F(954), "SLABS stat_hit light on the first lift", A.stat_hit, dict(note="D6", root="D2", light=True, seed=1030), -14, sub=True))
+    slabs = slab_frames()                                                     # blender/take.py SLABS (lift / seat frames)
+    lifts = sorted(slabs.items(), key=lambda kv: kv[1]["lift"])
+    for k, ((name, s_), note) in enumerate(zip(lifts, ("D6", "A5", "E6"))):    # stepper f954 / total f959 / name f964
+        add(Ev(F(s_["lift"]), f"SLAB {k + 1} glass tick {note} ({name} lifts f{s_['lift']}, expo.out: fastest frame)", A.glass_tick,
+               dict(note=note, seed=1010 + k), -20))
+        add(Ev(F(s_["lift"]), f"SLAB {k + 1} alu_tick", A.alu_tick, dict(seed=1020 + k), -20))
+    add(Ev(F(lifts[0][1]["lift"]), "SLABS stat_hit light on the first lift", A.stat_hit, dict(note="D6", root="D2", light=True, seed=1030),
+           -14, sub=True))
     add(Ev(F(999), "SHEEN light sweep 0.54 (centre f999)", A.light_sweep, dict(dur=0.54, seed=1040), -20, align="peak"))
     r = A.rng(1041)
     add(Ev(F(990), "SHEEN grains A7", A.grains, dict(times=sorted(r.uniform(0.0, 0.55, 5)), notes=("A7",), seed=1042), -26, hall=-12))
-    for k, (f_, note) in enumerate(((1020, "E7"), (1025, "D7"), (1030, "A6"))):
-        add(Ev(F(f_), f"SEAT {k + 1} pop {note}", A.pop, dict(note=note, seed=1050 + k), -20))
-    for k, f_ in enumerate((1034, 1039, 1045)):                              # contact frames (S10.js); the stepper's on f1045, after the NAV tap
-        add(Ev(F(f_), f"SEAT {k + 1} glass settle x2 on contact f{f_}", A.glass_settle, dict(n=2, seed=1060 + k), -26))
+    # SEAT: the BRIEF's f1020 / f1025 / f1030 are the frames each descent STARTS (take.py f_seat); the move is a 10 f power3.in
+    # whose fastest frame is its end, where the slab meets the glass (contact = seat + 10: f1030 total / f1035 name / f1040
+    # stepper — measured on renders/3d/take/final: blur on contact − 1, flush on contact). The pop goes on the contact (sound on
+    # the fastest frame); the glass settle (its two grains) rides the 4 f settle bounce from the same frame.
+    seats = sorted(slabs.items(), key=lambda kv: kv[1]["contact"])
+    for k, ((name, s_), note) in enumerate(zip(seats, ("E7", "D7", "A6"))):   # descending, in contact order
+        add(Ev(F(s_["contact"]), f"SEAT {k + 1} pop {note} ({name} meets the glass f{s_['contact']}; descent f{s_['seat']})", A.pop,
+               dict(note=note, seed=1050 + k), -20))
+        add(Ev(F(s_["contact"]), f"SEAT {k + 1} glass settle x2 (settle bounce f{s_['contact']}-f{s_['settled']})", A.glass_settle,
+               dict(n=2, seed=1060 + k), -26))
     # S11 ---------------------------------------------------------------------------------------------------
     add(Ev(F(1044), "NAV TAP tap 2350", A.tap, dict(f=2350, body_hz=380, seed=1100), -10))
     add(Ev(F(1044), "NAV TAP haptic", A.haptic, {}, -16))
@@ -678,7 +714,10 @@ def build_sfx(events: list[Ev], key: np.ndarray, rep: dict) -> np.ndarray:
         rows.append((e, i0 / SR, n / SR, (i0 + _peak_offset(s)) / SR, 20 * np.log10(np.abs(s).max())))
     sfx = (A.hp(buses["dry"], 30.0) + A.reverb(buses["room"], A.ROOM_IR, hp_hz=300, lp_hz=9000)
            + A.reverb(buses["hall"], A.HALL_IR, hp_hz=300) + A.reverb(buses["big"], A.BIG_IR, hp_hz=200))
-    duck = A.duck_curve(key, A.SFX_DUCK_DB)
+    depth = np.full(key.shape, A.SFX_DUCK_DB)
+    for t0, t1, d in SFX_DUCK_ZONES:                                            # deeper pockets (end card: the spoken URL)
+        depth[int(t0 * 1000):int(t1 * 1000)] = d
+    duck = A.duck_curve(key, depth)
     rep["sfx_rows"] = rows
     rep["sfx_duck"] = duck
     return sfx * db(A.ctrl_to_audio(duck))
@@ -839,7 +878,7 @@ def print_report(rep: dict, stems: dict, out: np.ndarray, cues: dict, events: li
     print(f"  (value = VO-music / VO-(music+SFX) dB)   worst VO-music margin {worst[0]:.2f} dB at {worst[1]} -> "
           f"{'PASS' if worst[0] >= 9 else 'FAIL'} (bed guard >= 9 dB)")
     under = [c for c in all_cells if c[2] < 8.0]
-    print(f"  VO-(music+SFX) under 8 dB (info: SFX accents placed on those words by design, bus ducked -4 dB): "
+    print(f"  VO-(music+SFX) under 8 dB (info: SFX accents placed on those words by design, bus ducked {A.SFX_DUCK_DB:.0f} dB, {' / '.join(f'{d:.0f} dB from {a:.1f} s' for a, _b, d in SFX_DUCK_ZONES)}): "
           + (", ".join(f"{l} '{w}' {v:.1f}" for l, w, v in under) if under else "none"))
     ok &= worst[0] >= 9
 

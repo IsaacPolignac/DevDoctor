@@ -12,7 +12,9 @@
 //           alpha falls 183 → 73 lv over the window, with the page already grey by f1162.
 //   glint   f1172: ONE frame of the cover glass at grazing angle: the whole 151 px sliver reads white (mean 163 lv inside the alpha
 //           vs 66 on f1171 and 51 on f1173; p99 255 — it lies inside matte_screen, so post_layers' soft-clip does not touch it).
-//           It is the exit's glint, the bookend of the ARR's f712; the CA peaks on it (below).
+//           It is the exit's glint, the bookend of the ARR's f712; the CA peaks on it (below). The render's one white frame
+//           strobed, so tools/post_layers.py step 3b rebuilds f1172's glass from f1171/f1173 and sweeps a sheen down the glass
+//           over f1169–f1175, peaking on f1172: the glint is now a 7-frame swell, still centred here.
 //   lights  lights_out(1158, 1186) with the "cam" ease: Key Fill Back → 0 W, SoftL SoftR SoftFR SoftTop SideL → 0 and — common.py's
 //           measured defaults, set by the lead for the single line — SideR → 0 (the contract said 50 %: with it the whole 68 px rail
 //           read 15–20 lv), EdgeL → 0, world ramp → 0, SheenCard → 0; EdgeR kept. Lit pixels > 8 lv per frame: 237 k on f1164,
@@ -77,7 +79,7 @@ PP.shot("S12", function build(tl, root) {
   // ---- the measured take of this window (blender/take.py + renders/3d/take/{moves,pose_speed,corners}.json + final/####.png) ----
   const EXIT = [F0, 1188]; // move(HERO drifted → EDGE), ease cam
   const FASTEST = 1167; // MEASURED: pose_speed.json 182.26 °/s · 0.115 m/s = moves.json exit.fastest_frame
-  const GLINT = 1172; // MEASURED: the one white frame of the glass at grazing angle (mean 163 lv in the alpha; 66 / 51 at ± 1 f)
+  const GLINT = 1172; // the peak of the exit sheen (post_layers step 3b, f1169–f1175); the raw render's one white frame
   const DIM = [F0, 1170]; // screen_emission_key 1 → 0
   const LIGHTS_OUT = [1158, 1186]; // common.lights_out(1158, 1186): everything but EdgeR → 0, ease cam
   const CA = [1168, 1176]; // BRIEF §3.5 / SHOTS §S12, peak 2 px on f1172 = GLINT
@@ -102,7 +104,8 @@ PP.shot("S12", function build(tl, root) {
     if (PP.toF(s + d) !== STOP[0]) warn(`#v-take ends at f${PP.toF(s + d)}: its clip must end ON f${STOP[0]} (the hold takes over there; earlier = black frames, later = the webm's f1188 under the hold)`);
   }
   if (!hold) warn("#hold-1188 missing (assets/layers/hold_1188.png): the STOP f1188–f1206 has no held frame — re-run tools/assemble.py once it lands");
-  else if (!/hold_1188\.png$/.test(hold.getAttribute("src") || "")) warn(`#hold-1188 src is ${hold.getAttribute("src")}, not assets/layers/hold_1188.png`);
+  // (the HyperFrames bundler of check / snapshot / render inlines images < 2 MB as data: URIs — that is the same PNG, not a miss)
+  else if (!/hold_1188\.png$|^data:image\/png;base64,/.test(hold.getAttribute("src") || "")) warn(`#hold-1188 src is ${hold.getAttribute("src")}, not assets/layers/hold_1188.png`);
   if (!document.getElementById("ca")) warn("no #ca SVG filter in index.html: the exit's chromatic aberration will be skipped by PP.ca");
 
   // ---- 1. the STOP f1188–f1206: the held f1188 frame above the webm; nothing else moves (grain frozen, glow 0, vignette 22 %) ----

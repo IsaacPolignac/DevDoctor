@@ -5,6 +5,8 @@
 #   QC_REUSE=1 tools/qc_frames.sh renders/qc               re-run OCR + sheet on existing frames (no snapshots)
 # 56 snapshots at the default settings: run it as a gate before a delivery render, not on every edit (4 shared CPUs).
 set -euo pipefail
+# tesseract's OpenMP threads busy-wait when another process holds a core: one 2x frame then takes minutes instead of 1.7 s
+export OMP_THREAD_LIMIT=1
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${1:-$ROOT/renders/qc}"; FROM="${2:-24.6}"; TO="${3:-38.4}"; STEP="${4:-0.25}"
 FORBID='certif|\bCOA\b|bacterio|reconstitut|Retatrutide|Recovery|repair|G ?Pay|Pharmaceutical|SECURE|syringe|needle|inject|dosage|\bdose|protocol|benefit|heal|treatment|anti-?aging|weight loss|muscle'

@@ -1,5 +1,5 @@
 {
- "note": "the render queue (SHOTS \u00a70.3): tools/render_queue.py runs the jobs in order, one Blender at a time (renders/3d/.lock). est_sf = MEASURED s/frame on 2026-10-07 19:10 (load 3-4 from other agents; OIDN, 1080p, border crop): s02 10.5 @24 spp; take ARR 9.3 / rest 8.2 / dive 12.3 / close 14.9 / slabs+DOF 16.7 @24 / hero 7.4 / exit 4.3 / shadow 4.2 @pct 50; s01 33.2 @24 spp full frame (32 spp measured 60-120 under load 5-8: trim ladder step 1 applied = 24 spp). After each beauty job with post=true: tools/post_layers.py <id> + tools/encode_layers.sh <id>.",
+ "note": "the render queue (SHOTS \u00a70.3): tools/render_queue.py runs the jobs in order, one Blender at a time (renders/3d/.lock). est_sf = MEASURED s/frame on 2026-10-07 19:10 (load 3-4 from other agents; OIDN, 1080p, border crop): s02 10.5 @24 spp; take ARR 9.3 / rest 8.2 / dive 12.3 / close 14.9 / slabs+DOF 16.7 @24 / hero 7.4 / exit 4.3 / shadow 4.2 @pct 50; s01 33.2 @24 spp full frame (32 spp measured 60-120 under load 5-8: trim ladder step 1 applied = 24 spp). After each beauty job with post=true: tools/post_layers.py <id> + tools/encode_layers.sh <id>. 2026-10-09 integration (SHOTS 2.2 gate 2): the hero 1045-1152 measured 11.6 s/f in the final render (log.json, load 3.5-5.2, border area 26 %), 1.56x its 7.4 estimate -> est_sf set to 11.6 so --dry stays honest; every other job is within 1.3x and the measured total (3.15 h) is inside the 5 h cap, so no trim-ladder step was needed.",
  "jobs": [
   {
    "id": "s02_test",
@@ -69,7 +69,7 @@
    "pct": 100,
    "samples": 16,
    "pass": "beauty",
-   "est_sf": 7.4,
+   "est_sf": 11.6,
    "post": false
   },
   {
