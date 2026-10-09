@@ -72,7 +72,9 @@ gates), `TECH.md` (measured facts, pipeline), `BUILD.md` (scaffold API).
   fastest frames (0 frames off), OPEN / STOP / END digital silence.
 - Final pass fixes: the S02 reflection now slides off the glass on "prove." (ghost track re-rendered f163–f216); the exit glint
   is a 7-frame sheen instead of one white frame (f1172); the cart slabs' shadows only where they touch a slab (no grey blobs on
-  the empty page); the four AI vial plates conformed 24 → 30 fps with motion-compensated interpolation (no 3:2 judder).
+  the empty page); the four AI vial plates conformed 24 → 30 fps with motion-compensated interpolation (no 3:2 judder);
+  S07 now holds frost v2 through the phone's arrival (the stage still held the old frost image f708–f738), the field fades to
+  black as a soft vignette closing on the phone (no jagged rectangle), and the f708 hand-off no longer flashes.
 - Known, accepted: LRA 5.1 LU (the voice runs nearly wall to wall; EBU R128 s1 does not apply LRA to adverts); a one-frame
   depth-of-field step at the S09 → S10 cut (f936) and a near-still close pose f868–f936 (both baked in the take, subtle).
 
