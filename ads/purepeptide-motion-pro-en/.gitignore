@@ -4,3 +4,4 @@ assets/iphone/renders/
 assets/audio/vo_v4/take.wav
 tools/tests/out/
 renders/
+.transcode-cache/

@@ -18,12 +18,22 @@
 #S10 .s10-sheen-band { position: absolute; left: 0; top: -660px; width: 320px; height: 2400px; transform-origin: 50% 50%;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.35) 36%, rgba(255, 255, 255, 0.65) 45%,
     rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.65) 55%, rgba(255, 255, 255, 0.35) 64%, rgba(255, 255, 255, 0) 100%); }
-/* the seat-back patches: the shipped render's own pixels (assets/fx/make_s10_seat.py), each placed at its crop's stage origin; opacity
-   0 by default, the setter writes the 4 f dissolve. .s10-seat (total + name) sits in the section at z 40 (.z-front, normal blend);
-   .s10-seat-out (the stepper) is moved into the stage-level #type-front by js/shots/S10.js, so its selectors carry both roots. */
+/* the rim line (the sheen's exit on the right rail): a full-stage box (so the setter's 105° mask gradient is in stage px) at z 40,
+   screen blend, holding the white rail-crest shape (assets/fx/s10_rim.png, its crop origin below). opacity (the band's envelope) and
+   mask-image (a 105° Gaussian strip on the band's centreline, σ 22 px) are written per frame by js/shots/S10.js. */
+#S10 .s10-rim { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 40; overflow: hidden; pointer-events: none;
+  mix-blend-mode: screen; opacity: 0; }
+#S10 .s10-rim-img { position: absolute; left: 1350px; top: 0; width: 73px; height: 1080px; display: block; pointer-events: none; }
+/* the seat-back stand-ins (assets/fx/make_s10_seat.py → s10_seat.json): one box per slab at its crop's stage origin, holding the SHADE
+   (black, alpha = the contact shadow's own darkening ratio: a multiply in normal blend) under the FACE (the slab's last seated pixels).
+   Both start at opacity 0; js/shots/S10.js writes the 4 f opacity tables and slides the face by the measured parallax into register
+   with the page's original. .s10-seat (total + name) sits in the section at z 40 (.z-front, normal blend); .s10-seat-out (the stepper)
+   is moved into the stage-level #type-front by js/shots/S10.js, so its selectors carry both roots. */
 #S10 .s10-seat { pointer-events: none; }
 #S10 .s10-seat-out, #type-front .s10-seat-out { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
-#S10 .s10-seat-img, #type-front .s10-seat-img { position: absolute; display: block; opacity: 0; pointer-events: none; }
-#S10 .s10-seat-total { left: 1208px; top: 520px; width: 166px; height: 106px; }
-#S10 .s10-seat-name { left: 938px; top: 296px; width: 274px; height: 105px; }
-#S10 .s10-seat-stepper, #type-front .s10-seat-stepper { left: 944px; top: 460px; width: 249px; height: 122px; }
+#S10 .s10-seat-slab, #type-front .s10-seat-slab { position: absolute; pointer-events: none; }
+#S10 .s10-seat-shade, #S10 .s10-seat-face, #type-front .s10-seat-shade, #type-front .s10-seat-face { position: absolute; left: 0; top: 0;
+  width: 100%; height: 100%; display: block; opacity: 0; pointer-events: none; }
+#S10 .s10-seat-total { left: 1186px; top: 498px; width: 188px; height: 124px; }
+#S10 .s10-seat-name { left: 916px; top: 274px; width: 295px; height: 124px; }
+#S10 .s10-seat-stepper, #type-front .s10-seat-stepper { left: 922px; top: 438px; width: 271px; height: 139px; }

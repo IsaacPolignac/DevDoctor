@@ -16,10 +16,18 @@
                25 / 77 / 14 lv, 250-lv end caps), y 125–954 (830 px tall), on black. The sliver's alpha covers x 892–959 (68 px).
        hold    f1188 = assets/layers/hold_1188.png above the webm (z 31): the webm's f1187 differs from it by 0.12 lv mean (its
                f1188 by 0.09 lv) — the freeze is invisible as a cut. S13 fades it to black f1206–f1212 (its line sits on x 957).
-     What THIS shot adds on the stage: NOTHING typed, nothing drawn ("Text: none — the room type exited f1152–f1160 on #type-back,
-     S11's; Site: dark"). js/shots/S12.js switches #hold-1188 on at f1188 (the STOP), puts the chromatic aberration ≤ 2 px on
+     What THIS shot adds on the stage: nothing typed ("Text: none — the room type exited f1152–f1160 on #type-back, S11's; Site:
+     dark") and ONE drawn thing, the rim light (.s12-rim below): the take's own rail line is only 55–80 lv on f1185–f1188 (a 1 px,
+     sparkly Cycles specular that DIMS as the rail reaches edge-on), so the STOP's "single vertical line of light" read as a faint
+     grey thread and S13's 2 px white line replaced it with a jump on f1206. The rim light rides the measured rail highlight
+     f1176–f1185 (x 947.9 → 958.0, 0.21° → 0° lean, per-frame table in S12.js), gathering the light the room loses (opacity 0 on
+     f1176 → 0.8 on the STOP frame f1188, sine.inOut), and holds frozen through the STOP in S13's geometry (x 957 + 2 px, y 125–954;
+     glow 5 px vs S13's 6 px), so f1206 is the same line igniting (0.8 → 1 + S13's bloom), not a substitution. js/shots/S12.js also switches
+     #hold-1188 on at f1188 (the STOP), puts the chromatic aberration ≤ 2 px on
      #v-take ONLY over f1168–f1176 (BRIEF §3.5's third allowed moment; peak 2 px on the glint f1172), lets the void glow die with the
      studio lights (f1158–f1186, same window and ease as lights_out, so the line stands on true black before the freeze and the
      global switch at f1188 is not a 32-lv pop on the STOP), asserts the contract (console.warn, never throws) and publishes the
      measured facts as PP.S12 for the mixer / S13. Grain frozen f1188–f1206 and vignette 22 % are global (PP.grain / main.js).
-     The <section> stays EMPTY (no z-index/transform/filter on it, BUILD.md). -->
+     The <section> itself gets no z-index/transform/filter (BUILD.md). -->
+<!-- the rim light: stage-level z 32 (above #v-take z 30 and #hold-1188 z 31, below #leak 35 / .z-front 40 / #fx 90); driven by S12.js -->
+<div class="s12-rim" aria-hidden="true"></div>

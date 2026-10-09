@@ -3,10 +3,14 @@
    URL 40 px centred (960,660) + 2 px underline · legal 26 px centred y 990 (box 977–1003). Everything static from f1300. */
 #S13 .s13 { pointer-events: none; }
 
-/* the line of light (f1206): 2 px white over the held rail line; top/height/left/box-shadow are driven per frame by S13.js */
+/* the line of light (f1206): 2 px white over the held rail line; top/height/left/box-shadow are driven per frame by S13.js.
+   S13.js clones it into 8 sub-exposure copies (the 0.5-frame shutter) at opacity 1/8 each: plus-lighter sums them exactly
+   (over the transparent backdrop of .z-front, which is then composited normally), so at rest the sum is this one line.
+   Rest geometry/glow = S12's .s12-rim (asserted by S12.js): keep them in sync. */
 #S13 .s13-line { position: absolute; left: 957px; top: 125px; width: 2px; height: 829px; background: #fff; opacity: 0;
-  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.3); border-radius: 1px; }
-/* the point (f1212): a bright core that blooms and goes, and a wide faint halo that decays to nothing by f1296 */
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.3); border-radius: 1px; mix-blend-mode: plus-lighter; }
+/* the point (f1212): a hot core that shrinks and dims into the unfolding symbol (gone by f1219), and a wide faint halo that is
+   gone by f1236 (true black inside the hexagon on the held card) */
 #S13 .s13-core { position: absolute; left: 936px; top: 276px; width: 48px; height: 48px; border-radius: 50%; opacity: 0;
   background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 20%, rgba(255, 255, 255, 0.18) 42%, rgba(255, 255, 255, 0) 66%); }
 #S13 .s13-halo { position: absolute; left: 800px; top: 140px; width: 320px; height: 320px; border-radius: 50%; opacity: 0;

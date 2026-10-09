@@ -10,6 +10,25 @@
                f912 → cart3 f914 (Volume discount −8 %, Free shipping unlocked!, bar 0.81 → 1.00 f914–f928) as "automatic." f917 is
                said → cart3 @ 150 holds (= clean/screen_cart.png from f930). The Summary block sits below the frame, the BAC-water
                region (page y 760–900) is blank white, the product page never appears. Offers = the cart's own pixels, native size.
-     No type, no site pixels in HTML: the section stays EMPTY on the stage. What js/shots/S09.js adds is the chromatic-aberration
-     pass on #v-take around the measured dive peak (f838–f844, 2 px, peak f841: BRIEF §3.5's second allowed moment) and the 2D
-     fallback camera (PP.FALLBACK_2D only: PH.cam to the 3D close pose read from corners.json f868, then the creep). -->
+     No type, no site pixels in HTML. The only markup is the LENS filter below (no box, nothing painted): js/shots/S09.js puts it on
+     #v-take over f838–f844 (± 3 f around the measured dive peak f841, BRIEF §3.5's second allowed CA moment, ≤ 2 px).
+     #s09-lens = LATERAL (radial) chromatic aberration, the optics of a real lens during the dolly: R is magnified and B shrunk about
+     the optical centre (960, 540), so the displacement is 0 on axis and grows with the field radius (2 px at r = 615 px, the
+     farthest phone pixel on the peak frame). The tagline at the centre of the site stays clean; the rails, the nav and the trust bar
+     fringe radially. Map = a 256² PNG ramp (R = x, G = y) stretched over a 1920 × 1920 square centred on the frame (isotropic,
+     0.5 = no shift at the centre), inlined as a data: URI (an element-referenced feImage renders nothing in the HyperFrames
+     capture; the data: URI is proven in a render test from the very first captured frame). The <img> preloads the same URI into
+     the memory cache at parse time (belt and braces for the first frame a render worker captures). -->
+<svg class="s09-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="s09-lens" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1080" color-interpolation-filters="sRGB">
+    <feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAACZUlEQVR42u3UQQ0AMAwDsas0/pQ3BiNQWwqBPG6qO5WZ7dtpApYSABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEAARAAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQABAAAQABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAEAAnAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIADAzwOGHgb7kKflZgAAAABJRU5ErkJggg==" x="0" y="-420" width="1920" height="1920" preserveAspectRatio="none" result="map" />
+    <feDisplacementMap id="s09-lens-r" in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="G" result="dr" />
+    <feDisplacementMap id="s09-lens-b" in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="G" result="db" />
+    <feColorMatrix in="dr" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g" />
+    <feColorMatrix in="db" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b" />
+    <feBlend in="r" in2="g" mode="screen" result="rg" />
+    <feBlend in="rg" in2="b" mode="screen" />
+  </filter>
+</svg>
+<img class="s09-map" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAACZUlEQVR42u3UQQ0AMAwDsas0/pQ3BiNQWwqBPG6qO5WZ7dtpApYSABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEAARAAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQABAAAQABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAEAAnAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIADAzwOGHgb7kKflZgAAAABJRU5ErkJggg==" alt="" aria-hidden="true" />

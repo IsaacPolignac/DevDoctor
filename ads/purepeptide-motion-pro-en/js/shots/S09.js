@@ -22,12 +22,21 @@
 //           block (pt ≥ 877) is below the frame, the BAC-water region (pt 672–812, page y 760–900) is blank white, the product
 //           page never appears. Offers are the cart's own pixels at native size (≈ 1.5 s), never captioned, never lifted.
 // What THIS file adds (nothing else is typed or drawn — SHOTS §S09 "Text: none"):
-//   1. the CA pass on the dive peak (BRIEF §3.5: the second of the three allowed moments, "≤ 2 px on the phone webm layer only"):
-//      PP.ca over f838–f844 (± 3 f around the MEASURED fastest frame f841), 2 px, on #v-take ONLY (the SVG #ca filter: R +dx,
-//      B −dx, screen-added), a sine that is 0 on f838, 1.0 / 1.73 / 2.0 / 1.73 / 1.0 px on f839–f843 and 0 again on f844 —
-//      the same recipe as the ARR glint (S07, f709–f715) and the exit (S12). Deviation from the contract's "f840–f846": that window
-//      was centred on the estimated f843; the shipped move peaks on f841, and the aberration must sit on the speed (the whoosh
-//      does, ± 1 f, via pose_speed.json), so the window moved 2 f earlier. Width unchanged (6 f), nothing else moves.
+//   1. the CA pass on the dive peak (BRIEF §3.5: the second of the three allowed moments, "≤ 2 px on the phone webm layer only"),
+//      as a LENS (lateral, radial) chromatic aberration, html/S09.html #s09-lens on #v-take ONLY over f838–f844 (± 3 f around the
+//      MEASURED fastest frame f841): R magnified / B shrunk about the optical centre (960, 540) by feDisplacementMap with a radial
+//      ramp map, so the shift is 0 on axis and k·r off axis, k = 2 px / 615 px (615 = the farthest phone pixel on f841: the
+//      display corners in corners.json + the rails) — a sine envelope, 0 on f838, k·0.50 / 0.87 / 1.00 / 0.87 / 0.50 on f839–f843,
+//      0 again (filter cleared) on f844. Why radial and not the shared uniform #ca (S07 glint, S12 exit): this is the one CA moment
+//      that is a DOLLY — real lateral CA is radial, it grows toward the edge of the field exactly where the move streaks — and it
+//      keeps the site's own "Purity, proven." at the frame centre clean at the speed peak (the uniform pass split it 2 px).
+//      Measured in a HyperFrames render test (Skia rounds displacements to whole pixels): centre 0.0 px, 1 px per axis from 154 px off axis (the rails,
+//      the nav, the trust bar), 2 px only in the top/bottom 80 px rows of the frame, radial direction everywhere (R outward, B inward); the same pattern in `hyperframes snapshot` of this
+//      project (centre 0.0 px, ±1 px at the four phone quadrants on f841). If #s09-lens is missing the shared uniform PP.ca pass runs
+//      instead (same window, 2 px).
+//      Deviation from the contract's "f840–f846": that window was centred on the estimated f843; the shipped move peaks on f841, and
+//      the aberration must sit on the speed (the whoosh does, ± 1 f, via pose_speed.json), so the window moved 2 f earlier. Width
+//      unchanged (6 f), nothing else moves.
 //   2. the 2D fallback (PP.FALLBACK_2D only, BRIEF §10.3 / BUILD.md "accepted downgrade"): PH.cam over f822–f868 (46 f, ease
 //      "cam") to the 3D close pose read from corners.json f868 — g 1.6 (1.596 px/pt / PH.K), the screen centre pt (201, 437) at
 //      stage (961, 485) — then the creep to g 1.587 over f868–f936 (corners.json f936: ×0.9917, linear like the 3D loc y), so the
@@ -38,12 +47,12 @@
 //      the cart tap and the push land inside the dive; the dive starts on VO "site." + 3 f (S08's hand-off, checked from this side).
 // Hand-offs (§0.9): f822 from S08 — continuous, same take: the dive starts from the drifted REST pose (spin 1.50°, loc x 2.000 mm,
 // pose_speed.json f822; S08's leak is 0 again by f820); f936 to S10 — continuous: the tilt starts from the crept close pose (spin 4.5°,
-// loc y −0.284, corners.json f936), nothing of S09 outlives the window (the CA is cleared on f844, the section is empty).
+// loc y −0.284, corners.json f936), nothing of S09 outlives the window (the lens CA is cleared on f844, the section paints nothing).
 // Sound (BRIEF §7, SHOTS §S09; 3D fastest frames are in pose_speed.json / moves.json, read by the mixer): DIVE f822 → f868, peak f841
 // MEASURED (doppler_whoosh 1.4 align=peak, thoomp D2 at f842 = peak + 1) · CART TAP f850 (tap 2350 + haptic) · PUSH1 f852 → f864, peak f854
 // (swipe) · BADGE pop f866 (pop E7, stays "1") · "Let" f870 / "cart" f876 (no cue: the cart reads) · TAP1 f888 (tap + haptic), state2
 // f890 (pop E7 + price-roll ticks), bar band_rise f890 → f904 · "math." f893 (no cue) · TAP2 f912, state3 f914, bar f914 → f928 ·
-// AUTOMATIC f917 (soft_chime D6/A6). No 2D move in this shot: the CA pass has no sound of its own, it rides the dive's whoosh.
+// AUTOMATIC f917 (soft_chime D6/A6). No 2D move in this shot: the lens CA has no sound of its own, it rides the dive's whoosh.
 PP.shot("S09", function build(tl, root) {
   const F = PP.F, f = PP.f;
   const T0 = PP.IN("S09"), T1 = PP.OUT("S09"); // f822, f936
@@ -73,10 +82,28 @@ PP.shot("S09", function build(tl, root) {
   const fSite = VO.f("L07", "site");
   if (fSite + 3 !== F0) console.warn(`[S09] the window starts f${F0} but VO "site." + 3 f is f${fSite + 3}: the dive is no longer on the word`);
 
-  // ---- 1. CA ± 3 f around the measured dive peak, 2 px, phone layer only (cleared again on f844, inside the window) ---------
+  // ---- 1. LENS CA ± 3 f around the measured dive peak, ≤ 2 px, phone layer only (cleared again on f844, inside the window) ---
   const CA0 = Math.max(F0, FASTEST - 3), CA1 = Math.min(F1 - 1, FASTEST + 3); // f838–f844
   if (CA1 - CA0 !== 6) console.warn(`[S09] CA window f${CA0}–f${CA1} is not 6 f (clamped into the shot)`);
-  if (take) PP.ca(tl, f(CA0), f(CA1), 2, take); // sine: 0 on f838, 2 px on f841, 0 on f844
+  const lens = document.getElementById("s09-lens"), lensR = document.getElementById("s09-lens-r"), lensB = document.getElementById("s09-lens-b");
+  const R_MAX = 615, PX = 2; // px of shift at the farthest phone pixel on the peak frame (BRIEF §3.5: ≤ 2 px)
+  const MAP_SPAN = 1920; // the ramp map spans 1920 px for 0 → 1 (html/S09.html): shift = scale · (r / MAP_SPAN)
+  if (take && lens && lensR && lensB) {
+    PP.drive(tl, (u) => {
+      const a = u <= 0 || u >= 1 ? 0 : Math.sin(Math.PI * u); // sine: 0 on f838, 1 on f841, 0 on f844
+      if (a < 0.125) { // < 0.25 px anywhere on the phone (Skia rounds displacements to whole px): no filter at all
+        if (take.style.filter) take.style.filter = "";
+        return;
+      }
+      const s = (PX / R_MAX) * MAP_SPAN * a; // 6.24 at the peak
+      lensR.setAttribute("scale", (-s).toFixed(3)); // R sampled toward the centre = magnified (red fringe outward)
+      lensB.setAttribute("scale", s.toFixed(3)); // B sampled away from it = shrunk (blue fringe inward)
+      take.style.filter = "url(#s09-lens)";
+    }, 0, 1, f(CA0), f(CA1 - CA0), "none");
+  } else if (take) {
+    console.warn("[S09] #s09-lens missing (html/S09.html): falling back to the uniform PP.ca pass");
+    PP.ca(tl, f(CA0), f(CA1), 2, take);
+  }
 
   // ---- the screen (baked): the resolved timeline vs the contract (every value is read, none re-derived) --------------------
   const tapCart = E.tapCart, push1 = E.push1 || [], state2 = E.state2, state3 = E.state3, tap1 = E.tap1, tap2 = E.tap2;

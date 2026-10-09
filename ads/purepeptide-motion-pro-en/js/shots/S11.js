@@ -16,13 +16,15 @@
 // What THIS file adds (the one typed event of the shot, BRIEF §4 / §5 "L09 Purity (2) f1079: room type lands per glyph"):
 //   1. ROOM TYPE, z 20 behind the phone (depth-sorted occlusion is free: the take's alpha at z 30 covers it): "Purity, / proven." DM
 //      Sans 800 120 px white 90 %, −0.02 em, 3 px blur, TWO lines left-aligned (the site's own H1 stack) on a 112 px pitch, baselines
-//      y 522 / 634 (x-band centre ≈ 550: where the contract's single-line baseline 580 sat), left ink edge x 366 at the landing.
+//      y 522 / 634 (x-band centre ≈ 550: where the contract's single-line baseline 580 sat), left ink edge x 360 at the landing
+//      (372 − the 3 % settle), KERNED: the per-glyph split keeps DM Sans' pair kerning ("y," −8 px, "ov"/"ve" −2.8 px; measured on
+//      the unsplit run at build, re-applied as glyph margins, asserted to 0.1 px) — the comma sits on "Purity" as in the site's H1.
 //      Landing f1079 = VO.w('L09', 2) "Purity": per glyph in reading order (14 glyphs: P u r i t y , p r o v e n . — opacity 0 → 1 +
 //      8 px rise, 1 f stagger, 22 f expo.out): onsets f1079–f1092, all settled by f1114, 2 f before the hero pose; holds to f1152
 //      (60 f from the last onset ≥ 36 f); exits f1152–f1160 (8 f power3.in, opacity → 0, −12 px) BEFORE the lights go (lights_out
 //      f1158–f1186 is in the take; at f1158 the type is at 58 %, at f1160 gone). The block lives on the stage-level #type-back (z 20)
 //      from build time (BUILD.md: main.js gates this section at f1152, the exit outlives the window), nothing else touches #type-back.
-//   2. THE PARALLAX (ONE transform setter, f1044 → f1160): the room is a fixed thing behind a phone the camera orbits (the spin
+//   2. THE PARALLAX (ONE setter — transform + the focus-pull blur of 3. — f1044 → f1160): the room is a fixed thing behind a phone the camera orbits (the spin
 //      exposes the phone's LEFT rail — the buttons — more and more: the camera moves to the phone's left, so a background 15 % behind
 //      the phone slides RIGHT, toward and under the rail). x(f) = 0.8 px/f glide from the landing (the orbit's slow continuation
 //      through the hold: 24 px/s, 58 px over the hold) + 40 px × the orbit's REMAINING "cam" ease after f1079 (camR(f) = (cam(u) −
@@ -33,10 +35,16 @@
 //      f1120 852 · f1130 853 · f1140 855 · f1152 855): the period's right ink edge sits 34 px left of the rail on f1079, 21 px on f1090,
 //      11 px on f1100, MEETS the rail on f1113 (period right 852.0 = rail 852), is 6.5 px under on KF4 f1120 ("the phone's left rail is
 //      sliding over the final period"), 15 px on f1132, fully hidden (20 px) from f1141; the "n" touches the rail on f1152 (its right
-//      ink edge 855 = rail 855). Line 1 "Purity," (61 px shorter) never reaches the rail: its comma's right edge is 29 px clear at
-//      f1152, 23 px at f1160. Glyphs visible at every frame: 14 of 14 to f1112, 13 of 14 from f1141 (≥ 60 % QC: 93 %). The slide
+//      ink edge 855 = rail 855). Line 1 "Purity," (63 px shorter, kerned) never reaches the rail: its comma's right edge is 31 px clear at
+//      f1152, 25 px at f1160. Glyphs visible at every frame: 14 of 14 to f1112, 13 of 14 from f1141 (≥ 60 % QC: 93 %). The slide
 //      continues at 0.8 px/f through the exit (the camera does not stop; S12's edge-on turn starts on f1152 from rest in the take).
-//   3. build-time asserts (console.warn, never throws): the take layer is placed on f708 and covers the window and the exit; the VO
+//   3. THE FOCUS PULL (the shot's deliberate upgrade, same setter as the parallax): the room type lands soft (8 px) and racks into
+//      its 3 px depth blur f1079 → f1101 = VO.w('L09', 2) "Purity" → VO.w('L09', 3) "Proven." (22 f sine.inOut: 6.9 px f1086,
+//      4.8 f1092, 3.4 f1097, 3.0 f1101), then holds the 3 px rest to the exit. S01's rack (21 f sine in-out, landing on "print": the
+//      printed word comes into focus) answered at the sign-off: the word that was easy to print is brought into focus — measured — ON
+//      "Proven.". It is also what the pull-out does physically: the camera backs off 36 cm, the depth of field deepens, the room
+//      behind the phone sharpens while the phone (on the focus plane) stays sharp.
+//   4. build-time asserts (console.warn, never throws): the take layer is placed on f708 and covers the window and the exit; the VO
 //      words of L09 sit inside the window ("Pure" = the push landing, "Purity" = the landing, "Proven." before the hero); the screen
 //      timeline resolved the nav tap on the window's first frame, the push on "Pure" and the alive scroll inside the window; the
 //      measured orbit peak lies inside the orbit; the landing is f1079 — the slide constants (P0, the rail table) were tuned on the
@@ -47,7 +55,8 @@
 // never visible and "Purity, prov" on screen. The two-line stack keeps every other rule — 120 px, −0.02 em, white 90 %, 3 px blur, the
 // per-glyph landing on "Purity", the 73 f hold, the 8 f exit, title-safe, the period beat at ≈ f1120, ≥ 60 % visible — and rhymes
 // with the site's own two-line H1 on the screen beside it. Nothing is typed anywhere else; the take is untouched (no CA: this shot is
-// none of BRIEF §3.5's three moments).
+// none of BRIEF §3.5's three moments). The landing blur (8 px f1079, 3 px from f1101) extends BRIEF §4's "3 px blur behind the focus
+// plane" through the reveal only (the reveal's own state, like its opacity); every held frame f1101–f1152 is the 3 px rest.
 // Hand-offs (§0.9): f1044 from S10 — continuous, same take: the slabs are seated (lift 0, scale 1.0) and the nav tap rings on f1044 in
 // the layer; this shot draws nothing on its first 35 frames (the room type is invisible until f1079: glyph opacity 0 from time 0, the
 // block slides unseen). f1152 to S12 — continuous: the hero drift pose at f1152 (spin 27.5°, loc y 0.120, corners.json) is the exit's
@@ -57,7 +66,8 @@
 // the ring is in the bake) · PUSH2 f1050 → f1062, peak f1052 (swipe) · ORBIT f1050 → f1116, peak f1078 MEASURED (doppler_whoosh 1.0
 // align=peak; = the contract's ≈ f1078) · SIGN-OFF f1079 (tick_train 5200 Hz, 11 ticks over 18 f −28 + shimmer on the sheen): the
 // glyph onsets are f1079, f1080 … f1092 at 1 f spacing — put the 11 ticks on f1079–f1089 (one per onset) or every other onset, the
-// mixer's call · "Proven." f1101 (no cue: the orbit is decelerating into the hero) · music thins to pad + piano from f1080 · the 2D
+// mixer's call · "Proven." f1101: the room type's focus pull lands (the voice is the cue; if anything, a soft RACK tail like S01's
+// f114–f118 ending ON f1101, −30 or lower — optional, never over the word) · music thins to pad + piano from f1080 · the 2D
 // parallax's fastest frame is f1079 (5 px/f at the period, 6.3 px/f at the "P": it rides the orbit's whoosh, no sound of its own);
 // the period meets the rail on f1113 (silent) · the exit f1152–f1160 has no sound (DIM f1152 is S12's thoomp). No other sound frames.
 PP.shot("S11", function build(tl, root) {
@@ -108,7 +118,27 @@ PP.shot("S11", function build(tl, root) {
   if (tb) tb.appendChild(block);
   else console.warn("[S11] no stage-level #type-back: the type exit f1152–f1160 is cut by the section gate at f1152");
   const par = block.querySelector(".s11-par"), lines = block.querySelector(".s11-lines");
-  const glyphs = PP.glyphs(block.querySelector(".s11-l1")).concat(PP.glyphs(block.querySelector(".s11-l2"))); // 7 + 7, reading order
+  // KERNING: PP.glyphs makes every glyph an inline-block (its own shaping run), which drops DM Sans' pair kerning — at 120 px
+  // "y," opens by 8.0 px (the comma floats off "Purity"), "ov" / "ve" by 2.8 px, "ro" by 0.8 px. Measure the kerned run first
+  // (a Range per character on the unsplit text node), split, then give each glyph margin-right = kerned advance − its own
+  // advance: the animated glyphs sit exactly on the font's kerned positions (asserted to 0.1 px), as the site's own H1 does.
+  const scaleK = () => { const k = par.getBoundingClientRect().width / (par.offsetWidth || 1); return k > 0 && Math.abs(k - 1) > 0.01 ? k : 1; };
+  const kernSplit = (el) => {
+    const tn = el.firstChild, txt = tn && tn.nodeType === 3 ? tn.textContent : "";
+    const k = scaleK(); // any scale already on the block (none at build)
+    const rg = document.createRange(), xs = [];
+    for (let i = 0; i < txt.length; i++) { rg.setStart(tn, i); rg.setEnd(tn, i + 1); xs.push(rg.getBoundingClientRect().left / k); }
+    const gs = PP.glyphs(el);
+    if (gs.length !== xs.length || xs.length < 2) { console.warn(`[S11] kerning: ${el.className} not measurable (${xs.length} chars, ${gs.length} glyphs)`); return gs; }
+    const ws = gs.map((g) => g.getBoundingClientRect().width / k);
+    gs.forEach((g, i) => { if (i < gs.length - 1) g.style.marginRight = (xs[i + 1] - xs[i] - ws[i]).toFixed(3) + "px"; });
+    const x0 = gs[0].getBoundingClientRect().left / k;
+    const err = Math.max(...gs.map((g, i) => Math.abs(g.getBoundingClientRect().left / k - x0 - (xs[i] - xs[0]))));
+    if (err > 0.1) console.warn(`[S11] kerning: ${el.className} glyphs are ${err.toFixed(2)} px off the kerned run`);
+    return gs;
+  };
+  const l1 = kernSplit(block.querySelector(".s11-l1")), l2 = kernSplit(block.querySelector(".s11-l2"));
+  const glyphs = l1.concat(l2); // 7 + 7, reading order
   if (glyphs.length !== 14) console.warn(`[S11] expected 14 glyphs, got ${glyphs.length}`);
   const DUR = 22, STAG = 1; // frames: 22 f expo.out per glyph, 1 f stagger (SHOTS §S11)
   const landed = PP.wordIn(tl, glyphs, tLand, { rise: 8, stagger: STAG * F, dur: DUR * F, ease: "expo.out" }); // onsets f1079–f1092
@@ -118,31 +148,47 @@ PP.shot("S11", function build(tl, root) {
   // the exit: f1152–f1160, 8 f power3.in (opacity → 0, −12 px) on .s11-lines — never on .s11-par (the parallax owns its transform)
   PP.textOut(tl, lines, T1, 8 / 30, "power3.in");
 
-  // ---- 2. the parallax: ONE transform setter f1044 → f1160 (slide right under the rail + the 103 → 100 % settle) ------------
-  // Tuned on the rendered take for a landing on f1079 (the rail table in the header): the period's right ink edge is at X0 + 428
+  // ---- 2. the parallax: ONE setter f1044 → f1160 (slide right under the rail + the 103 → 100 % settle + the focus pull, 3.) --
+  // Tuned on the rendered take for a landing on f1079 (the rail table in the header): the period's right ink edge is at X0 + 421.6 (kerned)
   // on f1079 and meets the rail (x 852 at rows 616–634) on f1113. A moved landing or a re-rendered 1045–1152 needs a re-tune.
   const LAND0 = 1079; // the frame the constants were tuned for
   if (fLand !== LAND0) console.warn(`[S11] the landing moved to f${fLand} (tuned for f${LAND0}): the period/rail beat needs re-tuning (X0, V, A)`);
   const V = 0.8; // px per frame: the glide through the hold (24 px/s)
   const A = 40; // px on the orbit's remaining "cam" ease after the landing (the type arrives decelerating with the phone)
   const S = 0.03; // the settle: 103 % at the landing → 100 % at the hero, about the final period
-  const X0 = 358; // css left of .s11-par (box; ink from +8): the period's right ink edge = 358 + 428 = 786 on f1079, 34 px off the rail
+  const X0 = 364.4; // css left of .s11-par (box; ink from +8): the period's right ink edge = 364.4 + 421.6 = 786 on f1079, 34 px off the rail
+  const PER_INK = 25; // the period's right ink edge from its glyph box's left (measured at 1×: DM Sans 800 120 px)
+  const ORIGIN_X = 421.6; // css transform-origin x of .s11-par = the period's right ink edge in the box, kerned (was 428 unkerned)
+  const perX = (() => { const g = l2[l2.length - 1], k = scaleK();
+    return (g.getBoundingClientRect().left - par.getBoundingClientRect().left) / k + PER_INK; })();
+  if (Math.abs(perX - ORIGIN_X) > 0.5) console.warn(`[S11] the period's ink edge sits at ${perX.toFixed(1)} px in the block, css origin says ${ORIGIN_X}: re-sync css/S11.css left/transform-origin`);
   const CAM = gsap.parseEase("cam") || gsap.parseEase("power2.inOut"); // CustomEase "cam" = cubic-bezier(0.6, 0, 0.2, 1) (PP.registerEases)
   const camAt = (fr) => CAM(c01((fr - ORB0) / (ORB1 - ORB0)));
   const c0 = camAt(LAND0);
   const camR = (fr) => (fr <= LAND0 ? 0 : (camAt(fr) - c0) / (1 - c0)); // 0 at the landing → 1 at the hero
   if (Math.abs(par.offsetLeft - X0) > 0.5 && par.offsetParent) console.warn(`[S11] .s11-par sits at x ${par.offsetLeft}, css says ${X0}`);
-  let lastTf = null;
+  // ---- 3. THE FOCUS PULL (the shot's upgrade; same setter): the room type lands soft and racks into its 3 px depth blur ON the
+  // word "Proven." — f1079 → f1101 = VO.w('L09', 2) → VO.w('L09', 3), 22 f sine.inOut, blur 8 → 3 px. It is S01's rack
+  // (f96 → f117, 21 f sine in-out, landing on "print": the printed word comes into focus) answered at the sign-off: "pure" was
+  // easy to print, "Purity, proven." is brought into focus — measured — on "Proven.". Physically it is the pull-out itself: the
+  // camera backs off 36 cm, the depth of field deepens, the room behind the phone sharpens to its 3 px (the phone, on the focus
+  // plane, stays sharp). Before the landing the block is invisible; from f1101 it holds 3 px (BRIEF §4) to the exit.
+  const B0 = 8, B1 = 3; // px: CSS filter blur on .s11-par at the landing → at "Proven." and after (css/S11.css keeps the 3 px rest)
+  const fRack1 = fProven; // f1101
+  if (!(fRack1 - fLand >= 12 && fRack1 <= ORB1)) console.warn(`[S11] the focus pull f${fLand}–f${fRack1} is too short or ends after the hero f${ORB1}`);
+  const SINE = gsap.parseEase("sine.inOut");
+  const blurAt = (fr) => B0 + (B1 - B0) * SINE(c01((fr - fLand) / (fRack1 - fLand)));
+  let lastTf = null, lastBl = null;
   const parallax = (t) => {
     const fr = t * 30;
     const r = camR(fr);
     const dx = V * (fr - LAND0) + A * r;
     const s = 1 + S * (1 - r);
     const tf = `translate(${dx.toFixed(2)}px, 0px) scale(${s.toFixed(4)})`;
-    if (tf === lastTf) return;
-    lastTf = tf;
-    par.style.transform = tf;
+    if (tf !== lastTf) { lastTf = tf; par.style.transform = tf; }
+    const bl = `blur(${blurAt(fr).toFixed(2)}px)`;
+    if (bl !== lastBl) { lastBl = bl; par.style.filter = bl; }
   };
   PP.driveT(tl, parallax, T0, f(EXIT1)); // every frame of the window and the exit gets a new value (nothing holds)
-  void tProven; void F;
+  void F;
 });

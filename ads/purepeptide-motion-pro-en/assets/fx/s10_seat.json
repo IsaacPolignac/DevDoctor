@@ -1,0 +1,38 @@
+{
+ "total": {
+  "hidden": 1035,
+  "from": "final/1034.png",
+  "left": 1186,
+  "top": 498,
+  "width": 188,
+  "height": 124,
+  "dx": -3.0,
+  "dy": 0.75,
+  "fit_err": 0.03,
+  "shade_max": 0.338
+ },
+ "name": {
+  "hidden": 1040,
+  "from": "final/1039.png",
+  "left": 916,
+  "top": 274,
+  "width": 295,
+  "height": 124,
+  "dx": -2.75,
+  "dy": 1.25,
+  "fit_err": 0.03,
+  "shade_max": 0.335
+ },
+ "stepper": {
+  "hidden": 1045,
+  "from": "final/1044.png",
+  "left": 922,
+  "top": 438,
+  "width": 271,
+  "height": 139,
+  "dx": -2.75,
+  "dy": 1.0,
+  "fit_err": 0.02,
+  "shade_max": 0.34
+ }
+}

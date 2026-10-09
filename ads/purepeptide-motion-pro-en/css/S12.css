@@ -1,6 +1,15 @@
 /* S12 · "Lights out" — every selector prefixed by #S12 (inlined into index.html: url() paths root-relative).
-   The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the edge-on exit f1152–f1188
-   with the screen DIM, the glint f1172 and the lights going out, baked — and the held STOP frame (#hold-1188, stage-level z 31,
-   .stage-img) that js/shots/S12.js switches on at f1188. This section has no children — nothing to style. The section itself
-   never gets a z-index/transform/filter (BUILD.md); the void glow, grain (frozen f1188–f1206) and vignette are global. */
+   The picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the edge-on exit f1152–f1188 with the
+   screen DIM, the glint f1172 and the lights going out, baked — and the held STOP frame (#hold-1188, stage-level z 31, .stage-img)
+   that js/shots/S12.js switches on at f1188. The section itself never gets a z-index/transform/filter (BUILD.md); the void glow,
+   grain (frozen f1188–f1206) and vignette are global. */
 #S12 { pointer-events: none; }
+
+/* The rim light: the rail's line of light, drawn over the take's own (55–80 lv, 1 px, sparkly) rim specular. Its rest geometry IS
+   S13's .s13-line at f1206 (left 957, top 125, 2 × 829 px, #fff, 1 px radius), so the LOGO hand-off is the same line igniting
+   (opacity 0.8 → 1, glow 5 → 6 px → S13's bloom). The glow is 1 px tighter than S13's so the f1188 QC keeps a margin: with S13's
+   6 px the > 8-lv band measured 12 px (x 952–963, the limit); with 5 px it is ≈ 10 px (≤ 12 px at 960 ± 20).
+   left/top/height/transform/opacity are driven per frame by S12.js (f1176–f1188), then frozen through the STOP.
+   z 32: above #v-take (30) and #hold-1188 (31), below #leak (35), .z-front (40) and #fx (90, grain over it). */
+#S12 .s12-rim { position: absolute; left: 957px; top: 125px; width: 2px; height: 829px; z-index: 32; opacity: 0;
+  background: #fff; border-radius: 1px; box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.3); transform-origin: 50% 50%; }

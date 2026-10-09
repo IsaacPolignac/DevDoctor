@@ -151,6 +151,12 @@ def fastest(move: str) -> tuple[int, str]:
     return est, "BRIEF estimate"
 
 
+def ghost_exit() -> int:
+    """S02: the frame the 3D ghost leaves the glass (measured on s02.webm, js/shots/S02.js GHOST_EXIT); VO 'prove.' if absent."""
+    m = re.search(r"GHOST_EXIT\s*=\s*(\d+)", (ROOT / "js" / "shots" / "S02.js").read_text(encoding="utf-8"))
+    return int(m.group(1)) if m else int(round(SNAP(VOw("L02", "prove")) * FPS))
+
+
 def frost_density() -> tuple[np.ndarray, list, int, str]:
     p = ROOT / "assets" / "fx" / "frost" / "frost_density.json"
     if p.exists():
@@ -276,6 +282,7 @@ LP_RIDE = [(0.0, 18000.0), (34.0, 18000.0), (39.6, 900.0), (40.2, 18000.0), (45.
 DUCK_ZONES = [(0.0, 24.6, -6.0), (24.6, 36.0, -8.0), (36.0, 45.0, -11.0)]
 POCKET_DB, POCKET_HZ, POCKET_Q = -2.5, 2800.0, 0.9
 GUARD_DB, GUARD_MAX_DB = 9.0, -15.0
+GUARD_EXTRA: dict = {}                                       # (line, onset) -> extra dB the guard aims for (set by main's final-margin loop)
 VO_BUS_DB = 0.0
 
 
@@ -321,7 +328,7 @@ def guard_curve(vo: np.ndarray, music: np.ndarray) -> np.ndarray:
         pm = pm0 * 10 ** (guard / 10)
         need = guard.copy()
         for _lid, _w, t0, t1 in word_windows():
-            d = word_margin(pv, pm, act, t0, t1) - GUARD_DB
+            d = word_margin(pv, pm, act, t0, t1) - GUARD_DB - GUARD_EXTRA.get((_lid, t0), 0.0)
             if d < 0:
                 i, j = max(0, int(t0 * 1000) - 40), min(A.NC, int(t1 * 1000) + 40)
                 need[i:j] = np.minimum(need[i:j], np.maximum(GUARD_MAX_DB, guard[i:j].min() + d - 0.3))
@@ -329,6 +336,15 @@ def guard_curve(vo: np.ndarray, music: np.ndarray) -> np.ndarray:
             break
         guard = np.convolve(minimum_filter1d(need, 81, mode="nearest"), w / w.sum(), mode="same")
     return np.minimum(guard, 0.0)
+
+
+def final_margins(vo_s: np.ndarray, mu_s: np.ndarray) -> dict:
+    """VO-over-music margin per word on the MASTERED stems, measured exactly as print_report does. The master's
+    true-peak limiter (fast, keyed by the VO's peaks) modulates the music's low end into the K-weighted band and costs a
+    short word up to ~1.5 dB of the margin the pre-master guard built, so main() re-aims the guard on these numbers."""
+    pv, pm = (np.square(A.kweight(x)).sum(axis=0)[:A.NC * A.CTRL].reshape(A.NC, A.CTRL).mean(axis=1) for x in (vo_s, mu_s))
+    act = 10 * np.log10(np.maximum(np.convolve(pv, np.ones(10) / 10, mode="same"), 1e-20)) > A.lufs_integrated(vo_s) - 20.0
+    return {(lid, t0): word_margin(pv, pm, act, t0, t1) for lid, _w, t0, t1 in word_windows()}
 
 
 def build_music(src: np.ndarray, edit: list, fades: list, key: np.ndarray, rep: dict, vo: np.ndarray,
@@ -471,18 +487,24 @@ def _events(cues: dict) -> tuple[list[Ev], dict]:
         WARNINGS.append(f"HIT1: VO 'Pure.' at {t_hit1:.3f} vs cues HIT1 {C['HIT1']:.3f} (using the cue)")
     add(Ev(C["HIT1"], "HIT1 impact D1 (rim strip on)", A.impact, dict(seed=100, root="D1", dur=1.4), -10, big=-16, sub=True))
     add(Ev(C["HIT1"], "HIT1 glass tick D6", A.glass_tick, dict(note="D6", seed=101), -16, hall=-12))
-    add(Ev(F(54), "SWEEP1 light sweep through the drop (peak f54)", A.light_sweep, dict(dur=1.2, seed=102), -20, align="peak"))
+    # SWEEP1: the plate's MEASURED brightest frame is f51 (js/shots/S01.js "Sound" header: the strip's line crosses the drop
+    # f51-f52), not the planned bez midpoint f54; the grains sit inside the sweep f44-f60
+    add(Ev(F(51), "SWEEP1 light sweep through the drop (peak f51, measured)", A.light_sweep, dict(dur=1.2, seed=102), -20, align="peak"))
     r = A.rng(103)
-    add(Ev(F(40), "SWEEP1 grains A7", A.grains, dict(times=sorted(r.uniform(0.0, 0.9, 6)), notes=("A7",), seed=104), -26, hall=-12))
-    for k in range(4):
-        add(Ev(F(114) + 0.035 * k, f"RACK tick {k + 1}", A.tick, dict(f=4200, seed=110 + k), -22))
+    add(Ev(F(44), "SWEEP1 grains A7 (inside the sweep f44-f60)", A.grains, dict(times=sorted(r.uniform(0.0, 0.53, 6)), notes=("A7",), seed=104), -26, hall=-12))
+    # RACK f114-f118: 3 ticks 35 ms apart from f114, the 4th IS the PRINT tick on the word (f117, the rack's last key):
+    # one tick per instant (the BRIEF's separate PRINT tick sat 5 ms from RACK tick 4)
     t_print = WORD("S01", "L02", "print")
-    add(Ev(t_print, "PRINT tick 4200 (rack lands on the print)", A.tick, dict(f=4200, seed=120), -22))
+    for k in range(3):
+        add(Ev(F(114) + 0.035 * k, f"RACK tick {k + 1}", A.tick, dict(f=4200, seed=110 + k), -22))
+    add(Ev(t_print, "RACK tick 4 = PRINT (the rack lands on the print)", A.tick, dict(f=4200, seed=120), -22))
     # S02 ---------------------------------------------------------------------------------------------------
     add(Ev(F(126), "CUT1 glass tick D6", A.glass_tick, dict(note="D6", seed=200), -16, hall=-12))
     add(Ev(F(126), "CUT1 doppler whoosh 0.6 (peak on the cut)", A.doppler_whoosh, dict(dur=0.6, seed=201), -16, align="peak"))
     t_prove = WORD("S02", "L02", "prove")
-    add(Ev(t_prove, "PROVE tsk (the ghost leaves the glass)", A.tsk, dict(seed=210), -20))
+    f_exit = ghost_exit()
+    add(Ev(F(f_exit), f"PROVE tsk on the ghost's measured exit f{f_exit} (S02.js GHOST_EXIT; VO 'prove.' f{t_prove * FPS:.0f})", A.tsk,
+           dict(seed=210), -20))
     add(Ev(t_prove, "PROVE thoomp D2", A.thoomp, dict(note="D2", dur=0.05, seed=211), -16, sub=True))
     add(Ev(F(216), "SWEEP2 light sweep 0.8 ends on the cut", A.light_sweep, dict(dur=0.8, seed=220), -18, align="end"))
     add(Ev(F(216), "SWEEP2 glass tick A5", A.glass_tick, dict(note="A5", seed=221), -18, hall=-12))
@@ -496,7 +518,7 @@ def _events(cues: dict) -> tuple[list[Ev], dict]:
     # S04 ---------------------------------------------------------------------------------------------------
     for k, i in enumerate((0, 2)):
         t = WORD("S04", "L04", i)
-        add(Ev(t + F(3), f"EVERY {k + 1} light sweep 0.3 (peak = word + 3 f)", A.light_sweep, dict(dur=0.3, seed=400 + k), -22, align="peak"))
+        add(Ev(t, f"EVERY {k + 1} light sweep 0.3 (peak = the pass centre = the word, S04.js)", A.light_sweep, dict(dur=0.3, seed=400 + k), -22, align="peak"))
         add(Ev(t, f"EVERY {k + 1} tick 4200", A.tick, dict(f=4200, seed=410 + k), -24))
     t_whip = WORD("S05", "L04", "one")                                        # the cut frame f396 opens S05
     add(Ev(t_whip, "WHIP tsk", A.tsk, dict(seed=420), -17))
@@ -504,7 +526,7 @@ def _events(cues: dict) -> tuple[list[Ev], dict]:
     # S05 ---------------------------------------------------------------------------------------------------
     t_tested = WORD("S05", "L04", "Tested")
     add(Ev(t_tested, "TESTED stat_hit A5 light", A.stat_hit, dict(note="A5", root="D2", light=True, seed=500), -14, sub=True))
-    for k in range(11):                                                       # 21 glyphs, 1 f stagger -> every 2nd glyph (>= 35 ms)
+    for k in range(10):                                                       # onsets f410-f429 (S05.js) -> every 2nd: f410 ... f428
         add(Ev(t_tested + F(2 * k), f"TESTED glyph tick {k + 1}", A.tick, dict(f=4200, seed=510 + k), -24, pan=-0.3 + 0.06 * k))
     t_jano = WORD("S05", "L04", "Janoshik")
     t_acc = grid_near(t_jano)
@@ -593,7 +615,8 @@ def _events(cues: dict) -> tuple[list[Ev], dict]:
     add(Ev(F(990), "SHEEN grains A7", A.grains, dict(times=sorted(r.uniform(0.0, 0.55, 5)), notes=("A7",), seed=1042), -26, hall=-12))
     for k, (f_, note) in enumerate(((1020, "E7"), (1025, "D7"), (1030, "A6"))):
         add(Ev(F(f_), f"SEAT {k + 1} pop {note}", A.pop, dict(note=note, seed=1050 + k), -20))
-    add(Ev(F(1034), "SEAT glass settle x2 (NEW)", A.glass_settle, dict(n=2, seed=1060), -26))
+    for k, f_ in enumerate((1034, 1039, 1045)):                              # contact frames (S10.js); the stepper's on f1045, after the NAV tap
+        add(Ev(F(f_), f"SEAT {k + 1} glass settle x2 on contact f{f_}", A.glass_settle, dict(n=2, seed=1060 + k), -26))
     # S11 ---------------------------------------------------------------------------------------------------
     add(Ev(F(1044), "NAV TAP tap 2350", A.tap, dict(f=2350, body_hz=380, seed=1100), -10))
     add(Ev(F(1044), "NAV TAP haptic", A.haptic, {}, -16))
@@ -603,7 +626,7 @@ def _events(cues: dict) -> tuple[list[Ev], dict]:
     add(Ev(F(f_orb), f"ORBIT doppler whoosh 1.0 (peak f{f_orb}, {src_o})", A.doppler_whoosh, dict(dur=1.0, seed=1120), -14, hall=-10,
            align="peak", move="ORBIT"))
     t_sign = WORD("S11", "L09", "Purity")
-    add(Ev(t_sign, "SIGN-OFF tick train x11 over 18 f", A.tick_train, dict(times=[F(18) * k / 11 for k in range(11)], f=5200, seed=1130), -28))
+    add(Ev(t_sign, "SIGN-OFF tick train x11, one per glyph onset f1079-f1089", A.tick_train, dict(times=[F(k) for k in range(11)], f=5200, seed=1130), -28))
     add(Ev(t_sign + F(18), "SIGN-OFF shimmer on the sheen", A.shimmer, dict(seed=1131), -24))
     # S12 ---------------------------------------------------------------------------------------------------
     add(Ev(F(1152), "DIM thoomp D2 (screen emission 1 -> 0)", A.thoomp, dict(note="D2", seed=1200), -16, sub=True))
@@ -611,15 +634,17 @@ def _events(cues: dict) -> tuple[list[Ev], dict]:
     info["EXIT"] = (f_exit, src_e)
     add(Ev(F(f_exit), f"EXIT doppler whoosh 1.0 (peak f{f_exit}, {src_e})", A.doppler_whoosh, dict(dur=1.0, seed=1210), -16, hall=-10,
            align="peak", move="EXIT"))
+    add(Ev(F(1172), "EXIT glint tsk (the rail's flash, CA peak f1172, S12.js)", A.tsk, dict(seed=1211), -19))
     # S13 ---------------------------------------------------------------------------------------------------
-    add(Ev(C["LOGO"], "LOGO sonic logo", A.sonic_logo, dict(seed=1300), -4, hall=-12, sub=True))
+    add(Ev(C["LOGO"], "LOGO sonic logo (A5 on the ignite f1206, D6 on the point f1212)", A.sonic_logo, dict(seed=1300, gap=F(6)), -4, hall=-12, sub=True))
     add(Ev(C["LOGO"], "LOGO haptic 0.12", A.haptic, dict(dur=0.12), -20))
     r = A.rng(1310)
-    seats = [F(k + 10) for k in range(14)]                      # provisional: dot k seats at LOGO + 10 + k f (S13 builder may retime)
-    add(Ev(C["LOGO"] + seats[0], "LOGO grains D7/A7/E7, one per dot seat (provisional seat frames)", A.grains,
+    seats = [F(k + 9) for k in range(14)]                       # S13.js: dot k seats on f1215 + k (f1215 ... f1228)
+    add(Ev(C["LOGO"] + seats[0], "LOGO grains D7/A7/E7, one per dot seat f1215-f1228", A.grains,
            dict(times=[x - seats[0] for x in seats], pans=list(r.uniform(-0.5, 0.5, 14)), notes=("D7", "A7", "E7"), seed=1311), -20, hall=-12))
     t_url = WORD("S13", "L10", 0)
-    add(Ev(t_url, "URL 16 ticks 5200 over 18 f", A.tick_train, dict(times=[F(18) * k / 16 for k in range(16)], f=5200, seed=1320), -28))
+    add(Ev(t_url, "URL 16 ticks 5200 on the typed frames f1215 + round(18 k / 16)", A.tick_train,
+           dict(times=[F(round(18 * k / 16)) for k in range(16)], f=5200, seed=1320), -28))
     t_care = WORD("S13", "L10", ".care")
     add(Ev(t_care, "URL underline light sweep 0.5 ends on '.care'", A.light_sweep, dict(dur=0.5, seed=1321), -26, align="end"))
     add(Ev(C["LOGO"] + 0.05, "TAIL D5/A5 ring-out 2.9 s (gone by 44.5)", A.tail, dict(dur=2.9, seed=1330), -14, hall=-14))
@@ -718,12 +743,23 @@ def main() -> None:
     cues = _load_cues()                                      # what the picture reads (frozen or just written)
     events, ev_info = _events(cues)
     vo = build_vo(rep)
-    music = build_music(src, edit, fades, A.vo_key(vo), rep, vo, track_a)
     sfx = build_sfx(events, A.vo_key(vo, bridge=0.0), rep)
     gate = silence_gate(cues)
     vo_st = np.vstack([vo, vo]) * gate
-    music, sfx = music * gate, sfx * gate
-    out, gain, glue_gr, lim_gr = A.master(vo_st + music + sfx)
+    sfx = sfx * gate
+    key = A.vo_key(vo)
+    for rnd in range(5):                                     # guard re-aimed on the mastered stems (final_margins)
+        music = build_music(src, edit, fades, key, rep, vo, track_a) * gate
+        out, gain, glue_gr, lim_gr = A.master(vo_st + music + sfx)
+        post = db(A.ctrl_to_audio(glue_gr)) * db(gain) * 10 ** (-lim_gr / 20) * gate
+        fm = final_margins(A.hp(vo_st, 24.0) * post, A.hp(music, 24.0) * post)
+        short = {k: m for k, m in fm.items() if m < GUARD_DB + 0.05}
+        if not short:
+            break
+        for k, m in short.items():
+            GUARD_EXTRA[k] = GUARD_EXTRA.get(k, 0.0) + (GUARD_DB + 0.25 - m)
+        print(f"guard round {rnd + 1}: {len(short)} word(s) under {GUARD_DB} dB after the master "
+              f"(min {min(short.values()):.2f}) -> re-aimed")
     out = out * gate
     assert out.shape == (2, N) and np.all(np.isfinite(out)) and np.abs(out).max() < 1.0
     A.write_wav24(OUT_PATH, out)

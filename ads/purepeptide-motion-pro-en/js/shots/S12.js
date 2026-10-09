@@ -24,7 +24,7 @@
 //           alpha covers x 892–959 (68 px: the rail, the buttons' bumps), y 124–955.
 //   hold    hold_1188.png vs the webm decoded: media f480 (= f1188) 0.09 lv RGB mean / 0.004 alpha; media f479 (= f1187, the last
 //           frame HyperFrames paints before the clip ends at 39.6) 0.12 lv mean, p99 1 lv: the freeze is invisible as a cut.
-// What THIS file adds (SHOTS §S12 "Text: none; Site: dark" — nothing is typed or drawn; the section stays empty on the stage):
+// What THIS file adds (SHOTS §S12 "Text: none; Site: dark" — nothing is typed; one thing is drawn, the rim light, 4. below):
 //   1. the STOP: #hold-1188 → opacity 1 on f1188 = PP.STOP[0] = CUES.STOP (39.6). main.js hides #v-take on the same frame (its clip
 //      ends at 23.6 + 16.0 = 39.6), the hold is z 31 above it either way. Nothing moves f1188–f1206: PP.grain freezes its seed over
 //      PP.STOP (global), the vignette holds 22 % until main.js takes it to 0 on f1206, the glow is already 0 (3.). S13 fades the hold
@@ -39,10 +39,24 @@
 //      else 0" (a hard set on f1188): with that, the centre of the void would sit at (10, 16, 32) on f1187 and jump to black on the
 //      freeze — a 32-lv pop on the one frame that must not move. With the ramp the line stands on true black from f1186 and the
 //      global set on f1188 is a no-op. (BUILD.md: "call these only to deviate inside your window" — this is that.)
-//   4. build-time asserts (console.warn, never throws): PP.STOP / CUES.STOP / CUES.LOGO agree with the window (f1188, f1206); the
+//   4. THE RIM LIGHT (the upgrade, within "f1188 is a single vertical line of light … the bookend of S01's point of light"): the
+//      take's own rail line is a 1 px Cycles specular that DIMS as the rail reaches edge-on — column means 110–125 lv on f1176–f1181,
+//      90 → 66 on f1182–f1184, 55–80 lv on f1186–f1188, broken into sparkles — so the STOP held a faint grey thread and S13's 2 px
+//      white line then REPLACED it on f1206 (a substitution, not a continuation). .s12-rim (2 px white + a 5 px glow, z 32)
+//      rides the measured rail highlight f1176–f1185 — per-frame fit of the rim specular on final/####.png (rows 160–900, robust
+//      line fit): centre x 947.87 → 958.00 decelerating (2.1 → 0.4 px/f), lean 0.21° → 0° (the roll settling), extent = the
+//      silhouette's y range − 1 px — and gathers the light the room loses: opacity 0 on f1176 (the CA has just cleared) → 0.8 ON
+//      the STOP frame f1188 (sine.inOut over 12 f, settling like the turn's own cam ease; the room is fully out on f1186), then
+//      holds, frozen, through the STOP (f1188 = … = f1205, the first frozen frame is the first full one) in exactly S13's
+//      geometry (left 957, top 125, 2 × 829 px; glow 5 px vs S13's 6 px). On f1206 S13's own line takes over in place at opacity 1
+//      and blooms: the line IGNITES on the LOGO (0.8 → 1, glow 5 → 6 px, then S13's flare) instead of popping in. The f1188 QC
+//      holds with a margin: the only > 8-lv pixels of the whole frame are the rim's band, ≈ 10 px wide centred on 958 (with
+//      S13's 6 px glow it measured 12 px, the limit).
+//   5. build-time asserts (console.warn, never throws): PP.STOP / CUES.STOP / CUES.LOGO agree with the window (f1188, f1206); the
 //      VO gap holds the STOP (L09 ends before the window, L10 starts after it: nothing is spoken over the freeze); the take is placed
 //      on f708 (media 0) and its clip ends ON f1188 (one frame of gap or overlap either side would show as black or a doubled frame);
-//      #hold-1188 exists and is the f1188 PNG; the #ca filter exists; the measured exit peak and glint lie inside the exit.
+//      #hold-1188 exists and is the f1188 PNG; the #ca filter exists; the measured exit peak and glint lie inside the exit; the
+//      rim light's rest geometry equals S13's .s13-line (the LOGO hand-off).
 // Hand-offs (§0.9): f1152 from S11 — continuous, same take: the exit starts from the hero drift pose (spin 27.5°, loc y 0.120;
 // corners.json f1151 / f1152 agree to 0.05 px); the room type exits f1152–f1160 on #type-back (S11's, untouched here: at f1158 it is at
 // 58 %, gone on f1160, before the key starts going out). f1188 → STOP: the freeze (1.). f1206 → S13 LOGO: the held frame fades over
@@ -59,7 +73,6 @@ PP.shot("S12", function build(tl, root) {
   const take = document.getElementById("v-take");
   const hold = document.getElementById("hold-1188");
   const warn = (m) => console.warn("[S12] " + m);
-  void root; // the section is empty on the stage (nothing typed, nothing drawn)
 
   // ---- the measured take of this window (blender/take.py + renders/3d/take/{moves,pose_speed,corners}.json + final/####.png) ----
   const EXIT = [F0, 1188]; // move(HERO drifted → EDGE), ease cam
@@ -105,10 +118,48 @@ PP.shot("S12", function build(tl, root) {
   if (glow) tl.fromTo(glow, { opacity: 1 }, { opacity: 0, duration: (LIGHTS_OUT[1] - LIGHTS_OUT[0]) * F, ease: "cam", immediateRender: false }, f(LIGHTS_OUT[0]));
   else warn("no #world .glow: the void keeps whatever main.js set (a hard switch on f1188)");
 
+  // ---- 4. the rim light: the rail's line of light, gathered as the room goes out, frozen through the STOP ------------------------
+  // RIM_TRACK rows: [frame, centre x at y 540 (px), lean dx/dy, top y, bottom y], measured on renders/3d/take/final/####.png
+  // (per-row luma centroid of the rim specular inside x 925–966, rows 160–900, robust linear fit; extent = alpha y range − 1 px).
+  // From f1185 the rail is still (958.07 / 958.03 / 957.92 / 957.90 measured): the rest state is S13's .s13-line, centre 958.0.
+  const RIM_TRACK = [
+    [1176, 947.87, 3.63e-3, 120, 945], [1177, 949.99, 2.24e-3, 121, 947], [1178, 951.75, 1.60e-3, 122, 948],
+    [1179, 953.25, 0.81e-3, 123, 949], [1180, 954.53, 0.36e-3, 123, 951], [1181, 955.56, 0.33e-3, 124, 951],
+    [1182, 956.35, 0, 125, 952], [1183, 957.02, 0, 125, 952], [1184, 957.64, 0, 125, 953],
+    [1185, 958.0, 0, 125, 954], [1186, 958.0, 0, 125, 954],
+  ];
+  const RIM = { f0: 1176, f1: PP.STOP[0], peak: 0.8, rest: { left: 957, top: 125, width: 2, height: 829 } };
+  const rim = root.querySelector(".s12-rim");
+  if (!rim) warn("no .s12-rim in html/S12.html: the STOP holds the take's own faint rail line and S13's line pops in on f1206");
+  else {
+    const q2 = (x) => (Math.round(x * 100) / 100).toString();
+    const setRim = (v) => {
+      const i = Math.max(0, Math.min(RIM_TRACK.length - 2, Math.floor(v - RIM_TRACK[0][0])));
+      const a = RIM_TRACK[i], b = RIM_TRACK[i + 1], u = PP.clamp01(v - a[0]);
+      const xc = PP.lerp(a[1], b[1], u), lean = PP.lerp(a[2], b[2], u), top = PP.lerp(a[3], b[3], u), bot = PP.lerp(a[4], b[4], u);
+      const x = xc + lean * ((top + bot) / 2 - 540); // the centre of the 2 px line at the element's own mid-height
+      rim.style.left = q2(x - RIM.rest.width / 2) + "px";
+      rim.style.top = q2(top) + "px";
+      rim.style.height = q2(bot - top) + "px";
+      rim.style.transform = lean ? `rotate(${(-Math.atan(lean) * 180 / Math.PI).toFixed(4)}deg)` : "none"; // bottom leans right
+      const k = PP.clamp01((v - RIM.f0) / (RIM.f1 - RIM.f0));
+      rim.style.opacity = q2(RIM.peak * 0.5 * (1 - Math.cos(Math.PI * k))); // sine.inOut
+    };
+    PP.drive(tl, setRim, RIM.f0, RIM.f1, f(RIM.f0), (RIM.f1 - RIM.f0) * F, "none"); // v = the frame; the rest state from f1188 (the STOP) on
+    // hand-off assert: the rest geometry must be S13's line (its CSS; S13.js keeps it there on f1206 with its glow at g = 0)
+    const s13 = document.querySelector("#S13 .s13-line");
+    if (s13) {
+      const cs = getComputedStyle(s13), r = RIM.rest;
+      const got = [parseFloat(cs.left), parseFloat(cs.top), parseFloat(cs.width), parseFloat(cs.height)];
+      if (got.join() !== [r.left, r.top, r.width, r.height].join()) warn(`S13's .s13-line is at ${got} (left, top, w, h), the rim light rests at ${[r.left, r.top, r.width, r.height]}: the LOGO hand-off will jump`);
+      if (+cs.borderTopLeftRadius.replace("px", "") !== 1 || !/255, 255, 255/.test(cs.backgroundColor)) warn(`S13's line is no longer a 2 px white bar (${cs.backgroundColor}, radius ${cs.borderTopLeftRadius}): re-match .s12-rim`);
+    }
+  }
+
   // ---- the measured facts, for the mixer and the neighbours (frames) -------------------------------------------------------------
   PP.S12 = {
     exit: EXIT, fastest: FASTEST, glint: GLINT, dim: DIM, lightsOut: LIGHTS_OUT, ca: CA, caPeak: GLINT, stop: STOP, logo: F1,
-    hold: "hold-1188", line: LINE, glowOut: LIGHTS_OUT,
+    hold: "hold-1188", line: LINE, glowOut: LIGHTS_OUT, rim: { from: RIM.f0, full: RIM.f1, opacity: RIM.peak, rest: RIM.rest },
     sound: { dim: F0, exitPeak: FASTEST, glint: GLINT, musicSilence: STOP[0], stop: STOP, logo: F1 },
   };
 });

@@ -527,15 +527,15 @@ def glass_tick(note: str = "D7", seed: int = 0, decay: float = 0.12) -> np.ndarr
     return bell(hz(note), GLASS_TINK, dur=0.5, decay=decay, seed=seed, strike=0.3)
 
 
-def sonic_logo(seed: int = 90) -> np.ndarray:
-    """Retuned sonic logo (~1.4 s): seal click -> A5 tink, D6 tink +90 ms (the rising fourth) -> 73.4 Hz (D2) swell."""
+def sonic_logo(seed: int = 90, gap: float = 0.09) -> np.ndarray:
+    """Retuned sonic logo (~1.4 s): seal click -> A5 tink, D6 tink +`gap` s (the rising fourth; 90 ms default) -> 73.4 Hz (D2) swell."""
     t = tvec(1.45)
     r = rng(seed)
     click = lp(hp(r.standard_normal(t.size), 2500), 9000) * np.exp(-t / 0.0015)
     tink = bell(hz("A5"), GLASS_TINK, dur=1.45, decay=0.55, seed=seed, strike=0.15)[0]
     tink2 = bell(hz("D6"), GLASS_TINK, dur=1.45, decay=0.5, seed=seed + 1, strike=0.1)[0]
     swell = np.sin(TWO_PI * hz("D2") * t) * np.exp(-t / 0.45) * (1 - np.exp(-t / 0.05))
-    x = 0.5 * norm_peak(click) + 0.65 * tink + 0.5 * np.pad(tink2, (S(0.09), 0))[:t.size] + 0.35 * swell
+    x = 0.5 * norm_peak(click) + 0.65 * tink + 0.5 * np.pad(tink2, (S(gap), 0))[:t.size] + 0.35 * swell
     return norm_peak(fade_out(x, 0.25))
 
 

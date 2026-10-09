@@ -6,14 +6,16 @@
    The section itself never gets a z-index/transform/filter (BUILD.md). */
 #S11 .s11-room, #type-back .s11-room { position: absolute; inset: 0; pointer-events: none; }
 /* .s11-par: the parallax wrapper (left/top = the block's box at the landing f1079 BEFORE the slide; ONE transform setter in S11.js
-   writes translate(dx) scale(s) about the final period: transform-origin = the "." of "proven." — ink right edge x 428 (8 px left
-   bearing + 420 px of ink, measured on a 1× screenshot of DM Sans 800 120 px −0.02 em) on line 2's baseline y 209 (112 + 97).
-   3 px blur: the room type sits 15 % behind the focus plane (SHOTS §S11, BRIEF §4 "type behind the focus plane gets a 3 px blur"). */
-#S11 .s11-par, #type-back .s11-par { position: absolute; left: 358px; top: 425px; transform-origin: 428px 209px; filter: blur(3px); white-space: nowrap; }
+   writes translate(dx) scale(s) about the final period: transform-origin = the "." of "proven." — ink right edge x 421.6 KERNED
+   (S11.js restores DM Sans' pair kerning on the split glyphs: "proven." is 6.4 px tighter than its unkerned 428, so left moved
+   358 → 364.4 to keep the period on x 786 at the landing) on line 2's baseline y 209 (112 + 97).
+   3 px blur: the room type sits 15 % behind the focus plane (SHOTS §S11, BRIEF §4 "type behind the focus plane gets a 3 px blur") —
+   the resting state; the same setter racks it 8 → 3 px f1079 → f1101 (the focus pull lands on VO "Proven.") and holds 3 px. */
+#S11 .s11-par, #type-back .s11-par { position: absolute; left: 364.4px; top: 425px; transform-origin: 421.6px 209px; filter: blur(3px); white-space: nowrap; }
 /* .s11-lines: DM Sans 800 120 px white 90 % −0.02 em (.t-room) on a 112 px pitch (line-height 112 px → the baseline sits 97 px under
    each line box's top: ascent 101 at line-height 120, minus the 4 px half-leading). Line 1 "Purity," top 425 → baseline 522, cap top
-   438; line 2 "proven." top 537 → baseline 634, x-height top 573, descender 659. Ink: "Purity," x +8 … +367, "proven." +8 … +428,
-   the period 20 × 18 px at x +408 … +428 on the baseline. The exit (opacity → 0, y −12) is tweened on THIS element, never on .s11-par
+   438; line 2 "proven." top 537 → baseline 634, x-height top 573, descender 659. Ink (kerned): "Purity," x +8 … +359, "proven."
+   +8 … +421.6, the period 20 × 18 px at x +401.6 … +421.6 on the baseline. The exit (opacity → 0, y −12) is tweened on THIS element, never on .s11-par
    (whose transform the parallax setter owns). */
 #S11 .s11-lines, #type-back .s11-lines { line-height: 112px; }
 #S11 .s11-ln, #type-back .s11-ln { display: block; white-space: nowrap; }

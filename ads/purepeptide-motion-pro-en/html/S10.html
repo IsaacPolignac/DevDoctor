@@ -23,19 +23,30 @@
                     travels left → right across the glass at 50 px/f with a sine intensity envelope peaking on f999 (gain 0.45: a white
                     page stays white, text / ink border / rails / slab coats lift — how a strip reflects in glass over a white page).
                     A DIRECT child of the section with its own z-index 40 (not .z-front: a stacking context would isolate the blend).
-       .s10-seat    the SEAT-BACK patches (SHOTS §S10 QC "the seat-back ends with lift 0.0 / scale 1.0 (the page shows no ghost offset)").
-                    The take hides each slab one frame after lift 0 while its 1 mm body still stands on the glass with a 34 % contact
-                    shadow (final/beauty luma ratio 0.66): total f1034 → f1035, name f1039 → f1040, stepper f1044 → f1045 — three
-                    one-frame pops, the last on S11's first frame. Stand-in: a feathered crop of each slab's LAST seated frame
-                    (assets/fx/s10_seat_{total,name,stepper}.png from assets/fx/make_s10_seat.py: the shipped render's own pixels,
-                    slab + contact shadow + 18 px, alpha feathered 14 px) dissolves over the next 4 f (0.78 / 0.55 / 0.32 / 0.12, 0):
-                    the plate and its shadow sink into the page. total and name live here (.z-front, z 40, normal blend); the
-                    stepper's patch (.s10-seat-out) is MOVED into the stage-level #type-front (z 40) at build because its 4 f are
-                    f1045–f1048, inside S11's window (BUILD.md: a hand-off that outlives the window goes on a stage-level element).
+       .s10-rim     the SHEEN's exit, the deliberate upgrade: where the band's 15° lean meets the right rail's 2.5°, the rail's rounded outer
+                    edge catches the strip as a short LINE OF LIGHT that runs DOWN the rail, top → bottom, f1002–f1007 (the band's own
+                    position and lean decide where; the film's motif — S01's point, S12's last vertical line — glimpsed once mid-film).
+                    The line's shape is assets/fx/s10_rim.png (make_s10_rim.py: the rail crest 2 px inside the phone's silhouette on
+                    final/1005, cut where the lifted total stands in front of the rail); js/shots/S10.js masks it to the band per frame.
+                    A DIRECT child of the section, z 40, mix-blend-mode: screen (same reason as the sheen).
+       .s10-seat    the SEAT-BACK stand-ins (SHOTS §S10 QC "the seat-back ends with lift 0.0 / scale 1.0 (the page shows no ghost offset)").
+                    The take hides each slab one frame after lift 0 while its 1 mm body still stands on the glass (face 1 mm proud =
+                    a (−3, +1) px parallax against the page's original) with a 34 % contact shadow: total f1034 → f1035, name
+                    f1039 → f1040, stepper f1044 → f1045 — three one-frame pops, the last on S11's first frame. Stand-in, per slab, two
+                    layers cut from the shipped render by assets/fx/make_s10_seat.py (nothing new printed, nothing lifted that was
+                    not lifted): the FACE (final/h−1 inside the slab's own ID matte) slides by the measured parallax INTO REGISTER with
+                    the page's original while it fades (it sinks the last millimetre: no doubled glyphs), and the SHADE (a black layer
+                    whose alpha is post_layers.py's own contact-shadow ratio) lifts off the page — over the 4 f after the pop.
+                    total and name live here (.z-front, z 40); the stepper's pair (.s10-seat-out) is MOVED into the stage-level
+                    #type-front (z 40) at build because its 4 f are f1045–f1048, inside S11's window (BUILD.md: a hand-off that
+                    outlives the window goes on a stage-level element).
      Nothing else: no 2D move on the phone, the section is otherwise empty. -->
 <div class="s10-sheen"><div class="s10-sheen-band"></div></div>
+<div class="s10-rim"><img class="s10-rim-img" src="assets/fx/s10_rim.png" alt="" /></div>
 <div class="z-front s10-seat">
-  <img class="s10-seat-img s10-seat-total" src="assets/fx/s10_seat_total.png" alt="" />
-  <img class="s10-seat-img s10-seat-name" src="assets/fx/s10_seat_name.png" alt="" />
+  <div class="s10-seat-slab s10-seat-total"><img class="s10-seat-shade" src="assets/fx/s10_seat_total_shade.png" alt="" /><img class="s10-seat-face" src="assets/fx/s10_seat_total_face.png" alt="" /></div>
+  <div class="s10-seat-slab s10-seat-name"><img class="s10-seat-shade" src="assets/fx/s10_seat_name_shade.png" alt="" /><img class="s10-seat-face" src="assets/fx/s10_seat_name_face.png" alt="" /></div>
 </div>
-<div class="s10-seat-out"><img class="s10-seat-img s10-seat-stepper" src="assets/fx/s10_seat_stepper.png" alt="" /></div>
+<div class="s10-seat-out">
+  <div class="s10-seat-slab s10-seat-stepper"><img class="s10-seat-shade" src="assets/fx/s10_seat_stepper_shade.png" alt="" /><img class="s10-seat-face" src="assets/fx/s10_seat_stepper_face.png" alt="" /></div>
+</div>

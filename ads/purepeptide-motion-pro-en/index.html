@@ -342,10 +342,12 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
     <style data-src="css/S09.css">
 /* S09 · "The cart does the math" — every selector prefixed by #S09 (inlined into index.html: url() paths root-relative).
    The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the dive f822–f868 and the
-   close pose f868–f936 with the cart math baked on the 3D screen. This section has no children — nothing to style. The CA pass
-   (f838–f844) is the SVG filter #ca applied to #v-take by PP.ca from js/shots/S09.js (never a clone of the stage), the 2D fallback
-   camera moves #phone2d (css/phone.css). The section itself never gets a z-index/transform/filter (BUILD.md). */
+   close pose f868–f936 with the cart math baked on the 3D screen. The section paints nothing: it only carries the lens filter
+   (#s09-lens, applied to #v-take f838–f844 by js/shots/S09.js — never a clone of the stage) and the hidden preload of its map.
+   The section itself never gets a z-index/transform/filter (BUILD.md). */
 #S09 { pointer-events: none; }
+#S09 .s09-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+#S09 .s09-map { display: none; }
     </style>
     <style data-src="css/S10.css">
 /* S10 · "The math, in depth" — every selector prefixed by #S10 (inlined into index.html: url() paths root-relative).
@@ -368,15 +370,25 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 #S10 .s10-sheen-band { position: absolute; left: 0; top: -660px; width: 320px; height: 2400px; transform-origin: 50% 50%;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.35) 36%, rgba(255, 255, 255, 0.65) 45%,
     rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.65) 55%, rgba(255, 255, 255, 0.35) 64%, rgba(255, 255, 255, 0) 100%); }
-/* the seat-back patches: the shipped render's own pixels (assets/fx/make_s10_seat.py), each placed at its crop's stage origin; opacity
-   0 by default, the setter writes the 4 f dissolve. .s10-seat (total + name) sits in the section at z 40 (.z-front, normal blend);
-   .s10-seat-out (the stepper) is moved into the stage-level #type-front by js/shots/S10.js, so its selectors carry both roots. */
+/* the rim line (the sheen's exit on the right rail): a full-stage box (so the setter's 105° mask gradient is in stage px) at z 40,
+   screen blend, holding the white rail-crest shape (assets/fx/s10_rim.png, its crop origin below). opacity (the band's envelope) and
+   mask-image (a 105° Gaussian strip on the band's centreline, σ 22 px) are written per frame by js/shots/S10.js. */
+#S10 .s10-rim { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 40; overflow: hidden; pointer-events: none;
+  mix-blend-mode: screen; opacity: 0; }
+#S10 .s10-rim-img { position: absolute; left: 1350px; top: 0; width: 73px; height: 1080px; display: block; pointer-events: none; }
+/* the seat-back stand-ins (assets/fx/make_s10_seat.py → s10_seat.json): one box per slab at its crop's stage origin, holding the SHADE
+   (black, alpha = the contact shadow's own darkening ratio: a multiply in normal blend) under the FACE (the slab's last seated pixels).
+   Both start at opacity 0; js/shots/S10.js writes the 4 f opacity tables and slides the face by the measured parallax into register
+   with the page's original. .s10-seat (total + name) sits in the section at z 40 (.z-front, normal blend); .s10-seat-out (the stepper)
+   is moved into the stage-level #type-front by js/shots/S10.js, so its selectors carry both roots. */
 #S10 .s10-seat { pointer-events: none; }
 #S10 .s10-seat-out, #type-front .s10-seat-out { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
-#S10 .s10-seat-img, #type-front .s10-seat-img { position: absolute; display: block; opacity: 0; pointer-events: none; }
-#S10 .s10-seat-total { left: 1208px; top: 520px; width: 166px; height: 106px; }
-#S10 .s10-seat-name { left: 938px; top: 296px; width: 274px; height: 105px; }
-#S10 .s10-seat-stepper, #type-front .s10-seat-stepper { left: 944px; top: 460px; width: 249px; height: 122px; }
+#S10 .s10-seat-slab, #type-front .s10-seat-slab { position: absolute; pointer-events: none; }
+#S10 .s10-seat-shade, #S10 .s10-seat-face, #type-front .s10-seat-shade, #type-front .s10-seat-face { position: absolute; left: 0; top: 0;
+  width: 100%; height: 100%; display: block; opacity: 0; pointer-events: none; }
+#S10 .s10-seat-total { left: 1186px; top: 498px; width: 188px; height: 124px; }
+#S10 .s10-seat-name { left: 916px; top: 274px; width: 295px; height: 124px; }
+#S10 .s10-seat-stepper, #type-front .s10-seat-stepper { left: 922px; top: 438px; width: 271px; height: 139px; }
     </style>
     <style data-src="css/S11.css">
 /* S11 · "Purity, proven." — every selector prefixed by #S11 (inlined into index.html: url() paths root-relative).
@@ -387,25 +399,36 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
    The section itself never gets a z-index/transform/filter (BUILD.md). */
 #S11 .s11-room, #type-back .s11-room { position: absolute; inset: 0; pointer-events: none; }
 /* .s11-par: the parallax wrapper (left/top = the block's box at the landing f1079 BEFORE the slide; ONE transform setter in S11.js
-   writes translate(dx) scale(s) about the final period: transform-origin = the "." of "proven." — ink right edge x 428 (8 px left
-   bearing + 420 px of ink, measured on a 1× screenshot of DM Sans 800 120 px −0.02 em) on line 2's baseline y 209 (112 + 97).
-   3 px blur: the room type sits 15 % behind the focus plane (SHOTS §S11, BRIEF §4 "type behind the focus plane gets a 3 px blur"). */
-#S11 .s11-par, #type-back .s11-par { position: absolute; left: 358px; top: 425px; transform-origin: 428px 209px; filter: blur(3px); white-space: nowrap; }
+   writes translate(dx) scale(s) about the final period: transform-origin = the "." of "proven." — ink right edge x 421.6 KERNED
+   (S11.js restores DM Sans' pair kerning on the split glyphs: "proven." is 6.4 px tighter than its unkerned 428, so left moved
+   358 → 364.4 to keep the period on x 786 at the landing) on line 2's baseline y 209 (112 + 97).
+   3 px blur: the room type sits 15 % behind the focus plane (SHOTS §S11, BRIEF §4 "type behind the focus plane gets a 3 px blur") —
+   the resting state; the same setter racks it 8 → 3 px f1079 → f1101 (the focus pull lands on VO "Proven.") and holds 3 px. */
+#S11 .s11-par, #type-back .s11-par { position: absolute; left: 364.4px; top: 425px; transform-origin: 421.6px 209px; filter: blur(3px); white-space: nowrap; }
 /* .s11-lines: DM Sans 800 120 px white 90 % −0.02 em (.t-room) on a 112 px pitch (line-height 112 px → the baseline sits 97 px under
    each line box's top: ascent 101 at line-height 120, minus the 4 px half-leading). Line 1 "Purity," top 425 → baseline 522, cap top
-   438; line 2 "proven." top 537 → baseline 634, x-height top 573, descender 659. Ink: "Purity," x +8 … +367, "proven." +8 … +428,
-   the period 20 × 18 px at x +408 … +428 on the baseline. The exit (opacity → 0, y −12) is tweened on THIS element, never on .s11-par
+   438; line 2 "proven." top 537 → baseline 634, x-height top 573, descender 659. Ink (kerned): "Purity," x +8 … +359, "proven."
+   +8 … +421.6, the period 20 × 18 px at x +401.6 … +421.6 on the baseline. The exit (opacity → 0, y −12) is tweened on THIS element, never on .s11-par
    (whose transform the parallax setter owns). */
 #S11 .s11-lines, #type-back .s11-lines { line-height: 112px; }
 #S11 .s11-ln, #type-back .s11-ln { display: block; white-space: nowrap; }
     </style>
     <style data-src="css/S12.css">
 /* S12 · "Lights out" — every selector prefixed by #S12 (inlined into index.html: url() paths root-relative).
-   The whole picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the edge-on exit f1152–f1188
-   with the screen DIM, the glint f1172 and the lights going out, baked — and the held STOP frame (#hold-1188, stage-level z 31,
-   .stage-img) that js/shots/S12.js switches on at f1188. This section has no children — nothing to style. The section itself
-   never gets a z-index/transform/filter (BUILD.md); the void glow, grain (frozen f1188–f1206) and vignette are global. */
+   The picture of this shot is the take (#v-take, stage-level z 30, css/tokens.css .stage-v): the edge-on exit f1152–f1188 with the
+   screen DIM, the glint f1172 and the lights going out, baked — and the held STOP frame (#hold-1188, stage-level z 31, .stage-img)
+   that js/shots/S12.js switches on at f1188. The section itself never gets a z-index/transform/filter (BUILD.md); the void glow,
+   grain (frozen f1188–f1206) and vignette are global. */
 #S12 { pointer-events: none; }
+
+/* The rim light: the rail's line of light, drawn over the take's own (55–80 lv, 1 px, sparkly) rim specular. Its rest geometry IS
+   S13's .s13-line at f1206 (left 957, top 125, 2 × 829 px, #fff, 1 px radius), so the LOGO hand-off is the same line igniting
+   (opacity 0.8 → 1, glow 5 → 6 px → S13's bloom). The glow is 1 px tighter than S13's so the f1188 QC keeps a margin: with S13's
+   6 px the > 8-lv band measured 12 px (x 952–963, the limit); with 5 px it is ≈ 10 px (≤ 12 px at 960 ± 20).
+   left/top/height/transform/opacity are driven per frame by S12.js (f1176–f1188), then frozen through the STOP.
+   z 32: above #v-take (30) and #hold-1188 (31), below #leak (35), .z-front (40) and #fx (90, grain over it). */
+#S12 .s12-rim { position: absolute; left: 957px; top: 125px; width: 2px; height: 829px; z-index: 32; opacity: 0;
+  background: #fff; border-radius: 1px; box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.3); transform-origin: 50% 50%; }
     </style>
     <style data-src="css/S13.css">
 /* S13 · End card — every selector prefixed by #S13 (inlined into index.html: url() paths root-relative). SHOTS §S13.
@@ -413,10 +436,14 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
    URL 40 px centred (960,660) + 2 px underline · legal 26 px centred y 990 (box 977–1003). Everything static from f1300. */
 #S13 .s13 { pointer-events: none; }
 
-/* the line of light (f1206): 2 px white over the held rail line; top/height/left/box-shadow are driven per frame by S13.js */
+/* the line of light (f1206): 2 px white over the held rail line; top/height/left/box-shadow are driven per frame by S13.js.
+   S13.js clones it into 8 sub-exposure copies (the 0.5-frame shutter) at opacity 1/8 each: plus-lighter sums them exactly
+   (over the transparent backdrop of .z-front, which is then composited normally), so at rest the sum is this one line.
+   Rest geometry/glow = S12's .s12-rim (asserted by S12.js): keep them in sync. */
 #S13 .s13-line { position: absolute; left: 957px; top: 125px; width: 2px; height: 829px; background: #fff; opacity: 0;
-  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.3); border-radius: 1px; }
-/* the point (f1212): a bright core that blooms and goes, and a wide faint halo that decays to nothing by f1296 */
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.3); border-radius: 1px; mix-blend-mode: plus-lighter; }
+/* the point (f1212): a hot core that shrinks and dims into the unfolding symbol (gone by f1219), and a wide faint halo that is
+   gone by f1236 (true black inside the hexagon on the held card) */
 #S13 .s13-core { position: absolute; left: 936px; top: 276px; width: 48px; height: 48px; border-radius: 50%; opacity: 0;
   background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 20%, rgba(255, 255, 255, 0.18) 42%, rgba(255, 255, 255, 0) 66%); }
 #S13 .s13-halo { position: absolute; left: 800px; top: 140px; width: 320px; height: 320px; border-radius: 50%; opacity: 0;
@@ -887,9 +914,28 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
                      f912 → cart3 f914 (Volume discount −8 %, Free shipping unlocked!, bar 0.81 → 1.00 f914–f928) as "automatic." f917 is
                      said → cart3 @ 150 holds (= clean/screen_cart.png from f930). The Summary block sits below the frame, the BAC-water
                      region (page y 760–900) is blank white, the product page never appears. Offers = the cart's own pixels, native size.
-           No type, no site pixels in HTML: the section stays EMPTY on the stage. What js/shots/S09.js adds is the chromatic-aberration
-           pass on #v-take around the measured dive peak (f838–f844, 2 px, peak f841: BRIEF §3.5's second allowed moment) and the 2D
-           fallback camera (PP.FALLBACK_2D only: PH.cam to the 3D close pose read from corners.json f868, then the creep). -->
+           No type, no site pixels in HTML. The only markup is the LENS filter below (no box, nothing painted): js/shots/S09.js puts it on
+           #v-take over f838–f844 (± 3 f around the measured dive peak f841, BRIEF §3.5's second allowed CA moment, ≤ 2 px).
+           #s09-lens = LATERAL (radial) chromatic aberration, the optics of a real lens during the dolly: R is magnified and B shrunk about
+           the optical centre (960, 540), so the displacement is 0 on axis and grows with the field radius (2 px at r = 615 px, the
+           farthest phone pixel on the peak frame). The tagline at the centre of the site stays clean; the rails, the nav and the trust bar
+           fringe radially. Map = a 256² PNG ramp (R = x, G = y) stretched over a 1920 × 1920 square centred on the frame (isotropic,
+           0.5 = no shift at the centre), inlined as a data: URI (an element-referenced feImage renders nothing in the HyperFrames
+           capture; the data: URI is proven in a render test from the very first captured frame). The <img> preloads the same URI into
+           the memory cache at parse time (belt and braces for the first frame a render worker captures). -->
+      <svg class="s09-defs" width="0" height="0" aria-hidden="true" focusable="false">
+        <filter id="s09-lens" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1080" color-interpolation-filters="sRGB">
+          <feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAACZUlEQVR42u3UQQ0AMAwDsas0/pQ3BiNQWwqBPG6qO5WZ7dtpApYSABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEAARAAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQABAAAQABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAEAAnAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIADAzwOGHgb7kKflZgAAAABJRU5ErkJggg==" x="0" y="-420" width="1920" height="1920" preserveAspectRatio="none" result="map" />
+          <feDisplacementMap id="s09-lens-r" in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="G" result="dr" />
+          <feDisplacementMap id="s09-lens-b" in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="G" result="db" />
+          <feColorMatrix in="dr" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
+          <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g" />
+          <feColorMatrix in="db" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b" />
+          <feBlend in="r" in2="g" mode="screen" result="rg" />
+          <feBlend in="rg" in2="b" mode="screen" />
+        </filter>
+      </svg>
+      <img class="s09-map" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAACZUlEQVR42u3UQQ0AMAwDsas0/pQ3BiNQWwqBPG6qO5WZ7dtpApYSABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEABAAQAAAAQAEAARAAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQAEAAAAEABAAQABAAAQABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAAABAAQAEABAAEAAnAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAAAIACAAgAIAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgAAAAgAIACAAgACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIACAAAACAAgAIADAzwOGHgb7kKflZgAAAABJRU5ErkJggg==" alt="" aria-hidden="true" />
     </section>
     <section id="S10" class="clip scene" data-start="31.2" data-duration="3.599" data-track-index="10">
       <!-- S10 · "The math, in depth" — the tilt and the three slabs · f936–f1044 (31.20–34.80) · 3D: the take + the shadow pass (#v-take,
@@ -917,22 +963,33 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
                           travels left → right across the glass at 50 px/f with a sine intensity envelope peaking on f999 (gain 0.45: a white
                           page stays white, text / ink border / rails / slab coats lift — how a strip reflects in glass over a white page).
                           A DIRECT child of the section with its own z-index 40 (not .z-front: a stacking context would isolate the blend).
-             .s10-seat    the SEAT-BACK patches (SHOTS §S10 QC "the seat-back ends with lift 0.0 / scale 1.0 (the page shows no ghost offset)").
-                          The take hides each slab one frame after lift 0 while its 1 mm body still stands on the glass with a 34 % contact
-                          shadow (final/beauty luma ratio 0.66): total f1034 → f1035, name f1039 → f1040, stepper f1044 → f1045 — three
-                          one-frame pops, the last on S11's first frame. Stand-in: a feathered crop of each slab's LAST seated frame
-                          (assets/fx/s10_seat_{total,name,stepper}.png from assets/fx/make_s10_seat.py: the shipped render's own pixels,
-                          slab + contact shadow + 18 px, alpha feathered 14 px) dissolves over the next 4 f (0.78 / 0.55 / 0.32 / 0.12, 0):
-                          the plate and its shadow sink into the page. total and name live here (.z-front, z 40, normal blend); the
-                          stepper's patch (.s10-seat-out) is MOVED into the stage-level #type-front (z 40) at build because its 4 f are
-                          f1045–f1048, inside S11's window (BUILD.md: a hand-off that outlives the window goes on a stage-level element).
+             .s10-rim     the SHEEN's exit, the deliberate upgrade: where the band's 15° lean meets the right rail's 2.5°, the rail's rounded outer
+                          edge catches the strip as a short LINE OF LIGHT that runs DOWN the rail, top → bottom, f1002–f1007 (the band's own
+                          position and lean decide where; the film's motif — S01's point, S12's last vertical line — glimpsed once mid-film).
+                          The line's shape is assets/fx/s10_rim.png (make_s10_rim.py: the rail crest 2 px inside the phone's silhouette on
+                          final/1005, cut where the lifted total stands in front of the rail); js/shots/S10.js masks it to the band per frame.
+                          A DIRECT child of the section, z 40, mix-blend-mode: screen (same reason as the sheen).
+             .s10-seat    the SEAT-BACK stand-ins (SHOTS §S10 QC "the seat-back ends with lift 0.0 / scale 1.0 (the page shows no ghost offset)").
+                          The take hides each slab one frame after lift 0 while its 1 mm body still stands on the glass (face 1 mm proud =
+                          a (−3, +1) px parallax against the page's original) with a 34 % contact shadow: total f1034 → f1035, name
+                          f1039 → f1040, stepper f1044 → f1045 — three one-frame pops, the last on S11's first frame. Stand-in, per slab, two
+                          layers cut from the shipped render by assets/fx/make_s10_seat.py (nothing new printed, nothing lifted that was
+                          not lifted): the FACE (final/h−1 inside the slab's own ID matte) slides by the measured parallax INTO REGISTER with
+                          the page's original while it fades (it sinks the last millimetre: no doubled glyphs), and the SHADE (a black layer
+                          whose alpha is post_layers.py's own contact-shadow ratio) lifts off the page — over the 4 f after the pop.
+                          total and name live here (.z-front, z 40); the stepper's pair (.s10-seat-out) is MOVED into the stage-level
+                          #type-front (z 40) at build because its 4 f are f1045–f1048, inside S11's window (BUILD.md: a hand-off that
+                          outlives the window goes on a stage-level element).
            Nothing else: no 2D move on the phone, the section is otherwise empty. -->
       <div class="s10-sheen"><div class="s10-sheen-band"></div></div>
+      <div class="s10-rim"><img class="s10-rim-img" src="assets/fx/s10_rim.png" alt="" /></div>
       <div class="z-front s10-seat">
-        <img class="s10-seat-img s10-seat-total" src="assets/fx/s10_seat_total.png" alt="" />
-        <img class="s10-seat-img s10-seat-name" src="assets/fx/s10_seat_name.png" alt="" />
+        <div class="s10-seat-slab s10-seat-total"><img class="s10-seat-shade" src="assets/fx/s10_seat_total_shade.png" alt="" /><img class="s10-seat-face" src="assets/fx/s10_seat_total_face.png" alt="" /></div>
+        <div class="s10-seat-slab s10-seat-name"><img class="s10-seat-shade" src="assets/fx/s10_seat_name_shade.png" alt="" /><img class="s10-seat-face" src="assets/fx/s10_seat_name_face.png" alt="" /></div>
       </div>
-      <div class="s10-seat-out"><img class="s10-seat-img s10-seat-stepper" src="assets/fx/s10_seat_stepper.png" alt="" /></div>
+      <div class="s10-seat-out">
+        <div class="s10-seat-slab s10-seat-stepper"><img class="s10-seat-shade" src="assets/fx/s10_seat_stepper_shade.png" alt="" /><img class="s10-seat-face" src="assets/fx/s10_seat_stepper_face.png" alt="" /></div>
+      </div>
     </section>
     <section id="S11" class="clip scene" data-start="34.8" data-duration="3.599" data-track-index="11">
       <!-- S11 · "Purity, proven." — pull-out to the hero · f1044–f1152 (34.80–38.40) · 3D: the take (#v-take, stage-level z 30,
@@ -948,12 +1005,13 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
            What THIS shot adds is the room type, z 20 BEHIND the phone (the take's alpha occludes it for free: z 30 over z 20):
              Purity, / proven. — DM Sans 800 120 px white 90 % (.t-room), tracking −0.02 em, TWO lines left-aligned (the site's own H1
              stack, 112 px baseline pitch: baselines y 522 / 634, cap top 438, x-band centre ≈ 550 = where the contract's single-line
-             baseline 580 put it), 3 px blur (15 % behind the focus plane), landing f1079 = VO.w('L09', 2) "Purity" per glyph in reading
-             order (14 glyphs, 1 f stagger, 22 f expo.out: onsets f1079–f1092, settled f1114), holding to f1152, exiting f1152–f1160
-             (8 f power3.in, before the lights go at f1158).
+             baseline 580 put it), kerned (the per-glyph split keeps DM Sans' pair kerning: S11.js), 3 px blur (15 % behind the focus
+             plane), landing f1079 = VO.w('L09', 2) "Purity" per glyph in reading order (14 glyphs, 1 f stagger, 22 f expo.out: onsets
+             f1079–f1092, settled f1114) while the block racks focus 8 → 3 px, landing ON VO.w('L09', 3) "Proven." f1101 (22 f sine.inOut:
+             S01's rack onto "print", answered), holding to f1152, exiting f1152–f1160 (8 f power3.in, before the lights go at f1158).
              The block is MOVED into the stage-level #type-back (z 20) by js/shots/S11.js at build (BUILD.md: main.js gates this section to
              opacity 0 at f1152 and the exit f1152–f1160 outlives the window), so its selectors in css/S11.css carry both roots.
-             .s11-par is the parallax wrapper (ONE transform setter in S11.js): the room slides right under the phone — the orbit's own
+             .s11-par is the parallax wrapper (ONE setter in S11.js: transform + the focus-pull blur): the room slides right under the phone — the orbit's own
              deceleration (40 px on the "cam" ease's remainder after f1079) + a 0.8 px/f glide through the hold — and settles from 103 %
              to 100 % about the final period, so the period of "proven." meets the phone's left rail on f1113 (measured rail x 852 at its
              rows), is 6.5 px under it at KF4 f1120 ("the rail is sliding over the final period") and fully hidden from f1141.
@@ -988,17 +1046,26 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
                      25 / 77 / 14 lv, 250-lv end caps), y 125–954 (830 px tall), on black. The sliver's alpha covers x 892–959 (68 px).
              hold    f1188 = assets/layers/hold_1188.png above the webm (z 31): the webm's f1187 differs from it by 0.12 lv mean (its
                      f1188 by 0.09 lv) — the freeze is invisible as a cut. S13 fades it to black f1206–f1212 (its line sits on x 957).
-           What THIS shot adds on the stage: NOTHING typed, nothing drawn ("Text: none — the room type exited f1152–f1160 on #type-back,
-           S11's; Site: dark"). js/shots/S12.js switches #hold-1188 on at f1188 (the STOP), puts the chromatic aberration ≤ 2 px on
+           What THIS shot adds on the stage: nothing typed ("Text: none — the room type exited f1152–f1160 on #type-back, S11's; Site:
+           dark") and ONE drawn thing, the rim light (.s12-rim below): the take's own rail line is only 55–80 lv on f1185–f1188 (a 1 px,
+           sparkly Cycles specular that DIMS as the rail reaches edge-on), so the STOP's "single vertical line of light" read as a faint
+           grey thread and S13's 2 px white line replaced it with a jump on f1206. The rim light rides the measured rail highlight
+           f1176–f1185 (x 947.9 → 958.0, 0.21° → 0° lean, per-frame table in S12.js), gathering the light the room loses (opacity 0 on
+           f1176 → 0.8 on the STOP frame f1188, sine.inOut), and holds frozen through the STOP in S13's geometry (x 957 + 2 px, y 125–954;
+           glow 5 px vs S13's 6 px), so f1206 is the same line igniting (0.8 → 1 + S13's bloom), not a substitution. js/shots/S12.js also switches
+           #hold-1188 on at f1188 (the STOP), puts the chromatic aberration ≤ 2 px on
            #v-take ONLY over f1168–f1176 (BRIEF §3.5's third allowed moment; peak 2 px on the glint f1172), lets the void glow die with the
            studio lights (f1158–f1186, same window and ease as lights_out, so the line stands on true black before the freeze and the
            global switch at f1188 is not a 32-lv pop on the STOP), asserts the contract (console.warn, never throws) and publishes the
            measured facts as PP.S12 for the mixer / S13. Grain frozen f1188–f1206 and vignette 22 % are global (PP.grain / main.js).
-           The <section> stays EMPTY (no z-index/transform/filter on it, BUILD.md). -->
+           The <section> itself gets no z-index/transform/filter (BUILD.md). -->
+      <!-- the rim light: stage-level z 32 (above #v-take z 30 and #hold-1188 z 31, below #leak 35 / .z-front 40 / #fx 90); driven by S12.js -->
+      <div class="s12-rim" aria-hidden="true"></div>
     </section>
     <section id="S13" class="clip scene" data-start="40.2" data-duration="4.799" data-track-index="13">
       <!-- S13 · End card · f1206–f1350 (40.20–45.00) · HTML only (SHOTS §S13, BRIEF §4 end card, §8 legal).
-           LOGO f1206: a 2 px white line over the held f1188 rail line (measured x 957–959, y 125–954) collapses to the point (960,300);
+           LOGO f1206: a 2 px white line over the held f1188 rail line (measured x 957–959, y 125–954) collapses to the point (960,300)
+           with the film's 0.5-frame shutter (S13.js clones .s13-line into 8 sub-exposure copies summed with plus-lighter);
            the brand symbol draws from the point (f1212–f1224), the wordmark rises through a mask (f1212–f1224), the URL types on
            VO L10 "purepeptide" (f1215) and its underline completes on ".care" (f1238), tagline f1224, legal f1230–f1350.
            Everything lives in .z-front (z 40, above #hold-1188 at z 31). The <section> itself gets no z-index/transform/filter. -->
