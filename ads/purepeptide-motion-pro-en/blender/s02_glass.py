@@ -23,12 +23,21 @@ F0, F1 = 126, 216
 GHOST_Z = 8.0
 
 
+def _warp(f):
+    """time warp after the centre crossing: g(f) = f up to f162 (crossing on "hard" kept), then C1-smooth and monotone so the
+    word that left at f173.5 on the first render leaves on "prove." (f180): g(180) = 173.5, g(195) = 186 (the bez's end)."""
+    if f <= 162:
+        return f
+    s = f - 162.0
+    return 162.0 + s - 0.034216 * s * s + 0.00078648 * s * s * s
+
+
 def ghost_x(f):
     if f <= 150:
         return -10.0 + 6.0 * (f - F0) / (150 - F0)
-    if f <= 186:
-        return -4.0 + 62.0 * C.bez((f - 150) / 36.0)
-    return 58.0 + 8.0 * (f - 186) / 30.0
+    if f <= 195:
+        return -4.0 + 62.0 * C.bez((_warp(f) - 150) / 36.0)
+    return 58.0 + 8.0 * (f - 195) / 21.0
 
 
 def build(scene, root, E=3.6, dist=0.15, width=0.044, flip=False, tint=(0.93, 0.96, 1.0), link=True):
@@ -78,7 +87,7 @@ def main():
              log_extra={'E': args.E, 'dist': args.dist, 'width': args.width})
     with open(os.path.join(outdir, 's02_params.json'), 'w') as fh:
         json.dump({'E': args.E, 'dist': args.dist, 'width': args.width, 'flip': args.flip, 'ghost_z_mm': GHOST_Z,
-                   'ghost_x_mm': {f: round(ghost_x(f), 2) for f in (126, 150, 161, 170, 180, 186, 216)}}, fh, indent=1)
+                   'ghost_x_mm': {f: round(ghost_x(f), 2) for f in (126, 150, 161, 170, 180, 186, 195, 216)}}, fh, indent=1)
 
 
 if __name__ == '__main__':

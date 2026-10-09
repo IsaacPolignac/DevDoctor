@@ -15,7 +15,7 @@ COUNT=${#PNGS[@]}
 mkdir -p "$ROOT/assets/layers" "$ROOT/renders/prores"
 echo "encode $ID: $COUNT frames from $FIRST"
 if [ "$ID" = "s01" ]; then
-  ffmpeg -v error -y -framerate 30 -start_number "$N" -i "$SRC/%04d.png" -c:v libx264 -crf 14 -pix_fmt yuv420p -movflags +faststart "$ROOT/assets/layers/s01.mp4"
+  ffmpeg -v error -y -framerate 30 -start_number "$N" -i "$SRC/%04d.png" -c:v libx264 -crf 14 -pix_fmt yuv420p -g 30 -keyint_min 30 -movflags +faststart "$ROOT/assets/layers/s01.mp4"
   ffmpeg -v error -y -framerate 30 -start_number "$N" -i "$SRC/%04d.png" -c:v prores_ks -profile:v 4444 -pix_fmt yuv444p10le -vendor apl0 -qscale:v 9 "$ROOT/renders/prores/s01.mov"
 else
   ffmpeg -v error -y -framerate 30 -start_number "$N" -i "$SRC/%04d.png" -c:v libvpx-vp9 -pix_fmt yuva420p -b:v 0 -crf 18 -row-mt 1 -auto-alt-ref 0 "$ROOT/assets/layers/$ID.webm"
