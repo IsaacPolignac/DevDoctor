@@ -19,7 +19,24 @@ import numpy as np
 from PIL import Image
 from scipy.ndimage import distance_transform_edt, gaussian_filter
 
+import sys
+
 ROOT = Path(__file__).resolve().parents[2]
+# FINAL PASS: frost v2 (tools/make_frost_v2.py) is translucent feather ice, so its arrival map (alpha >= 0.5) is a mottle of
+# early/late blotches and the crush read as dirty patches creeping in from the edges (and the map shipped with frost v1 drew a
+# jagged black rectangle closing in). Default = a smooth elliptical map: v = smoothstep(1 - d), d = the normalised distance from
+# the frame centre (0 centre, 1 corners): with LEAD 4 the field darkens as a soft vignette tightening on the phone, every pixel
+# still on power2.in and black ON the DROP. `--frost` rebuilds the frost-arrival version below.
+if "--frost" not in sys.argv:
+    W, H = 1920, 1080
+    OUT = ROOT / "assets" / "fx" / "s07_arrival.png"
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float64)
+    d = np.sqrt(((xx + 0.5 - 960) / 960) ** 2 + ((yy + 0.5 - 540) / 540) ** 2) / np.sqrt(2)
+    v = np.clip(1 - d, 0, 1)
+    v = v * v * (3 - 2 * v)
+    Image.fromarray(np.round(v * 255).astype(np.uint8), "L").save(OUT, optimize=True)
+    print(f"wrote {OUT.relative_to(ROOT)} (elliptical, smoothstep)")
+    sys.exit(0)
 SRC = ROOT / "assets" / "fx" / "frost"
 OUT = ROOT / "assets" / "fx" / "s07_arrival.png"
 N_FRAMES = 60

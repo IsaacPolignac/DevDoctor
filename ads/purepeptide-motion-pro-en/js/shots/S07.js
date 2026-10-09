@@ -99,7 +99,8 @@ PP.shot("S07", function build(tl, root) {
 
   // ---- 5. the crush f716–f738: brightness → 0 on power2.in, retracing the frost's arrival in reverse; 1.0 everywhere on the DROP
   const F_CRUSH0 = 716, F_CRUSH1 = PP.DROP; // the contract's window (22 f)
-  const LEAD = 8; // frames the FIRST frost (v = 0: the four edges, f648) finishes ahead of the DROP (f730); 0 = the uniform crush as written
+  const LEAD = 4; // frames the frame's corners (v = 0) finish ahead of the DROP; 0 = the uniform crush as written. FINAL PASS: the map is now
+  // elliptical (assets/fx/make_s07_arrival.py: frost v2's own arrival map read as blotches) → a soft vignette tightening on the phone
   const POOL_V = 0.6; // arrivals at v ≥ POOL_V (the last 40 %: the centre, closed f672–f685) keep the contract's law exactly (lead 0, black ON the DROP)
   const K = 33; // transfer-table entries over the arrival axis v = 0 (first frost) … 1 (last frost, f685: the vial's band, where the phone lands)
   const EC = gsap.parseEase("power2.in"); // GSAP power2 = cubic: u³
