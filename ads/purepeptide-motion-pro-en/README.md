@@ -31,6 +31,8 @@ gates), `TECH.md` (measured facts, pipeline), `BUILD.md` (scaffold API).
   (`tools/post_layers.py`): highlight soft-clip, frost v2 on the phone, contact shadows gated to the slabs, exit glint.
 - **Frost v2**: `tools/make_frost_v2.py` — deterministic branching dendritic ice (translucent, the vial ghosts through), on the
   plate and on the phone, thawing from the screen outward.
+- **Vial**: the real PurePeptide vial as photoreal AI plates (`assets/plates/ai/`, conformed to 30 fps), measured by light in
+  2D (bands, rack focus, glints).
 - **Compositing / type / camera FX: HyperFrames** (HTML + GSAP, one paused timeline, `tools/assemble.py` → `index.html`).
 - **Voice: ElevenLabs v4**, one continuous emotional performance with audio tags, voice « Markmont », two takes generated
   (Markmont kept, see `assets/audio/vo_v4/VOICE.md`), cut on silences into word-locked clips by `tools/build_vo.py`
@@ -68,8 +70,11 @@ gates), `TECH.md` (measured facts, pipeline), `BUILD.md` (scaffold API).
   f1188 line of light x 956–958).
 - Mix: −14.00 LUFS, true peak −2.2 dBTP (−1.9 after AAC), voice ≥ 9 dB over music on every word, whooshes on the measured
   fastest frames (0 frames off), OPEN / STOP / END digital silence.
-- Known, accepted: the S02 reflection leaves the glass 6 frames before "prove." (baked in the 3D layer); LRA 5.1 LU (the voice
-  runs nearly wall to wall; EBU R128 s1 does not apply LRA to adverts).
+- Final pass fixes: the S02 reflection now slides off the glass on "prove." (ghost track re-rendered f163–f216); the exit glint
+  is a 7-frame sheen instead of one white frame (f1172); the cart slabs' shadows only where they touch a slab (no grey blobs on
+  the empty page); the four AI vial plates conformed 24 → 30 fps with motion-compensated interpolation (no 3:2 judder).
+- Known, accepted: LRA 5.1 LU (the voice runs nearly wall to wall; EBU R128 s1 does not apply LRA to adverts); a one-frame
+  depth-of-field step at the S09 → S10 cut (f936) and a near-still close pose f868–f936 (both baked in the take, subtle).
 
 ## Rebuild
 
