@@ -91,7 +91,10 @@ def main():
         if not os.path.exists(os.path.join(ROOT, src)):
             warn(f'{vid}: {src} does not exist yet: clip LEFT OUT of index.html (re-run assemble.py once it lands)')
             continue
-        media.append(f'    <video id="{vid}" class="clip stage-v" src="{src}" data-start="{num(start)}" data-duration="{num(dur)}" '
+        # end-exclusive like the sections (- 0.001 s): the renderer draws a clip on a frame when start <= t <= end, so a window
+        # ending exactly on a cut frame painted that clip one frame too long (the S02 phone over S01 on f126 and over S03's vial
+        # on f216, the frost webm doubled with frost_full on f708)
+        media.append(f'    <video id="{vid}" class="clip stage-v" src="{src}" data-start="{num(start)}" data-duration="{num(dur - 0.001)}" '
                      f'data-media-start="{num(ms)}" data-track-index="{track}" muted playsinline style="z-index:{z}"></video>')
         track += 1
     for iid, src, z, who in IMAGES:

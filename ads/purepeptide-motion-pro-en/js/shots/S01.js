@@ -78,7 +78,8 @@ PP.shot("S01", function build(tl, root) {
     if (Math.abs(PP.toF(t) - fb) > 1) console.warn(`[S01] VO "${k}" at f${PP.toF(t)} ≠ the baked f${fb} (blender/s01_droplet.py keys / the window): re-time or re-render the plate`);
   }
   if (Math.abs(vStart - tHit) > F / 2) console.warn(`[S01] #v-s01 starts at ${vStart} s but HIT1 is ${tHit} s: tools/assemble.py VIDEOS v-s01 must start on the hit`);
-  if (Math.abs(vEnd - T1) > 1e-6) console.warn(`[S01] #v-s01 ends at ${vEnd} s ≠ the window end ${T1} s`);
+  if (Math.abs(vEnd - T1) > 0.0015) // the stage videos end 1 ms early (end-exclusive windows, tools/assemble.py)
+    console.warn(`[S01] #v-s01 ends at ${vEnd} s ≠ the window end ${T1} s`);
 
   // ---- the plate's own ease (SHOTS §0.8 "cam" = cubic-bezier(0.6, 0, 0.2, 1)): the dolly and the key use it; so does the iris --------
   const camEase = (window.gsap && gsap.parseEase && gsap.parseEase("cam")) || ((u) => u * u * (3 - 2 * u));

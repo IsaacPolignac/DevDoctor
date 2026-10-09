@@ -87,12 +87,9 @@ PP.shot("S07", function build(tl, root) {
   if (F_ARR !== 708) console.warn(`[S07] #v-take starts at f${F_ARR} (expected f708): the ARR is off the contract`);
   if (!frostFull) console.warn("[S07] #frost-full missing (assets/fx/frost_full.png): the field vanishes at f708 — re-run tools/assemble.py");
   else {
-    // FINAL PASS: main.js hides #v-frost at exactly data-start + duration = 23.6 s and the render's f708 lands a hair before
-    // it (float), so the webm (frost frame 60) and frost_full were both on, screen-blended twice: a one-frame flash (mean 174
-    // → 216 levels). Both switches now sit 2 ms before f708, so f708 shows frost_full alone in the render and the snapshots.
-    const H708 = f(708) - 0.002;
-    tl.set(frostFull, { opacity: 1 }, H708);
-    if (vFrost) tl.set(vFrost, { opacity: 0 }, H708);
+    // FINAL PASS: the stage videos' windows are end-exclusive now (tools/assemble.py), so #v-frost's last frame is f707 and
+    // frost_full alone shows on f708 (before, both did: the same frost screen-blended twice, a one-frame flash 174 → 216 levels)
+    tl.set(frostFull, { opacity: 1 }, f(708));
     tl.set(frostFull, { opacity: 0 }, f(PP.DROP));
   }
   if (!hold) console.warn("[S07] #hold-macro missing: the frost grows over black instead of the held macro (S06 owns the hold)");
