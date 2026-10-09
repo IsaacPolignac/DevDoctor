@@ -4,10 +4,10 @@
 // drift; this file adds ONE 2D event. MEASURED on the shipped layer (ffmpeg -c:v libvpx-vp9 decode × renders/3d/s02/matte_screen):
 //   · the ghost: 43 % sRGB peak on the glass f126–f161 (screen-masked p99.5 42.4–42.9 %, max ≤ 46 %: inside the 35–45 % target), left of
 //     the display centre at f150 (−3 mm), crossing it at f161–f163 = VO "hard" (f161), the move's fastest frame f165 (70.6°/s,
-//     pose_speed.json), the trailing "e" off the glass at f174 (last word pixel > 25 %: f173). DEVIATION of the 3D layer: the contract
-//     wants the word to leave on "prove." = VO.w('L02', 13) = f180 ± 2; it leaves 6 f early. Not fixable in 2D without doubling the word
-//     (a crisp 2D copy over the motion-blurred 3D exit); re-render proposal (the ghost track only, ≈ 10 min) in the build report.
-//   · black glass f174–f216: one rim line, the sheen, the sine drift (spin 5 → 6°, ≤ 1.6°/s).
+//     pose_speed.json). The ghost track was re-rendered (f163–f216, blender/s02_glass.py _warp: C1 time warp after the crossing)
+//     so the word slides off on "prove." = VO.w('L02', 13) = f180: 295 word pixels > 25 % on f180, a 41 px sliver on f181, gone
+//     on f182 (it left at f174 on the first render, 6 f early).
+//   · black glass f182–f216: one rim line, the sheen, the sine drift (spin 5 → 6°, ≤ 1.6°/s).
 //   · the cut f126 (§0.9, light-led): S01 f125's bright vertical stroke (the "u" stem, x 1033–1103, lum 218) → S02 f126's SideR rim line
 //     (x 1029–1038, lum 197–254 over y 137–922): a vertical bright edge in the same place (the BRIEF's "(1040, 520)" is that stem; the
 //     drop's own specular is dim; the S01 builder's PP.HANDOFF.S01: the drop's right rim arc x 1019–1030 → S02's rim x 1028–1033, Δx ≤ 10 px).
@@ -35,8 +35,8 @@
 //     x/tan 15°, sliding down f192 → f210) that turns the bottom-left corner (the 60 pt radius clip) onto the bottom edge (x − 119,
 //     f210 → f215: 0 → 90 pt). 44 × 6 pt radial beads centred 2 pt inside the outline (half clipped by the overflow: a half-bead on the
 //     rim), opacity = the band's × 0.75. Nothing else is added: light only.
-// Sound (BRIEF §7; frames for the mixer): CUT1 f126 · PRINT/PROVE f180 = VO "prove." (picture: the ghost is ALREADY gone, f174, until the
-// 3D is re-rendered) · the 3D move's fastest frame f165 (no cue in §7) · SWEEP2 f192→f216: the band's fastest and brightest shown frame is
+// Sound (BRIEF §7; frames for the mixer): CUT1 f126 · PRINT/PROVE f180 = VO "prove." (picture: the ghost slides off the glass on it)
+// · the 3D move's fastest frame f165 (no cue in §7) · SWEEP2 f192→f216: the band's fastest and brightest shown frame is
 // f215 (27 pt/f ≈ 24 px/f), its last sample on the cut f216 = S03's glass_tick A5. Nothing else is 2D in this shot.
 PP.shot("S02", function build(tl, root) {
   const F = PP.F, f = PP.f;
@@ -46,8 +46,8 @@ PP.shot("S02", function build(tl, root) {
 
   // ---- word locks (read from VO, never hard-coded): the ghost's picture events are baked in the 3D layer; checked here for the QC
   const tHard = PP.word("S02", "L02", 10, "S02 hard"); // the ghost crosses the display centre (3D: f161–f163)
-  const tProve = PP.word("S02", "L02", 13, "S02 prove."); // the ghost leaves the glass (3D, measured: f174)
-  const GHOST_CROSS = 162, GHOST_EXIT = 174; // measured on assets/layers/s02.webm (see the header)
+  const tProve = PP.word("S02", "L02", 13, "S02 prove."); // the ghost leaves the glass (3D, measured: f180)
+  const GHOST_CROSS = 162, GHOST_EXIT = 180; // measured on assets/layers/s02.webm (see the header)
   if (Math.abs(PP.toF(tHard) - GHOST_CROSS) > 2) console.warn(`[S02] 3D ghost crosses the centre at f${GHOST_CROSS}, "hard" is f${PP.toF(tHard)}`);
   if (Math.abs(PP.toF(tProve) - GHOST_EXIT) > 2)
     console.warn(`[S02] 3D ghost leaves the glass at f${GHOST_EXIT}, "prove." is f${PP.toF(tProve)}: re-render the ghost track (build report)`);
